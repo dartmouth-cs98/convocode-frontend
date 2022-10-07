@@ -22,7 +22,7 @@ export const EditorWindow = () => {
     const [processing, setProcessing] = useState(null);
     const [customInput, setCustomInput] = useState("");
     const [outputDetails, setOutputDetails] = useState(null);
-    const [theme, setTheme] = useState("xcode-default");
+    const [theme, setTheme] = useState("");
     const [code, setCode] = useState(pythonDefault);
  
 
@@ -34,10 +34,11 @@ export const EditorWindow = () => {
         }
     
         // Post request to compile endpoint
-        axios.post(`http://localhost:8000/submit`, {
-            code: code}).then((res) => {
+        axios.post(`http://localhost:8000/judge_submit`, {
+            source_code: code, customInput: customInput}).then((res) => {
+                console.log("here");
                 console.log(res);
-                console.log(`id of compiling: ${res.data.id}`);
+                console.log(`id of compiling: ${res.data.token}`);
                 checkStatus(res.data);
             }).catch((err) => {
                 let error = err.response ? err.response.data : err;
@@ -52,7 +53,7 @@ export const EditorWindow = () => {
         console.log(id);
 
         try {
-            let response = await axios.request(`http://localhost:8000/compile/${id.id}`);
+            let response = await axios.request(`http://localhost:8000/compile_judge/${id.token}`);
             console.log(response.data);
             let status = response.status;
             console.log(status)
@@ -66,11 +67,14 @@ export const EditorWindow = () => {
                 return
             } else {
                 setProcessing(false);  
+                console.log(response);
+                if (response.data.status == 3) {
+                    console.log(response.data.description);
+                    setOutputDetails(response.data.stdout);
+                } else {
+                    setOutputDetails(response.data.description + ":" + response.data.stderr);
+                }
                 
-                let raw = await axios.request(`http://localhost:8000/result/${id.id}`)
-                console.log(raw.data);
-                setOutputDetails(raw.data)
-                // showSuccessToast(`Compiled Successfully!`)
                 return
             }
           } catch (err) {
@@ -90,7 +94,9 @@ export const EditorWindow = () => {
             <CodeEditor 
                 code={code}
                 onChange={onChange}
-                language={"Python"} />
+                language={"Python"}
+                theme={theme.value} 
+            />
             <Output output={outputDetails} />
         </div>
 
