@@ -1,0 +1,15 @@
+.run-button {
+    background-color: green;
+    color: white;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 25px;
+    padding: 20px 0;
+    text-align: center;
+    width: 100px;
+    border-color: black;
+}
+
+.button-container {
+    padding: 10px;
+}
