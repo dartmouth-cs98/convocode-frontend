@@ -1,9 +1,10 @@
 .box {
     border-color: black;
     border-style: solid;
-    background-color: rgb(187, 181, 181);
+    background-color: rgb(33, 32, 32);
     margin-left: 10px;
     margin-right: 10px;
+    min-height: 300px;
     max-height: 300px;
     overflow-y: scroll;
     
@@ -21,6 +22,7 @@
     margin-left: 10px;
     margin-top: 2px;
     line-height: 10pt;
+    color: white;
 }
 
 p {

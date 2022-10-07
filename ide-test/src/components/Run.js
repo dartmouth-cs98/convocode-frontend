@@ -1,11 +1,9 @@
 import React from 'react';
 import '../styles/run.css';
 
-function Run(props) {
+const Run = ({ text, handleClick }) => {
   return (
-    <div className="button-contatiner">
-        <div className="run-button">{props.text}</div>
-    </div>
+    <button onClick={handleClick} className="run-button">{text}</button>
   );
 };
 

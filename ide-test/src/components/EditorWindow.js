@@ -30,6 +30,12 @@ export const EditorWindow = () => {
       // Function to call the compile endpoint
     function submitCode() {
         setProcessing(true)
+        
+        // reset output if it exists
+        if (outputDetails) {
+            setOutputDetails(null)
+        }
+        
         if (code === ``) {
         return
         }
@@ -69,7 +75,7 @@ export const EditorWindow = () => {
             } else {
                 setProcessing(false);  
                 console.log(response);
-                if (response.data.status == 3) {
+                if (response.data.status === 3) {
                     console.log(response.data.description);
                     setOutputDetails(response.data.stdout);
                 } else {
@@ -88,10 +94,8 @@ export const EditorWindow = () => {
 
   
     return (
-        <div>
-            <button className="button-container" onClick={submitCode}>
-                <Run text="Run"/>
-            </button>
+        <div>  
+            <Run handleClick={submitCode} text="RUN" type="button"/>
             <div className="editor-container">
                 <CodeEditor 
                     code={code}

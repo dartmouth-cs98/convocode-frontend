@@ -2,9 +2,17 @@ import React, { useState } from "react";
 import "../styles/output.css";
 
 const Output = ({ output }) => {
-    const newText = output.split('\n').map(output => <p>{output}</p>);
+    var newText;
+    if (output != null) {
+        newText = output.split('\n').map(output => <p>{output}</p>);
+
+    }
+    else {
+        newText=null;
+
+    }
     
-    
+
     return (
         <div>
             <div className="title">
