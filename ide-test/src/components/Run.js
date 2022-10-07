@@ -1,5 +1,5 @@
 import React from 'react';
-import './run.css';
+import '../styles/run.css';
 
 function Run(props) {
   return (

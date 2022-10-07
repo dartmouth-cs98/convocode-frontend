@@ -1,10 +1,20 @@
 import React, { useState } from "react";
-import "./output.css";
+import "../styles/output.css";
 
 const Output = ({ output }) => {
+    const newText = output.split('\n').map(output => <p>{output}</p>);
+    
+    
     return (
-        <div className="box">
-            {output}
+        <div>
+            <div className="title">
+                Output
+            </div>
+            <div className="box">
+                <div className="out-text">
+                    {newText}
+                </div>
+            </div>
         </div>
     );
 };

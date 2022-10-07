@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import CodeEditor from './CodeEditor';
 import Output from './Output';
-import Run from "./Run"
-import './run.css'
+import Run from "./Run";
+import '../styles/run.css';
+import '../styles/window.css';
 import axios from 'axios';
 
 export const EditorWindow = () => {
@@ -19,10 +20,10 @@ export const EditorWindow = () => {
         }
       };
 
+    const [theme, setTheme] = useState("vs-dark");
     const [processing, setProcessing] = useState(null);
     const [customInput, setCustomInput] = useState("");
     const [outputDetails, setOutputDetails] = useState(null);
-    const [theme, setTheme] = useState("");
     const [code, setCode] = useState(pythonDefault);
  
 
@@ -91,14 +92,15 @@ export const EditorWindow = () => {
             <button className="button-container" onClick={submitCode}>
                 <Run text="Run"/>
             </button>
-            <CodeEditor 
-                code={code}
-                onChange={onChange}
-                language={"Python"}
-                theme={theme.value} 
-            />
+            <div className="editor-container">
+                <CodeEditor 
+                    code={code}
+                    onChange={onChange}
+                    language={"python"}
+                    theme={theme}
+                />
+            </div>
             <Output output={outputDetails} />
         </div>
-
     );
 }

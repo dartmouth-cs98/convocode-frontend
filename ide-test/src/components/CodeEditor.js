@@ -3,9 +3,6 @@
 
 import React, { useState } from "react";
 import Editor from "@monaco-editor/react";
-import { useMonaco } from '@monaco-editor/react';
-
-
 
 
 
@@ -24,7 +21,7 @@ const CodeEditor = ({ onChange, language, code, theme }) => {
                 width="100%"
                 language={language || "python"}
                 value={value}
-                theme={"vs-dark"}
+                theme={theme}
                 defaultValue="# Python Editor"
                 onChange={handleEditorChange}
             />
