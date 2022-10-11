@@ -1,0 +1,28 @@
+.run-button {
+    background-color: black;
+    font-family: monospace;
+    color: white;
+    border-radius: 15px;
+    border-color: white;
+    text-align: center;
+    font-size: 20px;
+    padding: 10px 0;
+    text-align: center;
+    width: 150px;
+    box-shadow: 5px 8px #888888;
+    margin-left: 10px;
+    margin-top: 5px;
+    
+}
+
+.run-button:active {
+    background-color: white;
+    color: black;
+    box-shadow: 0 5px #888888;
+    transform: translateY(4px);
+    border-color: black;
+  }
+
+.button-container {
+    margin-top: 10px;
+}
