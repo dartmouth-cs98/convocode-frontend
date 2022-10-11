@@ -98,7 +98,7 @@ export const EditorWindow = () => {
         }
     
         // Post request to compile endpoint
-        axios.post(`http://localhost:8000/judge_submit`, {
+        axios.post(`http://localhost:8000/api/judge_submit`, {
             source_code: code, customInput: customInput}).then((res) => {
                 console.log("here");
                 console.log(res);
@@ -117,7 +117,7 @@ export const EditorWindow = () => {
         console.log(id);
 
         try {
-            let response = await axios.request(`http://localhost:8000/compile_judge/${id.token}`);
+            let response = await axios.request(`http://localhost:8000/api/compile_judge/${id.token}`);
             console.log(response.data);
             let status = response.status;
             console.log(status)
