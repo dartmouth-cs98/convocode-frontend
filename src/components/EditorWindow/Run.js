@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/run.css';
+
 
 const Run = ({ text, handleClick }) => {
   return (

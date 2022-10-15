@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "../styles/output.css";
+
+import './output.css'
 
 const Output = ({ output }) => {
     var newText;
