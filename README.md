@@ -27,12 +27,12 @@ TODO: how to deploy the project
 
 TODO: list of authors
 
-Dylan Bienstock
-Lily Maechling
-William Perez
-Abby Owen
-Annie Revers
-Melissa Valencia
+- Dylan Bienstock
+- Lily Maechling
+- William Perez
+- Abby Owen
+- Annie Revers
+- Melissa Valencia
 
 ## Acknowledgments
 
