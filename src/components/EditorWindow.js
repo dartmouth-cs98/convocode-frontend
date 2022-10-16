@@ -9,11 +9,37 @@ import '../styles/run.css';
 import '../styles/window.css';
 import '../styles/header.css';
 import axios from 'axios';
-import MicRecorder from 'mic-recorder-to-mp3';
+// import MicRecorder from 'mic-recorder-to-mp3'; //remove
+// import MicrophoneStream from 'microphone-stream'; //remove
+import socketIoStream from 'socket.io-stream';
+// import { listen, socket } from '../api';
+import RecordRTC, { StereoAudioRecorder } from 'recordrtc';
+import openSocket from 'socket.io-client';
+
 
 export const EditorWindow = () => {
-    const pythonDefault = `# Python Editor`;
+  
+  
+  
+  const pythonDefault = `# Python Editor`;
+  const socket = openSocket("http://localhost:8080", { transports : ['websocket'] });
 
+  function listen(audio) {
+      socket.on('ready', console.log("recieved from server"));
+      socket.emit('audio', audio);
+
+  }
+
+  // Post request to compile endpoint
+  axios.get(`http://localhost:8000/api/`).then((res) => {
+        console.log("here");
+        console.log(res);
+        console.log(`convodex: ${res.data}`);
+    }).catch((err) => {
+        console.log(err);
+});
+  
+  let recordAudio;
     const onChange = (action, data) => {
         switch (action) {
           case "code": {
@@ -25,7 +51,7 @@ export const EditorWindow = () => {
           }
         }
       };
-    const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
+    // const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
     const [recording, setRecording] = useState(false);
     const [blocked, setBlocked] = useState(false);
     const [blobURL, setBlobURL] = useState("");
@@ -35,56 +61,58 @@ export const EditorWindow = () => {
     const [customInput, setCustomInput] = useState("");
     const [outputDetails, setOutputDetails] = useState(null);
     const [code, setCode] = useState(pythonDefault);
+    
 
-
+    const stt = async() => {
+      let res = await axios.get(`http://localhost:8000/api/watson_auth`);
+    };
+    
     navigator.getUserMedia({ audio: true },
-        () => {
-          console.log('Permission Granted');
-          setBlocked(false);
-        },
-        () => {
-          console.log('Permission Denied');
-          setBlocked(true);
-        },
-      );
+      () => {
+        console.log('Permission Granted');
+        setBlocked(false);
+      },
+      () => {
+        console.log('Permission Denied');
+        setBlocked(true);
+      },
+    );
+    
+    function start() {
 
+      navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+      .then(function(stream) {
+          recordAudio = RecordRTC(stream, {
+            type: 'audio',
+            mimeType: 'audio/webm',
+            sampleRate: 44100,
+            desiredSampRate: 16000,
+            recorderType: StereoAudioRecorder, 
+            numberOfAudioChannels: 1,
+            timeSlice: 4000, 
+            ondataavailable: function(blob) {
+              var stream = socketIoStream.createStream();
+              
+              console.log(stream);
+              socket.emit('audio', stream, {
+                name: 'stream.wav', 
+                size: blob.size
+              });
+              socketIoStream.createBlobReadStream(blob).pipe(stream);
+              
+            }
 
-      function start() {
-        if (blocked) {
-          console.log('Permission Denied');
-        } else {
-          Mp3Recorder
-            .start()
-            .then(() => {
-              setRecording(true);
-            }).catch((e) => console.error(e));
-        }
-      };
+          });
+          recordAudio.startRecording();
+      }, function(error) {
+          console.error(JSON.stringify(error));
+      });
+    };
+          
+        
+        
 
-      function stop() {
-        Mp3Recorder
-          .stop()
-          .getMp3()
-          .then(([buffer, blob]) => {
-            const blobURL = URL.createObjectURL(blob)
-            setBlobURL(blobURL);
-            setRecording(false);
-          }).catch((e) => console.log(e));
-      };
-
-      function handleSpeakClick() {
-        if (speakText === "SPEAK") {
-            setSpeakText("STOP");
-            start();
-        } else {
-            setSpeakText("SPEAK");
-            stop();
-            console.log(blobURL);
-        }       
-      };
-
-      
-      // Function to call the compile endpoint
+    // Function to call the compile endpoint
     function submitCode() {
         setProcessing(true)
         
@@ -154,7 +182,7 @@ export const EditorWindow = () => {
         <div>  
             <div className="header-container">
                 <Run handleClick={submitCode} text="RUN" type="button"/>
-                <Speak handleClick={handleSpeakClick} text={speakText} type="button"/>
+                <Speak handleClick={stt} text={speakText} type="button"/>
             </div>
             <div className="editor-container">
                 <CodeEditor 
