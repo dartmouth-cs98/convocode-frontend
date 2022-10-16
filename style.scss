@@ -9,5 +9,35 @@ $pumpkinSpice: #F79166;
 $unicorn: #EF6ED3; 
 $boring: #EFF2F2; 
 
+$inter: Inter, sans-serif;
+$sans:  Source Sans Pro, sans-serif;
+
+h1{ 
+    font-family: $inter;
+    font-weight: medium;
+    font-size: 48px;
+}
+
+h2{ 
+    font-family: $inter;
+    font-weight: medium;
+    font-size: 32px;
+}
+
+h3{
+    font-family: $inter;
+    font-weight: semi-bold;
+    font-size: 32px;
+}
+p{
+    font-family: $inter;
+    font-size: 14px;
+}
+caption{ 
+    font-family: $sans; 
+    font-size: 14px;
+}
+
+
 
 
