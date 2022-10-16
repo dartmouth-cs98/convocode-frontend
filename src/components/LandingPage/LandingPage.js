@@ -6,7 +6,7 @@ import './landing.css'
 const LandingPage = () => {
 
   return (
-    <div> hi landing
+    <div> hi landing....
     </div>
   );
 };

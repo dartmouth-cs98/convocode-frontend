@@ -10,7 +10,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/editor" component={<EditorWindow />} />
+        <Route path="/editor" element={<EditorWindow />} />
       </Routes>
     </Router>
   );
