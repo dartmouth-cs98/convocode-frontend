@@ -1,5 +1,4 @@
-import './App.css';
-import { EditorWindow } from './components/EditorWindow';
+import { EditorWindow } from './components/EditorWindow/EditorWindow';
 
 function App() {
   return (

@@ -2,14 +2,14 @@
 
 import React, {useState} from 'react';
 import CodeEditor from './CodeEditor';
-import Output from './Output';
+import Output from '../OutputWindow/OutputWindow';
 import Run from "./Run";
-import Speak from './Speak';
-import '../styles/run.css';
-import '../styles/window.css';
-import '../styles/header.css';
+import Speak from '../SpeakButton/Speak';
+
 import axios from 'axios';
 import MicRecorder from 'mic-recorder-to-mp3';
+
+import './run.css'
 
 export const EditorWindow = () => {
     const pythonDefault = `# Python Editor`;
