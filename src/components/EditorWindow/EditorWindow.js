@@ -14,6 +14,14 @@ import './run.css'
 export const EditorWindow = () => {
     const pythonDefault = `# Python Editor`;
 
+    axios.get(`http://localhost:8000/api/`).then((res) => {
+      console.log("here");
+      console.log(res);
+      console.log(`convodex: ${res.data}`);
+    }).catch((err) => {
+      console.log(err);
+    });
+
     const onChange = (action, data) => {
         switch (action) {
           case "code": {
