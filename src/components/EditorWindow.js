@@ -182,7 +182,7 @@ export const EditorWindow = () => {
         <div>  
             <div className="header-container">
                 <Run handleClick={submitCode} text="RUN" type="button"/>
-                <Speak handleClick={stt} text={speakText} type="button"/>
+                <Speak handleClick={start} text={speakText} type="button"/>
             </div>
             <div className="editor-container">
                 <CodeEditor 
