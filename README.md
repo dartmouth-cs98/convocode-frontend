@@ -22,7 +22,8 @@ TODO: how to deploy the project
 TODO: list of authors
 
 ## Acknowledgments
-
+CS 98 
+Tim Tregubov and Natalie Svoboda
 
 # React IDE - base for ConvoCode
 
