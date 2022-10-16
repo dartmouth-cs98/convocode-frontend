@@ -11,18 +11,8 @@ import MicRecorder from 'mic-recorder-to-mp3';
 
 import './run.css'
 
-const EditorWindow = () => {
+export const EditorWindow = () => {
   const pythonDefault = `# Python Editor`;
-  const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
-  const [recording, setRecording] = useState(false);
-  const [blocked, setBlocked] = useState(false);
-  const [blobURL, setBlobURL] = useState("");
-  const [speakText, setSpeakText] = useState("SPEAK");
-  const [theme, setTheme] = useState("vs-dark");
-  const [processing, setProcessing] = useState(null);
-  const [customInput, setCustomInput] = useState("");
-  const [outputDetails, setOutputDetails] = useState(null);
-  const [code, setCode] = useState(pythonDefault);
 
   axios.get(`http://localhost:8000/api/`).then((res) => {
     console.log("here");
@@ -43,6 +33,16 @@ const EditorWindow = () => {
       }
     }
   };
+  const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
+  const [recording, setRecording] = useState(false);
+  const [blocked, setBlocked] = useState(false);
+  const [blobURL, setBlobURL] = useState("");
+  const [speakText, setSpeakText] = useState("SPEAK");
+  const [theme, setTheme] = useState("vs-dark");
+  const [processing, setProcessing] = useState(null);
+  const [customInput, setCustomInput] = useState("");
+  const [outputDetails, setOutputDetails] = useState(null);
+  const [code, setCode] = useState(pythonDefault);
 
 
   navigator.getUserMedia({ audio: true },
