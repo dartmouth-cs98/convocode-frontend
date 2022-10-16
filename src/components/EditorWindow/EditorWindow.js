@@ -91,6 +91,7 @@ export const EditorWindow = () => {
     }
   };
 
+
   // Function to call the compile endpoint
   function submitCode() {
     setProcessing(true)
@@ -156,6 +157,8 @@ export const EditorWindow = () => {
     }
   }
 
+
+
   return (
     <div>
       <div className="header-container">
@@ -173,5 +176,4 @@ export const EditorWindow = () => {
       <Output output={outputDetails} />
     </div>
   );
-};
-export default EditorWindow;
+}
