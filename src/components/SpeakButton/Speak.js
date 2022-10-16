@@ -1,5 +1,6 @@
 import React from 'react';
-import '../styles/speak.css';
+
+import './speak.css'
 
 const Speak = ({ text, handleClick }) => {
   return (
