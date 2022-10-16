@@ -4,7 +4,7 @@
 [*how?*](https://help.github.com/articles/about-readmes/#relative-links-and-image-paths-in-readme-files)
 
 TODO: short project description, some sample screenshots or mockups
-
+ConvoCode is a web-based python IDE converting speech to code using existing APIs. View our mockups below.
 ## Architecture
 
 TODO:  descriptions of code organization and tools and libraries used
