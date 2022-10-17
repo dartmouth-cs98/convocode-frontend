@@ -26,8 +26,8 @@ html,body {
 *[data-theme='light'] {
   --background: var(--white);
   --text-primary: var(--black);
-  --button-background: var(--grape);
-  --button-text: var(--white);
+  --button-background: var(--bus);
+  --button-text: var(--black);
 }
 
 *[data-theme='dark'] {
@@ -37,3 +37,32 @@ html,body {
   --button-text: var(--black);
 }
 
+#sage {
+  color: var(--sage);
+}
+
+#sky {
+  color: var(--sky);
+}
+
+#grape {
+  color: var(--grape);
+}
+
+#pumpkin-spice {
+  color: var(--pumpkinSpice);
+}
+
+button {
+  background-color: var(--button-background);
+  color: var(--button-text);
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  padding: 8px 12px;
+  box-shadow: none;
+  border-style: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}

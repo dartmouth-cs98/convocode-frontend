@@ -10,14 +10,11 @@ const LandingPage = () => {
   return (
     <div className="landing-page" data-theme={theme}>
       <div className="title-content" data-theme={theme}>
-        <h1>Welcome to ConvoCode</h1>
+        <h1>Welcome to Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
         <h2>Redefining Python Developer tools.</h2>
         <div className="file-buttons" data-theme={theme}>
           <button>
-            Upload Python File
-          </button>
-          <button>
-            New Python File
+            Start Coding
           </button>
         </div>
       </div>
