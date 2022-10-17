@@ -35,7 +35,8 @@ TODO: list of authors
 - Melissa Valencia
 
 ## Acknowledgments
-
+CS 98 
+Tim Tregubov and Natalie Svoboda
 
 # React IDE - base for ConvoCode
 
