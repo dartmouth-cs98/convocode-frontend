@@ -1,0 +1,36 @@
+@import "../../index.css";
+
+.header-bar {
+  height: 8vh;
+  width: 100vw;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-bar h1{
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 22px;
+  padding-left: 21px;
+}
+
+.header-buttons{
+  right: 0px;
+  gap: 40px;
+  padding-right: 21px;
+}
+
+button#documentation{
+  background-color: transparent;
+  box-shadow: none;
+  color: var(--text-primary)
+}
+
+button#IDE{
+  background-color: var(--grape);
+  color: var(--white);
+}
