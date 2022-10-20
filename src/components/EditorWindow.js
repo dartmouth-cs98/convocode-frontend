@@ -57,7 +57,6 @@ export const EditorWindow = () => {
         if (blocked) {
           console.log('Permission Denied');
         } else {
-          const mediaRecorder = new MediaRecorder()
           
           Mp3Recorder
             .start()
@@ -73,24 +72,22 @@ export const EditorWindow = () => {
           .stop()
           .getMp3()
           .then(([buffer, blob]) => {
-            const blobURL = URL.createObjectURL(blob)
-            setBlobURL(blobURL);
+            // const blobURL = URL.createObjectURL(blob)
+            // setBlobURL(blobURL);
             setRecording(false);
             let file = new File([blob], 'chunk.wav');
             console.log(file);
             const formData = new FormData();
             formData.append('file', file);
-            const audioURL = window.URL.createObjectURL(blob);
-            console.log(audioURL);
+            // const audioURL = window.URL.createObjectURL(blob);
+            // console.log(audioURL);
             axios.request({
               method: "POST",
               url: "http://localhost:8000/api/recognize",
               data: formData,
-              // headers: {
-                // "content-type": `multipart/form-data;`
-              // }
             }).then((res) => {
-              console.log(res);
+              console.log("hey");
+              console.log(res.data);
             }); 
           }).catch((e) => console.log(e));
       };
@@ -125,7 +122,7 @@ export const EditorWindow = () => {
         }
     
         // Post request to compile endpoint
-        axios.post(`http://localhost:8000/api/judge_submit`, {
+        axios.post(`http://localhost:8000/api/compiler`, {
             source_code: code, customInput: customInput}).then((res) => {
                 console.log("here");
                 console.log(res);
@@ -144,7 +141,7 @@ export const EditorWindow = () => {
         console.log(id);
 
         try {
-            let response = await axios.request(`http://localhost:8000/api/compile_judge/${id.token}`);
+            let response = await axios.request(`http://localhost:8000/api/compiler/${id.token}`);
             console.log(response.data);
             let status = response.status;
             console.log(status)
