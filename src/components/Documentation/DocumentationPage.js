@@ -11,24 +11,6 @@ const DocumentationPage = () => {
                 <h1>What is Convo<span id="sage">D</span><span id="pumpkin-spice">e</span><span id="grape">x</span></h1>
                 <p>ConvoDex is a dictionary of all the possible terms and templates that are avaliable for users when engaging with our coding environment. With the help of OpenAI, Whisper, Watson IBM and more we are able to bring a new method of coding in Python. </p>
             </div>
-            {/* <div className="table">
-                <div className="row Title"> 
-                    <h2>Command</h2>
-                    <h2>Action</h2>
-                </div>
-                <div className="row Grey">
-                    <p>“class”</p>
-                    <p>Class Templates require a class name, parameters, and an __init__ and __str__ methods in order to be standarized.</p>
-                </div>
-                <div className="row White">
-                    <p>“function”</p>
-                    <p>Function Templates require parameters, and stating global and local variables</p>
-                </div>
-                <div className="row Grey">
-                    <p>"for loop" </p>
-                    <p>For Loops must be defined with range and number or variable name</p>
-                </div>
-            </div> */}
             <div className="convo-dex">
             <table className="table">
                 <tr className="row-title"> 
@@ -79,7 +61,7 @@ const DocumentationPage = () => {
                 </div>
             </div>
             <div className="brackey-section">
-                <h1>Who is Brackey?</h1>
+                <h2>Who is Brackey?</h2>
                 <p>Brackey is our interactive AI revolutionizing the way developer's code. They are there to guide you through our ConvoCode IDE.</p>
             </div>
         </div>

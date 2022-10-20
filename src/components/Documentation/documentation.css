@@ -24,12 +24,12 @@
   padding-bottom: 25px;
 }
 .docu-section p {
-  padding-bottom: 25px;
+  padding-bottom: 30px;
 }
 .convo-dex{
   padding-right: 100px;
   padding-left: 100px;
-  padding-bottom: 25px;
+  padding-bottom: 50px;
 }
 .table{
   color: var(--accent);
@@ -43,7 +43,13 @@ th{
 }
 td{
   height: 5vw;
-  padding: 12px;
+  padding-top: 10px;
+  padding-bottom:10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-family: Inter, sans-serif;
+  font-weight: normal;
+  font-size: 16px;
 }
 .row-title{
   font-family: Inter, sans-serif;
@@ -60,11 +66,18 @@ td{
 }
 .Grid{
   padding-top: 25px;
-  padding-bottom: 25px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
+}
+.video p{
+  padding-top: 5px;
+  padding-bottom: 25px;
+}
+iframe{
+  width: 500px;
+  height: 300px;
 }
 .video{
   text-align: center;
@@ -72,8 +85,12 @@ td{
 .brackey-section{
   padding-left: 100px;
   padding-right: 100px;
-  padding-bottom: 25px;
+  padding-top: 25px;
+  padding-bottom: 50px;
   color: var(--accent);
+}
+.brackey-section p{
+  padding-top: 25px;
 }
 
 
