@@ -1,19 +1,75 @@
 @import "../../index.css";
 
 .docu-page {
-    height: 100vh;
-    width: 100vw;
-    background-color: var(--background);
-    color: var(--text-primary);
-  
-    --floating-bc: #6900D1;
-    --floating-ar: #E6844D;
-    --floating-cf: #0ACF83;
-    --floating-dc: var(--unicorn);
-    --floating-sa: #1ABCFE;
-  }
-  .docu-section{ 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--background);
+  color: var(--text-primary);
+  --floating-bc: #6900D1;
+  --floating-ar: #E6844D;
+  --floating-cf: #0ACF83;
+  --floating-dc: var(--unicorn);
+  --floating-sa: #1ABCFE;
+}
+.docu-section{ 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--accent);
+  padding-right: 100px;
+  padding-left: 100px;
+}
+.docu-section h1 {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+.docu-section p {
+  padding-bottom: 25px;
+}
+.convo-dex{
+  padding-right: 100px;
+  padding-left: 100px;
+  padding-bottom: 25px;
+}
+.table{
+  color: var(--accent);
+  text-align: left;
+  width: 100%;
+  border-collapse: collapse;
+}
+th{
+  background: var(--sky);
+  padding: 20px;
+}
+td{
+  height: 5vw;
+  padding: 12px;
+}
+.row-title{
+  font-family: Inter, sans-serif;
+  font-weight: semi-bold;
+  font-size: 22px;
+}
+.row-grey{
+  background: #EFF2F2;
+}
+.tutorial-section{
+  color: var(--accent);
+  padding-left: 100px;
+}
+.Grid{
+  padding-top: 25px;
+  padding-bottom: 25px;
+  display: grid;
+  grid-template-columns: auto auto;
+  width: 1550px;
+  gap: 10px;
+}
+.brackey-section{
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-bottom: 25px;
+  color: var(--accent);
+}
+
+
