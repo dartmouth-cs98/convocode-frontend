@@ -56,14 +56,18 @@ td{
 .tutorial-section{
   color: var(--accent);
   padding-left: 100px;
+  padding-right: 100px;
 }
 .Grid{
   padding-top: 25px;
   padding-bottom: 25px;
-  display: grid;
-  grid-template-columns: auto auto;
-  width: 1550px;
-  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.video{
+  text-align: center;
 }
 .brackey-section{
   padding-left: 100px;
