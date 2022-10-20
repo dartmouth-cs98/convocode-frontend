@@ -10,9 +10,6 @@ import '../styles/window.css';
 import '../styles/header.css';
 import axios from 'axios';
 import MicRecorder from 'mic-recorder-to-mp3';
-import { CobraWorkerFactory } from "@picovoice/cobra-web-worker";
-import { WebVoiceProcessor } from "@picovoice/web-voice-processor"
-import FileReader from 'filereader';
 
 export const EditorWindow = () => {
     const pythonDefault = `# Python Editor`;
@@ -38,13 +35,9 @@ export const EditorWindow = () => {
     const [customInput, setCustomInput] = useState("");
     const [outputDetails, setOutputDetails] = useState(null);
     const [code, setCode] = useState(pythonDefault);
-    const [voiceDetected, setVoiceDetected] = useState(false);
-    const [chunks, setChunks] = useState([]);
 
     
-    useEffect(() => {
-      console.log(`new chunks: ${chunks}`);
-  }, [chunks]);
+
 
 
     navigator.getUserMedia({ audio: true },
@@ -58,108 +51,7 @@ export const EditorWindow = () => {
         },
       );
       
-      
 
-      function cobraCallback(voiceProbability) {
-        // voiceProbability: Probability of voice activity. It is a floating-point number within [0, 1].
-        // console.log("calling back");
-        const threshold = 0.6;
-        if (voiceProbability >= threshold) {
-          console.log("voice done!");
-          console.log(voiceProbability);
-          setVoiceDetected(true);
-        } else {
-          console.log("nothing");
-          setVoiceDetected(false);
-        }
-      }
-
-      
-      
-      async function startCobra() {
-        const accessKey = "zAe8bJQx3JiwcOMUjz0OSPlcECvTuV0RZNQ9hpmJm4lrYbFuM4NpoQ==";
-        // const handle = await Cobra.create(accessKey);
-
-        const cobraWorker = await CobraWorkerFactory.create(
-          accessKey,
-          cobraCallback
-        );
-    
-        
-      
-
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-          console.log("getUserMedia supported.");
-  
-          navigator.mediaDevices
-            .getUserMedia(
-              // constraints - only audio needed for this app
-              {
-                audio: true,
-              }
-            )
-
-            // Success callback
-            .then((stream) => {
-              WebVoiceProcessor.subscribe(cobraWorker);
-              const mediaRecorder = new MediaRecorder(stream);
-              mediaRecorder.start(1000);
-              console.log(mediaRecorder.state);
-              console.log("recorder started");
-              mediaRecorder.ondataavailable = (e) => {
-                if (voiceDetected == true) {
-                  setChunks(prevChunks => {
-                    console.log("HERE")
-                    return ([...prevChunks, e.data])
-                  });
-                  // chunks.push(e.data);
-                  // console.log(chunks);
-                  console.log("DETECTED VOICE");
-                }
-              
-                else if (voiceDetected == false && chunks.length != 0) {
-                  console.log("hello");
-                  const blob = new Blob(chunks, { type: "audio/wav"});
-                  console.log(`before reset: ${chunks}`);
-                  setChunks(new Array(0));
-                  console.log(chunks);
-                   
-                  let file = new File([blob], 'chunk.wav');
-                  console.log(file);
-                  const formData = new FormData();
-                  formData.append('file', file);
-                  const audioURL = window.URL.createObjectURL(blob);
-                  console.log(audioURL);
-                  axios.request({
-                    method: "POST",
-                    url: "http://localhost:8000/api/recognize",
-                    data: formData,
-                    // headers: {
-                      // "content-type": `multipart/form-data;`
-                    // }
-                  }).then((res) => {
-                    console.log(res);
-                  }) 
-
-                }
-    
-                    
-                  
-              }
-
-            }).catch((err) => {
-              console.error(`The following getUserMedia error occurred: ${err}`);
-            });
- 
-                
-        }
-           else {
-          console.log("getUserMedia not supported on your browser!");
-        }
-    }
-    
-    
-    startCobra();
 
       function start() {
         if (blocked) {
@@ -184,6 +76,22 @@ export const EditorWindow = () => {
             const blobURL = URL.createObjectURL(blob)
             setBlobURL(blobURL);
             setRecording(false);
+            let file = new File([blob], 'chunk.wav');
+            console.log(file);
+            const formData = new FormData();
+            formData.append('file', file);
+            const audioURL = window.URL.createObjectURL(blob);
+            console.log(audioURL);
+            axios.request({
+              method: "POST",
+              url: "http://localhost:8000/api/recognize",
+              data: formData,
+              // headers: {
+                // "content-type": `multipart/form-data;`
+              // }
+            }).then((res) => {
+              console.log(res);
+            }); 
           }).catch((e) => console.log(e));
       };
 
