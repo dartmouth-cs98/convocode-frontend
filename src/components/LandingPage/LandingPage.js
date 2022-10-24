@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import FileModal from "./FileModal";
 
 import './landing.css'
 
@@ -6,7 +7,7 @@ import './landing.css'
 const LandingPage = () => {
 
   const [theme, setTheme] = useState('light');
-  const [modalShow, setModalShow] = useState(false)
+  // const [modalShow, setModalShow] = useState(false)
 
   return (
     <div className="landing-page" data-theme={theme}>
@@ -14,10 +15,10 @@ const LandingPage = () => {
         <h1>Welcome to Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
         <h2>Redefining Python Developer tools.</h2>
         <div className="file-buttons" data-theme={theme}>
-          <button onClick={() => setModalShow(!modalShow)}>
+          {/* <button onClick={() => setModalShow(!modalShow)}>
             Start Coding
-          </button>
-
+          </button> */}
+          <FileModal></FileModal>
         </div>
       </div>
       <div className="floating-text">
