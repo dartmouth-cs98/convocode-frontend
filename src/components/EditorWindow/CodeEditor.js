@@ -4,9 +4,7 @@
 import React, { useState } from "react";
 import Editor from "@monaco-editor/react";
 
-import './header.css'
-import './run.css'
-import './window.css'
+import './index.css'
 
 
 const CodeEditor = ({ onChange, language, code, theme }) => {

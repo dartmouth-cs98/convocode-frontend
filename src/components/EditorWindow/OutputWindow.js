@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-import './output.css'
+import './index.css'
 
-const Output = ({ output }) => {
+const Output = ({ output, theme }) => {
+
   var newText;
   if (output != null) {
     newText = output.split('\n').map(output => <p>{output}</p>);
@@ -12,8 +13,8 @@ const Output = ({ output }) => {
 
 
   return (
-    <div>
-      <div className="title">
+    <div className="code-output-window" data-theme={theme}>
+      <div >
         Output
       </div>
       <div className="box">
