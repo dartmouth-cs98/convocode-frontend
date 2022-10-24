@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import ModeReducer from './mode';
-import FileManagementReducer  from './fileManagment';
+import FileManagementReducer  from './fileManagement';
 
 const rootReducer = combineReducers({
   mode: ModeReducer,
