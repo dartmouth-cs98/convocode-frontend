@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import './filemodal.css'
 
-
+import ReactModal from 'react-modal';
 const FileModal = () => {
 
   const [theme, setTheme] = useState('light');
@@ -15,7 +15,11 @@ const FileModal = () => {
   // }
 
   return (
-    <div>
+
+      <ReactModal 
+        isOpen={this.state.showModal}
+        contentLabel="Minimal Modal Example">
+
       { upload ? (
         <div> 
           <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
@@ -32,7 +36,7 @@ const FileModal = () => {
           </div>
         </div>
         }
-    </div>
+  </ReactModal>
 
 
   ) 
