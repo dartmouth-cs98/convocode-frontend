@@ -7,6 +7,7 @@ const initialState = {
 const FileManagementReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.FILE_NAME:
+      console.log("in file reducer", action.payload);
       return { ...state, fileName: action.payload};
 
     default:

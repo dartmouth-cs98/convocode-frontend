@@ -4,11 +4,10 @@ import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import { createFileName } from '../../state/actions/fileManagement';
 
-
 import './file-modal.css';
 import { scryRenderedComponentsWithType } from "react-dom/test-utils";
 
-const FileModal = ({props}) => {
+const FileModal = (props) => {
 
   const [theme, setTheme] = useState('light');
   const [newFile, setNewFile] = useState(false);
@@ -24,6 +23,7 @@ const FileModal = ({props}) => {
   }
 
   const handleCreateFile = () => {
+    console.log("in handle create", props);
     props.createFileName(fileName);
   }
 
@@ -56,9 +56,9 @@ const FileModal = ({props}) => {
       </div>
 )};
 
-const mapStateToProps = (reduxstate) => ({
-  fileName: reduxstate.fileName,
-});
+const mapStateToProps = (reduxstate) => {
+  return {fileName: reduxstate.fileName};
+};
 
 export default connect(mapStateToProps, { createFileName })(FileModal);
 // export default FileModal;
