@@ -17,10 +17,12 @@ const FileModal = ({props}) => {
 
   const handleModalOpen = () =>{
     setIsOpen(!modalIsOpen);
-  };
+  }
+
   const handleModalClose = () =>{
     setIsOpen(modalIsOpen);
   }
+
   const handleCreateFile = () => {
     props.createFileName(fileName);
   }
@@ -59,3 +61,4 @@ const mapStateToProps = (reduxstate) => ({
 });
 
 export default connect(mapStateToProps, { createFileName })(FileModal);
+// export default FileModal;

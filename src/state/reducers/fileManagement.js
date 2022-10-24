@@ -7,7 +7,7 @@ const initialState = {
 const FileManagementReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.FILE_NAME:
-      return { ...state, lightMode: action.payload};
+      return { ...state, fileName: action.payload};
 
     default:
       return state;
