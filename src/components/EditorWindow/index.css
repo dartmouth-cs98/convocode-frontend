@@ -2,11 +2,44 @@
 
 
 .editor-container {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 20px;
-    margin-bottom: 5px;
+  background-color: var(--background);
+  color: var(--text-primary);
+  flex-direction: column;
+
 }
+
+.bracky-sidepanel{
+  height: 100vh;
+  width: 25vw;
+  display: flex;
+  flex-direction: row;
+}
+
+.bracky-sidepanel[data-theme='dark']{
+  background: var(--black);
+}
+
+.bracky-sidepanel[data-theme='light']{
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), #FCFFFF; 
+}
+
+.sidepanel-header{
+  height: 8%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidepanel-header h1{
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 22px;
+  padding-left: 20px;
+
+}
+
 
 
 .box {

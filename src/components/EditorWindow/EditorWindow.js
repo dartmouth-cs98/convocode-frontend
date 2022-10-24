@@ -5,6 +5,8 @@ import CodeEditor from './CodeEditor';
 import Output from './OutputWindow';
 import Run from "./Run";
 import Speak from './Speak';
+import BrackyPanel from './BrackyPanel';
+import { SidePane } from "react-side-pane";
 
 import axios from 'axios';
 import MicRecorder from 'mic-recorder-to-mp3';
@@ -35,7 +37,11 @@ const EditorWindow = () => {
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [code, setCode] = useState(pythonDefault);
+  const [open, setOpen] = useState(true);
 
+  const toggleSidebar = () => {
+    setOpen(open => !open);
+  };
 
   navigator.getUserMedia({ audio: true },
     () => {
@@ -138,10 +144,7 @@ const EditorWindow = () => {
 
   return (
     <div className="editor-window" data-theme={theme}>
-      <div className="header-container">
-        <Run handleClick={submitCode} text="RUN" type="button" />
-        <Speak handleClick={handleSpeakClick} text={speakText} type="button" />
-      </div>
+      <BrackyPanel theme={theme} />
       <div className="editor-container">
         <CodeEditor
           code={code}
@@ -150,7 +153,6 @@ const EditorWindow = () => {
           theme={theme}
         />
       </div>
-      <Output output={outputDetails} />
     </div>
   );
 };
