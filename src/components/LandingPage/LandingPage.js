@@ -18,7 +18,7 @@ const LandingPage = () => {
           {/* <button onClick={() => setModalShow(!modalShow)}>
             Start Coding
           </button> */}
-          <FileModal></FileModal>
+          <FileModal/>
         </div>
       </div>
       <div className="floating-text">

@@ -23,7 +23,6 @@ const FileModal = (props) => {
   }
 
   const handleCreateFile = () => {
-    console.log("in handle create", props);
     props.createFileName(fileName);
   }
 
@@ -32,13 +31,15 @@ const FileModal = (props) => {
       <button onClick={handleModalOpen}>
         Start Coding
       </button>
-      <ReactModal isOpen ={modalIsOpen} onRequestClose = {handleModalClose} contentLabel = "ConvoCode">
+      <ReactModal id="file-modal" isOpen ={modalIsOpen} onRequestClose = {handleModalClose} contentLabel = "ConvoCode">
         {  !newFile ? (
           <div> 
             <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
             {/* <NavLink to="/editor"><button type="button">Create New Python File</button></NavLink> */}
+            <div className="modal-buttons" data-theme={theme}>
             <button onClick={() => setNewFile(!newFile)}>Create New Python File </button> 
             <button onClick={() => setNewFile(!newFile)}>Upload Python File </button> 
+            </div>
             </div>
           ):
           (<div>
@@ -47,7 +48,6 @@ const FileModal = (props) => {
             <p>.py</p>
             <div>
             {/* send to redux and redirect */}
-            {/* <NavLink to ="/editor"><button onClick={() => this.FileModal}>Create</button></NavLink> */}
             <NavLink to ="/editor"><button onClick={handleCreateFile}>Create</button></NavLink>
             </div>
             </div>)
