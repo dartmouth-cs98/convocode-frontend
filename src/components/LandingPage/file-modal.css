@@ -1,9 +1,5 @@
 @import "../../index.css";
 
-/* .landing-modal{
-    position: absolute;
-} */
-
 .file-modal{
     height: 40vh;
     width: 40vw;
@@ -11,9 +7,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--white);
+    background-color: var(--boring);
     color: var(--text-primary);
-    border: 1px solid #ccc;
+    border-radius: 15px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .ReactModal__Overlay--after-open {
@@ -26,8 +23,8 @@
     font-weight: 500;
     font-size: 24px;
     line-height: 22px;
-    padding-top: 20px;
-    padding-bottom: 40px;
+    padding-top: 25px;
+    padding-bottom: 30px;
 }
 
 .modal-buttons{
@@ -76,11 +73,13 @@ button#create {
 .file-name input{
     display: block;
     width: 20vw;
-    padding: 2px;
+    padding: 5px;
     font-family: Inter, sans-serif;
     font-size: 16px;
     letter-spacing: 0.2px;
     line-height: 20px;
+    border: none;
+    border-radius: 5px;
 }
 
 .modal-input{
