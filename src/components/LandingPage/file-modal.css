@@ -1,18 +1,91 @@
 @import "../../index.css";
 
-#file-modal{
+/* .landing-modal{
+    position: absolute;
+} */
+
+.file-modal{
     height: 40vh;
     width: 40vw;
-    background-color: var(--background);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--white);
     color: var(--text-primary);
+    border: 1px solid #ccc;
+}
+
+.ReactModal__Overlay--after-open {
+    opacity: 1;
+}
+
+.modal-content h1{
+    text-align: center;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 22px;
+    padding-top: 20px;
+    padding-bottom: 40px;
 }
 
 .modal-buttons{
     margin: 3%;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 20px;
 }
 
+.cancel-button{
+    background-color: var(--easyA);
+    color: var(--button-text);
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    padding: 8px 12px;
+    box-shadow: none;
+    border-style: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.create-buttons{
+    margin: 5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+button#create {
+    background-color: var(--sage);
+    color: var(--black);
+}
+
+.file-name{
+    /* margin: 3%; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-name input{
+    display: block;
+    width: 20vw;
+    padding: 2px;
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 20px;
+}
+
+.modal-input{
+    margin: 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

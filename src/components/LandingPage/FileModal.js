@@ -12,14 +12,15 @@ const FileModal = (props) => {
   const [theme, setTheme] = useState('light');
   const [newFile, setNewFile] = useState(false);
   const [fileName, setFileName] = useState("");
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
-  const handleModalOpen = () =>{
-    setIsOpen(!modalIsOpen);
+  const handleModalToggle = () =>{
+    setNewFile(false);
+    setModalShow(!modalShow);
   }
 
-  const handleModalClose = () =>{
-    setIsOpen(modalIsOpen);
+  const handleNewFile = () =>{
+    setNewFile(!newFile);
   }
 
   const handleCreateFile = () => {
@@ -28,32 +29,38 @@ const FileModal = (props) => {
 
   return(
     <div>
-      <button onClick={handleModalOpen}>
+      <button onClick={handleModalToggle}>
         Start Coding
       </button>
-      <ReactModal id="file-modal" isOpen ={modalIsOpen} onRequestClose = {handleModalClose} contentLabel = "ConvoCode">
-        {  !newFile ? (
-          <div> 
-            <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
-            {/* <NavLink to="/editor"><button type="button">Create New Python File</button></NavLink> */}
-            <div className="modal-buttons" data-theme={theme}>
-            <button onClick={() => setNewFile(!newFile)}>Create New Python File </button> 
-            <button onClick={() => setNewFile(!newFile)}>Upload Python File </button> 
+      <div className="landing-modal">
+      <ReactModal className="file-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel = "ConvoCode">
+        {  newFile ? (
+          <div>
+            <div className="modal-input">
+              <p>New File Name</p> 
+                <div className="file-name">
+                  <input type ="text" name="filename" value = {fileName} onChange={event => setFileName(event.target.value)}/>
+                  <p>.py</p>
+                </div>
             </div>
+            <div className="create-buttons">
+              <button className="cancel-button" onClick={handleModalToggle}>Cancel</button>
+              <NavLink to ="/editor"><button id="create" onClick={handleCreateFile}>Create</button></NavLink>
             </div>
+          </div>
           ):
-          (<div>
-            <p>New File Name</p> 
-            <input type ="text" name="filename" value = {fileName} onChange={event => setFileName(event.target.value)}/>
-            <p>.py</p>
-            <div>
-            {/* send to redux and redirect */}
-            <NavLink to ="/editor"><button onClick={handleCreateFile}>Create</button></NavLink>
+          (<div className="modal-content"> 
+            <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
+            <div className="modal-buttons" data-theme={theme}>
+              <button onClick={handleNewFile}>Create New Python File </button> 
+              <button onClick={handleNewFile}>Upload Python File </button> 
+            {/* <button className="cancel-button" onClick={handleModalToggle}>Cancel</button> */}
             </div>
-            </div>)
+          </div>)
         }
       </ReactModal> 
       </div>
+    </div>
 )};
 
 const mapStateToProps = (reduxstate) => {
@@ -61,4 +68,3 @@ const mapStateToProps = (reduxstate) => {
 };
 
 export default connect(mapStateToProps, { createFileName })(FileModal);
-// export default FileModal;
