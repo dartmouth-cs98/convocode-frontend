@@ -10,7 +10,7 @@ import { scryRenderedComponentsWithType } from "react-dom/test-utils";
 const FileModal = (props) => {
 
   const [theme, setTheme] = useState('light');
-  const [newFile, setNewFile] = useState(false);
+  const [newFile, setNewFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [modalShow, setModalShow] = useState(false);
 
@@ -20,7 +20,7 @@ const FileModal = (props) => {
   }
 
   const handleNewFile = () =>{
-    setNewFile(!newFile);
+    setNewFile(true);
   }
 
   const handleCreateFile = () => {
@@ -33,8 +33,9 @@ const FileModal = (props) => {
         Start Coding
       </button>
       <div className="landing-modal">
-      <ReactModal className="file-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel = "ConvoCode">
+      {/* <ReactModal className="file-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel = "ConvoCode"> */}
         {  newFile ? (
+          <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel = "ConvoCode">
           <div>
             <div className="modal-input">
               <p>New File Name</p> 
@@ -48,17 +49,21 @@ const FileModal = (props) => {
               <NavLink to ="/editor"><button id="create" onClick={handleCreateFile}>Create</button></NavLink>
             </div>
           </div>
+          </ReactModal> 
           ):
-          (<div className="modal-content"> 
+          (
+          <ReactModal className="modal-landing" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel = "ConvoCode">
+          <div className="modal-content"> 
             <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
             <div className="modal-buttons" data-theme={theme}>
               <button onClick={handleNewFile}>Create New Python File </button> 
-              <button onClick={handleNewFile}>Upload Python File </button> 
+              <button>Upload Python File </button> 
             {/* <button className="cancel-button" onClick={handleModalToggle}>Cancel</button> */}
             </div>
-          </div>)
+          </div>
+          </ReactModal>)
         }
-      </ReactModal> 
+      {/* </ReactModal>  */}
       </div>
     </div>
 )};
