@@ -33,7 +33,6 @@ const FileModal = (props) => {
         Start Coding
       </button>
       <div className="landing-modal">
-      {/* <ReactModal className="file-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel = "ConvoCode"> */}
         {  newFile ? (
           <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel = "ConvoCode">
           <div>
@@ -58,12 +57,10 @@ const FileModal = (props) => {
             <div className="modal-buttons" data-theme={theme}>
               <button onClick={handleNewFile}>Create New Python File </button> 
               <button>Upload Python File </button> 
-            {/* <button className="cancel-button" onClick={handleModalToggle}>Cancel</button> */}
             </div>
           </div>
           </ReactModal>)
         }
-      {/* </ReactModal>  */}
       </div>
     </div>
 )};
