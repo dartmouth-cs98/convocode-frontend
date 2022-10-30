@@ -164,6 +164,7 @@ const EditorWindow = () => {
       <div className="header-container">
         <Run handleClick={submitCode} text="RUN" type="button" />
         <Speak handleClick={handleSpeakClick} text={speakText} type="button" />
+        <p></p>
       </div>
       <div className="editor-container">
         <CodeEditor

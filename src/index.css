@@ -53,6 +53,10 @@ html,body {
   color: var(--pumpkinSpice);
 }
 
+#easy-a {
+  color: var(--easyA);
+}
+
 button {
   background-color: var(--button-background);
   color: var(--button-text);
