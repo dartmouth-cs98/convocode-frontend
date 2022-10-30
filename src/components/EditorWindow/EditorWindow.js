@@ -2,11 +2,10 @@
 
 import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
-import Output from './OutputWindow';
 import Run from "./Run";
 import Speak from './Speak';
 import BrackyPanel from './BrackyPanel';
-import { SidePane } from "react-side-pane";
+import OutputWindow from './OutputWindow';
 
 import axios from 'axios';
 import MicRecorder from 'mic-recorder-to-mp3';
@@ -144,14 +143,20 @@ const EditorWindow = () => {
 
   return (
     <div className="editor-window" data-theme={theme}>
-      <BrackyPanel theme={theme} />
-      <div className="editor-container">
-        <CodeEditor
-          code={code}
-          onChange={onChange}
-          language={"python"}
-          theme={theme}
-        />
+      <div className='editor-header-bar' data-theme={theme}>
+        <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
+      </div >
+      <div className='editor-content'>
+        <BrackyPanel theme={theme} />
+        <div className="editor-container">
+          <CodeEditor
+            code={code}
+            onChange={onChange}
+            language={"python"}
+            theme={theme}
+          />
+          <OutputWindow theme={theme} output={outputDetails} />
+        </div>
       </div>
     </div>
   );
