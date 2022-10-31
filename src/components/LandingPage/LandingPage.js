@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import HeaderBar from "../HeaderBar/HeaderBar";
 import FileModal from "./FileModal";
 
 import './landing.css'
@@ -11,6 +12,7 @@ const LandingPage = () => {
 
   return (
     <div className="landing-page" data-theme={theme}>
+      <HeaderBar />
       <div className="title-content" data-theme={theme}>
         <h1>Welcome to Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
         <h2>Redefining Python Developer tools.</h2>

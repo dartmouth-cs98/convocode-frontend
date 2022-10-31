@@ -4,9 +4,7 @@
 import React, { useState } from "react";
 import Editor from "@monaco-editor/react";
 
-import './header.css'
-import './run.css'
-import './window.css'
+import './index.css'
 
 
 const CodeEditor = ({ onChange, language, code, theme }) => {
@@ -20,8 +18,8 @@ const CodeEditor = ({ onChange, language, code, theme }) => {
   return (
     <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
       <Editor
-        height="50vh"
-        width="100%"
+        height="83vh"
+        width="78vw"
         language={language || "python"}
         value={value}
         theme={theme}

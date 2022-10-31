@@ -2,25 +2,17 @@
 
 import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
-import Output from '../OutputWindow/OutputWindow';
-import Run from "./Run";
-import Speak from '../SpeakButton/Speak';
+import Speak from './Speak';
+import BrackyPanel from './BrackyPanel';
+import OutputWindow from './OutputWindow';
 
 import axios from 'axios';
 import MicRecorder from 'mic-recorder-to-mp3';
 
-import './run.css'
+import './index.css'
 
 const EditorWindow = () => {
   const pythonDefault = `# Python Editor`;
-
-  axios.get(`http://localhost:8000/api/`).then((res) => {
-    console.log("here");
-    console.log(res);
-    console.log(`convodex: ${res.data}`);
-  }).catch((err) => {
-    console.log(err);
-  });
 
   const onChange = (action, data) => {
     switch (action) {
@@ -38,12 +30,16 @@ const EditorWindow = () => {
   const [blocked, setBlocked] = useState(false);
   const [blobURL, setBlobURL] = useState("");
   const [speakText, setSpeakText] = useState("SPEAK");
-  const [theme, setTheme] = useState("vs-dark");
+  const [theme, setTheme] = useState("light");
   const [processing, setProcessing] = useState(null);
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [code, setCode] = useState(pythonDefault);
+  const [open, setOpen] = useState(true);
 
+  const toggleSidebar = () => {
+    setOpen(open => !open);
+  };
 
   navigator.getUserMedia({ audio: true },
     () => {
@@ -77,7 +73,7 @@ const EditorWindow = () => {
         const blobURL = URL.createObjectURL(blob)
         setBlobURL(blobURL);
         setRecording(false);
-      }).catch((e) => console.log(e));
+      }).catch((e) => console.err(e));
   };
 
   function handleSpeakClick() {
@@ -109,72 +105,58 @@ const EditorWindow = () => {
     axios.post(`http://localhost:8000/api/judge_submit`, {
       source_code: code, customInput: customInput
     }).then((res) => {
-      console.log("here");
-      console.log(res);
       console.log(`id of compiling: ${res.data.token}`);
       checkStatus(res.data);
     }).catch((err) => {
       let error = err.response ? err.response.data : err;
       setProcessing(false);
-      console.log(error);
+      console.err(error);
     })
   }
 
   const checkStatus = async (id) => {
-    console.log("here");
-    // Get request to compile endpoint
-    console.log(id);
-
     try {
       let response = await axios.request(`http://localhost:8000/api/compile_judge/${id.token}`);
-      console.log(response.data);
       let status = response.status;
-      console.log(status)
-      // Processed - we have a result
       if (status === 201) {
-        // still processing
-        console.log('still processing');
         setTimeout(() => {
           checkStatus(id)
         }, 2000)
         return
       } else {
         setProcessing(false);
-        console.log(response);
         if (response.data.status === 3) {
-          console.log(response.data.description);
           setOutputDetails(response.data.stdout);
         } else {
           setOutputDetails(response.data.description + ":" + response.data.stderr);
         }
-
         return
       }
     } catch (err) {
-      console.log("err", err);
+      console.err(err);
       setProcessing(false);
-      //showErrorToast();
     }
   }
 
 
 
   return (
-    <div>
-      <div className="header-container">
-        <Run handleClick={submitCode} text="RUN" type="button" />
-        <Speak handleClick={handleSpeakClick} text={speakText} type="button" />
-        <p></p>
+    <div className="editor-window" data-theme={theme}>
+      <div className='editor-header-bar' data-theme={theme}>
+        <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
+      </div >
+      <div className='editor-content'>
+        <BrackyPanel theme={theme} />
+        <div className="editor-container">
+          <CodeEditor
+            code={code}
+            onChange={onChange}
+            language={"python"}
+            theme={theme}
+          />
+          <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} />
+        </div>
       </div>
-      <div className="editor-container">
-        <CodeEditor
-          code={code}
-          onChange={onChange}
-          language={"python"}
-          theme={theme}
-        />
-      </div>
-      <Output output={outputDetails} />
     </div>
   );
 };
