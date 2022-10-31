@@ -18,8 +18,8 @@ const CodeEditor = ({ onChange, language, code, theme }) => {
   return (
     <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
       <Editor
-        height="50vh"
-        width="75vw"
+        height="83vh"
+        width="78vw"
         language={language || "python"}
         value={value}
         theme={theme}

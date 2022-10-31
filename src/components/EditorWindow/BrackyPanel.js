@@ -33,7 +33,6 @@ const BrackyPanel = ({ theme }) => {
       </div>
       <div className="sidepanel-footer">
         <div className="mode-settings">
-          <span>mode:</span>
           <div className="toggle-buttons">
             <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" checked />
             <label for="toggle-on" class="btn">Voice</label>

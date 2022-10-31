@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
-import Run from "./Run";
 import Speak from './Speak';
 import BrackyPanel from './BrackyPanel';
 import OutputWindow from './OutputWindow';
@@ -155,7 +154,7 @@ const EditorWindow = () => {
             language={"python"}
             theme={theme}
           />
-          <OutputWindow theme={theme} output={outputDetails} />
+          <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} />
         </div>
       </div>
     </div>

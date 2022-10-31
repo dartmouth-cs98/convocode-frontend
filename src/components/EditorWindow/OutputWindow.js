@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 
+import Run from '../../resources/play.png'
+
 import './index.css'
 
-const Output = ({ output, theme }) => {
+
+const Output = ({ output, theme, handleRunClick }) => {
 
   var newText;
   if (output != null) {
@@ -13,14 +16,14 @@ const Output = ({ output, theme }) => {
 
 
   return (
-    <div className="code-output-window" data-theme={theme}>
-      <div >
-        Output
+    <div className="output-window" data-theme={theme}>
+      <div className="output-header">
+        <button onClick={handleRunClick} className="transparent">
+          <img src={Run} alt="run" />
+        </button>
       </div>
-      <div className="box">
-        <div className="out-text">
-          {newText}
-        </div>
+      <div className="out-text">
+        {newText}
       </div>
     </div>
   );
