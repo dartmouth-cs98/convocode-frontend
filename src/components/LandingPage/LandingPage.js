@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import HeaderBar from "../HeaderBar/HeaderBar";
+import FileModal from "./FileModal";
 
 import './landing.css'
 
