@@ -14,7 +14,7 @@ const HeaderBar = () => {
         <NavLink to="/documentation"><button id="documentation" data-theme={theme}>Documentation</button></NavLink>
         <NavLink to="/editor"><button id="IDE">Open IDE</button></NavLink>
       </div>
-    </div >
+    </div>
   );
 };
 
