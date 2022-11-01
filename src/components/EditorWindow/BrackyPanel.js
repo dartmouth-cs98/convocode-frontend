@@ -10,12 +10,7 @@ import Download from '../../resources/download.png'
 
 
 
-const BrackyPanel = ({ theme }) => {
-  const [open, setOpen] = useState(true);
-
-  const toggleSidebar = () => {
-    setOpen(open => !open);
-  };
+const BrackyPanel = ({ theme, open }) => {
 
   return (
     <div className="bracky-sidepanel" data-theme={theme}>
@@ -23,7 +18,7 @@ const BrackyPanel = ({ theme }) => {
         <form>
           <input type="search" className="submit" placeholder="Search ConvoDex" />
         </form>
-        <button className="transparent" onClick={toggleSidebar}><img src={Minimize} alt="minimize" id="click" /></button>
+        <button className="transparent" onClick={open}><img src={Minimize} alt="minimize" id="click" /></button>
       </div>
       <div className="chatbox">
         <div className="entry-text">
