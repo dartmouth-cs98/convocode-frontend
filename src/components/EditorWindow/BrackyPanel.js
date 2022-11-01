@@ -17,7 +17,6 @@ const BrackyPanel = ({ theme, code }) => {
   const toggleSidebar = () => {
     setOpen(open => !open);
   };
-const BrackyPanel = ({ theme, open }) => {
 
   const ref = useRef(null);
   const [initiateDownload, setInitiateDownload] = useState(false);
