@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLocation, useEffect } from "react"
+import React, { useState, useRef, useEffect } from "react"
 
 import './index.css'
 
@@ -6,6 +6,7 @@ import Maximize from '../../resources/maximize-light.png'
 import MicClosed from '../../resources/mic-closed.png'
 import SettingsClosed from '../../resources/settings-closed.png'
 import DownloadClosed from '../../resources/download-closed.png'
+import { useLocation } from "react-router"
 
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLocation, useEffect } from "react"
+import React, { useState, useRef, useEffect } from "react"
 
 import './index.css'
 
@@ -7,6 +7,7 @@ import Minimize from '../../resources/minimize-light.png'
 import Mic from '../../resources/mic.png'
 import Settings from '../../resources/settings.png'
 import Download from '../../resources/download.png'
+import { useLocation } from "react-router"
 
 
 
