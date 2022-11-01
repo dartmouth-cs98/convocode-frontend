@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
 import Speak from './Speak';
 import BrackyPanel from './BrackyPanel';
+import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
 
 import axios from 'axios';
@@ -148,16 +149,24 @@ const EditorWindow = () => {
       <div className='editor-content'>
         <BrackyPanel theme={theme} code={code} />
         <div className="editor-container">
+
+        {
+          open ?
+            <BrackyPanel theme={theme} open={toggleSidebar} />
+            : <ClosedBrackyPanel theme={theme} open={toggleSidebar} />
+        }
+        <div className="editor-container" style={open ? { width: '78vw' } : { width: '93vw' }}>
           <CodeEditor
             code={code}
             onChange={onChange}
             language={"python"}
             theme={theme}
+            width="100%"
           />
           <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} />
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 export default EditorWindow;
