@@ -45,7 +45,6 @@ const FileModal = (props) => {
             </div>
             <div className="create-buttons">
               <button className="cancel-button" onClick={handleModalToggle}>Cancel</button>
-              {/* <NavLink to ="/editor"><button id="create" onClick={handleCreateFile}>Create</button></NavLink> */}
               <NavLink to="/editor" state= {{name:fileName}}><button id="create" onClick={handleCreateFile}>Create</button></NavLink>
             </div>
           </div>

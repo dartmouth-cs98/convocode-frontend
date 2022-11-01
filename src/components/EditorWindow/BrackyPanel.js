@@ -65,7 +65,6 @@ const BrackyPanel = ({ theme, code }) => {
         <div className="settings-buttons">
           <button className="transparent"><img src={Settings} alt="settings" id="click" /></button>
           <button className="transparent"><img src={Mic} alt="mic" id="click" /></button>
-          {/* <button className="transparent"><img src={Download} alt="download" id="click" /></button> */}
           <a className="transparent" onClick={toggleDownload} ref={ref} id="a" href="/#"><img src={Download} alt="download" id="click" /></a>
         </div>
       </div>
