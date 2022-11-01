@@ -45,7 +45,8 @@ const FileModal = (props) => {
             </div>
             <div className="create-buttons">
               <button className="cancel-button" onClick={handleModalToggle}>Cancel</button>
-              <NavLink to ="/editor"><button id="create" onClick={handleCreateFile}>Create</button></NavLink>
+              {/* <NavLink to ="/editor"><button id="create" onClick={handleCreateFile}>Create</button></NavLink> */}
+              <NavLink to="/editor" state= {{name:fileName}}><button id="create" onClick={handleCreateFile}>Create</button></NavLink>
             </div>
           </div>
           </ReactModal> 
@@ -65,8 +66,8 @@ const FileModal = (props) => {
     </div>
 )};
 
-const mapStateToProps = (reduxstate) => {
-  return {fileName: reduxstate.fileName};
+const mapStateToProps = (state) => {
+  return {fileName: state.fileName};
 };
 
 export default connect(mapStateToProps, { createFileName })(FileModal);

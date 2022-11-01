@@ -8,6 +8,7 @@ import Minimize from '../../resources/minimize-light.png'
 import Mic from '../../resources/mic.png'
 import Settings from '../../resources/settings.png'
 import Download from '../../resources/download.png'
+import { useLocation } from "react-router-dom";
 
 
 
@@ -20,15 +21,19 @@ const BrackyPanel = ({ theme, code }, props) => {
 
   const ref = useRef(null);
   const [initiateDownload, setInitiateDownload] = useState(false);
-  console.log("first props ", props.fileName)
 
-  useEffect((text, name, type) =>{
+  // getting file name from nav link props
+  const location = useLocation();
+  const filename = location.state.name;
+  const pyfilename = filename + '.py';
+
+  useEffect(() =>{
     var a = ref.current;
     a = document.getElementById("a");
     var file = new Blob([code], {type: 'application/python'});
     a.href = URL.createObjectURL(file);
-    a.download = props.fileName;
-  }, [props.fileName, code, initiateDownload]);
+    a.download = pyfilename;
+  }, [pyfilename, code, initiateDownload]);
 
   const toggleDownload = () =>{
     setInitiateDownload(!initiateDownload);
