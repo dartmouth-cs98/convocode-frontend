@@ -165,8 +165,9 @@ const EditorWindow = () => {
           />
           <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} />
         </div>
+       </div>
       </div>
-    </div >
+    </div>
   );
 };
 export default EditorWindow;
