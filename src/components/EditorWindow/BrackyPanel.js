@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { connect } from "react-redux";
 
 import './index.css'
 
@@ -12,7 +11,7 @@ import { useLocation } from "react-router-dom";
 
 
 
-const BrackyPanel = ({ theme, code }, props) => {
+const BrackyPanel = ({ theme, code }) => {
   const [open, setOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -27,6 +26,7 @@ const BrackyPanel = ({ theme, code }, props) => {
   const filename = location.state.name;
   const pyfilename = filename + '.py';
 
+  // downloading file
   useEffect(() =>{
     var a = ref.current;
     a = document.getElementById("a");
@@ -73,10 +73,4 @@ const BrackyPanel = ({ theme, code }, props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  fileName: state.fileName,
-}
-);
-
-// export default BrackyPanel;
-export default connect(mapStateToProps)((BrackyPanel));
+export default BrackyPanel;
