@@ -146,7 +146,7 @@ const EditorWindow = () => {
         <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
       </div >
       <div className='editor-content'>
-        <BrackyPanel theme={theme} />
+        <BrackyPanel theme={theme} code={code} />
         <div className="editor-container">
           <CodeEditor
             code={code}

@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
 
 import './index.css'
 
@@ -10,12 +11,28 @@ import Download from '../../resources/download.png'
 
 
 
-const BrackyPanel = ({ theme }) => {
+const BrackyPanel = ({ theme, code }, props) => {
   const [open, setOpen] = useState(true);
 
   const toggleSidebar = () => {
     setOpen(open => !open);
   };
+
+  const ref = useRef(null);
+  const [initiateDownload, setInitiateDownload] = useState(false);
+  console.log("first props ", props.fileName)
+
+  useEffect((text, name, type) =>{
+    var a = ref.current;
+    a = document.getElementById("a");
+    var file = new Blob([code], {type: 'application/python'});
+    a.href = URL.createObjectURL(file);
+    a.download = props.fileName;
+  }, [props.fileName, code, initiateDownload]);
+
+  const toggleDownload = () =>{
+    setInitiateDownload(!initiateDownload);
+  }
 
   return (
     <div className="bracky-sidepanel" data-theme={theme}>
@@ -43,10 +60,18 @@ const BrackyPanel = ({ theme }) => {
         <div className="settings-buttons">
           <button className="transparent"><img src={Settings} alt="settings" id="click" /></button>
           <button className="transparent"><img src={Mic} alt="mic" id="click" /></button>
-          <button className="transparent"><img src={Download} alt="download" id="click" /></button>
+          {/* <button className="transparent"><img src={Download} alt="download" id="click" /></button> */}
+          <a className="transparent" onClick={toggleDownload} ref={ref} id="a" href="/#"><img src={Download} alt="download" id="click" /></a>
         </div>
       </div>
     </div>
   );
 };
-export default BrackyPanel;
+
+const mapStateToProps = (state) => ({
+  fileName: state.fileName,
+}
+);
+
+// export default BrackyPanel;
+export default connect(mapStateToProps)((BrackyPanel));
