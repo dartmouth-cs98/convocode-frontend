@@ -17,6 +17,7 @@ const BrackyPanel = ({ theme, code }) => {
   const toggleSidebar = () => {
     setOpen(open => !open);
   };
+const BrackyPanel = ({ theme, open }) => {
 
   const ref = useRef(null);
   const [initiateDownload, setInitiateDownload] = useState(false);
@@ -45,7 +46,7 @@ const BrackyPanel = ({ theme, code }) => {
         <form>
           <input type="search" className="submit" placeholder="Search ConvoDex" />
         </form>
-        <button className="transparent" onClick={toggleSidebar}><img src={Minimize} alt="minimize" id="click" /></button>
+        <button className="transparent" onClick={open}><img src={Minimize} alt="minimize" id="click" /></button>
       </div>
       <div className="chatbox">
         <div className="entry-text">
@@ -65,7 +66,6 @@ const BrackyPanel = ({ theme, code }) => {
         <div className="settings-buttons">
           <button className="transparent"><img src={Settings} alt="settings" id="click" /></button>
           <button className="transparent"><img src={Mic} alt="mic" id="click" /></button>
-          {/* <button className="transparent"><img src={Download} alt="download" id="click" /></button> */}
           <a className="transparent" onClick={toggleDownload} ref={ref} id="a" href="/#"><img src={Download} alt="download" id="click" /></a>
         </div>
       </div>

@@ -47,6 +47,29 @@
   justify-content: space-between;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
+  transition: width 0.3s ease-in-out;
+}
+
+.bracky-sidepanel-closed{
+  height: 94vh;
+  width: 5vw;
+  background-color: var(--boring);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  transition: width 0.3s ease-in-out;
+}
+
+.settings-buttons-closed{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.bracky-sidepanel-closed button{
+  padding: 8px;
 }
 
 .bracky-sidepanel[data-theme='dark']{
@@ -139,7 +162,7 @@ form{
 }
 
 input.submit {
-  width: 260px;
+  width: 16vw;
   display: block;
   border: none;
   padding: 9px 4px 9px 40px;
