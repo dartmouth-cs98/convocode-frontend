@@ -149,8 +149,8 @@ const EditorWindow = () => {
       <div className='editor-content'>
         {
           open ?
-            <BrackyPanel theme={theme} open={toggleSidebar} />
-            : <ClosedBrackyPanel theme={theme} open={toggleSidebar} />
+            <BrackyPanel theme={theme} open={toggleSidebar} code={code} />
+            : <ClosedBrackyPanel theme={theme} open={toggleSidebar} code={code} />
         }
         <div className="editor-container" style={open ? { width: '78vw' } : { width: '93vw' }}>
           <CodeEditor

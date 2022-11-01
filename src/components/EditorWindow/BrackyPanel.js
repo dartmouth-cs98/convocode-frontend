@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useRef, useLocation, useEffect } from "react"
 
 import './index.css'
 
@@ -10,7 +10,28 @@ import Download from '../../resources/download.png'
 
 
 
-const BrackyPanel = ({ theme, open }) => {
+const BrackyPanel = ({ theme, open, code }) => {
+
+  const ref = useRef(null);
+  const [initiateDownload, setInitiateDownload] = useState(false);
+
+  // getting file name from nav link props
+  const location = useLocation();
+  const filename = location.state.name;
+  const pyfilename = filename + '.py';
+
+  // downloading file
+  useEffect(() =>{
+    var a = ref.current;
+    a = document.getElementById("a");
+    var file = new Blob([code], {type: 'application/python'});
+    a.href = URL.createObjectURL(file);
+    a.download = pyfilename;
+  }, [pyfilename, code, initiateDownload]);
+
+  const toggleDownload = () =>{
+    setInitiateDownload(!initiateDownload);
+  }
 
   return (
     <div className="bracky-sidepanel" data-theme={theme}>
@@ -38,7 +59,7 @@ const BrackyPanel = ({ theme, open }) => {
         <div className="settings-buttons">
           <button className="transparent"><img src={Settings} alt="settings" id="click" /></button>
           <button className="transparent"><img src={Mic} alt="mic" id="click" /></button>
-          <button className="transparent"><img src={Download} alt="download" id="click" /></button>
+          <a className="transparent" onClick={toggleDownload} ref={ref} id="a" href="/#"><img src={Download} alt="download" id="click" /></a>
         </div>
       </div>
     </div>
