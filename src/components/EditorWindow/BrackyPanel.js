@@ -11,12 +11,14 @@ import Python from '../../resources/python.png'
 import X from '../../resources/x.png'
 import { useLocation } from "react-router"
 import MicRecorder from 'mic-recorder-to-mp3';
+import { connect } from 'react-redux';
+import { addSpeech } from "../../state/actions"
 import axios from 'axios';
 
 
 
-const BrackyPanel = ({ theme, open, code }) => {
-
+const BrackyPanel = (props, { theme, open, code }) => {
+  console.log(props);
   const ref = useRef(null);
   const [initiateDownload, setInitiateDownload] = useState(false);
   const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
@@ -88,6 +90,14 @@ const BrackyPanel = ({ theme, open, code }) => {
               data: formData,
             }).then((res) => {
               console.log(res.data);
+              props.addSpeech(res.data.res);
+              axios.post("http://localhost:8000/api/openai", 
+                {speech: res.data}).then((result) => {
+                
+                  console.log(result)
+
+              }).catch((err) => {console.log(err)});
+              
             }); 
           }).catch((e) => console.log(e));
   };
@@ -144,4 +154,9 @@ const BrackyPanel = ({ theme, open, code }) => {
     </div>
   );
 };
-export default BrackyPanel;
+
+const mapStateToProps = (reduxstate) => {
+  return {speech: reduxstate.speech};
+};
+
+export default connect(mapStateToProps, { addSpeech })(BrackyPanel);
