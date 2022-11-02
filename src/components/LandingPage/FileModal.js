@@ -33,7 +33,7 @@ const FileModal = (props) => {
       <button onClick={handleModalToggle}>
         Start Coding
       </button>
-      <div className="landing-modal">
+      <div>
         {  newFile ? (
           <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel = "ConvoCode">
           <div>
