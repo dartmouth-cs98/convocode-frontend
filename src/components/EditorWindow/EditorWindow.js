@@ -68,13 +68,27 @@ const EditorWindow = () => {
 
   function stop() {
     Mp3Recorder
-      .stop()
-      .getMp3()
-      .then(([buffer, blob]) => {
-        const blobURL = URL.createObjectURL(blob)
-        setBlobURL(blobURL);
-        setRecording(false);
-      }).catch((e) => console.err(e));
+          .stop()
+          .getMp3()
+          .then(([buffer, blob]) => {
+            // const blobURL = URL.createObjectURL(blob)
+            // setBlobURL(blobURL);
+            setRecording(false);
+            let file = new File([blob], 'chunk.wav');
+            console.log(file);
+            const formData = new FormData();
+            formData.append('file', file);
+            // const audioURL = window.URL.createObjectURL(blob);
+            // console.log(audioURL);
+            axios.request({
+              method: "POST",
+              url: "http://localhost:8000/api/recognize",
+              data: formData,
+            }).then((res) => {
+              console.log("hey");
+              console.log(res.data);
+            }); 
+          }).catch((e) => console.log(e));
   };
 
   function handleSpeakClick() {
@@ -88,56 +102,69 @@ const EditorWindow = () => {
     }
   };
 
-
   // Function to call the compile endpoint
   function submitCode() {
     setProcessing(true)
-
+    
     // reset output if it exists
     if (outputDetails) {
-      setOutputDetails(null)
+        setOutputDetails(null)
     }
-
+    
     if (code === ``) {
-      return
+    return
     }
 
     // Post request to compile endpoint
-    axios.post(`http://localhost:8000/api/judge_submit`, {
-      source_code: code, customInput: customInput
-    }).then((res) => {
-      console.log(`id of compiling: ${res.data.token}`);
-      checkStatus(res.data);
-    }).catch((err) => {
-      let error = err.response ? err.response.data : err;
-      setProcessing(false);
-      console.err(error);
+    axios.post(`http://localhost:8000/api/compiler`, {
+        source_code: code, customInput: customInput}).then((res) => {
+            console.log("here");
+            console.log(res);
+            console.log(`id of compiling: ${res.data.token}`);
+            checkStatus(res.data);
+        }).catch((err) => {
+            let error = err.response ? err.response.data : err;
+            setProcessing(false);
+            console.log(error);
     })
   }
-
+  
   const checkStatus = async (id) => {
+    console.log("here");
+    // Get request to compile endpoint
+    console.log(id);
+
     try {
-      let response = await axios.request(`http://localhost:8000/api/compile_judge/${id.token}`);
-      let status = response.status;
-      if (status === 201) {
-        setTimeout(() => {
-          checkStatus(id)
-        }, 2000)
-        return
-      } else {
-        setProcessing(false);
-        if (response.data.status === 3) {
-          setOutputDetails(response.data.stdout);
+        let response = await axios.request(`http://localhost:8000/api/compiler/${id.token}`);
+        console.log(response.data);
+        let status = response.status;
+        console.log(status)
+        // Processed - we have a result
+        if (status === 201) {
+            // still processing
+            console.log('still processing');
+            setTimeout(() => {
+            checkStatus(id)
+          }, 2000)
+            return
         } else {
-          setOutputDetails(response.data.description + ":" + response.data.stderr);
+            setProcessing(false);  
+            console.log(response);
+            if (response.data.status === 3) {
+                console.log(response.data.description);
+                setOutputDetails(response.data.stdout);
+            } else {
+                setOutputDetails(response.data.description + ":" + response.data.stderr);
+            }
+            
+            return
         }
-        return
+      } catch (err) {
+        console.log("err", err);
+        setProcessing(false);
+        //showErrorToast();
       }
-    } catch (err) {
-      console.err(err);
-      setProcessing(false);
-    }
-  }
+}
 
 
 
