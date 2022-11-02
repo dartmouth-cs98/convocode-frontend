@@ -11,7 +11,8 @@
   --floating-dc: var(--unicorn);
   --floating-sa: #1ABCFE;
 }
-.docu-section{ 
+
+.docu-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,78 +20,91 @@
   padding-right: 100px;
   padding-left: 100px;
 }
+
 .docu-section h1 {
   padding-top: 25px;
   padding-bottom: 25px;
 }
+
 .docu-section p {
   padding-bottom: 30px;
 }
-.convo-dex{
+
+.convo-dex {
   padding-right: 100px;
   padding-left: 100px;
   padding-bottom: 50px;
 }
-.table{
+
+.table {
   color: var(--accent);
   text-align: left;
   width: 100%;
   border-collapse: collapse;
 }
-th{
+
+th {
   background: var(--sky);
   padding: 20px;
 }
-td{
+
+td {
   height: 5vw;
   padding-top: 10px;
-  padding-bottom:10px;
+  padding-bottom: 10px;
   padding-left: 20px;
   padding-right: 20px;
   font-family: Inter, sans-serif;
   font-weight: normal;
   font-size: 16px;
 }
-.row-title{
+
+.row-title {
   font-family: Inter, sans-serif;
   font-weight: semi-bold;
   font-size: 22px;
 }
-.row-grey{
+
+.row-grey {
   background: #EFF2F2;
 }
-.tutorial-section{
+
+.tutorial-section {
   color: var(--accent);
   padding-left: 100px;
   padding-right: 100px;
 }
-.Grid{
+
+.Grid {
   padding-top: 25px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
-.video p{
+
+.video p {
   padding-top: 5px;
   padding-bottom: 25px;
 }
-iframe{
+
+iframe {
   width: 500px;
   height: 300px;
 }
-.video{
+
+.video {
   text-align: center;
 }
-.brackey-section{
+
+.brackey-section {
   padding-left: 100px;
   padding-right: 100px;
   padding-top: 25px;
   padding-bottom: 50px;
   color: var(--accent);
 }
-.brackey-section p{
+
+.brackey-section p {
   padding-top: 25px;
 }
-
-

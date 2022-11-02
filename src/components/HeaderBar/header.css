@@ -10,7 +10,7 @@
   align-items: center;
 }
 
-.header-bar h1{
+.header-bar h1 {
   color: var(--text-primary);
   font-weight: 500;
   font-size: 24px;
@@ -18,19 +18,19 @@
   padding-left: 21px;
 }
 
-.header-buttons{
+.header-buttons {
   right: 0px;
   gap: 40px;
   padding-right: 21px;
 }
 
-button#documentation{
+button#documentation {
   background-color: transparent;
   box-shadow: none;
   color: var(--text-primary)
 }
 
-button#IDE{
+button#IDE {
   background-color: var(--grape);
   color: var(--white);
 }
