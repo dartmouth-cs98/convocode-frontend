@@ -88,6 +88,12 @@ export const EditorWindow = () => {
             }).then((res) => {
               console.log("hey");
               console.log(res.data);
+              axios.post("http://localhost:8000/api/openai", 
+                {speech: res.data}).then((result) => {
+                console.log(result)
+                
+              }).catch((err) => {console.log(err)});
+                
             }); 
           }).catch((e) => console.log(e));
       };
