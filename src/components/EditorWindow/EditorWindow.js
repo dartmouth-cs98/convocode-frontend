@@ -1,11 +1,12 @@
 // RECORDER: https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CodeEditor from './CodeEditor';
 import Speak from './Speak';
 import BrackyPanel from './BrackyPanel';
 import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
+import { useLocation } from "react-router"
 
 import axios from 'axios';
 import MicRecorder from 'mic-recorder-to-mp3';
@@ -13,7 +14,6 @@ import MicRecorder from 'mic-recorder-to-mp3';
 import './index.css'
 
 const EditorWindow = () => {
-  const pythonDefault = `# Python Editor`;
 
   const onChange = (action, data) => {
     switch (action) {
@@ -26,6 +26,9 @@ const EditorWindow = () => {
       }
     }
   };
+
+  // getting code from nav link props
+  const location = useLocation();
   const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
   const [recording, setRecording] = useState(false);
   const [blocked, setBlocked] = useState(false);
@@ -35,7 +38,7 @@ const EditorWindow = () => {
   const [processing, setProcessing] = useState(null);
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
-  const [code, setCode] = useState(pythonDefault);
+  const [code, setCode] = useState(location.state.content);
   const [open, setOpen] = useState(true);
 
   const toggleSidebar = () => {

@@ -17,8 +17,8 @@ const ClosedBrackyPanel = ({ theme, open, code }) => {
 
   // getting file name from nav link props
   const location = useLocation();
-  const filename = location.state.name;
-  const pyfilename = filename + '.py';
+  const pyfilename = location.state.name;
+  // const pyfilename = filename + '.py';
 
   // downloading file
   useEffect(() =>{
