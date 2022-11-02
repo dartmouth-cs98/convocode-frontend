@@ -49,34 +49,40 @@ const LandingPage = () => {
         <h1>Meet Our Team</h1>
           <div className="member-content">
             <div className="team-member">
+              <img alt="Annie Headshot" />
               <h4 id="" data-theme={theme}><strong>Annie Revers</strong></h4>
               <p>Boston, MA | she/her</p>
               <p>Computer Science + Art History Double Major Double Major</p>
             </div>
             <div className="team-member">
+              <img alt="Abby Headshot" />
               <h4 id="" data-theme={theme}><strong>Abby Owen</strong></h4>
               <p>Larchmont, NY | she/her</p>
               <p>Computer Science Major English Minor</p>
             </div>
             <div className="team-member">
+              <img alt="Dylan Headshot" />
               <h4 id="" data-theme={theme}><strong>Dylan Bienstock</strong></h4>
               <p>Santa Barbara, CA | he/him</p>
               <p>Computer Science Major Engineering Sciences Minor</p>
             </div>
             <div className="team-member">
+              <img alt="Lily Headshot" />
               <h4 id="" data-theme={theme}><strong>Lily Maechling</strong></h4>
               <p>Passadena, CA | she/her</p>
               <p>Computer Science + Economics Double Major</p>
             </div>
             <div className="team-member">
+            <img alt="Melissa Headshot" />
               <h4 id="" data-theme={theme}><strong>Melissa Valencia</strong></h4>
               <p>East Los Angeles, CA | she/her</p>
-              <p>CComputer Science Major Human-Centered Design + Spanish Double Minor</p>
+              <p>Computer Science Major Human-Centered Design + Spanish Double Minor</p>
             </div>
             <div className="team-member">
+              <img alt="Will Headshot" />
               <h4 id="" data-theme={theme}><strong>Will Perez</strong></h4>
               <p>East Los Angeles, CA | she/her</p>
-              <p>CComputer Science Major Human-Centered Design + Spanish Double Minor</p>
+              <p>Computer Science Major Human-Centered Design + Spanish Double Minor</p>
             </div>
           </div>
       </div>
