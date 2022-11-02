@@ -32,12 +32,6 @@ const FileModal = (props) => {
       <button onClick={handleModalToggle}>
         Start Coding
       </button>
-      <div>
-        {  newFile ? (
-          <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel = "ConvoCode">
-          <div>
-            <div className="modal-input">
-              <p>New File Name</p> 
       <div className="landing-modal">
         {newFile ? (
           <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode">

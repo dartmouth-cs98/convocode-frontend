@@ -15,19 +15,7 @@ const UploadFile = () => {
     setModalShow(!modalShow);
   }
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-    setIsFileChosen(true);
-
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsText(file);
-    reader.onload = () => {
-      setFileName(file.name);
-      setFileContent(reader.result);
-    }
-
-    const handleFileChange = (event) =>{
+  const handleFileChange = (event) =>{
         setSelectedFile(event.target.files[0]);
         setIsFileChosen(true);
 
@@ -73,39 +61,10 @@ const UploadFile = () => {
                     <button id="select-cancel" className="cancel-button" onClick={handleModalToggle}>Cancel</button>
                 </div>
                 )}
-
-    reader.onerror = () => {
-      console.log("file error", reader.error)
-    }
-  };
-
-  const handleUploadFile = () => {
-    setIsFileChosen(true);
-  };
-
-  return (
-    <div>
-      <button onClick={handleModalToggle}>
-        Upload Python File
-      </button>
-      <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode">
-        <div className='landing-modal'>
-          <input type="file" name="file" onChange={handleFileChange}></input>
-          {isFileChosen ? (
-            <div>
-              <p>Filename: {selectedFile.name}</p>
-              <div className="create-buttons">
-                <button className="cancel-button" onClick={handleModalToggle}>Cancel</button>
-                <NavLink to="/editor" state={{ name: fileName, content: fileContent }}><button id="create" onClick={handleUploadFile}>Upload</button></NavLink>
-              </div>
             </div>
-          ) : (
-            <p>Select a python file.</p>
-          )}
-        </div>
-      </ReactModal>
-    </div>
-  )
+            </ReactModal>
+            </div>
+          )
 };
 
 export default UploadFile;
