@@ -5,19 +5,20 @@
   margin: 0;
   padding: 0;
 
-  --black: #242727; 
-  --white: #FCFFFF; 
-  --easyA: #F76666; 
-  --grape: #8733DA; 
-  --sky: #62CCEE; 
+  --black: #242727;
+  --white: #FCFFFF;
+  --easyA: #F76666;
+  --grape: #8733DA;
+  --sky: #62CCEE;
   --sage: #2FBE87;
   --bus: #F7CE66;
   --pumpkinSpice: #F79166;
-  --unicorn: #EF6ED3; 
-  --boring: #EFF2F2; 
+  --unicorn: #EF6ED3;
+  --boring: #EFF2F2;
 }
 
-html,body {
+html,
+body {
   font-family: 'Inter';
   font-weight: normal;
   color: #212122;
@@ -77,33 +78,32 @@ button.transparent {
   margin: 0;
 }
 
-h1{ 
+h1 {
   font-family: Inter, sans-serif;
   font-weight: medium;
   font-size: 48px;
 }
 
-h2{ 
+h2 {
   font-family: Inter, sans-serif;
   font-weight: medium;
   font-size: 32px;
 }
 
-h3{
+h3 {
   font-family: Inter, sans-serif;
   font-weight: semi-bold;
   font-size: 32px;
 }
 
-p{
+p {
   font-family: Inter, sans-serif;
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 20px;
 }
 
-caption{ 
-  font-family: Source Sans Pro, sans-serif; 
+caption {
+  font-family: Source Sans Pro, sans-serif;
   font-size: 16px;
 }
-
