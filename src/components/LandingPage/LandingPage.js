@@ -81,8 +81,8 @@ const LandingPage = () => {
             <div className="team-member">
               <img alt="Will Headshot" />
               <h4 id="" data-theme={theme}><strong>Will Perez</strong></h4>
-              <p>East Los Angeles, CA | she/her</p>
-              <p>Computer Science Major Human-Centered Design + Spanish Double Minor</p>
+              <p>Orange County, CA | he/him</p>
+              <p>Computer Science Major modified with Human-Centered Design and Latin American Studies Minor</p>
             </div>
           </div>
       </div>
