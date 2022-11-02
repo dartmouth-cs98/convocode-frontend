@@ -8,7 +8,6 @@ import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
 
 import axios from 'axios';
-import MicRecorder from 'mic-recorder-to-mp3';
 
 import './index.css'
 
@@ -26,11 +25,7 @@ const EditorWindow = () => {
       }
     }
   };
-  const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
-  const [recording, setRecording] = useState(false);
-  const [blocked, setBlocked] = useState(false);
-  const [blobURL, setBlobURL] = useState("");
-  const [speakText, setSpeakText] = useState("SPEAK");
+  
   const [theme, setTheme] = useState("light");
   const [processing, setProcessing] = useState(null);
   const [customInput, setCustomInput] = useState("");
@@ -42,66 +37,7 @@ const EditorWindow = () => {
     setOpen(open => !open);
   };
 
-  navigator.getUserMedia({ audio: true },
-    () => {
-      console.log('Permission Granted');
-      setBlocked(false);
-    },
-    () => {
-      console.log('Permission Denied');
-      setBlocked(true);
-    },
-  );
-
-
-  function start() {
-    if (blocked) {
-      console.log('Permission Denied');
-    } else {
-      Mp3Recorder
-        .start()
-        .then(() => {
-          setRecording(true);
-        }).catch((e) => console.error(e));
-    }
-  };
-
-  function stop() {
-    Mp3Recorder
-          .stop()
-          .getMp3()
-          .then(([buffer, blob]) => {
-            // const blobURL = URL.createObjectURL(blob)
-            // setBlobURL(blobURL);
-            setRecording(false);
-            let file = new File([blob], 'chunk.wav');
-            console.log(file);
-            const formData = new FormData();
-            formData.append('file', file);
-            // const audioURL = window.URL.createObjectURL(blob);
-            // console.log(audioURL);
-            axios.request({
-              method: "POST",
-              url: "http://localhost:8000/api/recognize",
-              data: formData,
-            }).then((res) => {
-              console.log("hey");
-              console.log(res.data);
-            }); 
-          }).catch((e) => console.log(e));
-  };
-
-  function handleSpeakClick() {
-    if (speakText === "SPEAK") {
-      setSpeakText("STOP");
-      start();
-    } else {
-      setSpeakText("SPEAK");
-      stop();
-      console.log(blobURL);
-    }
-  };
-
+  
   // Function to call the compile endpoint
   function submitCode() {
     setProcessing(true)

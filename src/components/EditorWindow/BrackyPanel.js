@@ -10,6 +10,8 @@ import Download from '../../resources/download.png'
 import Python from '../../resources/python.png'
 import X from '../../resources/x.png'
 import { useLocation } from "react-router"
+import MicRecorder from 'mic-recorder-to-mp3';
+import axios from 'axios';
 
 
 
@@ -17,6 +19,11 @@ const BrackyPanel = ({ theme, open, code }) => {
 
   const ref = useRef(null);
   const [initiateDownload, setInitiateDownload] = useState(false);
+  const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
+  const [recording, setRecording] = useState(false);
+  const [blocked, setBlocked] = useState(false);
+  const [blobURL, setBlobURL] = useState("");
+  const [speakText, setSpeakText] = useState("SPEAK");
 
   // getting file name from nav link props
   const location = useLocation();
@@ -36,6 +43,65 @@ const BrackyPanel = ({ theme, open, code }) => {
   const toggleDownload = () => {
     setInitiateDownload(!initiateDownload);
   }
+
+  navigator.getUserMedia({ audio: true },
+    () => {
+      console.log('Permission Granted');
+      setBlocked(false);
+    },
+    () => {
+      console.log('Permission Denied');
+      setBlocked(true);
+    },
+  );
+
+
+  function start() {
+    if (blocked) {
+      console.log('Permission Denied');
+    } else {
+      Mp3Recorder
+        .start()
+        .then(() => {
+          setRecording(true);
+        }).catch((e) => console.error(e));
+    }
+  };
+
+  function stop() {
+    Mp3Recorder
+          .stop()
+          .getMp3()
+          .then(([buffer, blob]) => {
+            // const blobURL = URL.createObjectURL(blob)
+            // setBlobURL(blobURL);
+            setRecording(false);
+            let file = new File([blob], 'chunk.wav');
+            console.log(file);
+            const formData = new FormData();
+            formData.append('file', file);
+            // const audioURL = window.URL.createObjectURL(blob);
+            // console.log(audioURL);
+            axios.request({
+              method: "POST",
+              url: "http://localhost:8000/api/recognize",
+              data: formData,
+            }).then((res) => {
+              console.log(res.data);
+            }); 
+          }).catch((e) => console.log(e));
+  };
+
+  function handleSpeakClick() {
+    if (speakText === "SPEAK") {
+      setSpeakText("STOP");
+      start();
+    } else {
+      setSpeakText("SPEAK");
+      stop();
+      console.log(blobURL);
+    }
+  };
 
   return (
     <div className="sidepanel-container">
@@ -70,7 +136,7 @@ const BrackyPanel = ({ theme, open, code }) => {
           </div>
           <div className="settings-buttons">
             <button className="transparent"><img src={Settings} alt="settings" id="click" /></button>
-            <button className="transparent"><img src={Mic} alt="mic" id="click" /></button>
+            <button className="transparent" onClick={handleSpeakClick}><img src={Mic} alt="mic" id="click" /></button>
             <a className="transparent" onClick={toggleDownload} ref={ref} id="a" href="/#"><img src={Download} alt="download" id="click" /></a>
           </div>
         </div>
