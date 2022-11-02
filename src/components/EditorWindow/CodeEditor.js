@@ -1,7 +1,7 @@
 // BASED OFF OF: https://www.freecodecamp.org/news/how-to-build-react-based-code-editor/
 // monaco-editor package for Editor component
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Editor from "@monaco-editor/react";
 
 import './index.css'
@@ -13,7 +13,6 @@ const CodeEditor = ({ onChange, language, code, theme }) => {
     setValue(value);
     onChange("code", value);
   };
-
 
   return (
     <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">

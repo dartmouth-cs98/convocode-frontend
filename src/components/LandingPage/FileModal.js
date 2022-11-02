@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import { createFileName } from '../../state/actions/fileManagement';
+import UploadFile from "./UploadFile";
 
 import './file-modal.css';
 import { scryRenderedComponentsWithType } from "react-dom/test-utils";
@@ -45,7 +46,8 @@ const FileModal = (props) => {
             </div>
             <div className="create-buttons">
               <button className="cancel-button" onClick={handleModalToggle}>Cancel</button>
-              <NavLink to="/editor" state= {{name:fileName}}><button id="create" onClick={handleCreateFile}>Create</button></NavLink>            </div>
+              <NavLink to="/editor" state={{name:fileName + '.py'}}><button id="create" onClick={handleCreateFile}>Create</button></NavLink>            
+            </div>
           </div>
           </ReactModal> 
           ):
@@ -55,7 +57,7 @@ const FileModal = (props) => {
             <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
             <div className="modal-buttons" data-theme={theme}>
               <button onClick={handleNewFile}>Create New Python File </button> 
-              <button>Upload Python File </button> 
+              <UploadFile/>
             </div>
           </div>
           </ReactModal>)
