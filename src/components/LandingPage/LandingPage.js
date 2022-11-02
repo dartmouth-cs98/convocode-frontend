@@ -52,7 +52,7 @@ const LandingPage = () => {
               <img alt="Annie Headshot" />
               <h4 id="" data-theme={theme}><strong>Annie Revers</strong></h4>
               <p>Boston, MA | she/her</p>
-              <p>Computer Science + Art History Double Major Double Major</p>
+              <p>Computer Science + Art History Double Major</p>
             </div>
             <div className="team-member">
               <img alt="Abby Headshot" />
@@ -69,7 +69,7 @@ const LandingPage = () => {
             <div className="team-member">
               <img alt="Lily Headshot" />
               <h4 id="" data-theme={theme}><strong>Lily Maechling</strong></h4>
-              <p>Passadena, CA | she/her</p>
+              <p>Pasadena, CA | she/her</p>
               <p>Computer Science + Economics Double Major</p>
             </div>
             <div className="team-member">
