@@ -1,9 +1,6 @@
-# Project Name
+# ConvoCode
+![Team Picture](https://user-images.githubusercontent.com/62563421/199367865-a1d44103-8311-42e3-95ec-24a7b44391c6.jpeg)
 
-![Team Photo](Insert a Team Photo URL here)
-[*how?*](https://help.github.com/articles/about-readmes/#relative-links-and-image-paths-in-readme-files)
-
-TODO: short project description, some sample screenshots or mockups
 
 ConvoCode is a web-based python IDE converting speech to code using existing APIs. View our mockups below.
 
