@@ -1,8 +1,7 @@
 // RECORDER: https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
-import Speak from './Speak';
 import BrackyPanel from './BrackyPanel';
 import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
@@ -71,27 +70,23 @@ const EditorWindow = () => {
 
   function stop() {
     Mp3Recorder
-          .stop()
-          .getMp3()
-          .then(([buffer, blob]) => {
-            // const blobURL = URL.createObjectURL(blob)
-            // setBlobURL(blobURL);
-            setRecording(false);
-            let file = new File([blob], 'chunk.wav');
-            console.log(file);
-            const formData = new FormData();
-            formData.append('file', file);
-            // const audioURL = window.URL.createObjectURL(blob);
-            // console.log(audioURL);
-            axios.request({
-              method: "POST",
-              url: "http://localhost:8000/api/recognize",
-              data: formData,
-            }).then((res) => {
-              console.log("hey");
-              console.log(res.data);
-            }); 
-          }).catch((e) => console.log(e));
+      .stop()
+      .getMp3()
+      .then(([blob]) => {
+        setRecording(false);
+        let file = new File([blob], 'chunk.wav');
+        console.log(file);
+        const formData = new FormData();
+        formData.append('file', file);
+        axios.request({
+          method: "POST",
+          url: "http://localhost:8000/api/recognize",
+          data: formData,
+        }).then((res) => {
+          console.log("hey");
+          console.log(res.data);
+        });
+      }).catch((e) => console.log(e));
   };
 
   function handleSpeakClick() {
@@ -108,66 +103,67 @@ const EditorWindow = () => {
   // Function to call the compile endpoint
   function submitCode() {
     setProcessing(true)
-    
+
     // reset output if it exists
     if (outputDetails) {
-        setOutputDetails(null)
+      setOutputDetails(null)
     }
-    
+
     if (code === ``) {
-    return
+      return
     }
 
     // Post request to compile endpoint
     axios.post(`http://localhost:8000/api/compiler`, {
-        source_code: code, customInput: customInput}).then((res) => {
-            console.log("here");
-            console.log(res);
-            console.log(`id of compiling: ${res.data.token}`);
-            checkStatus(res.data);
-        }).catch((err) => {
-            let error = err.response ? err.response.data : err;
-            setProcessing(false);
-            console.log(error);
+      source_code: code, customInput: customInput
+    }).then((res) => {
+      console.log("here");
+      console.log(res);
+      console.log(`id of compiling: ${res.data.token}`);
+      checkStatus(res.data);
+    }).catch((err) => {
+      let error = err.response ? err.response.data : err;
+      setProcessing(false);
+      console.log(error);
     })
   }
-  
+
   const checkStatus = async (id) => {
     console.log("here");
     // Get request to compile endpoint
     console.log(id);
 
     try {
-        let response = await axios.request(`http://localhost:8000/api/compiler/${id.token}`);
-        console.log(response.data);
-        let status = response.status;
-        console.log(status)
-        // Processed - we have a result
-        if (status === 201) {
-            // still processing
-            console.log('still processing');
-            setTimeout(() => {
-            checkStatus(id)
-          }, 2000)
-            return
-        } else {
-            setProcessing(false);  
-            console.log(response);
-            if (response.data.status === 3) {
-                console.log(response.data.description);
-                setOutputDetails(response.data.stdout);
-            } else {
-                setOutputDetails(response.data.description + ":" + response.data.stderr);
-            }
-            
-            return
-        }
-      } catch (err) {
-        console.log("err", err);
+      let response = await axios.request(`http://localhost:8000/api/compiler/${id.token}`);
+      console.log(response.data);
+      let status = response.status;
+      console.log(status)
+      // Processed - we have a result
+      if (status === 201) {
+        // still processing
+        console.log('still processing');
+        setTimeout(() => {
+          checkStatus(id)
+        }, 2000)
+        return
+      } else {
         setProcessing(false);
-        //showErrorToast();
+        console.log(response);
+        if (response.data.status === 3) {
+          console.log(response.data.description);
+          setOutputDetails(response.data.stdout);
+        } else {
+          setOutputDetails(response.data.description + ":" + response.data.stderr);
+        }
+
+        return
       }
-}
+    } catch (err) {
+      console.log("err", err);
+      setProcessing(false);
+      //showErrorToast();
+    }
+  }
 
 
 

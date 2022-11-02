@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react"
+import { useLocation } from "react-router"
 
-import './index.css'
 
 import Bracky from '../../resources/bracky.png'
 import Minimize from '../../resources/minimize-light.png'
@@ -9,8 +9,8 @@ import Settings from '../../resources/settings.png'
 import Download from '../../resources/download.png'
 import Python from '../../resources/python.png'
 import X from '../../resources/x.png'
-import { useLocation } from "react-router"
 
+import './index.css'
 
 
 const BrackyPanel = ({ theme, open, code }) => {
@@ -21,8 +21,6 @@ const BrackyPanel = ({ theme, open, code }) => {
   // getting file name from nav link props
   const location = useLocation();
   const pyfilename = location.state.name;
-
-  // const pyfilename = filename + '.py';
 
   // downloading file
   useEffect(() => {
@@ -62,10 +60,10 @@ const BrackyPanel = ({ theme, open, code }) => {
         <div className="sidepanel-footer">
           <div className="mode-settings">
             <div className="toggle-buttons">
-              <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" checked />
-              <label for="toggle-on" class="btn">Voice</label>
-              <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio" />
-              <label for="toggle-off" class="btn">Text</label>
+              <input id="toggle-on" className="toggle toggle-left" name="toggle" value="false" type="radio" defaultChecked />
+              <label htmlFor="toggle-on" className="btn">Voice</label>
+              <input id="toggle-off" className="toggle toggle-right" name="toggle" value="true" type="radio" />
+              <label htmlFor="toggle-off" className="btn">Text</label>
             </div>
           </div>
           <div className="settings-buttons">
