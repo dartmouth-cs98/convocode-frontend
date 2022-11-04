@@ -13,12 +13,13 @@ import { useLocation } from "react-router"
 import MicRecorder from 'mic-recorder-to-mp3';
 import { connect } from 'react-redux';
 import { addSpeech } from "../../state/actions"
+import { addCode } from "../../state/actions"
 import axios from 'axios';
 
 
 
 const BrackyPanel = (props, { theme, open, code }) => {
-  console.log(props);
+
   const ref = useRef(null);
   const [initiateDownload, setInitiateDownload] = useState(false);
   const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
@@ -86,17 +87,14 @@ const BrackyPanel = (props, { theme, open, code }) => {
             // console.log(audioURL);
             axios.request({
               method: "POST",
-              url: "http://localhost:8000/api/recognize",
+              url: "http://localhost:8000/api/voicetocode",
               data: formData,
             }).then((res) => {
-              console.log(res.data);
-              props.addSpeech(res.data.res);
-              axios.post("http://localhost:8000/api/openai", 
-                {speech: res.data}).then((result) => {
-                
-                  console.log(result)
-
-              }).catch((err) => {console.log(err)});
+              console.log(res);
+              console.log(res.data.code);
+              console.log(res.data.text);
+              props.addSpeech(res.data.text);
+              props.addCode(res.data.code);
               
             }); 
           }).catch((e) => console.log(e));
@@ -138,10 +136,10 @@ const BrackyPanel = (props, { theme, open, code }) => {
         <div className="sidepanel-footer">
           <div className="mode-settings">
             <div className="toggle-buttons">
-              <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" checked />
-              <label for="toggle-on" class="btn">Voice</label>
-              <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio" />
-              <label for="toggle-off" class="btn">Text</label>
+              <input id="toggle-on" className="toggle toggle-left" name="toggle" value="false" type="radio" checked />
+              <label for="toggle-on" className="btn">Voice</label>
+              <input id="toggle-off" className="toggle toggle-right" name="toggle" value="true" type="radio" />
+              <label for="toggle-off" className="btn">Text</label>
             </div>
           </div>
           <div className="settings-buttons">
@@ -159,4 +157,4 @@ const mapStateToProps = (reduxstate) => {
   return {speech: reduxstate.speech};
 };
 
-export default connect(mapStateToProps, { addSpeech })(BrackyPanel);
+export default connect(mapStateToProps, { addSpeech, addCode })(BrackyPanel);

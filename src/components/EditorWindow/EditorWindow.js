@@ -6,18 +6,20 @@ import Speak from './Speak';
 import BrackyPanel from './BrackyPanel';
 import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
+import { connect } from 'react-redux';
+import { addCode } from '../../state/actions';
 
 import axios from 'axios';
 
 import './index.css'
 
-const EditorWindow = () => {
+const EditorWindow = (props) => {
   const pythonDefault = `# Python Editor`;
 
   const onChange = (action, data) => {
     switch (action) {
       case "code": {
-        setCode(data);
+        setCode(data + props.code);
         break;
       }
       default: {
@@ -129,4 +131,10 @@ const EditorWindow = () => {
     </div >
   );
 };
-export default EditorWindow;
+
+const mapStateToProps = (reduxstate) => {
+  return {code: reduxstate.code};
+};
+
+
+export default connect(mapStateToProps, {addCode}) (EditorWindow);

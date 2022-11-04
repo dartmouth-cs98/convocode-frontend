@@ -13,10 +13,16 @@ import {
   addSpeech,
 } from './voice';
 
+import {
+  ActionTypes as codeActionTypes,
+  addCode,
+} from './code';
+
 const ActionTypes = {
   ...modeActionTypes,
   ...fileActionTypes,
   ...voiceActionTypes,
+  ...codeActionTypes,
 };
 
 export {
@@ -24,4 +30,5 @@ export {
   toggleViewMode,
   createFileName,
   addSpeech,
+  addCode,
 }
