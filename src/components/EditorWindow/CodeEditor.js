@@ -19,9 +19,9 @@ const CodeEditor = ({ onChange, language, code, theme, props }) => {
 
   // 
   useEffect(() => {
-    console.log(props.code.string);
+    console.log(props.code.string.input);
     handleEditorChange(value + props.code.string.input);
-}, [props.code.string]);
+}, [props.code.string.input]);
 
 
   return (
