@@ -33,8 +33,10 @@ const EditorWindow = (props) => {
   };
 
   useEffect(() => {
-    onChange("code", props.code.string.input);
-}, [props.code.string]);
+    if (props.code) {
+      onChange("code", props.code);
+    }
+}, [props.code]);
 
  
   // getting code from nav link props

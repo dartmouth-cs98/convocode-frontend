@@ -20,7 +20,6 @@ import './index.css'
 
 
 const BrackyPanel = (props, { theme, open, code }) => {
-
   const ref = useRef(null);
   const [initiateDownload, setInitiateDownload] = useState(false);
   const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
