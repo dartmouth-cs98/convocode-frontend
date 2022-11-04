@@ -21,9 +21,7 @@ const EditorWindow = (props) => {
       case "code": {
         console.log("changing");
         if (data) {
-          console.log(data);
           setCode(data);
-          console.log(code);
         }
         
         break;
@@ -45,7 +43,7 @@ const EditorWindow = (props) => {
   const [processing, setProcessing] = useState(null);
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
-  const [code, setCode] = useState(location.state.content);
+  const [code, setCode] = useState(pythonDefault);
   const [open, setOpen] = useState(true);
 
   const toggleSidebar = () => {
