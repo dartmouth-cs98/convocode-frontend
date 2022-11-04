@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react"
 
-import './index.css'
 
 import Maximize from '../../resources/maximize-light.png'
 import MicClosed from '../../resources/mic-closed.png'
@@ -8,6 +7,7 @@ import SettingsClosed from '../../resources/settings-closed.png'
 import DownloadClosed from '../../resources/download-closed.png'
 import { useLocation } from "react-router"
 
+import './index.css'
 
 
 const ClosedBrackyPanel = ({ theme, open, code }) => {
@@ -17,19 +17,18 @@ const ClosedBrackyPanel = ({ theme, open, code }) => {
 
   // getting file name from nav link props
   const location = useLocation();
-  const filename = location.state.name;
-  const pyfilename = filename + '.py';
+  const pyfilename = location.state.name;
 
   // downloading file
-  useEffect(() =>{
+  useEffect(() => {
     var a = ref.current;
     a = document.getElementById("a");
-    var file = new Blob([code], {type: 'application/python'});
+    var file = new Blob([code], { type: 'application/python' });
     a.href = URL.createObjectURL(file);
     a.download = pyfilename;
   }, [pyfilename, code, initiateDownload]);
 
-  const toggleDownload = () =>{
+  const toggleDownload = () => {
     setInitiateDownload(!initiateDownload);
   }
 

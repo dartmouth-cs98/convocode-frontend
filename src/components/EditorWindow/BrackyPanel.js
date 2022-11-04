@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react"
+import { useLocation } from "react-router"
 
-import './index.css'
 
 import Bracky from '../../resources/bracky.png'
 import Minimize from '../../resources/minimize-light.png'
@@ -17,6 +17,8 @@ import { addCode } from "../../state/actions"
 import axios from 'axios';
 
 
+import './index.css'
+
 
 const BrackyPanel = (props, { theme, open, code }) => {
 
@@ -30,9 +32,7 @@ const BrackyPanel = (props, { theme, open, code }) => {
 
   // getting file name from nav link props
   const location = useLocation();
-  const filename = location.state.name;
-
-  const pyfilename = filename + '.py';
+  const pyfilename = location.state.name;
 
   // downloading file
   useEffect(() => {
@@ -141,6 +141,10 @@ const BrackyPanel = (props, { theme, open, code }) => {
               <label for="toggle-on" className="btn">Voice</label>
               <input id="toggle-off" className="toggle toggle-right" name="toggle" value="true" type="radio" />
               <label for="toggle-off" className="btn">Text</label>
+              <input id="toggle-on" className="toggle toggle-left" name="toggle" value="false" type="radio" defaultChecked />
+              <label htmlFor="toggle-on" className="btn">Voice</label>
+              <input id="toggle-off" className="toggle toggle-right" name="toggle" value="true" type="radio" />
+              <label htmlFor="toggle-off" className="btn">Text</label>
             </div>
           </div>
           <div className="settings-buttons">
