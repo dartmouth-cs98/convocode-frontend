@@ -11,7 +11,7 @@ const HeaderBar = () => {
       <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
       <div className='header-buttons' data-theme={theme} >
         <NavLink to="/documentation"><button id="documentation" data-theme={theme}>Documentation</button></NavLink>
-        <NavLink to="/editor" state={{ name: "newfile.py" }}><button id="IDE">Open IDE</button></NavLink>
+        <NavLink to="/editor" state={{ name: "newfile.py"}}><button id="IDE">Open IDE</button></NavLink>
       </div>
     </div>
   );
