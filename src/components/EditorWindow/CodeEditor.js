@@ -2,7 +2,6 @@
 // monaco-editor package for Editor component
 
 import React, { useState, useEffect } from "react";
-import React, { useEffect, useState } from "react";
 import Editor from "@monaco-editor/react";
 
 import './index.css'

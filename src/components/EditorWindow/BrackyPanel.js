@@ -9,7 +9,6 @@ import Settings from '../../resources/settings.png'
 import Download from '../../resources/download.png'
 import Python from '../../resources/python.png'
 import X from '../../resources/x.png'
-import { useLocation } from "react-router"
 import MicRecorder from 'mic-recorder-to-mp3';
 import { connect } from 'react-redux';
 import { addSpeech } from "../../state/actions"
@@ -141,10 +140,6 @@ const BrackyPanel = (props, { theme, open, code }) => {
               <label for="toggle-on" className="btn">Voice</label>
               <input id="toggle-off" className="toggle toggle-right" name="toggle" value="true" type="radio" />
               <label for="toggle-off" className="btn">Text</label>
-              <input id="toggle-on" className="toggle toggle-left" name="toggle" value="false" type="radio" defaultChecked />
-              <label htmlFor="toggle-on" className="btn">Voice</label>
-              <input id="toggle-off" className="toggle toggle-right" name="toggle" value="true" type="radio" />
-              <label htmlFor="toggle-off" className="btn">Text</label>
             </div>
           </div>
           <div className="settings-buttons">
