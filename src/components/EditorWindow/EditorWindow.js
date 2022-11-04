@@ -2,12 +2,12 @@
 
 import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
-import Speak from './Speak';
 import BrackyPanel from './BrackyPanel';
 import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { addCode } from '../../state/actions';
+import { useEffect } from 'react';
 
 import axios from 'axios';
 
@@ -19,7 +19,9 @@ const EditorWindow = (props) => {
   const onChange = (action, data) => {
     switch (action) {
       case "code": {
-        setCode(data + props.code);
+        console.log("changing");
+        console.log(data)
+        setCode(data);
         break;
       }
       default: {
@@ -27,7 +29,12 @@ const EditorWindow = (props) => {
       }
     }
   };
-  
+
+  useEffect(() => {
+    onChange("code", props.code.string.input);
+}, [props.code.string]);
+
+ 
   const [theme, setTheme] = useState("light");
   const [processing, setProcessing] = useState(null);
   const [customInput, setCustomInput] = useState("");
@@ -124,6 +131,7 @@ const EditorWindow = (props) => {
             language={"python"}
             theme={theme}
             width="100%"
+            props={props}
           />
           <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} />
         </div>

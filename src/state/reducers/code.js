@@ -1,14 +1,13 @@
 import { ActionTypes } from '../actions';
 
 const initialState = {
-  code: "",
+  string: "",
 };
 
 const CodeReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.ADD_CODE:
-
-      return { ...state, speech: { ...initialState.code, ...action.payload}};
+      return { ...state, string: { ...initialState.string, ...action.payload}};
 
     default:
       return state;

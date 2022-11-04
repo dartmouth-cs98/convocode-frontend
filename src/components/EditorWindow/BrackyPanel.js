@@ -93,8 +93,9 @@ const BrackyPanel = (props, { theme, open, code }) => {
               console.log(res);
               console.log(res.data.code);
               console.log(res.data.text);
-              props.addSpeech(res.data.text);
               props.addCode(res.data.code);
+              props.addSpeech(res.data.text);
+              
               
             }); 
           }).catch((e) => console.log(e));

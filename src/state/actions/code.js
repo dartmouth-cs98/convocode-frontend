@@ -1,5 +1,5 @@
 export const ActionTypes = {
-    ADD_SPEECH: 'ADD_CODE',
+    ADD_CODE: 'ADD_CODE',
   };
   
   /**
