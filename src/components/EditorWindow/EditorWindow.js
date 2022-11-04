@@ -5,18 +5,24 @@ import CodeEditor from './CodeEditor';
 import BrackyPanel from './BrackyPanel';
 import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
+import { connect, useSelector } from 'react-redux';
+import { addCode } from '../../state/actions';
+import { useEffect } from 'react';
 import { useLocation } from "react-router"
 
 import axios from 'axios';
-import MicRecorder from 'mic-recorder-to-mp3';
 
 import './index.css'
 
+const EditorWindow = (props) => {
+  const pythonDefault = `# Python Editor`;
 const EditorWindow = () => {
 
   const onChange = (action, data) => {
     switch (action) {
       case "code": {
+        console.log("changing");
+        console.log(data)
         setCode(data);
         break;
       }
@@ -26,6 +32,11 @@ const EditorWindow = () => {
     }
   };
 
+  useEffect(() => {
+    onChange("code", props.code.string.input);
+}, [props.code.string]);
+
+ 
   // getting code from nav link props
   const location = useLocation();
   const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
@@ -43,6 +54,8 @@ const EditorWindow = () => {
   const toggleSidebar = () => {
     setOpen(open => !open);
   };
+
+  
 
   navigator.getUserMedia({ audio: true },
     () => {
@@ -185,6 +198,7 @@ const EditorWindow = () => {
             language={"python"}
             theme={theme}
             width="100%"
+            props={props}
           />
           <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} />
         </div>
@@ -192,4 +206,10 @@ const EditorWindow = () => {
     </div >
   );
 };
-export default EditorWindow;
+
+const mapStateToProps = (reduxstate) => {
+  return {code: reduxstate.code};
+};
+
+
+export default connect(mapStateToProps, {addCode}) (EditorWindow);
