@@ -12,6 +12,7 @@ import { useLocation } from "react-router"
 import axios from 'axios';
 
 import './index.css'
+import { NavLink } from 'react-router-dom';
 
 const EditorWindow = (props) => {
   const pythonDefault = `# Python Editor`;
@@ -23,7 +24,7 @@ const EditorWindow = (props) => {
         if (data) {
           setCode(data);
         }
-        
+
         break;
       }
       default: {
@@ -34,9 +35,9 @@ const EditorWindow = (props) => {
 
   useEffect(() => {
     onChange("code", props.code.string.input);
-}, [props.code.string]);
+  }, [props.code.string]);
 
- 
+
   // getting code from nav link props
   const location = useLocation();
   const [theme, setTheme] = useState("light");
@@ -50,9 +51,9 @@ const EditorWindow = (props) => {
     setOpen(open => !open);
   };
 
-  
 
-  
+
+
   // Function to call the compile endpoint
   function submitCode() {
     setProcessing(true)
@@ -123,7 +124,7 @@ const EditorWindow = (props) => {
   return (
     <div className="editor-window" data-theme={theme}>
       <div className='editor-header-bar' data-theme={theme}>
-        <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
+        <NavLink to="/"><h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1></NavLink>
       </div >
       <div className='editor-content'>
         {
@@ -148,8 +149,8 @@ const EditorWindow = (props) => {
 };
 
 const mapStateToProps = (reduxstate) => {
-  return {code: reduxstate.code};
+  return { code: reduxstate.code };
 };
 
 
-export default connect(mapStateToProps, {addCode}) (EditorWindow);
+export default connect(mapStateToProps, { addCode })(EditorWindow);

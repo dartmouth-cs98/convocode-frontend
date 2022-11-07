@@ -9,8 +9,8 @@ import './index.css'
 
 const CodeEditor = ({ onChange, language, code, theme, props }) => {
   const [value, setValue] = useState(code || "");
-  
-  
+
+
 
   const handleEditorChange = (value) => {
     setValue(value);
@@ -21,13 +21,13 @@ const CodeEditor = ({ onChange, language, code, theme, props }) => {
   useEffect(() => {
     console.log(props.code.string);
     handleEditorChange(value + props.code.string.input);
-}, [props.code.string]);
+  }, [props.code.string]);
 
 
   return (
     <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
       <Editor
-        height="83vh"
+        height="78vh"
         width='100%'
         language={language || "python"}
         value={value}
