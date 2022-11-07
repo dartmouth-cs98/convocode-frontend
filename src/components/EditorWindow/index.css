@@ -264,7 +264,7 @@ input[type="radio"].toggle:checked+label:after {
 /* Output Window */
 .output-window {
   width: 100%;
-  height: 10vh;
+  height: 100%;
 }
 
 .output-header {
@@ -280,6 +280,6 @@ input[type="radio"].toggle:checked+label:after {
 }
 
 .out-text {
-  height: 45px;
+  height: 100px;
   background-color: var(--boring);
 }
