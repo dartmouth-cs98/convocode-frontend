@@ -283,3 +283,7 @@ input[type="radio"].toggle:checked+label:after {
   height: 100px;
   background-color: var(--boring);
 }
+
+a {
+  text-decoration: none;
+}
