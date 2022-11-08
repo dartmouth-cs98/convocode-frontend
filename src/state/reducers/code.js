@@ -7,7 +7,7 @@ const initialState = {
 const CodeReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.ADD_CODE:
-      return { ...state, string: { ...initialState.string, ...action.payload}};
+      return { ...state, string: { ...initialState.string, ...action.payload } };
 
     default:
       return state;

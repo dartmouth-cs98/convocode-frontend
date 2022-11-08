@@ -24,7 +24,7 @@ const FileModal = (props) => {
   }
 
   const handleCreateFile = () => {
-    props.createFileName(fileName);
+    props.createFileName(fileName + ".py");
   }
 
   return (

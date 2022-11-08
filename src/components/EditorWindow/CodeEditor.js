@@ -4,25 +4,26 @@
 import React, { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
 import { connect } from 'react-redux';
+import { addCode } from "../../state/actions";
 
 import './index.css'
 
 
-const CodeEditor = ({ onChange, language, code, theme, props }) => {
-  const [value, setValue] = useState(code || "");
+const CodeEditor = (props) => {
+  const [value, setValue] = useState(props.code);
 
-
+  console.log("font size", props.fontSize)
 
   const handleEditorChange = (value) => {
     setValue(value);
-    onChange("code", value);
+    props.addCode(value);
   };
 
-  // 
-  useEffect(() => {
-    // console.log(props.code.string);
-    handleEditorChange(value + props.code.string.input);
-  }, [props.code.string]);
+  // // 
+  // useEffect(() => {
+  //   // console.log(props.code.string);
+  //   handleEditorChange(value + props.code);
+  // }, [props.code]);
 
 
   return (
@@ -30,9 +31,9 @@ const CodeEditor = ({ onChange, language, code, theme, props }) => {
       <Editor
         height="78vh"
         width='100%'
-        language={language || "python"}
+        language={props.language || "python"}
         value={value}
-        theme={theme}
+        theme={props.theme}
         defaultValue="# Python Editor"
         onChange={handleEditorChange}
         options={{
@@ -44,7 +45,10 @@ const CodeEditor = ({ onChange, language, code, theme, props }) => {
 };
 
 const mapStateToProps = (reduxstate) => {
-  return { fontSize: reduxstate.settings.fontSize };
+  return {
+    fontSize: reduxstate.settings.fontSize,
+    code: reduxstate.code.string,
+  };
 };
 
-export default connect(mapStateToProps, {})(CodeEditor);
+export default connect(mapStateToProps, { addCode })(CodeEditor);
