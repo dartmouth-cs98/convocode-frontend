@@ -61,6 +61,7 @@ const BrackyPanel = (props, { theme, open, code }) => {
     if (blocked) {
       console.log('Permission Denied');
     } else {
+      console.log("recording");
       Mp3Recorder
         .start()
         .then(() => {
@@ -74,6 +75,7 @@ const BrackyPanel = (props, { theme, open, code }) => {
           .stop()
           .getMp3()
           .then(([buffer, blob]) => {
+            console.log("recording stopped");
             // const blobURL = URL.createObjectURL(blob)
             // setBlobURL(blobURL);
             setRecording(false);
