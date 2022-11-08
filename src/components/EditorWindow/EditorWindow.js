@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
+import SettingsModal from "./SettingsModal"
 import BrackyPanel from './BrackyPanel';
 import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
@@ -20,7 +21,6 @@ const EditorWindow = (props) => {
   const onChange = (action, data) => {
     switch (action) {
       case "code": {
-        console.log("changing");
         if (data) {
           setCode(data);
         }
@@ -46,11 +46,15 @@ const EditorWindow = (props) => {
   const [outputDetails, setOutputDetails] = useState(null);
   const [code, setCode] = useState(pythonDefault);
   const [open, setOpen] = useState(true);
+  const [modalShow, setModalShow] = useState(false);
 
   const toggleSidebar = () => {
     setOpen(open => !open);
   };
 
+  const toggleModal = () => {
+    setModalShow(modalShow => !modalShow);
+  };
 
 
 
@@ -129,8 +133,8 @@ const EditorWindow = (props) => {
       <div className='editor-content'>
         {
           open ?
-            <BrackyPanel theme={theme} open={toggleSidebar} code={code} />
-            : <ClosedBrackyPanel theme={theme} open={toggleSidebar} code={code} />
+            <BrackyPanel theme={theme} open={toggleSidebar} code={code} modalShow={modalShow} toggleModal={toggleModal} />
+            : <ClosedBrackyPanel theme={theme} open={toggleSidebar} code={code} modal={modalShow} setModalView={toggleModal} />
         }
         <div className="editor-container" style={open ? { width: '78vw' } : { width: '93vw' }}>
           <CodeEditor

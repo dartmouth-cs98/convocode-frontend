@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
+import { connect } from 'react-redux';
 
 import './index.css'
 
@@ -19,7 +20,7 @@ const CodeEditor = ({ onChange, language, code, theme, props }) => {
 
   // 
   useEffect(() => {
-    console.log(props.code.string);
+    // console.log(props.code.string);
     handleEditorChange(value + props.code.string.input);
   }, [props.code.string]);
 
@@ -34,9 +35,16 @@ const CodeEditor = ({ onChange, language, code, theme, props }) => {
         theme={theme}
         defaultValue="# Python Editor"
         onChange={handleEditorChange}
+        options={{
+          fontSize: props.fontSize
+        }}
       />
     </div>
   );
 };
 
-export default CodeEditor;
+const mapStateToProps = (reduxstate) => {
+  return { fontSize: reduxstate.settings.fontSize };
+};
+
+export default connect(mapStateToProps, {})(CodeEditor);

@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 
-import ModeReducer from './mode';
-import FileManagementReducer  from './fileManagement';
+import FileManagementReducer from './fileManagement';
 import VoiceReducer from './voice';
 import CodeReducer from './code';
+import SettingsReducer from './settings';
 
 const rootReducer = combineReducers({
-  mode: ModeReducer,
+  settings: SettingsReducer,
   fileManagement: FileManagementReducer,
   voice: VoiceReducer,
   code: CodeReducer,
