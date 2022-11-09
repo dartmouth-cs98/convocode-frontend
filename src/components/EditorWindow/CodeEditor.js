@@ -3,40 +3,46 @@
 
 import React, { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
+import { connect } from 'react-redux';
+import { addCode } from "../../state/actions";
+import { objToString } from "../../resources/util.js"
 
 import './index.css'
 
 
-const CodeEditor = ({ onChange, language, code, theme, props }) => {
-  const [value, setValue] = useState(code || "");
+const CodeEditor = (props) => {
+  const [value, setValue] = useState(objToString(props.code));
 
-
+  console.log("values", value)
 
   const handleEditorChange = (value) => {
-    setValue(value);
-    onChange("code", value);
+    setValue(objToString(value));
+    props.addCode(value);
   };
 
-  // 
-  useEffect(() => {
-    console.log(props.code.string);
-    handleEditorChange(value + props.code.string.input);
-  }, [props.code.string]);
-
-
   return (
-    <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
+    <div className="overlay rounded-md w-full h-full shadow-4xl">
       <Editor
         height="78vh"
         width='100%'
-        language={language || "python"}
+        language={props.language || "python"}
         value={value}
-        theme={theme}
+        theme={props.theme}
         defaultValue="# Python Editor"
         onChange={handleEditorChange}
+        options={{
+          fontSize: props.fontSize
+        }}
       />
     </div>
   );
 };
 
-export default CodeEditor;
+const mapStateToProps = (reduxstate) => {
+  return {
+    fontSize: reduxstate.settings.fontSize,
+    code: reduxstate.code.string,
+  };
+};
+
+export default connect(mapStateToProps, { addCode })(CodeEditor);

@@ -15,6 +15,7 @@
   --pumpkinSpice: #F79166;
   --unicorn: #EF6ED3;
   --boring: #EFF2F2;
+  --grey: #d9d9d9;
 }
 
 html,
@@ -94,6 +95,14 @@ h3 {
   font-family: Inter, sans-serif;
   font-weight: semi-bold;
   font-size: 32px;
+}
+
+h4 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 22px;
 }
 
 p {
