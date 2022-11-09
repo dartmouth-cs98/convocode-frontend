@@ -18,24 +18,23 @@ import { NavLink } from 'react-router-dom';
 const EditorWindow = (props) => {
   const pythonDefault = `# Python Editor`;
 
-  const onChange = (action, data) => {
-    switch (action) {
-      case "code": {
-        if (data) {
-          setCode(data);
-        }
+  // const onChange = (action, data) => {
+  //   switch (action) {
+  //     case "code": {
+  //       if (data) {
+  //         setCode(data);
+  //       }
+  //       break;
+  //     }
+  //     default: {
+  //       console.warn("case not handled!", action, data);
+  //     }
+  //   }
+  // };
 
-        break;
-      }
-      default: {
-        console.warn("case not handled!", action, data);
-      }
-    }
-  };
-
-  useEffect(() => {
-    onChange("code", props.code.string.input);
-  }, [props.code.string]);
+  // useEffect(() => {
+  //   onChange("code", props.code.string.input);
+  // }, [props.code.string]);
 
 
   // getting code from nav link props
@@ -73,7 +72,7 @@ const EditorWindow = (props) => {
 
     // Post request to compile endpoint
     axios.post(`http://localhost:8000/api/compiler`, {
-      source_code: code, customInput: customInput
+      source_code: props.code, customInput: customInput
     }).then((res) => {
       console.log("here");
       console.log(res);
@@ -133,17 +132,14 @@ const EditorWindow = (props) => {
       <div className='editor-content'>
         {
           open ?
-            <BrackyPanel theme={theme} open={toggleSidebar} code={code} modalShow={modalShow} toggleModal={toggleModal} />
-            : <ClosedBrackyPanel theme={theme} open={toggleSidebar} code={code} modal={modalShow} setModalView={toggleModal} />
+            <BrackyPanel theme={theme} open={toggleSidebar} modalShow={modalShow} toggleModal={toggleModal} />
+            : <ClosedBrackyPanel theme={theme} open={toggleSidebar} modal={modalShow} setModalView={toggleModal} />
         }
         <div className="editor-container" style={open ? { width: '78vw' } : { width: '93vw' }}>
           <CodeEditor
-            code={code}
-            onChange={onChange}
             language={"python"}
             theme={theme}
             width="100%"
-            props={props}
           />
           <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} />
         </div>
@@ -153,7 +149,7 @@ const EditorWindow = (props) => {
 };
 
 const mapStateToProps = (reduxstate) => {
-  return { code: reduxstate.code };
+  return { code: reduxstate.code.string };
 };
 
 

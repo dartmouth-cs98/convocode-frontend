@@ -36,11 +36,19 @@ const BrackyPanel = (props) => {
   // getting file name from nav link props
   const location = useLocation();
 
+  function objToString(obj) {
+    return Object.entries(obj).reduce((str, [p, val]) => {
+      return str += `${val}`;
+    }, '');
+  }
+
+  console.log("props.code", objToString(props.code))
+
   // downloading file
   useEffect(() => {
     var a = ref.current;
     a = document.getElementById("a");
-    var file = new Blob([props.code], { type: 'application/python' });
+    var file = new Blob([objToString(props.code)], { type: 'application/python' });
     a.href = URL.createObjectURL(file);
     a.download = props.filename;
   }, [props.filename, props.code, initiateDownload]);
@@ -157,6 +165,7 @@ const mapStateToProps = (reduxstate) => {
   return {
     speech: reduxstate.speech,
     filename: reduxstate.fileManagement.fileName,
+    code: reduxstate.code.string,
   };
 };
 

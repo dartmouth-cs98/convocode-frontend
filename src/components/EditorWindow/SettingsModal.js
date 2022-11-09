@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
-import { toggleViewMode, updateFontSize, createFileName } from "../../state/actions"
+import { toggleViewMode, updateFontSize, createFileName } from "../../state/actions";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
@@ -21,8 +21,8 @@ const SettingsModal = (props) => {
   console.log(props)
 
   const updateFileName = (file) => {
-    props.createFileName(file)
     setFileName(file)
+    props.createFileName(file)
   }
 
   const updateFontSize = (font) => {
@@ -31,7 +31,7 @@ const SettingsModal = (props) => {
   }
 
   return (
-    <ReactModal className="settings-modal" isOpen={props.modal} onRequestClose={props.toggleModal} contentLabel="Settings" appElement={document.getElementById('app')}>
+    <ReactModal className="settings-modal" isOpen={props.modal} onRequestClose={props.toggleModal} contentLabel="Settings" ariaHideApp={false} >
       <div className="settings-header">
         <h2>Settings</h2>
         <button className="transparent" onClick={props.toggleModal}><img src={X} alt="close" id="click" /></button>
@@ -49,7 +49,7 @@ const SettingsModal = (props) => {
             <input id="toggle-off" className="toggle toggle-right" name="toggle" value="true" type="radio" />
             <label htmlFor="toggle-off" className="btn">Dark Mode</label>
           </div>
-          <input type="text" value={fileName} onChange={updateFileName} />
+          <input type="text" value={fileName} onChange={(event) => updateFileName(event.target.value)} />
           <DropdownButton id="dropdown-basic-button" title={fontSize} onSelect={(eventKey, _event) => updateFontSize(eventKey)}>
             <Dropdown.Item eventKey="10px">10 px</Dropdown.Item>
             <Dropdown.Item eventKey="12px">12 px</Dropdown.Item>
