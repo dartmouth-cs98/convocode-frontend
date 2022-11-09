@@ -2,48 +2,22 @@
 
 import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
-import SettingsModal from "./SettingsModal"
 import BrackyPanel from './BrackyPanel';
 import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
-import { useEffect } from 'react';
-import { useLocation } from "react-router"
 import axios from 'axios';
 
 import './index.css'
 import { NavLink } from 'react-router-dom';
 
 const EditorWindow = (props) => {
-  const pythonDefault = `# Python Editor`;
-
-  // const onChange = (action, data) => {
-  //   switch (action) {
-  //     case "code": {
-  //       if (data) {
-  //         setCode(data);
-  //       }
-  //       break;
-  //     }
-  //     default: {
-  //       console.warn("case not handled!", action, data);
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   onChange("code", props.code.string.input);
-  // }, [props.code.string]);
-
 
   // getting code from nav link props
-  const location = useLocation();
   const [theme, setTheme] = useState("light");
   const [processing, setProcessing] = useState(null);
-  const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
-  const [code, setCode] = useState(pythonDefault);
   const [open, setOpen] = useState(true);
   const [modalShow, setModalShow] = useState(false);
 
@@ -55,8 +29,6 @@ const EditorWindow = (props) => {
     setModalShow(modalShow => !modalShow);
   };
 
-
-
   // Function to call the compile endpoint
   function submitCode() {
     setProcessing(true)
@@ -66,13 +38,10 @@ const EditorWindow = (props) => {
       setOutputDetails(null)
     }
 
-    if (code === ``) {
-      return
-    }
 
     // Post request to compile endpoint
     axios.post(`http://localhost:8000/api/compiler`, {
-      source_code: props.code, customInput: customInput
+      source_code: props.code, customInput: ''
     }).then((res) => {
       console.log("here");
       console.log(res);

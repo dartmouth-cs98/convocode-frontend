@@ -5,18 +5,24 @@ import React, { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
 import { connect } from 'react-redux';
 import { addCode } from "../../state/actions";
+import { objToString } from "../../resources/util.js"
 
 import './index.css'
 
 
 const CodeEditor = (props) => {
-  const [value, setValue] = useState(props.code);
+
+
+  const [value, setValue] = useState(objToString(props.code));
+
 
   console.log("font size", props.fontSize)
+  console.log("code in code editor", props.code)
 
   const handleEditorChange = (value) => {
-    setValue(value);
+    setValue(objToString(value));
     props.addCode(value);
+    console.log("value", value)
   };
 
   // // 

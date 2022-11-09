@@ -14,6 +14,7 @@ import MicRecorder from 'mic-recorder-to-mp3';
 import { connect } from 'react-redux';
 import { addSpeech } from "../../state/actions"
 import { addCode } from "../../state/actions"
+import { objToString } from "../../resources/util.js"
 import axios from 'axios';
 
 
@@ -35,12 +36,6 @@ const BrackyPanel = (props) => {
 
   // getting file name from nav link props
   const location = useLocation();
-
-  function objToString(obj) {
-    return Object.entries(obj).reduce((str, [p, val]) => {
-      return str += `${val}`;
-    }, '');
-  }
 
   console.log("props.code", objToString(props.code))
 

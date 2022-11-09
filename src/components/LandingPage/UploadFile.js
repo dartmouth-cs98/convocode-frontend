@@ -25,7 +25,9 @@ const UploadFile = (props) => {
         const reader = new FileReader();
         reader.readAsText(file);
         reader.onload = () => {
-            props.createFileName(file.fileName);
+            console.log("in upload")
+            console.log(file)
+            props.createFileName(file.name);
             props.addCode(reader.result)
         }
         reader.onerror = () => {
