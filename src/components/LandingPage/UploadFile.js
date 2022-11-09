@@ -25,8 +25,6 @@ const UploadFile = (props) => {
         const reader = new FileReader();
         reader.readAsText(file);
         reader.onload = () => {
-            console.log("in upload")
-            console.log(file)
             props.createFileName(file.name);
             props.addCode(reader.result)
         }
@@ -48,7 +46,7 @@ const UploadFile = (props) => {
             <button onClick={handleModalToggle}>
                 Upload Python File
             </button>
-            <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode">
+            <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
                 <div>
                     {isFileChosen ? (
                         <div className='modal-upload'>

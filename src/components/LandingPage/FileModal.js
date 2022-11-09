@@ -34,7 +34,7 @@ const FileModal = (props) => {
       </button>
       <div className="landing-modal">
         {newFile ? (
-          <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode">
+          <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
             <div>
               <div className="modal-input">
                 <p>New File Name</p>
@@ -51,7 +51,7 @@ const FileModal = (props) => {
           </ReactModal>
         ) :
           (
-            <ReactModal className="modal-landing" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode">
+            <ReactModal className="modal-landing" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
               <div className="modal-content">
                 <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
                 <div className="modal-buttons" data-theme={theme}>

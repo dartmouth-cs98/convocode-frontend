@@ -16,10 +16,6 @@ const SettingsModal = (props) => {
   const [fontSize, setFontSize] = useState(props.fontSize);
   const [fileName, setFileName] = useState(props.fileName);
 
-  console.log(fontSize, fileName)
-
-  console.log(props)
-
   const updateFileName = (file) => {
     setFileName(file)
     props.createFileName(file)

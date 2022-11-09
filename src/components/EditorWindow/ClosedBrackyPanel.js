@@ -5,10 +5,10 @@ import Maximize from '../../resources/maximize-light.png'
 import MicClosed from '../../resources/mic-closed.png'
 import SettingsClosed from '../../resources/settings-closed.png'
 import DownloadClosed from '../../resources/download-closed.png'
-import { useLocation } from "react-router"
 import { connect } from 'react-redux';
 import { addSpeech } from "../../state/actions"
 import { addCode } from "../../state/actions"
+import { objToString } from "../../resources/util.js"
 
 import './index.css'
 
@@ -18,18 +18,14 @@ const ClosedBrackyPanel = (props) => {
   const ref = useRef(null);
   const [initiateDownload, setInitiateDownload] = useState(false);
 
-  // getting file name from nav link props
-  const location = useLocation();
-  const pyfilename = location.state.name;
-
   // downloading file
   useEffect(() => {
     var a = ref.current;
     a = document.getElementById("a");
-    var file = new Blob([props.code], { type: 'application/python' });
+    var file = new Blob([objToString(props.code)], { type: 'application/python' });
     a.href = URL.createObjectURL(file);
-    a.download = pyfilename;
-  }, [pyfilename, props.code, initiateDownload]);
+    a.download = props.filename;
+  }, [props.filename, props.code, initiateDownload]);
 
   const toggleDownload = () => {
     setInitiateDownload(!initiateDownload);

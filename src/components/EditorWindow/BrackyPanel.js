@@ -23,8 +23,6 @@ import './index.css'
 
 const BrackyPanel = (props) => {
 
-  console.log(props, props.filename)
-
   const ref = useRef(null);
   const [initiateDownload, setInitiateDownload] = useState(false);
   const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
@@ -32,12 +30,7 @@ const BrackyPanel = (props) => {
   const [blocked, setBlocked] = useState(false);
   const [blobURL, setBlobURL] = useState("");
   const [speakText, setSpeakText] = useState("SPEAK");
-  const [value, setValue] = useState();
 
-  // getting file name from nav link props
-  const location = useLocation();
-
-  console.log("props.code", objToString(props.code))
 
   // downloading file
   useEffect(() => {
@@ -54,7 +47,6 @@ const BrackyPanel = (props) => {
 
   navigator.getUserMedia({ audio: true },
     () => {
-      console.log('Permission Granted');
       setBlocked(false);
     },
     () => {

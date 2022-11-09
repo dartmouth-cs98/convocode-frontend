@@ -11,29 +11,16 @@ import './index.css'
 
 
 const CodeEditor = (props) => {
-
-
   const [value, setValue] = useState(objToString(props.code));
-
-
-  console.log("font size", props.fontSize)
-  console.log("code in code editor", props.code)
 
   const handleEditorChange = (value) => {
     setValue(objToString(value));
     props.addCode(value);
-    console.log("value", value)
   };
-
-  // // 
-  // useEffect(() => {
-  //   // console.log(props.code.string);
-  //   handleEditorChange(value + props.code);
-  // }, [props.code]);
 
 
   return (
-    <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
+    <div className="overlay rounded-md w-full h-full shadow-4xl">
       <Editor
         height="78vh"
         width='100%'
