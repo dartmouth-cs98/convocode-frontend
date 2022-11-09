@@ -16,9 +16,9 @@ const CodeEditor = (props) => {
   console.log("values", value)
 
   const handleEditorChange = (value) => {
-    setValue(objToString(value));
     props.addCode(value);
   };
+
 
   return (
     <div className="overlay rounded-md w-full h-full shadow-4xl">
@@ -26,7 +26,7 @@ const CodeEditor = (props) => {
         height="78vh"
         width='100%'
         language={props.language || "python"}
-        value={value}
+        value={objToString(props.code)}
         theme={props.theme}
         defaultValue="# Python Editor"
         onChange={handleEditorChange}
