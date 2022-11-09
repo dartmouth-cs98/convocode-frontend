@@ -92,8 +92,6 @@ const BrackyPanel = (props) => {
           console.log(res.data.text);
           props.addCode(res.data.code);
           props.addSpeech(res.data.text);
-
-
         });
       }).catch((e) => console.log(e));
   };

@@ -13,11 +13,12 @@ import './index.css'
 const CodeEditor = (props) => {
   const [value, setValue] = useState(objToString(props.code));
 
+  console.log("values", value)
+
   const handleEditorChange = (value) => {
     setValue(objToString(value));
     props.addCode(value);
   };
-
 
   return (
     <div className="overlay rounded-md w-full h-full shadow-4xl">

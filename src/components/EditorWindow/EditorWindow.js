@@ -7,6 +7,7 @@ import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
+import { objToString } from "../../resources/util.js"
 import axios from 'axios';
 
 import './index.css'
@@ -41,7 +42,7 @@ const EditorWindow = (props) => {
 
     // Post request to compile endpoint
     axios.post(`http://localhost:8000/api/compiler`, {
-      source_code: props.code, customInput: ''
+      source_code: objToString(props.code), customInput: ''
     }).then((res) => {
       console.log("here");
       console.log(res);
@@ -81,7 +82,6 @@ const EditorWindow = (props) => {
         } else {
           setOutputDetails(response.data.description + ":" + response.data.stderr);
         }
-
         return
       }
     } catch (err) {
