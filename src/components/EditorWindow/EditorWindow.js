@@ -13,6 +13,10 @@ import axios from 'axios';
 
 import './index.css'
 
+// loads in .env file if needed
+import dotenv from 'dotenv';
+dotenv.config({ silent: true });
+
 const EditorWindow = (props) => {
   const pythonDefault = `# Python Editor`;
 
@@ -67,7 +71,7 @@ const EditorWindow = (props) => {
     }
 
     // Post request to compile endpoint
-    axios.post(`http://localhost:8000/api/compiler`, {
+    axios.post(`${process.env.ROOT_URL}/compiler`, {
       source_code: code, customInput: customInput
     }).then((res) => {
       console.log("here");
@@ -87,7 +91,7 @@ const EditorWindow = (props) => {
     console.log(id);
 
     try {
-      let response = await axios.request(`http://localhost:8000/api/compiler/${id.token}`);
+      let response = await axios.request(`${process.env.ROOT_URL}/compiler/${id.token}`);
       console.log(response.data);
       let status = response.status;
       console.log(status)

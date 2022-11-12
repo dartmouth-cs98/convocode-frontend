@@ -18,6 +18,10 @@ import axios from 'axios';
 
 import './index.css'
 
+// loads in .env file if needed
+import dotenv from 'dotenv';
+dotenv.config({ silent: true });
+
 
 const BrackyPanel = (props, { theme, open, code }) => {
 
@@ -86,7 +90,7 @@ const BrackyPanel = (props, { theme, open, code }) => {
             // console.log(audioURL);
             axios.request({
               method: "POST",
-              url: "http://localhost:8000/api/voicetocode",
+              url: `${process.env.ROOT_URL}/voicetocode`,
               data: formData,
             }).then((res) => {
               console.log(res);
