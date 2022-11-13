@@ -20,6 +20,10 @@ import axios from 'axios';
 
 import './index.css'
 
+// loads in .env file if needed
+import dotenv from 'dotenv';
+dotenv.config({ silent: true });
+
 
 const BrackyPanel = (props) => {
 
