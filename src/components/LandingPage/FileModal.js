@@ -24,7 +24,7 @@ const FileModal = (props) => {
   }
 
   const handleCreateFile = () => {
-    props.createFileName(fileName);
+    props.createFileName(fileName + ".py");
   }
 
   return (
@@ -34,7 +34,7 @@ const FileModal = (props) => {
       </button>
       <div className="landing-modal">
         {newFile ? (
-          <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode">
+          <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
             <div>
               <div className="modal-input">
                 <p>New File Name</p>
@@ -45,13 +45,13 @@ const FileModal = (props) => {
               </div>
               <div className="create-buttons">
                 <button className="cancel-button" onClick={handleModalToggle}>Cancel</button>
-                <NavLink to="/editor" state={{ name: fileName + '.py' }}><button id="create" onClick={handleCreateFile}>Create</button></NavLink>
+                <NavLink to="/editor"><button id="create" onClick={handleCreateFile}>Create</button></NavLink>
               </div>
             </div>
           </ReactModal>
         ) :
           (
-            <ReactModal className="modal-landing" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode">
+            <ReactModal className="modal-landing" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
               <div className="modal-content">
                 <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
                 <div className="modal-buttons" data-theme={theme}>

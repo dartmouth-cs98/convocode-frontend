@@ -3,19 +3,21 @@ import { NavLink } from "react-router-dom";
 import ReactModal from 'react-modal';
 import './file-modal.css';
 
-const UploadFile = () => {
-  const [selectedFile, setSelectedFile] = useState();
-  const [isFileChosen, setIsFileChosen] = useState(false);
-  const [modalShow, setModalShow] = useState(false);
-  const [fileContent, setFileContent] = useState("");
-  const [fileName, setFileName] = useState("");
+import { connect } from 'react-redux';
+import { createFileName } from "../../state/actions"
+import { addCode } from "../../state/actions"
 
-  const handleModalToggle = () => {
-    setIsFileChosen(false);
-    setModalShow(!modalShow);
-  }
+const UploadFile = (props) => {
+    const [selectedFile, setSelectedFile] = useState();
+    const [isFileChosen, setIsFileChosen] = useState(false);
+    const [modalShow, setModalShow] = useState(false);
 
-  const handleFileChange = (event) =>{
+    const handleModalToggle = () => {
+        setIsFileChosen(false);
+        setModalShow(!modalShow);
+    }
+
+    const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
         setIsFileChosen(true);
 
@@ -23,8 +25,8 @@ const UploadFile = () => {
         const reader = new FileReader();
         reader.readAsText(file);
         reader.onload = () => {
-            setFileName(file.name);
-            setFileContent(reader.result);
+            props.createFileName(file.name);
+            props.addCode(reader.result)
         }
         reader.onerror = () => {
             console.log("file error", reader.error)
@@ -39,32 +41,39 @@ const UploadFile = () => {
         setIsFileChosen(false);
     };
 
-    return(
+    return (
         <div>
             <button onClick={handleModalToggle}>
                 Upload Python File
             </button>
-            <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel = "ConvoCode">
-            <div>
-                {isFileChosen ? (
-                <div className='modal-upload'>
-                    <p>Chosen Python File: {selectedFile.name}</p>
-                    <div className="upload-buttons">
-                        <button className="cancel-button" onClick={handleCancelUploadFile}>Cancel</button>
-                        <NavLink to="/editor" state={{name:fileName, content:fileContent}}><button id="create" onClick={handleUploadFile}>Upload</button></NavLink>            
-                    </div>
+            <ReactModal className="modal-create" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
+                <div>
+                    {isFileChosen ? (
+                        <div className='modal-upload'>
+                            <p>Chosen Python File: {selectedFile.name}</p>
+                            <div className="upload-buttons">
+                                <button className="cancel-button" onClick={handleCancelUploadFile}>Cancel</button>
+                                <NavLink to="/editor"><button id="create" onClick={handleUploadFile}>Upload</button></NavLink>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className='modal-upload'>
+                            <label htmlFor="file-upload" className="custom-file-upload">Choose Python File</label>
+                            <input id="file-upload" type="file" name="file" onChange={handleFileChange}></input>
+                            <button id="select-cancel" className="cancel-button" onClick={handleModalToggle}>Cancel</button>
+                        </div>
+                    )}
                 </div>
-                ):(
-                <div className='modal-upload'>
-                    <label for="file-upload" className="custom-file-upload">Choose Python File</label>
-                    <input id="file-upload" type="file" name="file" onChange={handleFileChange}></input>
-                    <button id="select-cancel" className="cancel-button" onClick={handleModalToggle}>Cancel</button>
-                </div>
-                )}
-            </div>
             </ReactModal>
-            </div>
-          )
+        </div>
+    )
 };
 
-export default UploadFile;
+const mapStateToProps = (reduxstate) => {
+    return {
+        filename: reduxstate.fileManagement.fileName,
+        code: reduxstate.code.string,
+    };
+};
+
+export default connect(mapStateToProps, { createFileName, addCode })(UploadFile);

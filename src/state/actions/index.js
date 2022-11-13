@@ -1,7 +1,8 @@
 import {
   ActionTypes as modeActionTypes,
   toggleViewMode,
-} from './mode';
+  updateFontSize,
+} from './settings';
 
 import {
   ActionTypes as fileActionTypes,
@@ -9,7 +10,7 @@ import {
 } from './fileManagement';
 
 import {
-  ActionTypes as voiceActionTypes, 
+  ActionTypes as voiceActionTypes,
   addSpeech,
 } from './voice';
 
@@ -28,6 +29,7 @@ const ActionTypes = {
 export {
   ActionTypes,
   toggleViewMode,
+  updateFontSize,
   createFileName,
   addSpeech,
   addCode,

@@ -44,7 +44,7 @@
 .filename-tab {
   margin-top: 2vh;
   height: 3vh;
-  width: 40%;
+  width: 60%;
   display: flex;
   background-color: var(--sky);
   flex-direction: row;
@@ -149,7 +149,7 @@
 
 .sidepanel-footer {
   width: 100%;
-  height: 10vh;
+  height: 7vh;
   background-color: var(--easyA);
   border-bottom-right-radius: 25px;
   display: flex;
@@ -203,68 +203,14 @@ input.submit {
   padding: 10px;
   position: relative;
   text-align: center;
-  color: var(--easyA);
-}
-
-input[type="radio"].toggle {
-  display: none;
-}
-
-input[type="radio"].toggle+label {
-  cursor: pointer;
-  min-width: 60px;
-}
-
-input[type="radio"].toggle+label:hover {
-  background: none;
-}
-
-input[type="radio"].toggle+label:after {
-  background: #1a1a1a;
-  content: "";
-  height: 100%;
-  position: absolute;
-  top: 0;
-  transition: left 200ms cubic-bezier(0.77, 0, 0.175, 1);
-  width: 100%;
-  z-index: -1;
-}
-
-input[type="radio"].toggle.toggle-left+label {
-  border-right: 0;
-  background-color: #633A3A;
-  border-radius: 10px 0px 0px 10px;
-}
-
-input[type="radio"].toggle.toggle-left+label:after {
-  left: 100%;
-}
-
-input[type="radio"].toggle.toggle-right+label {
-  margin-left: -5px;
-  background-color: #633A3A;
-  border-radius: 0px 10px 10px 0px;
-}
-
-input[type="radio"].toggle.toggle-right+label:after {
-  left: -100%;
-}
-
-input[type="radio"].toggle:checked+label {
-  cursor: default;
-  background-color: var(--white);
-  transition: color 200ms;
-}
-
-input[type="radio"].toggle:checked+label:after {
-  left: 0;
+  color: var(--text-primary);
 }
 
 
 /* Output Window */
 .output-window {
   width: 100%;
-  height: 10vh;
+  height: 100%;
 }
 
 .output-header {
@@ -280,6 +226,10 @@ input[type="radio"].toggle:checked+label:after {
 }
 
 .out-text {
-  height: 45px;
+  height: 100px;
   background-color: var(--boring);
+}
+
+a {
+  text-decoration: none;
 }
