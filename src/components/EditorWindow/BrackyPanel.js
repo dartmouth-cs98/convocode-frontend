@@ -76,7 +76,7 @@ const BrackyPanel = (props) => {
         // const blobURL = URL.createObjectURL(blob)
         // setBlobURL(blobURL);
         setRecording(false);
-        let file = new File([blob], 'chunk.wav');
+        let file = new File([blob], `chunk-${new Date().getTime().toString()}.wav`);
         console.log(file);
         const formData = new FormData();
         formData.append('file', file);
