@@ -47,7 +47,7 @@ const EditorWindow = (props) => {
     // Post request to compile endpoint
 
     axios.post(`${process.env.ROOT_URL}/compiler`, {
-      source_code: code, customInput: customInput
+      source_code: props.code
     }).then((res) => {
       console.log("here");
       console.log(res);
