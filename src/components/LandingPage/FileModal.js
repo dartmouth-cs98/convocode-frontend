@@ -9,7 +9,7 @@ import './file-modal.css';
 
 const FileModal = (props) => {
 
-  const [theme, setTheme] = useState('light');
+  const [theme] = useState('light');
   const [newFile, setNewFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [modalShow, setModalShow] = useState(false);

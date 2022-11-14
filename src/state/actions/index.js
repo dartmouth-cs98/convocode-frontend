@@ -17,6 +17,7 @@ import {
 import {
   ActionTypes as codeActionTypes,
   addCode,
+  insertCode,
 } from './code';
 
 const ActionTypes = {
@@ -33,4 +34,5 @@ export {
   createFileName,
   addSpeech,
   addCode,
+  insertCode,
 }

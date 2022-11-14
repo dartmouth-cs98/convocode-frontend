@@ -7,7 +7,6 @@ import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
-import { objToString } from "../../resources/util.js"
 import axios from 'axios';
 
 import './index.css'
@@ -20,8 +19,7 @@ dotenv.config({ silent: true });
 const EditorWindow = (props) => {
 
   // getting code from nav link props
-  const [theme, setTheme] = useState("light");
-  const [processing, setProcessing] = useState(null);
+  const [theme] = useState("light");
   const [outputDetails, setOutputDetails] = useState(null);
   const [open, setOpen] = useState(true);
   const [modalShow, setModalShow] = useState(false);
@@ -36,7 +34,6 @@ const EditorWindow = (props) => {
 
   // Function to call the compile endpoint
   function submitCode() {
-    setProcessing(true)
 
     // reset output if it exists
     if (outputDetails) {
@@ -55,7 +52,6 @@ const EditorWindow = (props) => {
       checkStatus(res.data);
     }).catch((err) => {
       let error = err.response ? err.response.data : err;
-      setProcessing(false);
       console.log(error);
     })
   }
@@ -79,7 +75,6 @@ const EditorWindow = (props) => {
         }, 2000)
         return
       } else {
-        setProcessing(false);
         console.log(response);
         if (response.data.status === 3) {
           console.log(response.data.description);
@@ -91,7 +86,6 @@ const EditorWindow = (props) => {
       }
     } catch (err) {
       console.log("err", err);
-      setProcessing(false);
       //showErrorToast();
     }
   }
