@@ -141,6 +141,7 @@
   text-align: center;
   color: var(--accent);
   margin-top: 10vh;
+  margin-bottom: 20vh;
 }
 .team-content h1{ 
   padding-bottom: 08vh;
@@ -155,7 +156,7 @@
 .team-member{ 
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: top;
   align-items: center;
   width: 30vw;
   padding-bottom: 5vh;
@@ -184,4 +185,7 @@
 }
 .footer-left{
   padding-left: 30px;
+}
+.headshot{ 
+  margin-bottom: 15px;
 }
