@@ -30,7 +30,7 @@ const DocumentationPage = (props) => {
       <HeaderBar />
       <div className="docu-section" data-theme={theme}>
         <h1>What is Convo<span id="sage">D</span><span id="pumpkin-spice">e</span><span id="grape">x</span></h1>
-        <p>ConvoDex is a dictionary of all the possible terms and templates that are avaliable for users when engaging with our coding environment. With the help of OpenAI, Whisper, Watson IBM and more we are able to bring a new method of coding in Python. </p>
+        <p>ConvoDex is a dictionary of all the possible terms and templates that are avaliable for users when engaging with our coding environment. With the implementation of OpenAI and more, we are able to bring a new method of coding in Python. </p>
       </div>
       <div className="convo-dex">
         <table className="table">
