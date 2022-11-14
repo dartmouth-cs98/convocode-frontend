@@ -80,7 +80,7 @@ const BrackyPanel = (props) => {
         // console.log(audioURL);
         axios.request({
           method: "POST",
-          url: "http://localhost:8000/api/voicetocode",
+          url: `${process.env.REACT_APP_BACKEND_URL}/voicetocode`,
           data: formData,
         }).then((res) => {
           console.log(res);
