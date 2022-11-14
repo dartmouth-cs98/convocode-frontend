@@ -12,7 +12,7 @@ import X from '../../resources/x.png'
 import MicRecorder from 'mic-recorder-to-mp3';
 import { connect } from 'react-redux';
 import { addSpeech } from "../../state/actions"
-import { addCode } from "../../state/actions"
+import { insertCode } from "../../state/actions"
 import axios from 'axios';
 
 
@@ -86,7 +86,7 @@ const BrackyPanel = (props) => {
           console.log(res);
           console.log(res.data.code);
           console.log(res.data.text);
-          props.addCode(res.data.code);
+          props.insertCode(res.data.code);
           props.addSpeech(res.data.text);
         });
       }).catch((e) => console.log(e));
@@ -149,4 +149,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { addSpeech, addCode })(BrackyPanel);
+export default connect(mapStateToProps, { addSpeech, insertCode })(BrackyPanel);
