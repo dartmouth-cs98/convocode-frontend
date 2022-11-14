@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import HeaderBar from "../HeaderBar/HeaderBar";
 import FileModal from "./FileModal";
 import { NavLink } from "react-router-dom";
-
+import lily from '../../resources/headshots/LilyHeadshot.png';
+import dylan from '../../resources/headshots/DylanHeadshot.png';
+import will from '../../resources/headshots/WillHeadshot.png';
+import melissa from '../../resources/headshots/MelissaHeadshot.png';
+import abby from '../../resources/headshots/AbbyHeadshot.png';
+import annie from '../../resources/headshots/AnnieHeadshot.png';
 import './landing.css'
 
 
@@ -45,37 +50,37 @@ const LandingPage = () => {
         <h1>Meet Our Team</h1>
         <div className="member-content">
           <div className="team-member">
-            <img alt="Annie Headshot" />
+            <img className="headshot" alt="Annie Headshot" src={annie} />
             <h4 id="" data-theme={theme}><strong>Annie Revers</strong></h4>
             <p>Boston, MA | she/her</p>
             <p>Computer Science + Art History Double Major</p>
           </div>
           <div className="team-member">
-            <img alt="Abby Headshot" />
+            <img className="headshot" alt="Abby Headshot" src={abby} />
             <h4 id="" data-theme={theme}><strong>Abby Owen</strong></h4>
             <p>Larchmont, NY | she/her</p>
             <p>Computer Science Major English Minor</p>
           </div>
           <div className="team-member">
-            <img alt="Dylan Headshot" />
+            <img className="headshot" alt="Dylan Headshot"  src={dylan}/>
             <h4 id="" data-theme={theme}><strong>Dylan Bienstock</strong></h4>
             <p>Santa Barbara, CA | he/him</p>
             <p>Computer Science Major Engineering Sciences Minor</p>
           </div>
           <div className="team-member">
-            <img alt="Lily Headshot" />
+            <img className="headshot" alt="Lily Headshot" src={lily}/>
             <h4 id="" data-theme={theme}><strong>Lily Maechling</strong></h4>
             <p>Pasadena, CA | she/her</p>
             <p>Computer Science + Economics Double Major</p>
           </div>
           <div className="team-member">
-            <img alt="Melissa Headshot" />
+            <img className="headshot" alt="Melissa Headshot" src={melissa}/>
             <h4 id="" data-theme={theme}><strong>Melissa Valencia</strong></h4>
             <p>East Los Angeles, CA | she/her</p>
             <p>Computer Science Major Human-Centered Design + Spanish Double Minor</p>
           </div>
           <div className="team-member">
-            <img alt="Will Headshot" />
+            <img className="headshot" alt="Will Headshot" src={will} />
             <h4 id="" data-theme={theme}><strong>Will Perez</strong></h4>
             <p>Orange County, CA | he/him</p>
             <p>Computer Science Major modified with Human-Centered Design and Latin American Studies Minor</p>
