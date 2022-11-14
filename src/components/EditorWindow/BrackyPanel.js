@@ -131,7 +131,7 @@ const BrackyPanel = (props) => {
         <div className="chatbox">
           <div className="entry-text">
             <img src={Bracky} alt="bracky" />
-            <p>Before we continue, please allow access to a microphone.</p>
+            <p>Press the recording button to tell me what code you want.</p>
           </div>
         </div>
         <div className="sidepanel-footer">
