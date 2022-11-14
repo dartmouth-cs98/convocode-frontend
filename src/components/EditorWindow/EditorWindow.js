@@ -43,9 +43,9 @@ const EditorWindow = (props) => {
 
     // Post request to compile endpoint
 
-    console.log(process.env.ROOT_URL)
+    console.log(process.env.REACT_APP_BACKEND_URL)
 
-    axios.post(`${process.env.ROOT_URL}/compiler`, {
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/compiler`, {
       source_code: props.code
     }).then((res) => {
       console.log("here");
@@ -64,7 +64,7 @@ const EditorWindow = (props) => {
     console.log(id);
 
     try {
-      let response = await axios.request(`${process.env.ROOT_URL}/compiler/${id.token}`);
+      let response = await axios.request(`${process.env.REACT_APP_BACKEND_URL}/compiler/${id.token}`);
       console.log(response.data);
       let status = response.status;
       console.log(status)
