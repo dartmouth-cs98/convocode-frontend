@@ -1,10 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderBar from "../HeaderBar/HeaderBar";
+import { connect } from 'react-redux';
+import { addConvodexEntry } from '../../state/actions';
+import axios from 'axios';
 
 import './documentation.css'
 
-const DocumentationPage = () => {
+const DocumentationPage = (props) => {
   const [theme] = useState('light');
+
+  useEffect(() => {
+    retrieveConvodexEntries();
+  }, []);
+
+  const retrieveConvodexEntries = () => {
+    axios.get(`http://localhost:8000/api/convodex`, {
+    }).then((res) => {
+      console.log("rertieved convodex data");
+      console.log(res.data);
+      props.addConvodexEntry(res.data)
+    }).catch((err) => {
+      let error = err.response ? err.response.data : err;
+      console.log(error);
+    })
+  }
 
   return (
     <div className="docu-page" data-theme={theme}>
@@ -18,8 +37,32 @@ const DocumentationPage = () => {
           <tr className="row-title">
             <th>Command</th>
             <th>Action</th>
+            <th>Keywords</th>
+            <th>Examples</th>
+            <th>Outline</th>
           </tr>
-          <tr className="row-grey">
+          {
+            Object.entries(props.convodex).map(([key, { action, keywords, examples, outline }], index) => {
+              return (
+                <tr className={index % 2 ? 'row-white' : 'row-grey'}>
+                  <td>{key}</td>
+                  <td>{action}</td>
+                  <td>{
+                    keywords.map(e => {
+                      return <li>{e}</li>
+                    })
+                  }</td>
+                  <td>{
+                    examples.map(e => {
+                      return <li>{e}</li>
+                    })
+                  }</td>
+                  <td>{outline}</td>
+                </tr>
+              );
+            })
+          }
+          {/* <tr className="row-grey">
             <td>“class”</td>
             <td>Class Templates require a class name, parameters, and an __init__ and __str__ methods in order to be standarized.</td>
           </tr>
@@ -30,7 +73,7 @@ const DocumentationPage = () => {
           <tr className="row-grey">
             <td>"for loop" </td>
             <td>For Loops must be defined with range and number or variable name</td>
-          </tr>
+          </tr> */}
         </table>
       </div>
       <div className="tutorial-section">
@@ -66,9 +109,15 @@ const DocumentationPage = () => {
         <h2>Who is Brackey?</h2>
         <p>Brackey is our interactive AI revolutionizing the way developer's code. They are there to guide you through our ConvoCode IDE.</p>
       </div>
-    </div>
+    </div >
 
   );
 
 }
-export default DocumentationPage
+const mapStateToProps = (reduxstate) => {
+  return {
+    convodex: reduxstate.convodex.entries,
+  };
+};
+
+export default connect(mapStateToProps, { addConvodexEntry })(DocumentationPage);

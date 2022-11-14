@@ -20,11 +20,17 @@ import {
   insertCode,
 } from './code';
 
+import {
+  ActionTypes as convodexActionTypes,
+  addConvodexEntry,
+} from './convodex';
+
 const ActionTypes = {
   ...modeActionTypes,
   ...fileActionTypes,
   ...voiceActionTypes,
   ...codeActionTypes,
+  ...convodexActionTypes,
 };
 
 export {
@@ -35,4 +41,5 @@ export {
   addSpeech,
   addCode,
   insertCode,
+  addConvodexEntry,
 }
