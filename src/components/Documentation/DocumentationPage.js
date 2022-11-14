@@ -4,7 +4,7 @@ import HeaderBar from "../HeaderBar/HeaderBar";
 import './documentation.css'
 
 const DocumentationPage = () => {
-  const [theme, setTheme] = useState('light');
+  const [theme] = useState('light');
 
   return (
     <div className="docu-page" data-theme={theme}>

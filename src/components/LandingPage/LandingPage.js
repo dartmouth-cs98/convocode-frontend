@@ -8,7 +8,7 @@ import './landing.css'
 
 const LandingPage = () => {
 
-  const [theme, setTheme] = useState('light');
+  const [theme] = useState('light');
 
   return (
     <div className="landing-page" data-theme={theme}>
