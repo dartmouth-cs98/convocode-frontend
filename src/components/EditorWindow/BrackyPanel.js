@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react"
-import { useLocation } from "react-router"
 import SettingsModal from "./SettingsModal"
 
 import Bracky from '../../resources/bracky.png'
@@ -14,7 +13,6 @@ import MicRecorder from 'mic-recorder-to-mp3';
 import { connect } from 'react-redux';
 import { addSpeech } from "../../state/actions"
 import { addCode } from "../../state/actions"
-import { objToString } from "../../resources/util.js"
 import axios from 'axios';
 
 
@@ -29,10 +27,8 @@ const BrackyPanel = (props) => {
 
   const ref = useRef(null);
   const [initiateDownload, setInitiateDownload] = useState(false);
-  const [Mp3Recorder, setMp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
-  const [recording, setRecording] = useState(false);
+  const [Mp3Recorder] = useState(new MicRecorder({ bitRate: 128 }));
   const [blocked, setBlocked] = useState(false);
-  const [blobURL, setBlobURL] = useState("");
   const [speakText, setSpeakText] = useState("SPEAK");
 
 
@@ -40,7 +36,7 @@ const BrackyPanel = (props) => {
   useEffect(() => {
     var a = ref.current;
     a = document.getElementById("a");
-    var file = new Blob([objToString(props.code)], { type: 'application/python' });
+    var file = new Blob([props.code], { type: 'application/python' });
     a.href = URL.createObjectURL(file);
     a.download = props.filename;
   }, [props.filename, props.code, initiateDownload]);
@@ -67,7 +63,6 @@ const BrackyPanel = (props) => {
       Mp3Recorder
         .start()
         .then(() => {
-          setRecording(true);
         }).catch((e) => console.error(e));
     }
   };
@@ -77,9 +72,6 @@ const BrackyPanel = (props) => {
       .stop()
       .getMp3()
       .then(([buffer, blob]) => {
-        // const blobURL = URL.createObjectURL(blob)
-        // setBlobURL(blobURL);
-        setRecording(false);
         let file = new File([blob], `chunk-${new Date().getTime().toString()}.wav`);
         console.log(file);
         const formData = new FormData();
@@ -107,7 +99,6 @@ const BrackyPanel = (props) => {
     } else {
       setSpeakText("SPEAK");
       stop();
-      console.log(blobURL);
     }
   };
 

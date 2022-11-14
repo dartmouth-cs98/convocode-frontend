@@ -1,19 +1,15 @@
 // BASED OFF OF: https://www.freecodecamp.org/news/how-to-build-react-based-code-editor/
 // monaco-editor package for Editor component
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Editor from "@monaco-editor/react";
 import { connect } from 'react-redux';
 import { addCode } from "../../state/actions";
-import { objToString } from "../../resources/util.js"
 
 import './index.css'
 
 
 const CodeEditor = (props) => {
-  const [value, setValue] = useState(objToString(props.code));
-
-  console.log("values", value)
 
   const handleEditorChange = (value) => {
     props.addCode(value);
@@ -26,7 +22,7 @@ const CodeEditor = (props) => {
         height="78vh"
         width='100%'
         language={props.language || "python"}
-        value={objToString(props.code)}
+        value={props.code}
         theme={props.theme}
         defaultValue="# Python Editor"
         onChange={handleEditorChange}
