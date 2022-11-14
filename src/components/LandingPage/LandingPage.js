@@ -59,13 +59,13 @@ const LandingPage = () => {
             <img className="headshot" alt="Abby Headshot" src={abby} />
             <h4 id="" data-theme={theme}><strong>Abby Owen</strong></h4>
             <p>Larchmont, NY | she/her</p>
-            <p>Computer Science Major + English Minor</p>
+            <p>Computer Science Major | English Minor</p>
           </div>
           <div className="team-member">
             <img className="headshot" alt="Dylan Headshot"  src={dylan}/>
             <h4 id="" data-theme={theme}><strong>Dylan Bienstock</strong></h4>
             <p>Santa Barbara, CA | he/him</p>
-            <p>Computer Science Major + Engineering Sciences Minor</p>
+            <p>Computer Science Major | Engineering Sciences + Religion Double Minor</p>
           </div>
           <div className="team-member">
             <img className="headshot" alt="Lily Headshot" src={lily}/>
@@ -77,13 +77,13 @@ const LandingPage = () => {
             <img className="headshot" alt="Melissa Headshot" src={melissa}/>
             <h4 id="" data-theme={theme}><strong>Melissa Valencia</strong></h4>
             <p>East Los Angeles, CA | she/her</p>
-            <p>Computer Science Major Human-Centered Design + Spanish Double Minor</p>
+            <p>Computer Science Major | Human-Centered Design + Spanish Double Minor</p>
           </div>
           <div className="team-member">
             <img className="headshot" alt="Will Headshot" src={will} />
             <h4 id="" data-theme={theme}><strong>Will Perez</strong></h4>
             <p>Orange County, CA | he/him</p>
-            <p>Computer Science Major modified with Human-Centered Design + Latin American Studies Minor</p>
+            <p>Computer Science Major modified with Human-Centered Design | Latin American Studies Minor</p>
           </div>
         </div>
       </div>

@@ -19,6 +19,7 @@ const Output = ({ output, theme, handleRunClick }) => {
     <div className="output-window" data-theme={theme}>
       <div className="output-header">
         <button onClick={handleRunClick} className="transparent">
+          Run
           <img src={Run} alt="run" />
         </button>
       </div>
