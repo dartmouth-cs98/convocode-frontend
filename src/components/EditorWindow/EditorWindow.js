@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
+import SettingsModal from "./SettingsModal"
 import BrackyPanel from './BrackyPanel';
 import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
@@ -29,6 +30,7 @@ const EditorWindow = (props) => {
   };
 
   const toggleModal = () => {
+    console.log("showw")
     setModalShow(modalShow => !modalShow);
   };
 
@@ -93,6 +95,7 @@ const EditorWindow = (props) => {
 
   return (
     <div className="editor-window" data-theme={theme}>
+      <SettingsModal modal={modalShow} toggleModal={toggleModal} />
       <div className='editor-header-bar' data-theme={theme}>
         <NavLink to="/"><h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1></NavLink>
       </div >
@@ -100,7 +103,7 @@ const EditorWindow = (props) => {
         {
           open ?
             <BrackyPanel theme={theme} open={toggleSidebar} modalShow={modalShow} toggleModal={toggleModal} />
-            : <ClosedBrackyPanel theme={theme} open={toggleSidebar} modal={modalShow} setModalView={toggleModal} />
+            : <ClosedBrackyPanel theme={theme} open={toggleSidebar} modal={modalShow} toggleModal={toggleModal} />
         }
         <div className="editor-container" style={open ? { width: '78vw' } : { width: '93vw' }}>
           <CodeEditor
