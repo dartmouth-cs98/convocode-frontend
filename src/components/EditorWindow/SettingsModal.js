@@ -27,7 +27,7 @@ const SettingsModal = (props) => {
   }
 
   return (
-    <ReactModal className="settings-modal" isOpen={props.modal} onRequestClose={props.toggleModal} contentLabel="Settings" ariaHideApp={false} >
+    <ReactModal className="settings-modal" data-theme={props.lightMode ? 'light' : 'dark'} isOpen={props.modal} onRequestClose={props.toggleModal} contentLabel="Settings" ariaHideApp={false} >
       <div className="settings-header">
         <h2>Settings</h2>
         <button className="transparent" onClick={props.toggleModal}><img src={X} alt="close" id="click" /></button>
@@ -40,9 +40,9 @@ const SettingsModal = (props) => {
         </div>
         <div className="settings-options">
           <div className="toggle-buttons">
-            <input id="toggle-on" className="toggle toggle-left" name="toggle" value="false" type="radio" defaultChecked />
+            <input id="toggle-on" className="toggle toggle-left" name="toggle" value="true" type="radio" onChange={() => props.toggleViewMode(true)} defaultChecked />
             <label htmlFor="toggle-on" className="btn">Light Mode</label>
-            <input id="toggle-off" className="toggle toggle-right" name="toggle" value="true" type="radio" />
+            <input id="toggle-off" className="toggle toggle-right" name="toggle" value="false" type="radio" onChange={() => props.toggleViewMode(false)} />
             <label htmlFor="toggle-off" className="btn">Dark Mode</label>
           </div>
           <input type="text" value={fileName} onChange={(event) => updateFileName(event.target.value)} />

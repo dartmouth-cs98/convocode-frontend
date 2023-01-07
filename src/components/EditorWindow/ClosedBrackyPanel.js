@@ -32,7 +32,7 @@ const ClosedBrackyPanel = (props) => {
   }
 
   return (
-    <div className="bracky-sidepanel-closed" data-theme={props.theme}>
+    <div className="bracky-sidepanel-closed" data-theme={props.lightMode ? 'light' : 'dark'}>
       <button className="transparent" onClick={props.open}><img src={Maximize} alt="download" id="click" /></button>
       <div className="settings-buttons-closed">
         <a className="transparent" onClick={toggleDownload} ref={ref} id="a" href="/#"><img src={DownloadClosed} alt="download" id="click" /></a>
