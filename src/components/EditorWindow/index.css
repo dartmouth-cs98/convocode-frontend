@@ -6,6 +6,8 @@
 .editor-content {
   display: flex;
   flex-direction: row;
+  background-color: var(--background);
+  color: var(--text-primary);
 }
 
 .editor-container {
@@ -20,13 +22,20 @@
 }
 
 .editor-header-bar {
-  background-color: var(--boring);
   height: 6vh;
   width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+.editor-header-bar[data-theme='dark'] {
+  background: var(--black);
+}
+
+.editor-header-bar[data-theme='light'] {
+  background: var(--boring)
 }
 
 .editor-header-bar h1 {
@@ -82,7 +91,7 @@
 .bracky-sidepanel-closed {
   height: 94vh;
   width: 5vw;
-  background-color: var(--boring);
+  background-color: var(--background);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -101,12 +110,9 @@
   padding: 8px;
 }
 
-.bracky-sidepanel[data-theme='dark'] {
-  background: var(--black);
-}
-
-.bracky-sidepanel[data-theme='light'] {
-  background: var(--boring)
+.bracky-sidepanel {
+  background: var(--boring);
+  color: var(--black);
 }
 
 .sidepanel-header {
@@ -227,7 +233,7 @@ input.submit {
 
 .out-text {
   height: 100px;
-  background-color: var(--boring);
+  background: var(--boring)
 }
 
 a {

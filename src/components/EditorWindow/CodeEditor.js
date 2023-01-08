@@ -23,7 +23,7 @@ const CodeEditor = (props) => {
         width='100%'
         language={props.language || "python"}
         value={props.code}
-        theme={props.theme}
+        theme={props.lightMode ? 'vs-light' : 'vs-dark'}
         defaultValue="# Python Editor"
         onChange={handleEditorChange}
         options={{
@@ -38,6 +38,7 @@ const mapStateToProps = (reduxstate) => {
   return {
     fontSize: reduxstate.settings.fontSize,
     code: reduxstate.code.string,
+    lightMode: reduxstate.settings.lightMode,
   };
 };
 

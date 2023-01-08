@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { connect } from 'react-redux';
+
 import HeaderBar from "../HeaderBar/HeaderBar";
 import FileModal from "./FileModal";
-import { NavLink } from "react-router-dom";
+
 import lily from '../../resources/headshots/LilyHeadshot.png';
 import dylan from '../../resources/headshots/DylanHeadshot.png';
 import will from '../../resources/headshots/WillHeadshot.png';
@@ -11,35 +14,32 @@ import annie from '../../resources/headshots/AnnieHeadshot.png';
 import './landing.css'
 
 
-const LandingPage = () => {
-
-  const [theme] = useState('light');
-
+const LandingPage = (props) => {
   return (
-    <div className="landing-page" data-theme={theme}>
+    <div className="landing-page" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />
-      <div className="title-content" data-theme={theme}>
+      <div className="title-content">
         <h1>Welcome to Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
         <h2>Redefining Python Developer tools.</h2>
-        <div className="file-buttons" data-theme={theme}>
+        <div className="file-buttons">
           <FileModal />
         </div>
       </div>
       <div className="floating-text">
         <div>
-          <p id="floating-cf" data-theme={theme}>"create function"</p>
+          <p id="floating-cf">"create function"</p>
         </div>
         <div>
-          <p id="floating-bc" data-theme={theme}>"build class"</p>
+          <p id="floating-bc">"build class"</p>
         </div>
         <div>
-          <p id="floating-dc" data-theme={theme}>"debug code"</p>
+          <p id="floating-dc">"debug code"</p>
         </div>
         <div>
-          <p id="floating-ar" data-theme={theme}>"analyze runtime"</p>
+          <p id="floating-ar">"analyze runtime"</p>
         </div>
         <div>
-          <p id="floating-sa" data-theme={theme}>"stackoverflow analysis"</p>
+          <p id="floating-sa">"stackoverflow analysis"</p>
         </div>
       </div>
       <div className="video-content">
@@ -51,37 +51,37 @@ const LandingPage = () => {
         <div className="member-content">
           <div className="team-member">
             <img className="headshot" alt="Annie Headshot" src={annie} />
-            <h4 id="" data-theme={theme}><strong>Annie Revers</strong></h4>
+            <h4 id=""><strong>Annie Revers</strong></h4>
             <p>Boston, MA | she/her</p>
             <p>Computer Science + Art History Double Major</p>
           </div>
           <div className="team-member">
             <img className="headshot" alt="Abby Headshot" src={abby} />
-            <h4 id="" data-theme={theme}><strong>Abby Owen</strong></h4>
+            <h4 id=""><strong>Abby Owen</strong></h4>
             <p>Larchmont, NY | she/her</p>
             <p>Computer Science Major | English Minor</p>
           </div>
           <div className="team-member">
-            <img className="headshot" alt="Dylan Headshot"  src={dylan}/>
-            <h4 id="" data-theme={theme}><strong>Dylan Bienstock</strong></h4>
+            <img className="headshot" alt="Dylan Headshot" src={dylan} />
+            <h4 id=""><strong>Dylan Bienstock</strong></h4>
             <p>Santa Barbara, CA | he/him</p>
             <p>Computer Science Major | Engineering Sciences + Religion Double Minor</p>
           </div>
           <div className="team-member">
-            <img className="headshot" alt="Lily Headshot" src={lily}/>
-            <h4 id="" data-theme={theme}><strong>Lily Maechling</strong></h4>
+            <img className="headshot" alt="Lily Headshot" src={lily} />
+            <h4 id=""><strong>Lily Maechling</strong></h4>
             <p>Pasadena, CA | she/her</p>
             <p>Computer Science + Economics Double Major</p>
           </div>
           <div className="team-member">
-            <img className="headshot" alt="Melissa Headshot" src={melissa}/>
-            <h4 id="" data-theme={theme}><strong>Melissa Valencia</strong></h4>
+            <img className="headshot" alt="Melissa Headshot" src={melissa} />
+            <h4 id=""><strong>Melissa Valencia</strong></h4>
             <p>East Los Angeles, CA | she/her</p>
             <p>Computer Science Major | Human-Centered Design + Spanish Double Minor</p>
           </div>
           <div className="team-member">
             <img className="headshot" alt="Will Headshot" src={will} />
-            <h4 id="" data-theme={theme}><strong>Will Perez</strong></h4>
+            <h4 id=""><strong>Will Perez</strong></h4>
             <p>Orange County, CA | he/him</p>
             <p>Computer Science Major modified with Human-Centered Design | Latin American Studies Minor</p>
           </div>
@@ -102,4 +102,8 @@ const LandingPage = () => {
     </div>
   );
 };
-export default LandingPage;
+const mapStateToProps = (reduxstate) => {
+  return { lightMode: reduxstate.settings.lightMode };
+};
+
+export default connect(mapStateToProps, {})(LandingPage);
