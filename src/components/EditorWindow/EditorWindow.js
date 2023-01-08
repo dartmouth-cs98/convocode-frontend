@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
+import SettingsModal from "./SettingsModal"
 import BrackyPanel from './BrackyPanel';
 import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
@@ -28,6 +29,7 @@ const EditorWindow = (props) => {
   };
 
   const toggleModal = () => {
+    console.log("showw")
     setModalShow(modalShow => !modalShow);
   };
 
