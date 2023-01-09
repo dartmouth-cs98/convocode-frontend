@@ -59,7 +59,7 @@ const ClosedBrackyPanel = (props) => {
         formData.append('file', file);
         axios.request({
           method: "POST",
-          url: `${process.env.REACT_APP_BACKEND_URL}/voicetocode`,
+          url: `http://localhost:8000/api/voicetocode`,
           data: formData,
         }).then((res) => {
           console.log(res);
