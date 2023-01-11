@@ -1,0 +1,9 @@
+.web-editor-container {
+    display: inline;
+    width: 100%;
+}
+
+.editor {
+    display: inline;
+   width: 33%;
+}
