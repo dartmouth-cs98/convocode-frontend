@@ -14,7 +14,7 @@ const DocumentationPage = (props) => {
   }, []);
 
   const retrieveConvodexEntries = () => {
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/convodex`, {
+    axios.get(`http://localhost:8000/api/convodex`, {
     }).then((res) => {
       console.log("rertieved convodex data");
       console.log(res.data);
