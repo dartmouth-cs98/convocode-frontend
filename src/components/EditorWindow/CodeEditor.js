@@ -11,6 +11,12 @@ import './index.css'
 
 
 const CodeEditor = (props) => {
+  const defaults = {
+    javascript: "// Javascript Editor",
+    css: "/* CSS Editor */",
+    html: "<! -- HTML Editor -->"
+  };
+
 
   const handleEditorChange = (value) => {
     if (props.language === "javascript") {
@@ -33,7 +39,7 @@ const CodeEditor = (props) => {
         language={props.language || "python"}
         value={props.code}
         theme={props.theme}
-        defaultValue="# Python Editor"
+        defaultValue={defaults[props.language]}
         onChange={handleEditorChange}
         options={{
           fontSize: props.fontSize
