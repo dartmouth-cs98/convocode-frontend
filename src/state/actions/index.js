@@ -25,12 +25,18 @@ import {
   addConvodexEntry,
 } from './convodex';
 
+import {
+  ActionTypes as fileSystemActionTypes,
+  addFile,
+} from './files';
+
 const ActionTypes = {
   ...modeActionTypes,
   ...fileActionTypes,
   ...voiceActionTypes,
   ...codeActionTypes,
   ...convodexActionTypes,
+  ...fileSystemActionTypes
 };
 
 export {
@@ -42,4 +48,5 @@ export {
   addCode,
   insertCode,
   addConvodexEntry,
+  addFile,
 }

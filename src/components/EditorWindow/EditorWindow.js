@@ -1,12 +1,14 @@
 // RECORDER: https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CodeEditor from './CodeEditor';
 import BrackyPanel from './BrackyPanel';
 import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
+import FileSystem from './FileSystem';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
+import { addFile } from '../../state/actions';
 import axios from 'axios';
 
 import './index.css'
@@ -32,6 +34,16 @@ const EditorWindow = (props) => {
     setModalShow(modalShow => !modalShow);
   };
 
+  
+  function newFileClicked() {
+    let f = {
+      name: "test2.py",
+      language: "python",
+      value: "# Some new code",
+    }
+    props.addFile(f);
+  };
+  
   // Function to call the compile endpoint
   function submitCode() {
 
@@ -110,14 +122,18 @@ const EditorWindow = (props) => {
           />
           <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} />
         </div>
+        <button onClick={newFileClicked}>New File</button>
       </div>
     </div >
   );
 };
 
 const mapStateToProps = (reduxstate) => {
-  return { code: reduxstate.code.string };
+  return { 
+    code: reduxstate.code.string, 
+    files: reduxstate.files 
+  };
 };
 
 
-export default connect(mapStateToProps, { addCode })(EditorWindow);
+export default connect(mapStateToProps, { addCode, addFile })(EditorWindow);

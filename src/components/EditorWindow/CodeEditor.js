@@ -17,7 +17,7 @@ const CodeEditor = (props) => {
 
 
   return (
-    <div className="overlay rounded-md w-full h-full shadow-4xl">
+    <div className="overlay rounded-md w-full h-full shadow-4xl" id="editor">
       <Editor
         height="78vh"
         width='100%'
