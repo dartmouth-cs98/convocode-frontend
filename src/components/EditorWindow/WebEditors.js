@@ -8,6 +8,7 @@ import OutputWindow from './OutputWindow';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
 import { addJavascriptCode } from '../../state/actions';
+import WebOutput from './WebOutput';
 import axios from 'axios';
 import './webEditor.css';
 
@@ -87,11 +88,8 @@ const EditorWindow = (props) => {
       }
     } catch (err) {
       console.log("err", err);
-      //showErrorToast();
     }
   }
-
-
 
   return (
         <div className="web-editor-container">
@@ -116,6 +114,7 @@ const EditorWindow = (props) => {
                 width="33%"
             />
           </div>
+          <WebOutput theme={theme}/>
         </div>
   );
 };
