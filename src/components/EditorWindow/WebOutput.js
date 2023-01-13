@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import './index.css'
 import { connect } from 'react-redux';
 import { addJavascriptCode, addHTMLCode, addCSSCode } from "../../state/actions";
+import Iframe from 'react-iframe';
 
 
 const WebOutput = (props) => {
@@ -44,9 +45,13 @@ const WebOutput = (props) => {
 
 
   return (
-    <div className="output-window" data-theme={props.theme}>
-        <iframe className="iframe" src={iframeSrc}></iframe>
-    </div>
+    <Iframe url={iframeSrc}
+        width="640px"
+        height="320px"
+        id=""
+        className="iframe"
+        display="block"
+        position="relative"/>
   );
 };
 
