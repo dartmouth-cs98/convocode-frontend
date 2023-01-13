@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
+import SettingsModal from "./SettingsModal"
 import BrackyPanel from './BrackyPanel';
 import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
@@ -19,7 +20,6 @@ dotenv.config({ silent: true });
 const EditorWindow = (props) => {
 
   // getting code from nav link props
-  const [theme] = useState("light");
   const [outputDetails, setOutputDetails] = useState(null);
   const [open, setOpen] = useState(true);
   const [modalShow, setModalShow] = useState(false);
@@ -29,6 +29,7 @@ const EditorWindow = (props) => {
   };
 
   const toggleModal = () => {
+    console.log("showw")
     setModalShow(modalShow => !modalShow);
   };
 
@@ -42,7 +43,7 @@ const EditorWindow = (props) => {
 
 
     // Post request to compile endpoint
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/compiler`, {
+    axios.post(`http://localhost:8000/api/compiler`, {
       source_code: props.code
     }).then((res) => {
       console.log("here");
@@ -61,7 +62,7 @@ const EditorWindow = (props) => {
     console.log(id);
 
     try {
-      let response = await axios.request(`${process.env.REACT_APP_BACKEND_URL}/compiler/${id.token}`);
+      let response = await axios.request(`http://localhost:8000/api/compiler/${id.token}`);
       console.log(response.data);
       let status = response.status;
       console.log(status)
@@ -92,23 +93,22 @@ const EditorWindow = (props) => {
 
 
   return (
-    <div className="editor-window" data-theme={theme}>
-      <div className='editor-header-bar' data-theme={theme}>
+    <div className="editor-window" data-theme={props.lightMode ? 'light' : 'dark'}>
+      <div className="editor-header-bar" data-theme={props.lightMode ? 'light' : 'dark'}>
         <NavLink to="/"><h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1></NavLink>
       </div >
       <div className='editor-content'>
         {
           open ?
-            <BrackyPanel theme={theme} open={toggleSidebar} modalShow={modalShow} toggleModal={toggleModal} />
-            : <ClosedBrackyPanel theme={theme} open={toggleSidebar} modal={modalShow} setModalView={toggleModal} />
+            <BrackyPanel open={toggleSidebar} modalShow={modalShow} toggleModal={toggleModal} />
+            : <ClosedBrackyPanel open={toggleSidebar} modal={modalShow} setModalView={toggleModal} />
         }
         <div className="editor-container" style={open ? { width: '78vw' } : { width: '93vw' }}>
           <CodeEditor
             language={"python"}
-            theme={theme}
             width="100%"
           />
-          <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} />
+          <OutputWindow output={outputDetails} handleRunClick={submitCode} />
         </div>
       </div>
     </div >
@@ -116,7 +116,10 @@ const EditorWindow = (props) => {
 };
 
 const mapStateToProps = (reduxstate) => {
-  return { code: reduxstate.code.string };
+  return {
+    code: reduxstate.code.string,
+    lightMode: reduxstate.settings.lightMode,
+  };
 };
 
 

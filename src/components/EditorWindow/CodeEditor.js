@@ -56,6 +56,8 @@ const mapStateToProps = (reduxstate) => {
     javascriptCode: reduxstate.javascriptCode.string,
     htmlCode: reduxstate.htmlCode.string,
     cssCode: reduxstate.cssCode.string,
+    lightMode: reduxstate.settings.lightMode,
+
   };
 };
 

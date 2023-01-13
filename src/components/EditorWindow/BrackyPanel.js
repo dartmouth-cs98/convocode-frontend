@@ -80,7 +80,7 @@ const BrackyPanel = (props) => {
         // console.log(audioURL);
         axios.request({
           method: "POST",
-          url: `${process.env.REACT_APP_BACKEND_URL}/voicetocode`,
+          url: `http://localhost:8000/api/voicetocode`,
           data: formData,
         }).then((res) => {
           console.log(res);
@@ -104,8 +104,7 @@ const BrackyPanel = (props) => {
 
   return (
     <div className="sidepanel-container">
-      <SettingsModal modal={props.modalShow} toggleModal={props.toggleModal} />
-      <div className="filename-tab">
+      \      <div className="filename-tab">
         <div style={{ display: 'flex' }}>
           <img src={Python} alt="Python Logo" id="click" />
           <p>{props.filename}</p>
