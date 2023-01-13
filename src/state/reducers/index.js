@@ -5,6 +5,10 @@ import VoiceReducer from './voice';
 import CodeReducer from './code';
 import SettingsReducer from './settings';
 import ConvodexReducer from './convodex';
+import JavascriptCodeReducer from './javascriptCode';
+import HTMLCodeReducer from './htmlCode';
+import CSSCodeReducer from './cssCode';
+
 
 const rootReducer = combineReducers({
   settings: SettingsReducer,
@@ -12,6 +16,9 @@ const rootReducer = combineReducers({
   voice: VoiceReducer,
   code: CodeReducer,
   convodex: ConvodexReducer,
+  javascriptCode: JavascriptCodeReducer,
+  htmlCode: HTMLCodeReducer,
+  cssCode: CSSCodeReducer,
 });
 
 export default rootReducer;

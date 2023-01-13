@@ -25,12 +25,33 @@ import {
   addConvodexEntry,
 } from './convodex';
 
+import {
+  ActionTypes as javascriptCodeActionTypes,
+  addJavascriptCode,
+  insertJavascriptCode,
+} from './javascriptCode';
+
+import {
+  ActionTypes as htmlCodeActionTypes,
+  addHTMLCode,
+  insertHTMLCode,
+} from './htmlCode';
+
+import {
+  ActionTypes as cssCodeActionTypes,
+  addCSSCode,
+  insertCSSCode,
+} from './cssCode';
+
 const ActionTypes = {
   ...modeActionTypes,
   ...fileActionTypes,
   ...voiceActionTypes,
   ...codeActionTypes,
   ...convodexActionTypes,
+  ...javascriptCodeActionTypes,
+  ...htmlCodeActionTypes,
+  ...cssCodeActionTypes,
 };
 
 export {
@@ -42,4 +63,7 @@ export {
   addCode,
   insertCode,
   addConvodexEntry,
+  addJavascriptCode,
+  addHTMLCode,
+  addCSSCode,
 }
