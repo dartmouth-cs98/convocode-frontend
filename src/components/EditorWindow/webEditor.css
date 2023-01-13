@@ -1,9 +1,11 @@
 .web-editor-container {
-    display: inline;
-    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 10px 20px;
 }
 
 .editor {
-    display: inline;
-   width: 33%;
+   display: inline;
+   width: 33vw;
 }

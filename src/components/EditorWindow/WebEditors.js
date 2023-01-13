@@ -91,27 +91,28 @@ const EditorWindow = (props) => {
     }
   }
 
+
   return (
         <div className="web-editor-container">
           <div className="editor">
             <CodeEditor
                 language={"javascript"}
                 theme={theme}
-                width="33%"
+                width="100%"
             />
           </div>
           <div className="editor">
             <CodeEditor
                 language={"html"}
                 theme={theme}
-                width="33%"
+                width="100%"
             />
           </div>
           <div className="editor">
             <CodeEditor
                 language={"css"}
                 theme={theme}
-                width="33%"
+                width="100%"
             />
           </div>
           <WebOutput theme={theme}/>

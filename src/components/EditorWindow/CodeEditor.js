@@ -38,7 +38,7 @@ const CodeEditor = (props) => {
         width={props.width}
         language={props.language || "python"}
         value={props.code}
-        theme={props.theme}
+        theme={props.lightMode ? 'vs-light' : 'vs-dark'}
         defaultValue={defaults[props.language]}
         onChange={handleEditorChange}
         options={{
