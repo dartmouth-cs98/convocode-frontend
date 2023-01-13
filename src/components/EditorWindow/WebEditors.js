@@ -19,7 +19,7 @@ import { NavLink } from 'react-router-dom';
 import dotenv from 'dotenv';
 dotenv.config({ silent: true });
 
-const EditorWindow = (props) => {
+const WebEditors = (props) => {
 
   // getting code from nav link props
   const [theme] = useState("light");
@@ -125,4 +125,4 @@ const mapStateToProps = (reduxstate) => {
 };
 
 
-export default connect(mapStateToProps, { addCode })(EditorWindow);
+export default connect(mapStateToProps, { addCode })(WebEditors);
