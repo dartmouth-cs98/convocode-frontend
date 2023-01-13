@@ -55,7 +55,8 @@ const BrackyPanel = (props) => {
     },
   );
 
-
+  // START OF VOICE TO CODE LOGIC
+  /*
   function start() {
     if (blocked) {
       console.log('Permission Denied');
@@ -72,21 +73,16 @@ const BrackyPanel = (props) => {
       .stop()
       .getMp3()
       .then(([buffer, blob]) => {
-        //let file = "this is a string"
-        //let file = new File([blob], `chunk-${new Date().getTime().toString()}.wav`);
-        console.log("are we getting here")
-        //console.log(file);
-        // const formData = new FormData();
-        // formData.append('my_file', file);
-        // console.log(formData)
-        // const audioURL = window.URL.createObjectURL(blob);
-        // console.log(audioURL);
+        let file = new File([blob], `chunk-${new Date().getTime().toString()}.wav`);
+        const formData = new FormData();
+        formData.append('my_file', file);
+        const audioURL = window.URL.createObjectURL(blob);
         axios.request({
           method: "POST",
           url: `http://localhost:8000/api/getcode`,
           data: {
             testString: "my test string"
-          }
+          } // need to fix this file issue
         }).then((res) => {
           console.log(res);
           console.log(res.data.code);
@@ -95,16 +91,37 @@ const BrackyPanel = (props) => {
           props.addSpeech(res.data.text);
         });
       }).catch((e) => console.log(e));
-  };
+  };*/
+  // END OF VOICE TO CODE LOGIC
 
   function handleSpeakClick() {
+
+    // send user input to get code from openai
+    axios.request({
+      method: "POST",
+      url: `http://localhost:8000/api/getcode`,
+      data: {
+        // user input hard coded here while we transition from voice to typing
+        userInput: "for i in range 10 print i"
+      }
+    }).then((res) => {
+      console.log(res);
+      console.log(res.data.code);
+      console.log(res.data.text);
+      props.insertCode(res.data.code);
+      props.addSpeech(res.data.text);
+    });
+
+    // START OF VOICE TO CODE LOGIC
+    /*
     if (speakText === "SPEAK") {
       setSpeakText("STOP");
       start();
     } else {
       setSpeakText("SPEAK");
       stop();
-    }
+    }*/
+    // END OF VOICE TO CODE LOGIC
   };
 
   return (
