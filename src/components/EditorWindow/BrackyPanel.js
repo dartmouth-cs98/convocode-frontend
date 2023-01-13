@@ -72,16 +72,21 @@ const BrackyPanel = (props) => {
       .stop()
       .getMp3()
       .then(([buffer, blob]) => {
-        let file = new File([blob], `chunk-${new Date().getTime().toString()}.wav`);
-        console.log(file);
-        const formData = new FormData();
-        formData.append('file', file);
+        //let file = "this is a string"
+        //let file = new File([blob], `chunk-${new Date().getTime().toString()}.wav`);
+        console.log("are we getting here")
+        //console.log(file);
+        // const formData = new FormData();
+        // formData.append('my_file', file);
+        // console.log(formData)
         // const audioURL = window.URL.createObjectURL(blob);
         // console.log(audioURL);
         axios.request({
           method: "POST",
-          url: `http://localhost:8000/api/voicetocode`,
-          data: formData,
+          url: `http://localhost:8000/api/getcode`,
+          data: {
+            testString: "my test string"
+          }
         }).then((res) => {
           console.log(res);
           console.log(res.data.code);
