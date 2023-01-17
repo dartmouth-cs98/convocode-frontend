@@ -66,4 +66,7 @@ export {
   addJavascriptCode,
   addHTMLCode,
   addCSSCode,
+  insertJavascriptCode,
+  insertCSSCode, 
+  insertHTMLCode,
 }

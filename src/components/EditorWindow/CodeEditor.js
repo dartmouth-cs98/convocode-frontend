@@ -17,6 +17,16 @@ const CodeEditor = (props) => {
     html: "<! -- HTML Editor -->"
   };
 
+  var editor_state = null;
+  if (props.language == "javascript") {
+    editor_state = props.javascriptCode;
+  } else if (props.language == "html") {
+    editor_state = props.htmlCode;
+  } else {
+    editor_state = props.cssCode;
+  }
+
+
 
   const handleEditorChange = (value) => {
     if (props.language === "javascript") {
@@ -37,7 +47,7 @@ const CodeEditor = (props) => {
         height="78vh"
         width={props.width}
         language={props.language || "python"}
-        value={props.code}
+        value={editor_state}
         theme={props.lightMode ? 'vs-light' : 'vs-dark'}
         defaultValue={defaults[props.language]}
         onChange={handleEditorChange}

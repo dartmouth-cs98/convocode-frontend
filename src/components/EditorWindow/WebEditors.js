@@ -7,7 +7,9 @@ import ClosedBrackyPanel from './ClosedBrackyPanel';
 import OutputWindow from './OutputWindow';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
-import { addJavascriptCode } from '../../state/actions';
+import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
+import { addCSSCode, insertCSSCode } from '../../state/actions';
+import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import WebOutput from './WebOutput';
 import axios from 'axios';
 import './webEditor.css';
@@ -17,6 +19,7 @@ import { NavLink } from 'react-router-dom';
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
+import { getSuggestedQuery } from '@testing-library/react';
 dotenv.config({ silent: true });
 
 const WebEditors = (props) => {
@@ -26,10 +29,50 @@ const WebEditors = (props) => {
   const [outputDetails, setOutputDetails] = useState(null);
   const [open, setOpen] = useState(true);
   const [modalShow, setModalShow] = useState(false);
+  const [JSquery, setJSQuery] = useState("");
+  const [CSSquery, setCSSQuery] = useState("");
+  const [HTMLquery, setHTMLQuery] = useState("");
 
   const toggleSidebar = () => {
     setOpen(open => !open);
   };
+
+  function handleSubmitCode(code_type) {
+    console.log("here");
+    // send user input to get code from openai
+    var queryType = null;
+    if (code_type === "javascript") {
+        queryType = "// Language: javascript \n//" + JSquery;
+    } else if (code_type === "html") {
+        queryType = "<!-- " + HTMLquery + " -->\n + <!DOCTYPE html>";
+    } else {
+        queryType = "/* Langauage: CSS */\n/* " + CSSquery + "*/";
+    }
+    axios.request({
+      method: "POST",
+      url: `http://localhost:8000/api/getcode`,
+      data: {
+        // user input hard coded here while we transition from voice to typing
+        userInput: queryType
+      }
+    }).then((res) => {
+      console.log(res);
+      console.log(res.data.code);
+      console.log(res.data.text);
+      if (code_type === "javascript") {
+        props.addJavascriptCode(res.data.code);
+        props.insertJavascriptCode(res.data.code);
+      } else if (code_type === "html") {
+        props.addHTMLCode(res.data.code);
+        props.insertHTMLCode(res.data.code);
+      } else {
+        props.addCSSCode(res.data.code);
+        props.insertCSSCode(res.data.code);
+      }
+      
+      //props.addSpeech(res.data.text);
+    });
+  }
 
   const toggleModal = () => {
     setModalShow(modalShow => !modalShow);
@@ -90,7 +133,36 @@ const WebEditors = (props) => {
       console.log("err", err);
     }
   }
+  const handleJSChange = (event) => {
+    // 👇 Get input value from "event"
+    setJSQuery(event.target.value);
+  };
 
+  const handleCSSChange = (event) => {
+    // 👇 Get input value from "event"
+    setCSSQuery(event.target.value);
+  };
+
+  const handleHTMLChange = (event) => {
+    // 👇 Get input value from "event"
+    setHTMLQuery(event.target.value);
+  };
+
+  const submitJavascript = () => {
+    handleSubmitCode("javascript");
+    setJSQuery("");
+
+  };
+
+  const submitCSS = () => {
+    handleSubmitCode("css");
+    setCSSQuery("");
+  };
+
+  const submitHTML = () => {
+    handleSubmitCode("html");
+    setHTMLQuery("");
+  }
 
   return (
         <div className="web-editor-container">
@@ -100,6 +172,8 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
             />
+            <input placeholder="Get javascript code" value={JSquery} onChange={handleJSChange}></input>
+            <button onClick={submitJavascript}>Submit</button>
           </div>
           <div className="editor">
             <CodeEditor
@@ -107,6 +181,8 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
             />
+            <input placeholder="Get HTML code" value={HTMLquery} onChange={handleHTMLChange}></input>
+            <button onClick={submitHTML}>Submit</button>
           </div>
           <div className="editor">
             <CodeEditor
@@ -114,6 +190,8 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
             />
+            <input placeholder="Get CSS code" value={CSSquery} onChange={handleCSSChange}></input>
+            <button onClick={submitCSS}>Submit</button>
           </div>
           <WebOutput theme={theme}/>
         </div>
@@ -121,8 +199,13 @@ const WebEditors = (props) => {
 };
 
 const mapStateToProps = (reduxstate) => {
-  return { code: reduxstate.code.string };
+  return { 
+    code: reduxstate.code.string, 
+    javascriptCode: reduxstate.javascriptCode.string,
+    htmlCode: reduxstate.htmlCode.string,
+    cssCode: reduxstate.cssCode.string,
+ };
 };
 
 
-export default connect(mapStateToProps, { addCode })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode })(WebEditors);
