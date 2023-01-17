@@ -1,0 +1,35 @@
+@import "../../index.css";
+
+.submit-buttons {
+  margin-top: 20px;
+}
+
+input {
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+}
+
+#one {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #2FBE87;
+}
+
+#two {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #62CCEE;
+}
+
+#three {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #F79266;
+}
+
+#four {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #F7CE66;
+}
+
+#five {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #EF6ED3;
+}
+
+#six {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #8733DA;
+}
