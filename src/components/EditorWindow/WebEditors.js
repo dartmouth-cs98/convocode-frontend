@@ -32,6 +32,7 @@ const WebEditors = (props) => {
   const [JSquery, setJSQuery] = useState("");
   const [CSSquery, setCSSQuery] = useState("");
   const [HTMLquery, setHTMLQuery] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const toggleSidebar = () => {
     setOpen(open => !open);
@@ -56,6 +57,7 @@ const WebEditors = (props) => {
         userInput: queryType
       }
     }).then((res) => {
+        setLoading(false);
       console.log(res);
       console.log(res.data.code);
       console.log(res.data.text);
@@ -173,7 +175,10 @@ const WebEditors = (props) => {
                 width="100%"
             />
             <input placeholder="Get javascript code" value={JSquery} onChange={handleJSChange}></input>
-            <button onClick={submitJavascript}>Submit</button>
+            <button onClick={() => { 
+                setLoading(!loading); 
+                submitJavascript();
+                }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button>
           </div>
           <div className="editor">
             <CodeEditor
@@ -182,7 +187,10 @@ const WebEditors = (props) => {
                 width="100%"
             />
             <input placeholder="Get HTML code" value={HTMLquery} onChange={handleHTMLChange}></input>
-            <button onClick={submitHTML}>Submit</button>
+            <button onClick={() => { 
+                setLoading(!loading); 
+                submitHTML();
+                }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button>
           </div>
           <div className="editor">
             <CodeEditor
@@ -191,7 +199,10 @@ const WebEditors = (props) => {
                 width="100%"
             />
             <input placeholder="Get CSS code" value={CSSquery} onChange={handleCSSChange}></input>
-            <button onClick={submitCSS}>Submit</button>
+            <button onClick={() => { 
+                setLoading(!loading); 
+                submitCSS();
+                }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button>
           </div>
           <WebOutput theme={theme}/>
         </div>
