@@ -110,8 +110,8 @@ const WebEditors = (props) => {
       }).then((res) => {
         // have some sort of popup or change the button to like "code saved!" or something
         console.log("code saved!")
-        console.log(res);
-        props.addProjectId(res);
+        console.log(res.data);
+        props.addProjectId(res.data);
       });
       
     } else {
@@ -120,9 +120,9 @@ const WebEditors = (props) => {
           // send post information to the backend 
           axios.request({
             method: "PUT",
-            url: `http://localhost:8000/api/posts/projectId`,
+            url: `http://localhost:8000/api/posts`,
             data: {
-              user: "fakeusernameslay",
+              projectId: projectId,
               title: "faketitle",
               description: "fakedescription",
               tags: "medium",
@@ -133,8 +133,6 @@ const WebEditors = (props) => {
           }).then((res) => {
             // have some sort of popup or change the button to like "code saved!" or something
             console.log("code saved!")
-            console.log(res);
-            props.addProjectId(res);
           });
     }
 
