@@ -3,6 +3,7 @@ import './index.css'
 import { connect } from 'react-redux';
 import { addJavascriptCode, addHTMLCode, addCSSCode } from "../../state/actions";
 import Iframe from 'react-iframe';
+import Run from '../../resources/play.png'
 
 
 const WebOutput = (props) => {
@@ -45,13 +46,21 @@ const WebOutput = (props) => {
 
 
   return (
-    <Iframe url={iframeSrc}
-        width="640px"
-        height="320px"
-        id=""
-        className="iframe"
-        display="block"
-        position="relative"/>
+    <div className="output-window" >
+      <div className="output-header">
+        <button className="transparent">
+          Run
+          <img src={Run} alt="run" />
+        </button>
+      </div>
+      <Iframe url={iframeSrc}
+          width="640px"
+          height="320px"
+          id=""
+          className="iframe"
+          display="block"
+          position="relative"/>
+    </div>
   );
 };
 
