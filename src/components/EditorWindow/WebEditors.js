@@ -13,6 +13,7 @@ import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import WebOutput from './WebOutput';
 import axios from 'axios';
 import './webEditor.css';
+import { addProjectId } from '../../state/actions';
 
 import './index.css'
 import { NavLink } from 'react-router-dom';
@@ -29,6 +30,7 @@ const WebEditors = (props) => {
   const [outputDetails, setOutputDetails] = useState(null);
   const [open, setOpen] = useState(true);
   const [modalShow, setModalShow] = useState(false);
+  const [title, setTitle] = useState("");
   const [JSquery, setJSQuery] = useState("");
   const [CSSquery, setCSSQuery] = useState("");
   const [HTMLquery, setHTMLQuery] = useState("");
@@ -78,34 +80,67 @@ const WebEditors = (props) => {
 
   function saveCode() {
 
+    // TO DO: get username, title, description, and tags
+
     // get java, html, and css code from editors
     const java_code = props.javascriptCode;
-    console.log(java_code)
     const html_code = props.htmlCode;
-    console.log(java_code)
     const css_code = props.cssCode;
-    console.log(css_code)
 
-    // TO DO: get username, title, description, and tags, post_id???
-    // TO DO: figure out how to handle new posts (create) versus old ones (update)
+    // check if project id
+    const projectId = props.projectId;
+    console.log(projectId);
 
-    // send post information to the backend 
-    axios.request({
-      method: "POST",
-      url: `http://localhost:8000/api/posts`,
-      data: {
-        user: "fakeusernameslay",
-        title: "faketitle",
-        description: "fakedescription",
-        tags: "medium",
-        java_code: java_code,
-        html_code: html_code,
-        css_code: css_code,
+    if (projectId == "") {
+      // no project id yet, create new project
+
+      // send post information to the backend 
+      axios.request({
+        method: "POST",
+        url: `http://localhost:8000/api/posts`,
+        data: {
+          user: "fakeusernameslay",
+          title: "faketitle",
+          description: "fakedescription",
+          tags: "medium",
+          java_code: java_code,
+          html_code: html_code,
+          css_code: css_code,
       }
-    }).then((res) => {
-       // have some sort of popup or change the button to like "code saved!" or something
-       console.log("code saved!")
-    });
+      }).then((res) => {
+        // have some sort of popup or change the button to like "code saved!" or something
+        console.log("code saved!")
+        console.log(res);
+        props.addProjectId(res);
+      });
+      
+    } else {
+          // project already exists, update in database instead
+
+          // send post information to the backend 
+          axios.request({
+            method: "PUT",
+            url: `http://localhost:8000/api/posts/projectId`,
+            data: {
+              user: "fakeusernameslay",
+              title: "faketitle",
+              description: "fakedescription",
+              tags: "medium",
+              java_code: java_code,
+              html_code: html_code,
+              css_code: css_code,
+          }
+          }).then((res) => {
+            // have some sort of popup or change the button to like "code saved!" or something
+            console.log("code saved!")
+            console.log(res);
+            props.addProjectId(res);
+          });
+    }
+
+  
+
+    
   }
 
   const toggleModal = () => {
@@ -168,6 +203,12 @@ const WebEditors = (props) => {
       console.log("err", err);
     }
   }
+
+  const handleTitleChange = (event) => {
+    // 👇 Get input value from "event"
+    setTitle(event.target.value);
+  };
+
   const handleJSChange = (event) => {
     // 👇 Get input value from "event"
     setJSQuery(event.target.value);
@@ -241,6 +282,7 @@ const WebEditors = (props) => {
                 //setLoading(!loading); 
                 saveCode();
                 }} disabled={loading}>{loading ? 'Loading...' : 'Save Code'}</button>
+          <input placeholder="My Title" value={title} onChange={handleTitleChange}></input>
           <WebOutput theme={theme}/>
         </div>
   );
@@ -252,8 +294,9 @@ const mapStateToProps = (reduxstate) => {
     javascriptCode: reduxstate.javascriptCode.string,
     htmlCode: reduxstate.htmlCode.string,
     cssCode: reduxstate.cssCode.string,
+    projectId: reduxstate.projectId.string,
  };
 };
 
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId })(WebEditors);
