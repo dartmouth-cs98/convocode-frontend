@@ -9,56 +9,6 @@ import HeaderBar from "../HeaderBar/HeaderBar";
 import './signup.css'
 
 const SignUp = (props) => {
-  // const [name, setName] = useState();
-  // const [username, setUsername] = useState();
-  // const [email, setEmail] = useState();
-  // const [password, setPassword] = useState();
-  // const [email2, setEmail2] = useState();
-  // const [password2, setPassword2] = useState();
-  // const [emailMatchError, setEmailMatchError] = useState(false);
-  // const [emailRegError, setEmailRegError] = useState(false);
-  // const [passMatchError, setPassMatchError] = useState(false);
-
-  // const handleSubmit = () => {
-  //   if (email === email2 && password === password2 && validEmail.test(email)) {
-  //     alert('form submitted');
-  //     resetErrors()
-  //     resetAllFields();
-  //   } else {
-  //     console.log("improper data")
-  //     if (email !== email2) {
-  //       setEmailMatchError(true)
-  //       setEmail("")
-  //       setEmail2("")
-  //     }
-  //     if (password !== password2) {
-  //       setPassMatchError(true)
-  //       setPassword("")
-  //       setPassword2("")
-  //     }
-  //     if (validEmail.test(email)) {
-  //       setEmailRegError(true)
-  //       setEmail("")
-  //       setEmail2("")
-  //     }
-  //   }
-  // }
-
-  // const resetAllFields = () => {
-  //   setName("")
-  //   setUsername("")
-  //   setEmail("")
-  //   setEmail2("")
-  //   setPassword("")
-  //   setPassword2("")
-  // }
-
-  // const resetErrors = () => {
-  //   setEmailMatchError(false)
-  //   setEmailRegError(false)
-  //   setPassMatchError(false)
-  // }
-
 
   const SignupSchema = Yup.object().shape({
     name: Yup.string()
@@ -70,10 +20,17 @@ const SignUp = (props) => {
       .max(50, 'Too Long')
       .required('Required'),
     email: Yup.string().email('Invalid email').required('Required'),
+    email2: Yup.string().email('Invalid email').required('Required')
+      .oneOf([Yup.ref('email'), null], "Emails do not match!"),
     password: Yup.string()
       .required('No password provided.')
       .min(8, 'Password is too short - should be 8 chars minimum.')
       .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
+    password2: Yup.string()
+      .required('No password provided.')
+      .min(8, 'Password is too short - should be 8 chars minimum.')
+      .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.')
+      .oneOf([Yup.ref('password'), null], "Passwords do not match!"),
   });
 
   return (
@@ -81,42 +38,14 @@ const SignUp = (props) => {
       <HeaderBar />
       <div className="content">
         <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
-        {/* <form onSubmit={() => handleSubmit()}>
-          <label>
-            <h3>Name:</h3>
-            <input type="text" value={name} id="one" onChange={(e) => setName(e.target.data)} />
-          </label>
-          <label>
-            <h3>Username:</h3>
-            <input type="text" value={username} id="two" onChange={(e) => setUsername(e.target.data)} />
-          </label>
-          <label>
-            <h3>Email:</h3>
-            <input type="text" value={email} id="three" onChange={(e) => setEmail(e.target.data)} />
-          </label>
-          <label>
-            <h3>Confirm Email:</h3>
-            <input type="text" value={email2} id="four" onChange={(e) => setEmail2(e.target.data)} />
-          </label>
-          <label>
-            <h3>Password:</h3>
-            <input type="password" value={password} id="five" onChange={(e) => setPassword(e.target.data)} />
-          </label>
-          <label>
-            <h3>Confirm Password:</h3>
-            <input type="password" value={password2} id="six" onChange={(e) => setPassword2(e.target.data)} />
-          </label>
-          <div className="submit-buttons">
-            <input type="submit" />
-            <NavLink to="/signin" id="link">Sign In</NavLink>
-          </div>
-        </form> */}
         <Formik
           initialValues={{
             name: '',
             username: '',
             email: '',
+            email2: '',
             password: '',
+            password2: '',
           }}
           validationSchema={SignupSchema}
           onSubmit={values => {
@@ -125,17 +54,32 @@ const SignUp = (props) => {
         >
           {({ errors, touched }) => (
             <Form>
-              <Field name="firstName" />
-              {errors.firstName && touched.firstName ? (
-                <div>{errors.firstName}</div>
+              <h3>Name:</h3>
+              <Field name="name" id="one" />
+              {errors.name && touched.name ? (
+                <div>{errors.name}</div>
               ) : null}
-              <Field name="lastName" />
-              {errors.lastName && touched.lastName ? (
-                <div>{errors.lastName}</div>
+              <h3>Username:</h3>
+              <Field name="username" id="two" />
+              {errors.username && touched.username ? (
+                <div>{errors.username}</div>
               ) : null}
-              <Field name="email" type="email" />
+              <h3>Email:</h3>
+              <Field name="email" type="email" id="three" />
               {errors.email && touched.email ? <div>{errors.email}</div> : null}
-              <button type="submit">Submit</button>
+              <h3>Confirm Email:</h3>
+              <Field name="email2" type="email" id="four" />
+              {errors.email2 && touched.email2 ? <div>{errors.email2}</div> : null}
+              <h3>Password:</h3>
+              <Field name="password" type="password" id="five" />
+              {errors.password && touched.password ? <div>{errors.password}</div> : null}
+              <h3>Confirm Password:</h3>
+              <Field name="password2" type="password" id="six" />
+              {errors.password2 && touched.password2 ? <div>{errors.password2}</div> : null}
+              <div className="submit-buttons">
+                <button type="submit">Submit</button>
+                <NavLink to="/signin" id="link">Sign In</NavLink>
+              </div>
             </Form>
           )}
         </Formik>
