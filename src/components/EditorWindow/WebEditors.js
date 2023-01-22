@@ -53,7 +53,6 @@ const WebEditors = (props) => {
       method: "POST",
       url: `http://localhost:8000/api/getcode`,
       data: {
-        // user input hard coded here while we transition from voice to typing
         userInput: queryType
       }
     }).then((res) => {
@@ -64,6 +63,7 @@ const WebEditors = (props) => {
       if (code_type === "javascript") {
         props.addJavascriptCode(res.data.code);
         props.insertJavascriptCode(res.data.code);
+        // add it to state so that we can save it?
       } else if (code_type === "html") {
         props.addHTMLCode(res.data.code);
         props.insertHTMLCode(res.data.code);
@@ -204,6 +204,10 @@ const WebEditors = (props) => {
                 submitCSS();
                 }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button>
           </div>
+          <button onClick={() => { 
+                setLoading(!loading); 
+                submitJavascript();
+                }} disabled={loading}>{loading ? 'Loading...' : 'Save Code'}</button>
           <WebOutput theme={theme}/>
         </div>
   );
