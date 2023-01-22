@@ -76,11 +76,44 @@ const WebEditors = (props) => {
     });
   }
 
+  function saveCode() {
+
+    // get java, html, and css code from editors
+    const java_code = props.javascriptCode;
+    console.log(java_code)
+    const html_code = props.htmlCode;
+    console.log(java_code)
+    const css_code = props.cssCode;
+    console.log(css_code)
+
+    // TO DO: get username, title, description, and tags, post_id???
+    // TO DO: figure out how to handle new posts (create) versus old ones (update)
+
+    // send post information to the backend 
+    axios.request({
+      method: "POST",
+      url: `http://localhost:8000/api/posts`,
+      data: {
+        user: "fakeusernameslay",
+        title: "faketitle",
+        description: "fakedescription",
+        tags: "medium",
+        java_code: java_code,
+        html_code: html_code,
+        css_code: css_code,
+      }
+    }).then((res) => {
+       // have some sort of popup or change the button to like "code saved!" or something
+       console.log("code saved!")
+    });
+  }
+
   const toggleModal = () => {
     setModalShow(modalShow => !modalShow);
   };
 
   // Function to call the compile endpoint
+  // this is for python: keep in case we want to add back in
   function submitCode() {
 
     // reset output if it exists
@@ -205,8 +238,8 @@ const WebEditors = (props) => {
                 }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button>
           </div>
           <button onClick={() => { 
-                setLoading(!loading); 
-                submitJavascript();
+                //setLoading(!loading); 
+                saveCode();
                 }} disabled={loading}>{loading ? 'Loading...' : 'Save Code'}</button>
           <WebOutput theme={theme}/>
         </div>
