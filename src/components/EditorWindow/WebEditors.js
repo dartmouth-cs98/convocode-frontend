@@ -61,15 +61,25 @@ const WebEditors = (props) => {
       console.log(res);
       console.log(res.data.code);
       console.log(res.data.text);
+
       if (currentLanguage === "javascript") {
-        props.addJavascriptCode(res.data.code);
-        props.insertJavascriptCode(res.data.code);
+        if (props.javascriptCode.length === 0) {
+            props.addJavascriptCode(res.data.code);
+        } else {
+            props.insertJavascriptCode(res.data.code);
+        } 
       } else if (currentLanguage === "html") {
-        props.addHTMLCode(res.data.code);
-        props.insertHTMLCode(res.data.code);
+        if (props.htmlCode.length === 0) {
+            props.addHTMLCode(res.data.code);
+        } else {
+            props.insertHTMLCode(res.data.code);
+        } 
       } else {
-        props.addCSSCode(res.data.code);
-        props.insertCSSCode(res.data.code);
+        if (props.cssCode.length === 0) {
+            props.addCSSCode(res.data.code);
+        } else {
+            props.insertCSSCode(res.data.code);
+        } 
       }
     });
   }
