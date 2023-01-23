@@ -2,20 +2,21 @@
 
 import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
-import BrackyPanel from './BrackyPanel';
-import ClosedBrackyPanel from './ClosedBrackyPanel';
-import OutputWindow from './OutputWindow';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
 import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
 import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import WebOutput from './WebOutput';
+import settings from '../../resources/settings.png';
+import singleTab from '../../resources/SingleTab.svg';
+import multiTab from '../../resources/MultiTab.svg';
 import axios from 'axios';
 import './webEditor.css';
+import HeaderBar from '../HeaderBar/HeaderBar';
 
 import './index.css'
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
@@ -28,25 +29,24 @@ const WebEditors = (props) => {
   const [theme] = useState("light");
   const [outputDetails, setOutputDetails] = useState(null);
   const [open, setOpen] = useState(true);
-  const [modalShow, setModalShow] = useState(false);
-  const [JSquery, setJSQuery] = useState("");
-  const [CSSquery, setCSSQuery] = useState("");
-  const [HTMLquery, setHTMLQuery] = useState("");
-
-  const toggleSidebar = () => {
-    setOpen(open => !open);
-  };
-
-  function handleSubmitCode(code_type) {
-    console.log("here");
+  const [query, setQuery] = useState("");
+  const [currentLanguage, setCurrentLanguage] = useState("html");
+  const [view, setView] = useState("multi");
+  
+  // sends user input to backend and placed code in appropriate code section 
+  function handleSubmitCode() {
     // send user input to get code from openai
     var queryType = null;
-    if (code_type === "javascript") {
-        queryType = "// Language: javascript \n//" + JSquery;
-    } else if (code_type === "html") {
-        queryType = "<!-- " + HTMLquery + " -->\n + <!DOCTYPE html>";
+    // language check 
+    if (currentLanguage === "javascript") {
+        queryType = "// Language: javascript \n//" + query;
+        console.log(queryType)
+    } else if (currentLanguage === "html") {
+        queryType = "<!-- " + query + " -->\n + <!DOCTYPE html>";
+        console.log(queryType)
     } else {
-        queryType = "/* Langauage: CSS */\n/* " + CSSquery + "*/";
+        queryType = "/* Langauage: CSS */\n/* " + query + "*/";
+        console.log(queryType)
     }
     axios.request({
       method: "POST",
@@ -59,24 +59,18 @@ const WebEditors = (props) => {
       console.log(res);
       console.log(res.data.code);
       console.log(res.data.text);
-      if (code_type === "javascript") {
+      if (currentLanguage === "javascript") {
         props.addJavascriptCode(res.data.code);
         props.insertJavascriptCode(res.data.code);
-      } else if (code_type === "html") {
+      } else if (currentLanguage === "html") {
         props.addHTMLCode(res.data.code);
         props.insertHTMLCode(res.data.code);
       } else {
         props.addCSSCode(res.data.code);
         props.insertCSSCode(res.data.code);
       }
-      
-      //props.addSpeech(res.data.text);
     });
   }
-
-  const toggleModal = () => {
-    setModalShow(modalShow => !modalShow);
-  };
 
   // Function to call the compile endpoint
   function submitCode() {
@@ -100,7 +94,7 @@ const WebEditors = (props) => {
       console.log(error);
     })
   }
-
+  // 
   const checkStatus = async (id) => {
     console.log("here");
     // Get request to compile endpoint
@@ -133,38 +127,39 @@ const WebEditors = (props) => {
       console.log("err", err);
     }
   }
-  const handleJSChange = (event) => {
-    // 👇 Get input value from "event"
-    setJSQuery(event.target.value);
-  };
+  // handles input text changes
+  const handleQueryChange = (event) => {
+    setQuery(event.target.value);
+  }
 
-  const handleCSSChange = (event) => {
-    // 👇 Get input value from "event"
-    setCSSQuery(event.target.value);
-  };
-
-  const handleHTMLChange = (event) => {
-    // 👇 Get input value from "event"
-    setHTMLQuery(event.target.value);
-  };
-
-  const submitJavascript = () => {
-    handleSubmitCode("javascript");
-    setJSQuery("");
-
-  };
-
-  const submitCSS = () => {
-    handleSubmitCode("css");
-    setCSSQuery("");
-  };
-
-  const submitHTML = () => {
-    handleSubmitCode("html");
-    setHTMLQuery("");
+  // updates language based on user input
+  const handleLangSwitch  = (event) => { 
+    setCurrentLanguage(event.target.value);
   }
 
   return (
+    <div className='WebEditorApp'>
+        {console.log(currentLanguage)}
+        <HeaderBar/>
+        <div className='commandBar'>
+          <input className="commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
+          <form className='languageSelect'> 
+            <select onChange={handleLangSwitch}>  
+              <option value = "html" > HTML   
+              </option>  
+              <option value = "css" > CSS   
+              </option>  
+              <option value = "javascript"> JavaScript  
+              </option>  
+            </select>  
+          </form>  
+          <button className="pink" onClick={handleSubmitCode}>Submit</button>
+          <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
+          {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> :
+          <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button>
+          }
+            <button className="pink ">Post</button>
+        </div>
         <div className="web-editor-container">
           <div className="editor">
             <CodeEditor
@@ -172,8 +167,6 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
             />
-            <input placeholder="Get javascript code" value={JSquery} onChange={handleJSChange}></input>
-            <button onClick={submitJavascript}>Submit</button>
           </div>
           <div className="editor">
             <CodeEditor
@@ -181,8 +174,6 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
             />
-            <input placeholder="Get HTML code" value={HTMLquery} onChange={handleHTMLChange}></input>
-            <button onClick={submitHTML}>Submit</button>
           </div>
           <div className="editor">
             <CodeEditor
@@ -190,11 +181,10 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
             />
-            <input placeholder="Get CSS code" value={CSSquery} onChange={handleCSSChange}></input>
-            <button onClick={submitCSS}>Submit</button>
           </div>
-          <WebOutput theme={theme}/>
         </div>
+        <WebOutput theme={theme}/>
+    </div>
   );
 };
 
