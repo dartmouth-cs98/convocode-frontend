@@ -32,6 +32,7 @@ const WebEditors = (props) => {
   const [query, setQuery] = useState("");
   const [currentLanguage, setCurrentLanguage] = useState("html");
   const [view, setView] = useState("multi");
+  const [loading, setLoading] = useState(false);
   
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
@@ -56,6 +57,7 @@ const WebEditors = (props) => {
         userInput: queryType
       }
     }).then((res) => {
+      setLoading(false);
       console.log(res);
       console.log(res.data.code);
       console.log(res.data.text);
@@ -154,6 +156,10 @@ const WebEditors = (props) => {
             </select>  
           </form>  
           <button className="pink" onClick={handleSubmitCode}>Submit</button>
+          <button className="pink" onClick={() => { 
+             setLoading(!loading);
+             handleSubmitCode();
+          }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button> 
           <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
           {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> :
           <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button>
@@ -174,6 +180,7 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
             />
+          
           </div>
           <div className="editor">
             <CodeEditor
@@ -181,6 +188,7 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
             />
+           
           </div>
         </div>
         <WebOutput theme={theme}/>

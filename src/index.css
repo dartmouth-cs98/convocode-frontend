@@ -26,10 +26,11 @@ body {
 }
 
 *[data-theme='light'] {
-  --background: var(--white);
+  --background: var(--boring);
   --text-primary: var(--black);
   --button-background: var(--bus);
   --button-text: var(--black);
+  --background: 
 }
 
 *[data-theme='dark'] {
