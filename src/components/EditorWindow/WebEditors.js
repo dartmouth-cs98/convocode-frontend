@@ -28,15 +28,11 @@ const WebEditors = (props) => {
   const [theme] = useState("light");
   const [outputDetails, setOutputDetails] = useState(null);
   const [open, setOpen] = useState(true);
-  const [modalShow, setModalShow] = useState(false);
   const [JSquery, setJSQuery] = useState("");
   const [CSSquery, setCSSQuery] = useState("");
   const [HTMLquery, setHTMLQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const toggleSidebar = () => {
-    setOpen(open => !open);
-  };
 
   function handleSubmitCode(code_type) {
     console.log("here");
@@ -45,7 +41,7 @@ const WebEditors = (props) => {
     if (code_type === "javascript") {
         queryType = "// Language: javascript \n//" + JSquery;
     } else if (code_type === "html") {
-        queryType = "<!-- " + HTMLquery + " -->\n + <!DOCTYPE html>";
+        queryType = "<!-- " + HTMLquery + "-->";
     } else {
         queryType = "/* Langauage: CSS */\n/* " + CSSquery + "*/";
     }
@@ -66,7 +62,7 @@ const WebEditors = (props) => {
         props.insertJavascriptCode(res.data.code);
       } else if (code_type === "html") {
         props.addHTMLCode(res.data.code);
-        props.insertHTMLCode(res.data.code);
+        //props.insertHTMLCode(res.data.code);
       } else {
         props.addCSSCode(res.data.code);
         props.insertCSSCode(res.data.code);
@@ -76,65 +72,7 @@ const WebEditors = (props) => {
     });
   }
 
-  const toggleModal = () => {
-    setModalShow(modalShow => !modalShow);
-  };
-
-  // Function to call the compile endpoint
-  function submitCode() {
-
-    // reset output if it exists
-    if (outputDetails) {
-      setOutputDetails(null)
-    }
-
-
-    // Post request to compile endpoint
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/compiler`, {
-      source_code: props.code
-    }).then((res) => {
-      console.log("here");
-      console.log(res);
-      console.log(`id of compiling: ${res.data.token}`);
-      checkStatus(res.data);
-    }).catch((err) => {
-      let error = err.response ? err.response.data : err;
-      console.log(error);
-    })
-  }
-
-  const checkStatus = async (id) => {
-    console.log("here");
-    // Get request to compile endpoint
-    console.log(id);
-
-    try {
-      let response = await axios.request(`${process.env.REACT_APP_BACKEND_URL}/compiler/${id.token}`);
-      console.log(response.data);
-      let status = response.status;
-      console.log(status)
-      // Processed - we have a result
-      if (status === 201) {
-        // still processing
-        console.log('still processing');
-        setTimeout(() => {
-          checkStatus(id)
-        }, 2000)
-        return
-      } else {
-        console.log(response);
-        if (response.data.status === 3) {
-          console.log(response.data.description);
-          setOutputDetails(response.data.stdout);
-        } else {
-          setOutputDetails(response.data.description + ":" + response.data.stderr);
-        }
-        return
-      }
-    } catch (err) {
-      console.log("err", err);
-    }
-  }
+ 
   const handleJSChange = (event) => {
     // 👇 Get input value from "event"
     setJSQuery(event.target.value);
