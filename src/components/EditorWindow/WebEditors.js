@@ -155,7 +155,6 @@ const WebEditors = (props) => {
               </option>  
             </select>  
           </form>  
-          <button className="pink" onClick={handleSubmitCode}>Submit</button>
           <button className="pink" onClick={() => { 
              setLoading(!loading);
              handleSubmitCode();
