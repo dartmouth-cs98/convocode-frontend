@@ -38,6 +38,7 @@ h3 {
 #username {
   background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #2FBE87;
   border-radius: 5px;
+  border: none;
 }
 
 #password {
@@ -49,6 +50,10 @@ h3 {
 #link {
   color: #737B7D;
   cursor: pointer;
+}
+
+input {
+  line-height: 40px;
 }
 
 input[type="submit"] {
