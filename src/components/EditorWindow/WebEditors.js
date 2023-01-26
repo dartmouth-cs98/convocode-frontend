@@ -2,21 +2,22 @@
 
 import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
-import BrackyPanel from './BrackyPanel';
-import ClosedBrackyPanel from './ClosedBrackyPanel';
-import OutputWindow from './OutputWindow';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
 import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
 import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import WebOutput from './WebOutput';
+import settings from '../../resources/settings.png';
+import singleTab from '../../resources/SingleTab.svg';
+import multiTab from '../../resources/MultiTab.svg';
 import axios from 'axios';
 import './webEditor.css';
 import { addProjectId } from '../../state/actions';
+import HeaderBar from '../HeaderBar/HeaderBar';
 
 import './index.css'
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
@@ -34,22 +35,25 @@ const WebEditors = (props) => {
   const [JSquery, setJSQuery] = useState("");
   const [CSSquery, setCSSQuery] = useState("");
   const [HTMLquery, setHTMLQuery] = useState("");
+  const [query, setQuery] = useState("");
+  const [currentLanguage, setCurrentLanguage] = useState("html");
+  const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
-
-  const toggleSidebar = () => {
-    setOpen(open => !open);
-  };
-
-  function handleSubmitCode(code_type) {
-    console.log("here");
+  
+  // sends user input to backend and placed code in appropriate code section 
+  function handleSubmitCode() {
     // send user input to get code from openai
     var queryType = null;
-    if (code_type === "javascript") {
-        queryType = "// Language: javascript \n//" + JSquery;
-    } else if (code_type === "html") {
-        queryType = "<!-- " + HTMLquery + " -->\n + <!DOCTYPE html>";
+    // language check 
+    if (currentLanguage === "javascript") {
+        queryType = "// Language: javascript \n//" + query;
+        console.log(queryType)
+    } else if (currentLanguage === "html") {
+        queryType = "<!-- " + query + " -->\n + <!DOCTYPE html>";
+        console.log(queryType)
     } else {
-        queryType = "/* Langauage: CSS */\n/* " + CSSquery + "*/";
+        queryType = "/* Langauage: CSS */\n/* " + query + "*/";
+        console.log(queryType)
     }
     axios.request({
       method: "POST",
@@ -58,23 +62,30 @@ const WebEditors = (props) => {
         userInput: queryType
       }
     }).then((res) => {
-        setLoading(false);
+      setLoading(false);
       console.log(res);
       console.log(res.data.code);
       console.log(res.data.text);
-      if (code_type === "javascript") {
-        props.addJavascriptCode(res.data.code);
-        props.insertJavascriptCode(res.data.code);
-        // add it to state so that we can save it?
-      } else if (code_type === "html") {
-        props.addHTMLCode(res.data.code);
-        props.insertHTMLCode(res.data.code);
+
+      if (currentLanguage === "javascript") {
+        if (props.javascriptCode.length === 0) {
+            props.addJavascriptCode(res.data.code);
+        } else {
+            props.insertJavascriptCode(res.data.code);
+        } 
+      } else if (currentLanguage === "html") {
+        if (props.htmlCode.length === 0) {
+            props.addHTMLCode(res.data.code);
+        } else {
+            props.insertHTMLCode(res.data.code);
+        } 
       } else {
-        props.addCSSCode(res.data.code);
-        props.insertCSSCode(res.data.code);
+        if (props.cssCode.length === 0) {
+            props.addCSSCode(res.data.code);
+        } else {
+            props.insertCSSCode(res.data.code);
+        } 
       }
-      
-      //props.addSpeech(res.data.text);
     });
   }
 
@@ -135,9 +146,6 @@ const WebEditors = (props) => {
             console.log("code saved!")
           });
     }
-
-  
-
     
   }
 
@@ -168,7 +176,7 @@ const WebEditors = (props) => {
       console.log(error);
     })
   }
-
+  // 
   const checkStatus = async (id) => {
     console.log("here");
     // Get request to compile endpoint
@@ -236,9 +244,43 @@ const WebEditors = (props) => {
   const submitHTML = () => {
     handleSubmitCode("html");
     setHTMLQuery("");
+
+  // handles input text changes
+  const handleQueryChange = (event) => {
+    setQuery(event.target.value);
+  }
+
+  // updates language based on user input
+  const handleLangSwitch  = (event) => { 
+    setCurrentLanguage(event.target.value);
   }
 
   return (
+    <div className='WebEditorApp'>
+        {console.log(currentLanguage)}
+        <HeaderBar/>
+        <div className='commandBar'>
+          <input className="commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
+          <form className='languageSelect'> 
+            <select onChange={handleLangSwitch}>  
+              <option value = "html" > HTML   
+              </option>  
+              <option value = "css" > CSS   
+              </option>  
+              <option value = "javascript"> JavaScript  
+              </option>  
+            </select>  
+          </form>  
+          <button className="pink" onClick={() => { 
+             setLoading(!loading);
+             handleSubmitCode();
+          }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button> 
+          <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
+          {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> :
+          <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button>
+          }
+            <button className="pink ">Post</button>
+        </div>
         <div className="web-editor-container">
           <div className="editor">
             <CodeEditor
@@ -246,11 +288,6 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
             />
-            <input placeholder="Get javascript code" value={JSquery} onChange={handleJSChange}></input>
-            <button onClick={() => { 
-                setLoading(!loading); 
-                submitJavascript();
-                }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button>
           </div>
           <div className="editor">
             <CodeEditor
@@ -258,11 +295,7 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
             />
-            <input placeholder="Get HTML code" value={HTMLquery} onChange={handleHTMLChange}></input>
-            <button onClick={() => { 
-                setLoading(!loading); 
-                submitHTML();
-                }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button>
+          
           </div>
           <div className="editor">
             <CodeEditor
@@ -270,11 +303,7 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
             />
-            <input placeholder="Get CSS code" value={CSSquery} onChange={handleCSSChange}></input>
-            <button onClick={() => { 
-                setLoading(!loading); 
-                submitCSS();
-                }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button>
+           
           </div>
           <button onClick={() => { 
                 //setLoading(!loading); 
@@ -283,6 +312,8 @@ const WebEditors = (props) => {
           <input placeholder="My Title" value={title} onChange={handleTitleChange}></input>
           <WebOutput theme={theme}/>
         </div>
+        <WebOutput theme={theme}/>
+    </div>
   );
 };
 
