@@ -43,6 +43,11 @@ import {
   insertCSSCode,
 } from './cssCode';
 
+import {
+  ActionTypes as projectIdActionTypes,
+  addProjectId,
+} from './projectId';
+
 const ActionTypes = {
   ...modeActionTypes,
   ...fileActionTypes,
@@ -52,6 +57,7 @@ const ActionTypes = {
   ...javascriptCodeActionTypes,
   ...htmlCodeActionTypes,
   ...cssCodeActionTypes,
+  ...projectIdActionTypes,
 };
 
 export {
@@ -69,4 +75,5 @@ export {
   insertJavascriptCode,
   insertCSSCode, 
   insertHTMLCode,
+  addProjectId,
 }

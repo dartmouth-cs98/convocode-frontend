@@ -13,6 +13,7 @@ import singleTab from '../../resources/SingleTab.svg';
 import multiTab from '../../resources/MultiTab.svg';
 import axios from 'axios';
 import './webEditor.css';
+import { addProjectId } from '../../state/actions';
 import HeaderBar from '../HeaderBar/HeaderBar';
 
 import './index.css'
@@ -29,6 +30,11 @@ const WebEditors = (props) => {
   const [theme] = useState("light");
   const [outputDetails, setOutputDetails] = useState(null);
   const [open, setOpen] = useState(true);
+  const [modalShow, setModalShow] = useState(false);
+  const [title, setTitle] = useState("");
+  const [JSquery, setJSQuery] = useState("");
+  const [CSSquery, setCSSQuery] = useState("");
+  const [HTMLquery, setHTMLQuery] = useState("");
   const [query, setQuery] = useState("");
   const [currentLanguage, setCurrentLanguage] = useState("html");
   const [view, setView] = useState("multi");
@@ -53,7 +59,6 @@ const WebEditors = (props) => {
       method: "POST",
       url: `http://localhost:8000/api/getcode`,
       data: {
-        // user input hard coded here while we transition from voice to typing
         userInput: queryType
       }
     }).then((res) => {
@@ -84,7 +89,72 @@ const WebEditors = (props) => {
     });
   }
 
+  function saveCode() {
+
+    // TO DO: get username, title, description, and tags
+
+    // get java, html, and css code from editors
+    const java_code = props.javascriptCode;
+    const html_code = props.htmlCode;
+    const css_code = props.cssCode;
+
+    // check if project id
+    const projectId = props.projectId;
+    console.log(projectId);
+
+    if (projectId == "") {
+      // no project id yet, create new project
+
+      // send post information to the backend 
+      axios.request({
+        method: "POST",
+        url: `http://localhost:8000/api/posts`,
+        data: {
+          user: "fakeusernameslay",
+          title: "faketitle",
+          description: "fakedescription",
+          tags: "medium",
+          java_code: java_code,
+          html_code: html_code,
+          css_code: css_code,
+      }
+      }).then((res) => {
+        // have some sort of popup or change the button to like "code saved!" or something
+        console.log("code saved!")
+        console.log(res.data);
+        props.addProjectId(res.data);
+      });
+      
+    } else {
+          // project already exists, update in database instead
+
+          // send post information to the backend 
+          axios.request({
+            method: "PUT",
+            url: `http://localhost:8000/api/posts`,
+            data: {
+              projectId: projectId,
+              title: "faketitle",
+              description: "fakedescription",
+              tags: "medium",
+              java_code: java_code,
+              html_code: html_code,
+              css_code: css_code,
+          }
+          }).then((res) => {
+            // have some sort of popup or change the button to like "code saved!" or something
+            console.log("code saved!")
+          });
+    }
+    
+  }
+
+  const toggleModal = () => {
+    setModalShow(modalShow => !modalShow);
+  };
+
   // Function to call the compile endpoint
+  // this is for python: keep in case we want to add back in
   function submitCode() {
 
     // reset output if it exists
@@ -139,6 +209,42 @@ const WebEditors = (props) => {
       console.log("err", err);
     }
   }
+
+  const handleTitleChange = (event) => {
+    // 👇 Get input value from "event"
+    setTitle(event.target.value);
+  };
+
+  const handleJSChange = (event) => {
+    // 👇 Get input value from "event"
+    setJSQuery(event.target.value);
+  };
+
+  const handleCSSChange = (event) => {
+    // 👇 Get input value from "event"
+    setCSSQuery(event.target.value);
+  };
+
+  const handleHTMLChange = (event) => {
+    // 👇 Get input value from "event"
+    setHTMLQuery(event.target.value);
+  };
+
+  const submitJavascript = () => {
+    handleSubmitCode("javascript");
+    setJSQuery("");
+
+  };
+
+  const submitCSS = () => {
+    handleSubmitCode("css");
+    setCSSQuery("");
+  };
+
+  const submitHTML = () => {
+    handleSubmitCode("html");
+    setHTMLQuery("");
+
   // handles input text changes
   const handleQueryChange = (event) => {
     setQuery(event.target.value);
@@ -199,6 +305,12 @@ const WebEditors = (props) => {
             />
            
           </div>
+          <button onClick={() => { 
+                //setLoading(!loading); 
+                saveCode();
+                }} disabled={loading}>{loading ? 'Loading...' : 'Save Code'}</button>
+          <input placeholder="My Title" value={title} onChange={handleTitleChange}></input>
+          <WebOutput theme={theme}/>
         </div>
         <WebOutput theme={theme}/>
     </div>
@@ -211,8 +323,9 @@ const mapStateToProps = (reduxstate) => {
     javascriptCode: reduxstate.javascriptCode.string,
     htmlCode: reduxstate.htmlCode.string,
     cssCode: reduxstate.cssCode.string,
+    projectId: reduxstate.projectId.string,
  };
 };
 
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId })(WebEditors);

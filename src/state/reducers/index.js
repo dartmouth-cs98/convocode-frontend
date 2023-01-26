@@ -8,6 +8,7 @@ import ConvodexReducer from './convodex';
 import JavascriptCodeReducer from './javascriptCode';
 import HTMLCodeReducer from './htmlCode';
 import CSSCodeReducer from './cssCode';
+import ProjectIdReducer from './projectId';
 
 
 const rootReducer = combineReducers({
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   javascriptCode: JavascriptCodeReducer,
   htmlCode: HTMLCodeReducer,
   cssCode: CSSCodeReducer,
+  projectId: ProjectIdReducer,
 });
 
 export default rootReducer;
