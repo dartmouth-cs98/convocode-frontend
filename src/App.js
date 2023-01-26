@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import WebEditors from './components/EditorWindow/WebEditors';
-import EditorWindow from './components/EditorWindow/EditorWindow';
 import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
 import LandingPage from './components/LandingPage/LandingPage';
 import DocumentationPage from './components/Documentation/DocumentationPage';
 import MobileView from './components/MobileView/MobileView';
+import CommunityPage from './components/CommunityPage/CommunityPage';
 
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/editor" element={<WebEditors />} />
         <Route path="/documentation" element={<DocumentationPage />} />
+        <Route path="/community" element={<CommunityPage />} />
       </Routes>
     </Router>
   );
