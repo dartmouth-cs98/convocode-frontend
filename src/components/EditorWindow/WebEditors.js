@@ -244,6 +244,7 @@ const WebEditors = (props) => {
   const submitHTML = () => {
     handleSubmitCode("html");
     setHTMLQuery("");
+  }
 
   // handles input text changes
   const handleQueryChange = (event) => {
