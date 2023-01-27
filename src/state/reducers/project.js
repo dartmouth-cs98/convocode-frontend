@@ -6,6 +6,7 @@ const projectState = {
   css: "",
   projectId: "",
   projectTitle: "",
+  tags: {},
 };
 
 const ProjectReducer = (state = projectState, action) => {
@@ -26,6 +27,11 @@ const ProjectReducer = (state = projectState, action) => {
       return { ...state, projectId: action.payload };
     case ActionTypes.ADD_PROJECT_TITLE:
       return { ...state, projectTitle: action.payload };
+    case ActionTypes.ADD_CODE_TAG: 
+      return {...state, tags: {
+        ...state.tags, 
+        [action.payload.codeOutput]: action.payload.codeInput
+      }};
     default:
       return state;
   }

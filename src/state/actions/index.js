@@ -35,6 +35,7 @@ import {
   insertCSSCode,
   addProjectId,
   addProjectTitle,
+  addCodeTag,
 } from './project';
 
 const ActionTypes = {
@@ -63,4 +64,5 @@ export {
   insertHTMLCode,
   addProjectId,
   addProjectTitle,
+  addCodeTag,
 }

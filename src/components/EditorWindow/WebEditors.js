@@ -8,6 +8,7 @@ import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
 import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addProjectId, addProjectTitle } from '../../state/actions';
+import { addCodeTag } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
@@ -62,10 +63,12 @@ const WebEditors = (props) => {
       }
     }).then((res) => {
       setLoading(false);
-      console.log(res);
-      console.log(res.data.code);
-      console.log(res.data.text);
-
+      //console.log(res);
+      //console.log(res.data.code);
+      //console.log(res.data.text);
+      const tag = {codeOutput: res.data.code, codeInput: query}
+      props.addCodeTag(tag);
+      
       if (currentLanguage === "javascript") {
         if (props.javascriptCode.length === 0) {
             props.addJavascriptCode(res.data.code);
@@ -315,7 +318,6 @@ const WebEditors = (props) => {
             />
            
           </div>
-          <WebOutput theme={theme}/>
         </div>
         <WebOutput theme={theme}/>
     </div>
@@ -330,7 +332,8 @@ const mapStateToProps = (reduxstate) => {
     cssCode: reduxstate.project.css,
     projectId: reduxstate.project.projectId,
     projectTitle: reduxstate.project.projectTitle,
+    tags: reduxstate.project.tags,
  };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCodeTag })(WebEditors);

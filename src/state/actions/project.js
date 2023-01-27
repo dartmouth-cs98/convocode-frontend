@@ -6,7 +6,8 @@ export const ActionTypes = {
     ADD_CSS_CODE: 'ADD_CSS_CODE',
     INSERT_CSS_CODE: 'INSERT_CSS_CODE',
     ADD_PROJECT_ID: 'ADD_PROJECT_ID',
-    ADD_PROJECT_TITLE: 'ADD_PROJECT_TITLE'
+    ADD_PROJECT_TITLE: 'ADD_PROJECT_TITLE',
+    ADD_CODE_TAG: 'ADD_REGEX_INPUT'
   };
   
   /**
@@ -82,3 +83,12 @@ export const ActionTypes = {
       dispatch({ type: ActionTypes.ADD_PROJECT_TITLE, payload: input });
     };
   };
+
+  /**
+  * @description add output regex string key and input string value 
+  */
+ export const addCodeTag = (input) => {
+   return (dispatch) => {
+     dispatch({ type: ActionTypes.ADD_CODE_TAG, payload: { codeOutput: input.codeOutput, codeInput: input.codeInput }});
+   };
+ };
