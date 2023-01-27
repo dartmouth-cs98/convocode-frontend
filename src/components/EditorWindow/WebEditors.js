@@ -5,19 +5,18 @@ import CodeEditor from './CodeEditor';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
 import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
-import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addHTMLCode, insertHTMLCode } from '../../state/actions';
+import { addCSSCode, insertCSSCode } from '../../state/actions';
+import { addProjectId } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
 import multiTab from '../../resources/MultiTab.svg';
 import axios from 'axios';
 import './webEditor.css';
-import { addProjectId } from '../../state/actions';
 import HeaderBar from '../HeaderBar/HeaderBar';
 
 import './index.css'
-// import { NavLink } from 'react-router-dom';
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
@@ -69,7 +68,7 @@ const WebEditors = (props) => {
 
       if (currentLanguage === "javascript") {
         if (props.javascriptCode.length === 0) {
-            props.insertJavascriptCode(res.data.code);
+            props.addJavascriptCode(res.data.code);
         } else {
             props.insertJavascriptCode(res.data.code);
         } 
@@ -319,10 +318,10 @@ const WebEditors = (props) => {
 const mapStateToProps = (reduxstate) => {
   return { 
     code: reduxstate.code.string, 
-    javascriptCode: reduxstate.javascriptCode.string,
-    htmlCode: reduxstate.htmlCode.string,
-    cssCode: reduxstate.cssCode.string,
-    projectId: reduxstate.projectId.string,
+    javascriptCode: reduxstate.project.javascript,
+    htmlCode: reduxstate.project.html,
+    cssCode: reduxstate.project.css,
+    projectId: reduxstate.project.projectId,
  };
 };
 

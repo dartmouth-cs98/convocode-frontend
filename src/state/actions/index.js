@@ -26,27 +26,15 @@ import {
 } from './convodex';
 
 import {
-  ActionTypes as javascriptCodeActionTypes,
+  ActionTypes as projectActionTypes,
   addJavascriptCode,
   insertJavascriptCode,
-} from './javascriptCode';
-
-import {
-  ActionTypes as htmlCodeActionTypes,
   addHTMLCode,
   insertHTMLCode,
-} from './htmlCode';
-
-import {
-  ActionTypes as cssCodeActionTypes,
   addCSSCode,
   insertCSSCode,
-} from './cssCode';
-
-import {
-  ActionTypes as projectIdActionTypes,
   addProjectId,
-} from './projectId';
+} from './project';
 
 const ActionTypes = {
   ...modeActionTypes,
@@ -54,10 +42,7 @@ const ActionTypes = {
   ...voiceActionTypes,
   ...codeActionTypes,
   ...convodexActionTypes,
-  ...javascriptCodeActionTypes,
-  ...htmlCodeActionTypes,
-  ...cssCodeActionTypes,
-  ...projectIdActionTypes,
+  ...projectActionTypes,
 };
 
 export {
