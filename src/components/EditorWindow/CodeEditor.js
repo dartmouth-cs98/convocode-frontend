@@ -65,9 +65,9 @@ const mapStateToProps = (reduxstate) => {
   return {
     fontSize: reduxstate.settings.fontSize,
     code: reduxstate.code.string,
-    javascriptCode: reduxstate.javascriptCode.string,
-    htmlCode: reduxstate.htmlCode.string,
-    cssCode: reduxstate.cssCode.string,
+    javascriptCode: reduxstate.project.javascript,
+    htmlCode: reduxstate.project.html,
+    cssCode: reduxstate.project.css,
     lightMode: reduxstate.settings.lightMode,
 
   };

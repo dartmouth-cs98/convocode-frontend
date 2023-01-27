@@ -5,19 +5,18 @@ import CodeEditor from './CodeEditor';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
 import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
-import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addHTMLCode, insertHTMLCode } from '../../state/actions';
+import { addCSSCode, insertCSSCode } from '../../state/actions';
+import { addProjectId, addProjectTitle } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
 import multiTab from '../../resources/MultiTab.svg';
 import axios from 'axios';
 import './webEditor.css';
-import { addProjectId } from '../../state/actions';
 import HeaderBar from '../HeaderBar/HeaderBar';
 
 import './index.css'
-// import { NavLink } from 'react-router-dom';
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
@@ -93,10 +92,11 @@ const WebEditors = (props) => {
 
     // TO DO: get username, title, description, and tags
 
-    // get java, html, and css code from editors
+    // get java, html, css code, and title from ide page
     const java_code = props.javascriptCode;
     const html_code = props.htmlCode;
     const css_code = props.cssCode;
+    const projectTitle = props.projectTitle;
 
     // check if project id
     const projectId = props.projectId;
@@ -108,10 +108,10 @@ const WebEditors = (props) => {
       // send post information to the backend 
       axios.request({
         method: "POST",
-        url: `http://localhost:8000/api/posts`,
+        url: `http://localhost:8000/api/project`,
         data: {
           user: "fakeusernameslay",
-          title: "faketitle",
+          title: projectTitle,
           description: "fakedescription",
           tags: "medium",
           java_code: java_code,
@@ -129,12 +129,13 @@ const WebEditors = (props) => {
           // project already exists, update in database instead
 
           // send post information to the backend 
+          const requestUrl = "http://localhost:8000/api/project/:id";
           axios.request({
             method: "PUT",
-            url: `http://localhost:8000/api/posts`,
+            url: requestUrl,
             data: {
               projectId: projectId,
-              title: "faketitle",
+              title: projectTitle,
               description: "fakedescription",
               tags: "medium",
               java_code: java_code,
@@ -211,8 +212,13 @@ const WebEditors = (props) => {
   }
 
   const handleTitleChange = (event) => {
-    // 👇 Get input value from "event"
-    setTitle(event.target.value);
+    // get new title from event
+    const newTitle = event.target.value;
+    // set new title
+    setTitle(newTitle);
+    console.log("Hey")
+    console.log("New title! Yay!")
+    props.addProjectTitle(newTitle);
   };
 
   const handleJSChange = (event) => {
@@ -261,6 +267,7 @@ const WebEditors = (props) => {
         {console.log(currentLanguage)}
         <HeaderBar/>
         <div className='commandBar'>
+          <input placeholder="My Project Title" value={title} onChange={handleTitleChange}></input>
           <input className="commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
           <form className='languageSelect'> 
             <select onChange={handleLangSwitch}>  
@@ -276,11 +283,13 @@ const WebEditors = (props) => {
              setLoading(!loading);
              handleSubmitCode();
           }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button> 
+          <button className="pink" onClick={() => { 
+                saveCode();
+                }}>Save</button>
           <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
           {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> :
-          <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button>
+          <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> 
           }
-            <button className="pink ">Post</button>
         </div>
         <div className="web-editor-container">
           <div className="editor">
@@ -306,11 +315,6 @@ const WebEditors = (props) => {
             />
            
           </div>
-          <button onClick={() => { 
-                //setLoading(!loading); 
-                saveCode();
-                }} disabled={loading}>{loading ? 'Loading...' : 'Save Code'}</button>
-          <input placeholder="My Title" value={title} onChange={handleTitleChange}></input>
           <WebOutput theme={theme}/>
         </div>
         <WebOutput theme={theme}/>
@@ -321,12 +325,12 @@ const WebEditors = (props) => {
 const mapStateToProps = (reduxstate) => {
   return { 
     code: reduxstate.code.string, 
-    javascriptCode: reduxstate.javascriptCode.string,
-    htmlCode: reduxstate.htmlCode.string,
-    cssCode: reduxstate.cssCode.string,
-    projectId: reduxstate.projectId.string,
+    javascriptCode: reduxstate.project.javascript,
+    htmlCode: reduxstate.project.html,
+    cssCode: reduxstate.project.css,
+    projectId: reduxstate.project.projectId,
+    projectTitle: reduxstate.project.projectTitle,
  };
 };
 
-
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle })(WebEditors);

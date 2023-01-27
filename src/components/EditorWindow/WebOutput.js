@@ -66,9 +66,9 @@ const WebOutput = (props) => {
 
 const mapStateToProps = (reduxstate) => {
     return {
-      javascriptCode: reduxstate.javascriptCode.string,
-      htmlCode: reduxstate.htmlCode.string,
-      cssCode: reduxstate.cssCode.string,
+      javascriptCode: reduxstate.project.javascript,
+      htmlCode: reduxstate.project.html,
+      cssCode: reduxstate.project.css,
     };
   };
   
