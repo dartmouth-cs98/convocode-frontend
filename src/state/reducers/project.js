@@ -1,13 +1,13 @@
 import { ActionTypes } from '../actions';
 
-const initialState = {
+const projectState = {
   javascript: "",
   html: "",
   css: "",
   projectId: ""
 };
 
-const ProjectReducer = (state = initialState, action) => {
+const ProjectReducer = (state = projectState, action) => {
   switch (action.type) {
     case ActionTypes.ADD_JAVASCRIPT_CODE:
       return { ...state, javascript: action.payload };

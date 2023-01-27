@@ -278,7 +278,7 @@ const WebEditors = (props) => {
           }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button> 
           <button className="pink" onClick={() => { 
                 saveCode();
-                }} disabled={loading}>{loading ? 'Loading...' : 'Save'}</button>
+                }}>Save</button>
           <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
           {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> :
           <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> 
