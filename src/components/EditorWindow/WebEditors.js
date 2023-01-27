@@ -69,7 +69,7 @@ const WebEditors = (props) => {
 
       if (currentLanguage === "javascript") {
         if (props.javascriptCode.length === 0) {
-            props.addJavascriptCode(res.data.code);
+            props.insertJavascriptCode(res.data.code);
         } else {
             props.insertJavascriptCode(res.data.code);
         } 
@@ -261,6 +261,7 @@ const WebEditors = (props) => {
         {console.log(currentLanguage)}
         <HeaderBar/>
         <div className='commandBar'>
+          <input placeholder="My Project Title" value={title} onChange={handleTitleChange}></input>
           <input className="commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
           <form className='languageSelect'> 
             <select onChange={handleLangSwitch}>  
@@ -276,11 +277,13 @@ const WebEditors = (props) => {
              setLoading(!loading);
              handleSubmitCode();
           }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button> 
+          <button className="pink" onClick={() => { 
+                saveCode();
+                }} disabled={loading}>{loading ? 'Loading...' : 'Save'}</button>
           <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
           {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> :
-          <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button>
+          <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> 
           }
-            <button className="pink ">Post</button>
         </div>
         <div className="web-editor-container">
           <div className="editor">
@@ -306,11 +309,6 @@ const WebEditors = (props) => {
             />
            
           </div>
-          <button onClick={() => { 
-                //setLoading(!loading); 
-                saveCode();
-                }} disabled={loading}>{loading ? 'Loading...' : 'Save Code'}</button>
-          <input placeholder="My Title" value={title} onChange={handleTitleChange}></input>
           <WebOutput theme={theme}/>
         </div>
         <WebOutput theme={theme}/>
