@@ -199,3 +199,8 @@
 .headshot {
   margin-bottom: 15px;
 }
+
+a {
+  text-decoration: none;
+  color: var(--text-primary);
+}

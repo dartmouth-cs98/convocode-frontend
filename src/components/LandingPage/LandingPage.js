@@ -20,9 +20,10 @@ const LandingPage = (props) => {
       <HeaderBar />
       <div className="title-content">
         <h1>Welcome to Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
-        <h2>Redefining Python Developer tools.</h2>
+        <h2>Building Community Around Exploring AI.</h2>
         <div className="file-buttons">
           <FileModal />
+          <button><NavLink to="/community">Get Inspired</NavLink></button>
         </div>
       </div>
       <div className="floating-text">
