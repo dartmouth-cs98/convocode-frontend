@@ -4,7 +4,8 @@ const projectState = {
   javascript: "",
   html: "",
   css: "",
-  projectId: ""
+  projectId: "",
+  projectTitle: "",
 };
 
 const ProjectReducer = (state = projectState, action) => {
@@ -23,6 +24,8 @@ const ProjectReducer = (state = projectState, action) => {
       return { ...state, css: state.css + action.payload };
     case ActionTypes.ADD_PROJECT_ID:
       return { ...state, projectId: action.payload };
+    case ActionTypes.ADD_PROJECT_TITLE:
+      return { ...state, projectTitle: action.payload };
     default:
       return state;
   }

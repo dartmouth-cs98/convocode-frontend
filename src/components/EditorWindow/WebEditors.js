@@ -7,7 +7,7 @@ import { addCode } from '../../state/actions';
 import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
 import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import { addCSSCode, insertCSSCode } from '../../state/actions';
-import { addProjectId } from '../../state/actions';
+import { addProjectId, addProjectTitle } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
@@ -92,10 +92,11 @@ const WebEditors = (props) => {
 
     // TO DO: get username, title, description, and tags
 
-    // get java, html, and css code from editors
+    // get java, html, css code, and title from ide page
     const java_code = props.javascriptCode;
     const html_code = props.htmlCode;
     const css_code = props.cssCode;
+    const projectTitle = props.projectTitle;
 
     // check if project id
     const projectId = props.projectId;
@@ -110,7 +111,7 @@ const WebEditors = (props) => {
         url: `http://localhost:8000/api/posts`,
         data: {
           user: "fakeusernameslay",
-          title: "faketitle",
+          title: projectTitle,
           description: "fakedescription",
           tags: "medium",
           java_code: java_code,
@@ -133,7 +134,7 @@ const WebEditors = (props) => {
             url: `http://localhost:8000/api/posts`,
             data: {
               projectId: projectId,
-              title: "faketitle",
+              title: projectTitle,
               description: "fakedescription",
               tags: "medium",
               java_code: java_code,
@@ -210,8 +211,13 @@ const WebEditors = (props) => {
   }
 
   const handleTitleChange = (event) => {
-    // 👇 Get input value from "event"
-    setTitle(event.target.value);
+    // get new title from event
+    const newTitle = event.target.value;
+    // set new title
+    setTitle(newTitle);
+    console.log("Hey")
+    console.log("New title! Yay!")
+    props.addProjectTitle(newTitle);
   };
 
   const handleJSChange = (event) => {
@@ -322,8 +328,8 @@ const mapStateToProps = (reduxstate) => {
     htmlCode: reduxstate.project.html,
     cssCode: reduxstate.project.css,
     projectId: reduxstate.project.projectId,
+    projectTitle: reduxstate.project.projectTitle,
  };
 };
 
-
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle })(WebEditors);

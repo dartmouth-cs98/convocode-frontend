@@ -6,6 +6,7 @@ export const ActionTypes = {
     ADD_CSS_CODE: 'ADD_CSS_CODE',
     INSERT_CSS_CODE: 'INSERT_CSS_CODE',
     ADD_PROJECT_ID: 'ADD_PROJECT_ID',
+    ADD_PROJECT_TITLE: 'ADD_PROJECT_TITLE'
   };
   
   /**
@@ -55,7 +56,6 @@ export const ActionTypes = {
     };
   };
   
-  
   /**
    * @description append new input to code string from axios
    */
@@ -71,5 +71,14 @@ export const ActionTypes = {
   export const addProjectId = (input) => {
     return (dispatch) => {
       dispatch({ type: ActionTypes.ADD_PROJECT_ID, payload: input });
+    };
+  };
+
+  /**
+   * @description add project title
+   */
+  export const addProjectTitle = (input) => {
+    return (dispatch) => {
+      dispatch({ type: ActionTypes.ADD_PROJECT_TITLE, payload: input });
     };
   };
