@@ -39,6 +39,7 @@ const WebEditors = (props) => {
   const [currentLanguage, setCurrentLanguage] = useState("html");
   const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
+  const [highlighted, setHighlighted] = useState("");
   
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
@@ -47,13 +48,10 @@ const WebEditors = (props) => {
     // language check 
     if (currentLanguage === "javascript") {
         queryType = "// Language: javascript \n//" + query;
-        console.log(queryType)
     } else if (currentLanguage === "html") {
         queryType = "<!-- " + query + " -->\n + <!DOCTYPE html>";
-        console.log(queryType)
     } else {
         queryType = "/* Langauage: CSS */\n/* " + query + "*/";
-        console.log(queryType)
     }
     axios.request({
       method: "POST",
@@ -63,9 +61,6 @@ const WebEditors = (props) => {
       }
     }).then((res) => {
       setLoading(false);
-      //console.log(res);
-      //console.log(res.data.code);
-      //console.log(res.data.text);
       const tag = {codeOutput: res.data.code, codeInput: query}
       props.addCodeTag(tag);
       
@@ -124,7 +119,6 @@ const WebEditors = (props) => {
       }).then((res) => {
         // have some sort of popup or change the button to like "code saved!" or something
         console.log("code saved!")
-        console.log(res.data);
         props.addProjectId(res.data);
       });
       
@@ -224,36 +218,6 @@ const WebEditors = (props) => {
     props.addProjectTitle(newTitle);
   };
 
-  const handleJSChange = (event) => {
-    // 👇 Get input value from "event"
-    setJSQuery(event.target.value);
-  };
-
-  const handleCSSChange = (event) => {
-    // 👇 Get input value from "event"
-    setCSSQuery(event.target.value);
-  };
-
-  const handleHTMLChange = (event) => {
-    // 👇 Get input value from "event"
-    setHTMLQuery(event.target.value);
-  };
-
-  const submitJavascript = () => {
-    handleSubmitCode("javascript");
-    setJSQuery("");
-
-  };
-
-  const submitCSS = () => {
-    handleSubmitCode("css");
-    setCSSQuery("");
-  };
-
-  const submitHTML = () => {
-    handleSubmitCode("html");
-    setHTMLQuery("");
-  }
 
   // handles input text changes
   const handleQueryChange = (event) => {
@@ -264,6 +228,32 @@ const WebEditors = (props) => {
   const handleLangSwitch  = (event) => { 
     setCurrentLanguage(event.target.value);
   }
+
+
+
+
+  const searchByKey = (tagDict, text) => {
+    const value = Object.keys(tagDict).filter(key => key.includes(text));
+    console.log(value);
+    if (value !== []) {
+        return tagDict[value];
+    } else {
+        return "";
+    }
+  }
+
+
+  const getTextHighlight = (event) => {
+    const highlighted = window.getSelection().toString();
+    console.log(highlighted);
+    const inputText = searchByKey(props.tags, highlighted);
+    if (inputText !== "") {
+        console.log(inputText);
+    }
+
+    //document.getElementById('input').value = t;
+}
+
 
   return (
     <div className='WebEditorApp'>
@@ -318,6 +308,7 @@ const WebEditors = (props) => {
             />
            
           </div>
+          <div className="editor" onMouseUp={getTextHighlight}>{props.htmlCode}</div>
         </div>
         <WebOutput theme={theme}/>
     </div>
