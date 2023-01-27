@@ -108,7 +108,7 @@ const WebEditors = (props) => {
       // send post information to the backend 
       axios.request({
         method: "POST",
-        url: `http://localhost:8000/api/posts`,
+        url: `http://localhost:8000/api/project`,
         data: {
           user: "fakeusernameslay",
           title: projectTitle,
@@ -129,9 +129,10 @@ const WebEditors = (props) => {
           // project already exists, update in database instead
 
           // send post information to the backend 
+          const requestUrl = "http://localhost:8000/api/project/:id";
           axios.request({
             method: "PUT",
-            url: `http://localhost:8000/api/posts`,
+            url: requestUrl,
             data: {
               projectId: projectId,
               title: projectTitle,
