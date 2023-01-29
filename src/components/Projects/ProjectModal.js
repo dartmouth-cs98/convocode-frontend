@@ -15,6 +15,7 @@ const ProjectModal = (props) => {
     const [projectTitle, setProjectTitle] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [projectTag, setProjectTag] = useState("");
+    const [saved, setSaved] = useState(false);
 
     const projectTags= ["easy", "medium", "hard"];
 
@@ -165,7 +166,10 @@ const ProjectModal = (props) => {
                         </Tabs>
                         </div>
                         <div className="project-buttons">
-                            <button className="light-pink" onClick = {()=>{saveCode();}}>Save</button>
+                            <button className="light-pink" onClick = {()=>{
+                                setSaved(!saved);
+                                saveCode();
+                                }}disabled={saved}>{saved ? 'Saved' : 'Save'}</button>
                             <button type="submit" className="pink">Post</button>
                         </div>
                         </div>
@@ -176,7 +180,6 @@ const ProjectModal = (props) => {
         </div>
 
     )
-
 };
 const mapStateToProps = (reduxstate) => {
     return { 
