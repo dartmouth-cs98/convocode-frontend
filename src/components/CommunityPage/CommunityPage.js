@@ -11,7 +11,7 @@ import './community.css'
 const CommunityPage = (props) => {
   // get all posts from database
 
-  const [posts, setPosts] = useState([]);
+  const [projects, setProjects] = useState([]);
 
   function getProjects(){
     axios.request({
@@ -19,13 +19,13 @@ const CommunityPage = (props) => {
       url: `http://localhost:8000/api/project`
     }).then((res) => {
       // have some sort of popup or change the button to like "code saved!" or something
-      setPosts(res.data);
+      setProjects(res.data);
     });
   }
 
   useEffect(() => {
     getProjects();
-  }, [posts]);
+  }, [projects]);
 
   return (
     <div data-theme={props.lightMode ? 'light' : 'dark'}>
@@ -40,7 +40,7 @@ const CommunityPage = (props) => {
         </div>
         <div className="post-content">
           {
-            posts.slice(0).reverse().map((item, idx) => {
+            projects.slice(0).reverse().map((item, idx) => {
               return (<Post title={item.title} user={item.username} tag={item.tags} likes={item.likes} key={idx} />)
             })
           }
