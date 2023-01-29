@@ -21,6 +21,7 @@ import './index.css'
 // loads in .env file if needed
 import dotenv from 'dotenv';
 import { getSuggestedQuery } from '@testing-library/react';
+import ProjectModal from '../Projects/ProjectModal';
 dotenv.config({ silent: true });
 
 const WebEditors = (props) => {
@@ -283,9 +284,10 @@ const WebEditors = (props) => {
              setLoading(!loading);
              handleSubmitCode();
           }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button> 
-          <button className="pink" onClick={() => { 
+          {/* <button className="pink" onClick={() => { 
                 saveCode();
-                }}>Save</button>
+                }}>Save</button> */}
+          <ProjectModal></ProjectModal>
           <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
           {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> :
           <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> 

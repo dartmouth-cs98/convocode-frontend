@@ -6,7 +6,10 @@ export const ActionTypes = {
     ADD_CSS_CODE: 'ADD_CSS_CODE',
     INSERT_CSS_CODE: 'INSERT_CSS_CODE',
     ADD_PROJECT_ID: 'ADD_PROJECT_ID',
-    ADD_PROJECT_TITLE: 'ADD_PROJECT_TITLE'
+    ADD_PROJECT_TITLE: 'ADD_PROJECT_TITLE',
+    ADD_PROJECT_DESCRIPTION: 'ADD_PROJECT_DESCRIPTION',
+    ADD_PROJECT_TAG: 'ADD_PROJECT_TAG',
+
   };
   
   /**
@@ -82,3 +85,21 @@ export const ActionTypes = {
       dispatch({ type: ActionTypes.ADD_PROJECT_TITLE, payload: input });
     };
   };
+
+  /**
+   * @description add project description
+   */
+   export const addProjectDescription = (input) => {
+    return (dispatch) => {
+      dispatch({ type: ActionTypes.ADD_PROJECT_DESCRIPTION, payload: input });
+    };
+  };
+
+   /**
+   * @description add project tag
+   */
+    export const addProjectTag = (input) => {
+      return (dispatch) => {
+        dispatch({ type: ActionTypes.ADD_PROJECT_TAG, payload: input });
+      };
+    };

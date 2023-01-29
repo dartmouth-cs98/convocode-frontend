@@ -6,6 +6,8 @@ const projectState = {
   css: "",
   projectId: "",
   projectTitle: "",
+  projectDescription: "",
+  projectTag: "",
 };
 
 const ProjectReducer = (state = projectState, action) => {
@@ -26,6 +28,11 @@ const ProjectReducer = (state = projectState, action) => {
       return { ...state, projectId: action.payload };
     case ActionTypes.ADD_PROJECT_TITLE:
       return { ...state, projectTitle: action.payload };
+    case ActionTypes.ADD_PROJECT_DESCRIPTION:
+      return { ...state, projectDescription: action.payload };
+    case ActionTypes.ADD_PROJECT_TAG:
+      return { ...state, projectTag: action.payload};
+
     default:
       return state;
   }
