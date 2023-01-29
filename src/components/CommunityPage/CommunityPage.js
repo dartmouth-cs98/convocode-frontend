@@ -27,57 +27,6 @@ const CommunityPage = (props) => {
     getProjects();
   }, [posts]);
 
-  //const posts = getProjects();
-  // const posts = [
-  //   {
-  //     title: "A* Optimized Runtime",
-  //     user: "username",
-  //     tag: "easy",
-  //     likes: 12,
-  //   },
-  //   {
-  //     title: "A* Optimized Runtime",
-  //     user: "username",
-  //     tag: "medium",
-  //     likes: 12,
-  //   },
-  //   {
-  //     title: "A* Optimized Runtime",
-  //     user: "username",
-  //     tag: "hard",
-  //     likes: 12,
-  //   },
-  //   {
-  //     title: "A* Optimized Runtime",
-  //     user: "username",
-  //     tag: "easy",
-  //     likes: 12,
-  //   }, {
-  //     title: "A* Optimized Runtime",
-  //     user: "username",
-  //     tag: "easy",
-  //     likes: 12,
-  //   },
-  //   {
-  //     title: "A* Optimized Runtime",
-  //     user: "username",
-  //     tag: "medium",
-  //     likes: 12,
-  //   },
-  //   {
-  //     title: "A* Optimized Runtime",
-  //     user: "username",
-  //     tag: "hard",
-  //     likes: 12,
-  //   },
-  //   {
-  //     title: "A* Optimized Runtime",
-  //     user: "username",
-  //     tag: "easy",
-  //     likes: 12,
-  //   }
-  // ]
-
   return (
     <div data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />
