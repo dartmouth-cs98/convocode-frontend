@@ -9,8 +9,6 @@ import './projectModal.css';
 import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag } from '../../state/actions';
 import axios from 'axios';
 
-
-
 const ProjectModal = (props) => {
     const [theme] = useState('light');
     const [modalShow, setModalShow] = useState(false);
@@ -44,20 +42,20 @@ const ProjectModal = (props) => {
 
     function saveCode() {
 
-        // TO DO: get username, title, description, and tags
-        const project_title = projectTitle;
-        const project_description = projectDescription;
-        const project_tag = projectTag;
+        console.log("are we getting here")
     
         // get java, html, css code, and title from ide page
-        const java_code = props.javascriptCode;
-        const html_code = props.htmlCode;
-        const css_code = props.cssCode;
         const projectTitle = props.projectTitle;
-    
+        const projectDescription = props.projectDescription;
+        const projectTag = props.projectTag;
+        const javaCode = props.javascriptCode;
+        const htmlCode = props.htmlCode;
+        const cssCode = props.cssCode;
+        const status = false;
+        const username = "fakeusername";
+
         // check if project id
         const projectId = props.projectId;
-        console.log(projectId);
     
         if (projectId == "") {
           // no project id yet, create new project
@@ -67,13 +65,14 @@ const ProjectModal = (props) => {
             method: "POST",
             url: `http://localhost:8000/api/project`,
             data: {
-              user: "fakeusernameslay",
               title: projectTitle,
               description: projectDescription,
               tags: projectTag,
-              java_code: java_code,
-              html_code: html_code,
-              css_code: css_code,
+              javaCode: javaCode,
+              htmlCode: htmlCode,
+              cssCode: cssCode,
+              status: status,
+              username: username
           }
           }).then((res) => {
             // have some sort of popup or change the button to like "code saved!" or something
@@ -95,9 +94,10 @@ const ProjectModal = (props) => {
                   title: projectTitle,
                   description: projectDescription,
                   tags: projectTag,
-                  java_code: java_code,
-                  html_code: html_code,
-                  css_code: css_code,
+                  javaCode: javaCode,
+                  htmlCode: htmlCode,
+                  cssCode: cssCode,
+                  status: status,
               }
               }).then((res) => {
                 // have some sort of popup or change the button to like "code saved!" or something
