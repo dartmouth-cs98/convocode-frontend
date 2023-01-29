@@ -16,6 +16,7 @@ const ProjectModal = (props) => {
     const [projectDescription, setProjectDescription] = useState("");
     const [projectTag, setProjectTag] = useState("");
     const [saved, setSaved] = useState(false);
+    const [checked, setChecked] = useState(false);
 
     const projectTags= ["easy", "medium", "hard"];
 
@@ -41,9 +42,12 @@ const ProjectModal = (props) => {
         props.addProjectDescription(newDescription);
     };
 
-    function saveCode() {
+    const handleCheckboxChange = () => {
+        console.log("SETTING")
+        setChecked(!checked);
+      };
 
-        console.log("are we getting here")
+    function saveCode() {
     
         // get java, html, css code, and title from ide page
         const projectTitle = props.projectTitle;
@@ -52,7 +56,7 @@ const ProjectModal = (props) => {
         const javaCode = props.javascriptCode;
         const htmlCode = props.htmlCode;
         const cssCode = props.cssCode;
-        const status = false;
+        const status = true;
         const username = "fakeusername";
 
         // check if project id
@@ -170,7 +174,16 @@ const ProjectModal = (props) => {
                                 setSaved(!saved);
                                 saveCode();
                                 }}disabled={saved}>{saved ? 'Saved' : 'Save'}</button>
-                            <button type="submit" className="pink">Post</button>
+                            <div>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={checked}
+                                    onChange={handleCheckboxChange}
+                                />
+                                Make Public?
+                            </label>
+                            </div>
                         </div>
                         </div>
                     </div>

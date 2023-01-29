@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import HeaderBar from "../HeaderBar/HeaderBar";
@@ -11,19 +11,23 @@ import './community.css'
 const CommunityPage = (props) => {
   // get all posts from database
 
+  const [posts, setPosts] = useState([]);
+
   function getProjects(){
     axios.request({
       method: "GET",
       url: `http://localhost:8000/api/project`
     }).then((res) => {
       // have some sort of popup or change the button to like "code saved!" or something
-      console.log("got posts!")
-      console.log(res.data);
-      return res.data;
+      setPosts(res.data);
     });
   }
 
-  const posts = getProjects();
+  useEffect(() => {
+    getProjects();
+  }, [posts]);
+
+  //const posts = getProjects();
   // const posts = [
   //   {
   //     title: "A* Optimized Runtime",
@@ -87,8 +91,8 @@ const CommunityPage = (props) => {
         </div>
         <div className="post-content">
           {
-            posts.map((item, idx) => {
-              return (<Post title={item.title} user={item.username} tag={item.tag} likes={item.likes} key={idx} />)
+            posts.slice(0).reverse().map((item, idx) => {
+              return (<Post title={item.title} user={item.username} tag={item.tags} likes={item.likes} key={idx} />)
             })
           }
         </div>
