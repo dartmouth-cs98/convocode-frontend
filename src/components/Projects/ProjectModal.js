@@ -135,7 +135,7 @@ const ProjectModal = (props) => {
                                 </div>
                             <div className="project-detail">
                             <label className="label-header">Project Title</label>
-                                <textarea name="project-title" value={projectTitle} onChange={handleTitleChange} rows={4} cols={40}></textarea>
+                                <textarea name="project-title" value={props.projectTitle} onChange={handleTitleChange} rows={4} cols={40}></textarea>
                             </div>
                             <div className="project-detail">
                             <label className="label-header">Project Description</label>
