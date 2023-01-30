@@ -4,10 +4,51 @@ import { connect } from 'react-redux';
 import HeaderBar from "../HeaderBar/HeaderBar";
 import ReactSearchBox from "react-search-box";
 import Post from "./Post.js"
+import axios from 'axios';
 
 import './community.css'
 
 const CommunityPage = (props) => {
+  function commentOnProject() {
+
+    // TO DO: get username, comment body, projectId
+  
+      // send post information to the backend 
+      axios.request({
+        method: "POST",
+        url: `http://localhost:8000/api/project/comment`,
+        data: {
+          username: "fakeusername",
+          commentBody: "this is the body of a comment",
+          projectId: "63d6f832a748ee38ddd87646"
+      }
+      }).then((res) => {
+        // have some sort of popup or change the button to like "code saved!" or something
+        console.log("commented on project!")
+        console.log(res.data);
+      });
+    }
+      
+  function commentOnComment() {
+
+    // TO DO: get username, comment body, commentId of comment they're commenting on
+  
+      // send post information to the backend 
+      axios.request({
+        method: "POST",
+        url: `http://localhost:8000/api/project/comment`,
+        data: {
+          username: "fakeusername",
+          commentBody: "this is the body of a comment",
+          commentId: "fake project id"
+      }
+      }).then((res) => {
+        // have some sort of popup or change the button to like "code saved!" or something
+        console.log("commented on project!")
+        console.log(res.data);
+      });
+    }
+  
   const posts = [
     {
       title: "A* Optimized Runtime",
@@ -69,6 +110,9 @@ const CommunityPage = (props) => {
         <div>
           SEARCH BAR
         </div>
+        <button className="pink" onClick={() => { 
+             commentOnProject();
+          }} >Comment on Project</button>
         <div className="post-content">
           {
             posts.map((item, idx) => {
