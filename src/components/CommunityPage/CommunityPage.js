@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import HeaderBar from "../HeaderBar/HeaderBar";
-import ReactSearchBox from "react-search-box";
+// import ReactSearchBox from "react-search-box";
 import Post from "./Post.js"
 
 import './community.css'
