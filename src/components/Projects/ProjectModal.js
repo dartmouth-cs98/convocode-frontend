@@ -9,14 +9,14 @@ import './projectModal.css';
 import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag } from '../../state/actions';
 import axios from 'axios';
 
-
-
 const ProjectModal = (props) => {
     const [theme] = useState('light');
     const [modalShow, setModalShow] = useState(false);
     const [projectTitle, setProjectTitle] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [projectTag, setProjectTag] = useState("");
+    const [saved, setSaved] = useState(false);
+    const [checked, setChecked] = useState(false);
 
     const projectTags= ["easy", "medium", "hard"];
 
@@ -42,22 +42,25 @@ const ProjectModal = (props) => {
         props.addProjectDescription(newDescription);
     };
 
-    function saveCode() {
+    const handleCheckboxChange = () => {
+        console.log("SETTING")
+        setChecked(!checked);
+      };
 
-        // TO DO: get username, title, description, and tags
-        const project_title = projectTitle;
-        const project_description = projectDescription;
-        const project_tag = projectTag;
+    function saveCode() {
     
         // get java, html, css code, and title from ide page
-        const java_code = props.javascriptCode;
-        const html_code = props.htmlCode;
-        const css_code = props.cssCode;
         const projectTitle = props.projectTitle;
-    
+        const projectDescription = props.projectDescription;
+        const projectTag = props.projectTag;
+        const javaCode = props.javascriptCode;
+        const htmlCode = props.htmlCode;
+        const cssCode = props.cssCode;
+        const status = true;
+        const username = "fakeusername";
+
         // check if project id
         const projectId = props.projectId;
-        console.log(projectId);
     
         if (projectId == "") {
           // no project id yet, create new project
@@ -67,13 +70,14 @@ const ProjectModal = (props) => {
             method: "POST",
             url: `http://localhost:8000/api/project`,
             data: {
-              user: "fakeusernameslay",
               title: projectTitle,
               description: projectDescription,
               tags: projectTag,
-              java_code: java_code,
-              html_code: html_code,
-              css_code: css_code,
+              javaCode: javaCode,
+              htmlCode: htmlCode,
+              cssCode: cssCode,
+              status: status,
+              username: username
           }
           }).then((res) => {
             // have some sort of popup or change the button to like "code saved!" or something
@@ -95,9 +99,10 @@ const ProjectModal = (props) => {
                   title: projectTitle,
                   description: projectDescription,
                   tags: projectTag,
-                  java_code: java_code,
-                  html_code: html_code,
-                  css_code: css_code,
+                  javaCode: javaCode,
+                  htmlCode: htmlCode,
+                  cssCode: cssCode,
+                  status: status,
               }
               }).then((res) => {
                 // have some sort of popup or change the button to like "code saved!" or something
@@ -130,7 +135,7 @@ const ProjectModal = (props) => {
                                 </div>
                             <div className="project-detail">
                             <label className="label-header">Project Title</label>
-                                <textarea name="project-title" value={projectTitle} onChange={handleTitleChange} rows={4} cols={40}></textarea>
+                                <textarea name="project-title" value={props.projectTitle} onChange={handleTitleChange} rows={4} cols={40}></textarea>
                             </div>
                             <div className="project-detail">
                             <label className="label-header">Project Description</label>
@@ -165,8 +170,20 @@ const ProjectModal = (props) => {
                         </Tabs>
                         </div>
                         <div className="project-buttons">
-                            <button className="light-pink" onClick = {()=>{saveCode();}}>Save</button>
-                            <button type="submit" className="pink">Post</button>
+                            <button className="light-pink" onClick = {()=>{
+                                setSaved(!saved);
+                                saveCode();
+                                }}disabled={saved}>{saved ? 'Saved' : 'Save'}</button>
+                            <div>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={checked}
+                                    onChange={handleCheckboxChange}
+                                />
+                                Make Public?
+                            </label>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -176,7 +193,6 @@ const ProjectModal = (props) => {
         </div>
 
     )
-
 };
 const mapStateToProps = (reduxstate) => {
     return { 
