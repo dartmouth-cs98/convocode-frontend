@@ -1,0 +1,102 @@
+@import "../../index.css";
+
+.profile-page {
+  height: 100vh;
+  width: 100vw;
+}
+
+.page-content {
+  height: 93vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.user-header {
+  display: flex;
+  height: 30vh;
+  width: 60vw;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 40px;
+}
+
+button#settings {
+  background-color: var(--darkGrey);
+  color: var(--white);
+  padding: 10px;
+  height: 45px;
+}
+
+#col {
+  width: 40vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+
+.user-info {
+  border-radius: 5px;
+  margin: 10px;
+  padding: 2px;
+}
+
+#bus-border {
+  border: 5px solid var(--bus);
+}
+
+#grape-border {
+  border: 5px solid var(--grape);
+}
+
+#easy-a-border {
+  border: 5px solid var(--easyA);
+}
+
+.projects {
+  height: 60vh;
+  width: 60vw;
+}
+
+.popular {
+  background-color: var(--grey);
+  height: 84vh;
+  width: 30vw;
+  border-radius: 10px;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+}
+
+.pop-header {
+  background-color: var(--black);
+  color: var(--white);
+  border-radius: 10px 10px 0px 0px;
+  padding: 15px;
+}
+
+.react-tabs__tab-list {
+  margin: 0px;
+  border: none;
+}
+
+.react-tabs__tab-panel {
+  background-color: var(--grey);
+  width: 100%;
+  height: 55vh;
+  border-radius: 0px 10px 10px 10px;
+}
+
+.react-tabs__tab {
+  background-color: var(--boring);
+  border: none;
+  bottom: 0px;
+  border-radius: 5px 5px 0 0;
+  cursor: pointer;
+}
+
+.react-tabs__tab--selected {
+  background-color: var(--unicorn);
+  border: none;
+}

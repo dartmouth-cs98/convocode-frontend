@@ -16,6 +16,7 @@
   --unicorn: #EF6ED3;
   --boring: #EFF2F2;
   --grey: #d9d9d9;
+  --darkGrey: #737B7D;
 }
 
 html,
@@ -30,7 +31,7 @@ body {
   --text-primary: var(--black);
   --button-background: var(--bus);
   --button-text: var(--black);
-  --background: 
+  --background:
 }
 
 *[data-theme='dark'] {
