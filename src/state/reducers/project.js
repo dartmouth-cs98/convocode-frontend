@@ -30,7 +30,7 @@ const ProjectReducer = (state = projectState, action) => {
     case ActionTypes.ADD_CODE_TAG: 
       return {...state, tags: {
         ...state.tags, 
-        [action.payload.codeOutput.toString()]: action.payload.codeInput
+        [action.payload.lines]: action.payload.codeInput
       }};
     default:
       return state;

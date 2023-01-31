@@ -1,6 +1,6 @@
 // RECORDER: https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import CodeEditor from './CodeEditor';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
@@ -13,6 +13,8 @@ import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
 import multiTab from '../../resources/MultiTab.svg';
+//import Tooltip from '@mui/material';
+import { monaco } from '@monaco-editor/react';
 import axios from 'axios';
 import './webEditor.css';
 import HeaderBar from '../HeaderBar/HeaderBar';
@@ -29,7 +31,7 @@ const WebEditors = (props) => {
   // getting code from nav link props
   const [theme] = useState("light");
   const [outputDetails, setOutputDetails] = useState(null);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [title, setTitle] = useState("");
   const [JSquery, setJSQuery] = useState("");
@@ -40,7 +42,35 @@ const WebEditors = (props) => {
   const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
   const [highlighted, setHighlighted] = useState("");
+  const [editor, setEditor] = useState(null);
+  const [monaco, setMonaco] = useState(null);
+  const [lastInsert, setLastInsert] = useState(1);
+  const [currentLines, setCurrentLines] = useState("");
+
   
+  const jsRef = useRef(null);
+  const cssRef = useRef(null);
+  const htmlRef = useRef(null);
+
+  
+
+  function handleJSDidMount(editor, monaco) {
+    jsRef.current = editor;
+    console.log(jsRef);
+    setMonaco(monaco);
+    setEditor(editor);
+  }
+
+
+  function handleCSSDidMount(editor, monaco) {
+    cssRef.current = editor;
+  }
+
+  function handleHTMLDidMount(editor, monaco) {
+    htmlRef.current = editor;
+  }
+
+
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
     // send user input to get code from openai
@@ -61,15 +91,21 @@ const WebEditors = (props) => {
       }
     }).then((res) => {
       setLoading(false);
-      const tag = {codeOutput: res.data.code, codeInput: query}
-      props.addCodeTag(tag);
+      //const tag = {codeOutput: res.data.code, codeInput: query}
+      //props.addCodeTag(tag);
+      console.log(res.data.code);
       
       if (currentLanguage === "javascript") {
         if (props.javascriptCode.length === 0) {
             props.addJavascriptCode(res.data.code);
         } else {
             props.insertJavascriptCode(res.data.code);
-        } 
+        }
+        const lines = res.data.code.split(/\r\n|\r|\n/).length;
+        const tag = {lines: [lastInsert, lines], codeInput: query}
+        props.addCodeTag(tag);
+        setLastInsert(lastInsert + currentLines);
+
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
             props.addHTMLCode(res.data.code);
@@ -249,6 +285,7 @@ const WebEditors = (props) => {
     const inputText = searchByKey(props.tags, highlighted);
     if (inputText !== "") {
         console.log(inputText);
+        setHighlighted(inputText);
     }
 
     //document.getElementById('input').value = t;
@@ -285,11 +322,12 @@ const WebEditors = (props) => {
           }
         </div>
         <div className="web-editor-container">
-          <div className="editor">
+          <div className="editor" id="javascript">
             <CodeEditor
                 language={"javascript"}
                 theme={theme}
                 width="100%"
+                mount={handleJSDidMount}
             />
           </div>
           <div className="editor">
@@ -297,6 +335,7 @@ const WebEditors = (props) => {
                 language={"html"}
                 theme={theme}
                 width="100%"
+                mount={handleHTMLDidMount}
             />
           
           </div>
@@ -305,10 +344,13 @@ const WebEditors = (props) => {
                 language={"css"}
                 theme={theme}
                 width="100%"
+                mount={handleCSSDidMount}
             />
            
           </div>
-          <div className="editor" onMouseUp={getTextHighlight}>{props.htmlCode}</div>
+          {/* <div className="editor" onMouseUp={() => {
+            setOpen(!open);
+            getTextHighlight}} onMouseLeave={setOpen(false)} onClicke={setOpen(false)}>{props.htmlCode}</div> */}
         </div>
         <WebOutput theme={theme}/>
     </div>

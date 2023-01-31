@@ -88,7 +88,9 @@ export const ActionTypes = {
   * @description add output regex string key and input string value 
   */
  export const addCodeTag = (input) => {
+  console.log(input.lines);
+
    return (dispatch) => {
-     dispatch({ type: ActionTypes.ADD_CODE_TAG, payload: { codeOutput: input.codeOutput, codeInput: input.codeInput }});
+     dispatch({ type: ActionTypes.ADD_CODE_TAG, payload: { lines: input.lines, codeInput: input.codeInput }});
    };
  };
