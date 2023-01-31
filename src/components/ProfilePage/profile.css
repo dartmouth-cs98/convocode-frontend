@@ -17,8 +17,8 @@
   height: 30vh;
   width: 60vw;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
+  padding-left: 40px;
 }
 
 button#settings {
@@ -33,7 +33,7 @@ button#settings {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 }
 
 .user-info {
