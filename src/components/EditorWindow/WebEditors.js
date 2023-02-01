@@ -64,24 +64,26 @@ const WebEditors = (props) => {
     console.log(jsRef);
     //setMonaco(monaco);
     //setEditor(editor);
-    totalLines = jsRef.current.getModel().getLineCount();
+    //totalLines = jsRef.current.getModel().getLineCount();
     //console.log(editor.getModel().getLineCount());
     //setLineCount(initialLines);
     editor.onDidChangeCursorPosition(e => {
         console.log(`cursor location state: ${cursorLine}\nreported position: ${e.position.lineNumber}`);
         cursorLine = e.position.lineNumber - 1;
-        totalLines = jsRef.current.getModel().getLineCount();
+        console.log(`total lines: ${totalLines}`);
+        console.log(`cursor lines: ${cursorLine + 1}`);
+        console.log(`reported lines: ${jsRef.current.getModel().getLineCount()}`)
+        //totalLines = jsRef.current.getModel().getLineCount();
         if (e.source !== "modelChange" && totalLines === jsRef.current.getModel().getLineCount()) {
-            lastLines = cursorLine;
             props.replaceCodeTag({ query: -1, index: cursorLine });
-        } 
-
-        if (e.source !== "modelChange" && totalLines < cursorLine + 1 ) {
-      
-            totalLines = jsRef.current.getModel().getLineCount();
-            lastLines = cursorLine;
+        } else if (e.source !== "modelChange" && totalLines < jsRef.current.getModel().getLineCount() && cursorLine + 1 < jsRef.current.getModel().getLineCount()) {
+            props.insertCodeTag({ query: -1, index: cursorLine })
+        }
+        else if (e.source !== "modelChange" && totalLines < jsRef.current.getModel().getLineCount() && cursorLine + 1 === jsRef.current.getModel().getLineCount()) {
             props.appendCodeTag({query: -1, index: cursorLine });
         } 
+        totalLines = jsRef.current.getModel().getLineCount();
+        lastLines = cursorLine;
     });
   }
 
