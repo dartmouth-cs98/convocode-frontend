@@ -20,7 +20,7 @@ const CommunityPage = (props) => {
         url: `http://localhost:8000/api/comment`,
         data: {
           username: "fakeusername",
-          commentBody: "testing comment again",
+          commentBody: "cs70 test",
       }
       }).then((res) => {
         const commentId = res.data;
@@ -33,7 +33,7 @@ const CommunityPage = (props) => {
           data: {
             commentId: commentId,
             // when you click on the project, it will grab the projectId
-            projectId: "63daadf3758f1d37194d2141"
+            projectId: "63dac16ed40cb88013a722d6"
         }
         }).then((res) => {
           console.log("added comment id to project!")
@@ -67,7 +67,7 @@ const CommunityPage = (props) => {
           data: {
             replyCommentId: commentId,
             // when you hit reply, it will grab the original comment id
-            originalCommentId: "63d9ec2af521d3da13cb7915"
+            commentId: "63dac1f4d40cb88013a722e0"
         }
         }).then((res) => {
           console.log("added comment id to comment!")
@@ -140,7 +140,7 @@ const CommunityPage = (props) => {
           SEARCH BAR
         </div>
         <button className="pink" onClick={() => { 
-             commentOnProject();
+             commentOnComment();
           }} >FOR TESTING ONLY Comment on Project</button>
         <div className="post-content">
           {
