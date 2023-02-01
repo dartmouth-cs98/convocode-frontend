@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { signUp } from '../../services/user';
+
 
 import HeaderBar from "../HeaderBar/HeaderBar";
 
 import './signup.css'
 
 const SignUp = (props) => {
+  const navigate = useNavigate();
 
   const SignupSchema = Yup.object().shape({
     name: Yup.string()
@@ -33,6 +36,16 @@ const SignUp = (props) => {
       .oneOf([Yup.ref('password'), null], "Passwords do not match!"),
   });
 
+  const submit = (values) => {
+    try {
+      signUp(values.email, values.password);
+    } catch (error) {
+      console.log("Unable to sign up at this time:", error)
+    }
+    navigate('/signin')
+
+  }
+
   return (
     <div className="sign-up" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />
@@ -48,9 +61,7 @@ const SignUp = (props) => {
             password2: '',
           }}
           validationSchema={SignupSchema}
-          onSubmit={values => {
-            console.log(values);
-          }}
+          onSubmit={(values) => submit(values)}
         >
           {({ errors, touched }) => (
             <Form>
@@ -88,7 +99,9 @@ const SignUp = (props) => {
   );
 };
 const mapStateToProps = (reduxstate) => {
-  return { lightMode: reduxstate.settings.lightMode };
+  return {
+    lightMode: reduxstate.settings.lightMode,
+  };
 };
 
 export default connect(mapStateToProps, {})(SignUp);

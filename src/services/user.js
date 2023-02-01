@@ -7,7 +7,7 @@ import {
   removeUserIdFromStorage,
   setAuthTokenInStorage,
   setUserIdInStorage,
-} from '../utils';
+} from './utils.js';
 
 const SUBROUTE = 'user';
 
@@ -17,22 +17,20 @@ const SUBROUTE = 'user';
  * @param {String} password user password (plain text)
  * @returns {Promise<Object>} API response
  */
-export const login = async (email, password) => {
+export const UserServicesLogin = async (email, password) => {
   const url = `http://localhost:8000/api/user/signin`;
 
+  console.log("in user services login")
   try {
-    const { data: response } = await axios.get(url, {
-      auth: {
-        username: email,
-        password,
-      },
-    });
-
-    const { data } = response;
+    const { data } = await axios.post(url, {
+      email,
+      password,
+    },
+    );
 
     if (data) {
       setAuthTokenInStorage(data.token);
-      setUserIdInStorage(data.user._id);
+      setUserIdInStorage(data.user.id);
     }
 
     return data;
@@ -54,6 +52,8 @@ export const signUp = async (email, password) => {
   const url = `http://localhost:8000/api/user/signup`;
   const token = getAuthTokenFromStorage();
 
+  console.log("signing up", email, password)
+
   try {
     const { data: { data } } = await axios.post(url, {
       email,
@@ -74,7 +74,7 @@ export const signUp = async (email, password) => {
 /**
  * @description signs user out (clears storage token)
  */
-export const signOut = () => {
+export const UserServicesSignOut = () => {
   removeAuthTokenFromStorage();
   removeUserIdFromStorage();
 };
@@ -108,7 +108,7 @@ export const getUser = async (id) => {
  * @description retrieves user info
  * @returns {Promise<Object>} API response
  */
-export const getUserFromStorage = async () => {
+export const getUSUserFromStorage = async () => {
   const id = getUserIdFromStorage();
   const token = getAuthTokenFromStorage();
 

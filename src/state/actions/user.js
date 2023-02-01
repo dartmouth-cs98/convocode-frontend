@@ -1,4 +1,4 @@
-import { user as userService } from '../../services';
+import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage } from "../../services/user.js"
 
 export const ActionTypes = {
   SET_USER_DATA: 'SET_USER_DATA',
@@ -15,10 +15,12 @@ export const ActionTypes = {
 export const login = (email, password, onSuccess = () => { }, onError = () => { }) => {
   return async (dispatch) => {
     try {
-      const { user } = await userService.login(email, password);
-      dispatch({ type: ActionTypes.SET_USER_DATA, payload: user });
-      onSuccess();
+      console.log("logging in")
+      const { data } = await UserServicesLogin(email, password);
+      dispatch({ type: ActionTypes.SET_USER_DATA, payload: data });
+      // onSuccess();
     } catch (error) {
+      console.log(error)
       dispatch({
         type: ActionTypes.API_ERROR,
         payload: {
@@ -37,7 +39,8 @@ export const login = (email, password, onSuccess = () => { }, onError = () => { 
 export const getUserFromStorage = () => {
   return async (dispatch) => {
     try {
-      const response = await userService.getUserFromStorage();
+      console.log("getting from storage")
+      const response = await getUSUserFromStorage();
       dispatch({ type: ActionTypes.SET_USER_DATA, payload: response });
     } catch (error) {
       dispatch({
@@ -56,7 +59,8 @@ export const getUserFromStorage = () => {
  */
 export const signOut = () => {
   return (dispatch) => {
-    userService.signOut();
+    console.log("sign out")
+    UserServicesSignOut();
     dispatch({ type: ActionTypes.SET_USER_DATA, payload: {} });
   };
 };
