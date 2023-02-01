@@ -9,45 +9,74 @@ import axios from 'axios';
 import './community.css'
 
 const CommunityPage = (props) => {
+
+  // TO DO: replace hard-coded data in requests
+  // Set-up for testing until we have functionality to click on project and open pop-up
   function commentOnProject() {
 
-    // TO DO: get username, comment body, projectId
-  
-      // send post information to the backend 
+      // request to create comment
       axios.request({
         method: "POST",
-        url: `http://localhost:8000/api/project/:id/comment`,
+        url: `http://localhost:8000/api/comment`,
         data: {
           username: "fakeusername",
-          commentBody: "different body for comment",
-          projectId: "63d6f832a748ee38ddd87646"
+          commentBody: "testing comment again",
       }
       }).then((res) => {
-        // have some sort of popup or change the button to like "code saved!" or something
-        console.log("commented on project!")
-        console.log(res.data);
+        const commentId = res.data;
+        console.log("created new comment, now adding comment id to project")
+        console.log(commentId);
+        // now update project with the new comment (send comment id)
+        axios.request({
+          method: "PUT",
+          url: `http://localhost:8000/api/project/:id`,
+          data: {
+            commentId: commentId,
+            // when you click on the project, it will grab the projectId
+            projectId: "63daadf3758f1d37194d2141"
+        }
+        }).then((res) => {
+          console.log("added comment id to project!")
+          console.log("here's the project id")
+          console.log(res.data);
+      });
       });
     }
-      
+    
+  // TO DO: remove hard-coded test data
+  // Set-up for testing until we have functionality to click on project and open pop-up
   function commentOnComment() {
 
-    // TO DO: get username, comment body, commentId of comment they're commenting on
-  
-      // send post information to the backend 
+      // Two tasks: create a new comment then update original comment this one is replying to
+      // request to create comment
       axios.request({
-        method: "PUT",
-        url: `http://localhost:8000/api/project/comment`,
+        method: "POST",
+        url: `http://localhost:8000/api/comment`,
         data: {
           username: "fakeusername",
-          commentBody: "this is the body of a comment",
-          commentId: "fake project id"
+          commentBody: "this is a comment on another comment",
       }
       }).then((res) => {
-        // have some sort of popup or change the button to like "code saved!" or something
-        console.log("commented on project!")
-        console.log(res.data);
+        const commentId = res.data;
+        console.log("created new comment, now adding comment id to original comment")
+        console.log(commentId);
+        // now update project with the new comment (send comment id)
+        axios.request({
+          method: "PUT",
+          url: `http://localhost:8000/api/comment`,
+          data: {
+            replyCommentId: commentId,
+            // when you hit reply, it will grab the original comment id
+            originalCommentId: "63d9ec2af521d3da13cb7915"
+        }
+        }).then((res) => {
+          console.log("added comment id to comment!")
+          console.log("here's the original comment id")
+          console.log(res.data);
       });
-    }
+      });
+    
+  }
   
   const posts = [
     {
