@@ -51,12 +51,12 @@ const WebEditors = (props) => {
   const htmlRef = useRef(null);
   
   // THESE ARE THE VARIABLES THAT ARE NOT IN STATE 
-  // cursorLine = current position of cursor
-  var cursorLine = 0;
-  // totalLines = total lines in the editor
-  var totalLines = 1;
+  // JScursorLine = current position of cursor
+  var JScursorLine = 0;
+  // JStotalLines = total lines in the editor
+  var JStotalLines = 1;
   // lastLines = last line inserted
-  var lastLines = 1;
+  var JSlastLines = 1;
 
 
   function handleJSDidMount(editor, monaco) {
@@ -67,23 +67,40 @@ const WebEditors = (props) => {
     //totalLines = jsRef.current.getModel().getLineCount();
     //console.log(editor.getModel().getLineCount());
     //setLineCount(initialLines);
-    editor.onDidChangeCursorPosition(e => {
-        console.log(`cursor location state: ${cursorLine}\nreported position: ${e.position.lineNumber}`);
-        cursorLine = e.position.lineNumber - 1;
-        console.log(`total lines: ${totalLines}`);
-        console.log(`cursor lines: ${cursorLine + 1}`);
+    /* editor.onDidChangeCursorPosition(e => {
+        console.log(`cursor location state: ${JScursorLine}\nreported position: ${e.position.lineNumber}`);
+        JScursorLine = e.position.lineNumber - 1;
+        console.log(`total lines: ${JStotalLines}`);
+        console.log(`cursor lines: ${JScursorLine + 1}`);
         console.log(`reported lines: ${jsRef.current.getModel().getLineCount()}`)
         //totalLines = jsRef.current.getModel().getLineCount();
-        if (e.source !== "modelChange" && totalLines === jsRef.current.getModel().getLineCount()) {
-            props.replaceCodeTag({ query: -1, index: cursorLine });
-        } else if (e.source !== "modelChange" && totalLines < jsRef.current.getModel().getLineCount() && cursorLine + 1 < jsRef.current.getModel().getLineCount()) {
-            props.insertCodeTag({ query: -1, index: cursorLine })
+        if (e.source !== "modelChange" && JStotalLines === jsRef.current.getModel().getLineCount()) {
+            props.replaceCodeTag({ query: -1, index: JScursorLine });
+        } else if (e.source !== "modelChange" && JStotalLines < jsRef.current.getModel().getLineCount() && JScursorLine + 1 < jsRef.current.getModel().getLineCount()) {
+            props.insertCodeTag({ query: -1, index: JScursorLine })
         }
-        else if (e.source !== "modelChange" && totalLines < jsRef.current.getModel().getLineCount() && cursorLine + 1 === jsRef.current.getModel().getLineCount()) {
-            props.appendCodeTag({query: -1, index: cursorLine });
+        else if (e.source !== "modelChange" && JStotalLines < jsRef.current.getModel().getLineCount() && JScursorLine + 1 === jsRef.current.getModel().getLineCount()) {
+            props.appendCodeTag({query: -1, index: JScursorLine });
         } 
-        totalLines = jsRef.current.getModel().getLineCount();
-        lastLines = cursorLine;
+        JStotalLines = jsRef.current.getModel().getLineCount();
+        JSlastLines = JScursorLine;
+    }); */
+
+    editor.onDidChangeModelContent(e => {
+        console.log(e);
+        JScursorLine = jsRef.current.getPosition().lineNumber - 1;
+        console.log(`total lines: ${JStotalLines}`);
+        console.log(`cursor lines: ${JScursorLine + 1}`);
+        console.log(`reported lines: ${jsRef.current.getModel().getLineCount()}`)
+        if (!e.changes[0].forceMoveMarkers && JStotalLines === jsRef.current.getModel().getLineCount())  {
+            props.replaceCodeTag({ query: -1, index: JScursorLine });
+        } else if (!e.changes[0].forceMoveMarkers && JStotalLines < jsRef.current.getModel().getLineCount() && JScursorLine + 1 < jsRef.current.getModel().getLineCount()) {
+            props.insertCodeTag({ query: -1, index: JScursorLine });
+        } else if (!e.changes[0].forceMoveMarkers && JStotalLines < jsRef.current.getModel().getLineCount() && JScursorLine + 1 === jsRef.current.getModel().getLineCount()) {
+            props.appendCodeTag({query: -1, index: JScursorLine });
+        }
+        JStotalLines = jsRef.current.getModel().getLineCount();
+        JSlastLines = JScursorLine;
     });
   }
 
@@ -111,7 +128,7 @@ const WebEditors = (props) => {
     } else {
         queryType = "/* Langauage: CSS */\n/* " + query + "*/";
     }
-    setPreviousLine(cursorLine);
+    setPreviousLine(JScursorLine);
     axios.request({
       method: "POST",
       url: `http://localhost:8000/api/getcode`,
@@ -133,14 +150,14 @@ const WebEditors = (props) => {
         const lines = res.data.code.split(/\r\n|\r|\n/).length;
         console.log(lines);
         //const totalLines = editor.getModel().getLineCount();
-        console.log(`current line: ${cursorLine}`);
-        console.log(lastLines);
-        console.log(lastLines + lines);
-        for (var i = lastLines; i < lastLines + lines - 1; i++) {
+        console.log(`current line: ${JScursorLine}`);
+        console.log(JSlastLines);
+        console.log(JSlastLines + lines);
+        for (var i = JSlastLines; i < JSlastLines + lines - 1; i++) {
             props.appendCodeTag({index: i, query: query});
         }
-        cursorLine = lastLines + lines - 1;
-        totalLines += lines;
+        JScursorLine = JSlastLines + lines - 1;
+        JStotalLines += lines;
     
 
       } else if (currentLanguage === "html") {
