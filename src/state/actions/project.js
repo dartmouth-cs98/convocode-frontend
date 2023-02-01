@@ -7,7 +7,9 @@ export const ActionTypes = {
     INSERT_CSS_CODE: 'INSERT_CSS_CODE',
     ADD_PROJECT_ID: 'ADD_PROJECT_ID',
     ADD_PROJECT_TITLE: 'ADD_PROJECT_TITLE',
-    ADD_CODE_TAG: 'ADD_REGEX_INPUT'
+    INSERT_CODE_TAG: 'ADD_CODE_TAG',
+    REPLACE_CODE_TAG: 'REPLACE_CODE_TAG',
+    APPEND_CODE_TAG: 'APPEND_CODE_TAG'
   };
   
   /**
@@ -87,10 +89,21 @@ export const ActionTypes = {
   /**
   * @description add output regex string key and input string value 
   */
- export const addCodeTag = (input) => {
-  console.log(input.lines);
-
+ export const insertCodeTag = (input) => {
    return (dispatch) => {
-     dispatch({ type: ActionTypes.ADD_CODE_TAG, payload: { lines: input.lines, codeInput: input.codeInput }});
+     dispatch({ type: ActionTypes.INSERT_CODE_TAG, payload: { query: input.query, index: input.index }});
    };
  };
+
+ export const replaceCodeTag = (input) => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.REPLACE_CODE_TAG, payload : { query: input.query, index: input.index }});
+  };
+ };
+
+ export const appendCodeTag = (input) => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.APPEND_CODE_TAG, payload : { query: input.query, index: input.index }});
+  };
+ };
+

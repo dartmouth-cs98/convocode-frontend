@@ -6,7 +6,7 @@ const projectState = {
   css: "",
   projectId: "",
   projectTitle: "",
-  tags: {},
+  tags: [],
 };
 
 const ProjectReducer = (state = projectState, action) => {
@@ -27,11 +27,19 @@ const ProjectReducer = (state = projectState, action) => {
       return { ...state, projectId: action.payload };
     case ActionTypes.ADD_PROJECT_TITLE:
       return { ...state, projectTitle: action.payload };
-    case ActionTypes.ADD_CODE_TAG: 
-      return {...state, tags: {
-        ...state.tags, 
-        [action.payload.lines]: action.payload.codeInput
-      }};
+    case ActionTypes.APPEND_CODE_TAG: 
+        return {...state, tags: [...state.tags, action.payload.query]};
+    case ActionTypes.INSERT_CODE_TAG:
+      return {...state, tags: [...state.tags.slice(0, action.payload.index), action.payload.query, ...state.tags.slice(action.payload.index)]};
+    case ActionTypes.REPLACE_CODE_TAG:
+      const newArray = [...state.tags];
+      newArray[action.payload.index] = action.payload.query;
+      return {
+        ...state,
+        tags: newArray,  
+      }
+      
+    
     default:
       return state;
   }

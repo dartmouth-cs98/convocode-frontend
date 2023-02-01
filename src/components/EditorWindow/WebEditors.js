@@ -8,13 +8,12 @@ import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
 import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addProjectId, addProjectTitle } from '../../state/actions';
-import { addCodeTag } from '../../state/actions';
+import { insertCodeTag, replaceCodeTag, appendCodeTag } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
 import multiTab from '../../resources/MultiTab.svg';
 //import Tooltip from '@mui/material';
-import { monaco } from '@monaco-editor/react';
 import axios from 'axios';
 import './webEditor.css';
 import HeaderBar from '../HeaderBar/HeaderBar';
@@ -32,11 +31,7 @@ const WebEditors = (props) => {
   const [theme] = useState("light");
   const [outputDetails, setOutputDetails] = useState(null);
   const [open, setOpen] = useState(false);
-  const [modalShow, setModalShow] = useState(false);
   const [title, setTitle] = useState("");
-  const [JSquery, setJSQuery] = useState("");
-  const [CSSquery, setCSSQuery] = useState("");
-  const [HTMLquery, setHTMLQuery] = useState("");
   const [query, setQuery] = useState("");
   const [currentLanguage, setCurrentLanguage] = useState("html");
   const [view, setView] = useState("multi");
@@ -44,22 +39,53 @@ const WebEditors = (props) => {
   const [highlighted, setHighlighted] = useState("");
   const [editor, setEditor] = useState(null);
   const [monaco, setMonaco] = useState(null);
-  const [lastInsert, setLastInsert] = useState(1);
-  const [currentLines, setCurrentLines] = useState("");
+  //const [lastInsert, setLastInsert] = useState(1);
+  //const [currentLines, setCurrentLines] = useState("");
+  const [cursorLocation, setCursorLocation] = useState(1);
+  const [lineStructure, setLineStructure] = useState([]);
+  const [lineCount, setLineCount] = useState(1);
+  const [previousLine, setPreviousLine] = useState(1);
 
-  
   const jsRef = useRef(null);
   const cssRef = useRef(null);
   const htmlRef = useRef(null);
-
   
+  // THESE ARE THE VARIABLES THAT ARE NOT IN STATE 
+  // cursorLine = current position of cursor
+  var cursorLine = 0;
+  // totalLines = total lines in the editor
+  var totalLines = 1;
+  // lastLines = last line inserted
+  var lastLines = 1;
+
 
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
     console.log(jsRef);
-    setMonaco(monaco);
-    setEditor(editor);
+    //setMonaco(monaco);
+    //setEditor(editor);
+    totalLines = jsRef.current.getModel().getLineCount();
+    //console.log(editor.getModel().getLineCount());
+    //setLineCount(initialLines);
+    editor.onDidChangeCursorPosition(e => {
+        console.log(`cursor location state: ${cursorLine}\nreported position: ${e.position.lineNumber}`);
+        cursorLine = e.position.lineNumber - 1;
+        totalLines = jsRef.current.getModel().getLineCount();
+        if (e.source !== "modelChange" && totalLines === jsRef.current.getModel().getLineCount()) {
+            lastLines = cursorLine;
+            props.replaceCodeTag({ query: -1, index: cursorLine });
+        } 
+
+        if (e.source !== "modelChange" && totalLines < cursorLine + 1 ) {
+      
+            totalLines = jsRef.current.getModel().getLineCount();
+            lastLines = cursorLine;
+            props.appendCodeTag({query: -1, index: cursorLine });
+        } 
+    });
   }
+
+  
 
 
   function handleCSSDidMount(editor, monaco) {
@@ -83,6 +109,7 @@ const WebEditors = (props) => {
     } else {
         queryType = "/* Langauage: CSS */\n/* " + query + "*/";
     }
+    setPreviousLine(cursorLine);
     axios.request({
       method: "POST",
       url: `http://localhost:8000/api/getcode`,
@@ -102,9 +129,17 @@ const WebEditors = (props) => {
             props.insertJavascriptCode(res.data.code);
         }
         const lines = res.data.code.split(/\r\n|\r|\n/).length;
-        const tag = {lines: [lastInsert, lines], codeInput: query}
-        props.addCodeTag(tag);
-        setLastInsert(lastInsert + currentLines);
+        console.log(lines);
+        //const totalLines = editor.getModel().getLineCount();
+        console.log(`current line: ${cursorLine}`);
+        console.log(lastLines);
+        console.log(lastLines + lines);
+        for (var i = lastLines; i < lastLines + lines - 1; i++) {
+            props.appendCodeTag({index: i, query: query});
+        }
+        cursorLine = lastLines + lines - 1;
+        totalLines += lines;
+    
 
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
@@ -183,9 +218,6 @@ const WebEditors = (props) => {
     
   }
 
-  const toggleModal = () => {
-    setModalShow(modalShow => !modalShow);
-  };
 
   // Function to call the compile endpoint
   // this is for python: keep in case we want to add back in
@@ -268,28 +300,7 @@ const WebEditors = (props) => {
 
 
 
-  const searchByKey = (tagDict, text) => {
-    const value = Object.keys(tagDict).filter(key => key.includes(text));
-    console.log(value);
-    if (value !== []) {
-        return tagDict[value];
-    } else {
-        return "";
-    }
-  }
-
-
-  const getTextHighlight = (event) => {
-    const highlighted = window.getSelection().toString();
-    console.log(highlighted);
-    const inputText = searchByKey(props.tags, highlighted);
-    if (inputText !== "") {
-        console.log(inputText);
-        setHighlighted(inputText);
-    }
-
-    //document.getElementById('input').value = t;
-}
+  
 
 
   return (
@@ -369,4 +380,4 @@ const mapStateToProps = (reduxstate) => {
  };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCodeTag })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, insertCodeTag, replaceCodeTag, appendCodeTag })(WebEditors);
