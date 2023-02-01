@@ -16,10 +16,10 @@ const CommunityPage = (props) => {
       // send post information to the backend 
       axios.request({
         method: "POST",
-        url: `http://localhost:8000/api/project/comment`,
+        url: `http://localhost:8000/api/project/:id/comment`,
         data: {
           username: "fakeusername",
-          commentBody: "this is the body of a comment",
+          commentBody: "different body for comment",
           projectId: "63d6f832a748ee38ddd87646"
       }
       }).then((res) => {
@@ -35,7 +35,7 @@ const CommunityPage = (props) => {
   
       // send post information to the backend 
       axios.request({
-        method: "POST",
+        method: "PUT",
         url: `http://localhost:8000/api/project/comment`,
         data: {
           username: "fakeusername",
@@ -112,7 +112,7 @@ const CommunityPage = (props) => {
         </div>
         <button className="pink" onClick={() => { 
              commentOnProject();
-          }} >Comment on Project</button>
+          }} >FOR TESTING ONLY Comment on Project</button>
         <div className="post-content">
           {
             posts.map((item, idx) => {
