@@ -16,9 +16,11 @@ export const login = (email, password, onSuccess = () => { }, onError = () => { 
   return async (dispatch) => {
     try {
       console.log("logging in")
-      const { data } = await UserServicesLogin(email, password);
-      dispatch({ type: ActionTypes.SET_USER_DATA, payload: data });
-      // onSuccess();
+      const data = await UserServicesLogin(email, password);
+      if (data) {
+        dispatch({ type: ActionTypes.SET_USER_DATA, payload: data });
+      }
+      onSuccess();
     } catch (error) {
       console.log(error)
       dispatch({

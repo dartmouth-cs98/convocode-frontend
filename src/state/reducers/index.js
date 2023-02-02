@@ -6,6 +6,7 @@ import CodeReducer from './code';
 import SettingsReducer from './settings';
 import ConvodexReducer from './convodex';
 import ProjectReducer from './project';
+import UserReducer from './user';
 
 
 const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   code: CodeReducer,
   convodex: ConvodexReducer,
   project: ProjectReducer,
+  user: UserReducer,
 });
 
 export default rootReducer;

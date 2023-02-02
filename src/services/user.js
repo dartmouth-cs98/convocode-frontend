@@ -20,7 +20,6 @@ const SUBROUTE = 'user';
 export const UserServicesLogin = async (email, password) => {
   const url = `http://localhost:8000/api/user/signin`;
 
-  console.log("in user services login")
   try {
     const { data } = await axios.post(url, {
       email,
@@ -30,12 +29,11 @@ export const UserServicesLogin = async (email, password) => {
 
     if (data) {
       setAuthTokenInStorage(data.token);
-      setUserIdInStorage(data.user.id);
+      setUserIdInStorage(data.user);
+      console.log(data.user);
     }
-
-    return data;
+    return data.user;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
@@ -48,16 +46,17 @@ export const UserServicesLogin = async (email, password) => {
  * @param {String} lastName user lastname
  * @returns {Promise<Object>} API response
  */
-export const signUp = async (email, password) => {
+export const signUp = async (email, password, username) => {
   const url = `http://localhost:8000/api/user/signup`;
   const token = getAuthTokenFromStorage();
 
-  console.log("signing up", email, password)
+  console.log("signing up", email, password, username)
 
   try {
     const { data: { data } } = await axios.post(url, {
       email,
       password,
+      username,
     }, {
       headers: {
         authorization: `Bearer ${token}`,
