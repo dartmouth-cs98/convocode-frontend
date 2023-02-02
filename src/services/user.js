@@ -30,7 +30,6 @@ export const UserServicesLogin = async (email, password) => {
     if (data) {
       setAuthTokenInStorage(data.token);
       setUserIdInStorage(data.user);
-      console.log(data.user);
     }
     return data.user;
   } catch (error) {
@@ -42,15 +41,12 @@ export const UserServicesLogin = async (email, password) => {
  * @description signs user up with account
  * @param {String} email user email
  * @param {String} password user password (plain text)
- * @param {String} firstName user first name
- * @param {String} lastName user lastname
+ * @param {String} username user username
  * @returns {Promise<Object>} API response
  */
 export const signUp = async (email, password, username) => {
   const url = `http://localhost:8000/api/user/signup`;
   const token = getAuthTokenFromStorage();
-
-  console.log("signing up", email, password, username)
 
   try {
     const { data: { data } } = await axios.post(url, {

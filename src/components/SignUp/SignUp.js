@@ -42,7 +42,7 @@ const SignUp = (props) => {
     } catch (error) {
       console.log("Unable to sign up at this time:", error)
     }
-    navigate('/signin')
+    navigate('/')
 
   }
 

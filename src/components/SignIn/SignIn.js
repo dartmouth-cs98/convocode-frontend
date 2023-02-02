@@ -15,7 +15,6 @@ const SignUp = (props) => {
   const [password, setPassword] = useState();
 
   const handleSubmit = (event) => {
-    console.log("username and password sent")
     try {
       props.login(event.target[0].value, event.target[1].value);
     } catch (error) {
