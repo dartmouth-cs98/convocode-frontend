@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { signUp } from '../../services/user';
+import { signup } from '../../state/actions';
 
 
 import HeaderBar from "../HeaderBar/HeaderBar";
@@ -38,7 +38,7 @@ const SignUp = (props) => {
 
   const submit = (values) => {
     try {
-      signUp(values.email, values.password, values.username);
+      props.signup(values.email, values.password, values.username);
     } catch (error) {
       console.log("Unable to sign up at this time:", error)
     }
@@ -104,4 +104,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, {})(SignUp);
+export default connect(mapStateToProps, { signup })(SignUp);

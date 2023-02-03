@@ -44,12 +44,13 @@ export const UserServicesLogin = async (email, password) => {
  * @param {String} username user username
  * @returns {Promise<Object>} API response
  */
-export const signUp = async (email, password, username) => {
+export const UserServicesSignUp = async (email, password, username) => {
   const url = `http://localhost:8000/api/user/signup`;
   const token = getAuthTokenFromStorage();
 
+  console.log("user services sign up")
   try {
-    const { data: { data } } = await axios.post(url, {
+    const { data } = await axios.post(url, {
       email,
       password,
       username,
@@ -59,7 +60,9 @@ export const signUp = async (email, password, username) => {
       },
     });
 
-    return data;
+    if (data) {
+      return data.user
+    }
   } catch (error) {
     console.log(error);
     throw error;

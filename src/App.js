@@ -4,7 +4,6 @@ import WebEditors from './components/EditorWindow/WebEditors';
 import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
 import LandingPage from './components/LandingPage/LandingPage';
-import DocumentationPage from './components/Documentation/DocumentationPage';
 import MobileView from './components/MobileView/MobileView';
 import CommunityPage from './components/CommunityPage/CommunityPage';
 import Profile from './components/ProfilePage/ProfilePage';
@@ -23,7 +22,6 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/editor" element={<WebEditors />} />
-        <Route path="/documentation" element={<DocumentationPage />} />
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>

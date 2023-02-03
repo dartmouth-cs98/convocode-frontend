@@ -21,13 +21,9 @@ import {
 } from './code';
 
 import {
-  ActionTypes as convodexActionTypes,
-  addConvodexEntry,
-} from './convodex';
-
-import {
   ActionTypes as userActionTypes,
   login,
+  signup,
   getUserFromStorage,
   signOut,
 } from "./user";
@@ -51,7 +47,6 @@ const ActionTypes = {
   ...fileActionTypes,
   ...voiceActionTypes,
   ...codeActionTypes,
-  ...convodexActionTypes,
   ...projectActionTypes,
   ...userActionTypes,
 };
@@ -64,7 +59,6 @@ export {
   addSpeech,
   addCode,
   insertCode,
-  addConvodexEntry,
   addJavascriptCode,
   addHTMLCode,
   addCSSCode,
@@ -76,6 +70,7 @@ export {
   addProjectDescription,
   addProjectTag,
   login,
+  signup,
   getUserFromStorage,
   signOut,
 }
