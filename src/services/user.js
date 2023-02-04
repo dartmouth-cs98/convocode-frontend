@@ -29,7 +29,7 @@ export const UserServicesLogin = async (email, password) => {
 
     if (data) {
       setAuthTokenInStorage(data.token);
-      setUserIdInStorage(data.user);
+      setUserIdInStorage(data.user.username);
     }
     return data.user;
   } catch (error) {
@@ -46,7 +46,7 @@ export const UserServicesLogin = async (email, password) => {
  */
 export const UserServicesSignUp = async (email, password, username) => {
   const url = `http://localhost:8000/api/user/signup`;
-  const token = getAuthTokenFromStorage();
+  // const token = getAuthTokenFromStorage();
 
   console.log("user services sign up")
   try {
@@ -54,14 +54,18 @@ export const UserServicesSignUp = async (email, password, username) => {
       email,
       password,
       username,
-    }, {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    });
+    },
+      // {
+      //   headers: {
+      //     authorization: `Bearer ${token}`,
+      //   },
+      // }
+    );
 
     if (data) {
-      return data.user
+      setAuthTokenInStorage(data.token);
+      setUserIdInStorage(data.user.username);
+      return data.user;
     }
   } catch (error) {
     console.log(error);
