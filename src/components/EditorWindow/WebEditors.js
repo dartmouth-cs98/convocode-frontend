@@ -8,7 +8,7 @@ import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
 import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addProjectId, addProjectTitle } from '../../state/actions';
-import { insertCodeTag, replaceCodeTag, appendCodeTag } from '../../state/actions';
+import { insertCodeTag, replaceCodeTag, appendCodeTag, deleteCodeTag } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
@@ -45,10 +45,12 @@ const WebEditors = (props) => {
   const [lineStructure, setLineStructure] = useState([]);
   const [lineCount, setLineCount] = useState(1);
   const [previousLine, setPreviousLine] = useState(1);
+  const [chunks, setChunks] = useState([]);
 
   const jsRef = useRef(null);
   const cssRef = useRef(null);
   const htmlRef = useRef(null);
+  const monacoRef = useRef(null);
   
   // THESE ARE THE VARIABLES THAT ARE NOT IN STATE 
   // JScursorLine = current position of cursor
@@ -58,33 +60,11 @@ const WebEditors = (props) => {
   // lastLines = last line inserted
   var JSlastLines = 1;
 
-
+  // TODO: handle delete, handle paste
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
     console.log(jsRef);
-    //setMonaco(monaco);
-    //setEditor(editor);
-    //totalLines = jsRef.current.getModel().getLineCount();
-    //console.log(editor.getModel().getLineCount());
-    //setLineCount(initialLines);
-    /* editor.onDidChangeCursorPosition(e => {
-        console.log(`cursor location state: ${JScursorLine}\nreported position: ${e.position.lineNumber}`);
-        JScursorLine = e.position.lineNumber - 1;
-        console.log(`total lines: ${JStotalLines}`);
-        console.log(`cursor lines: ${JScursorLine + 1}`);
-        console.log(`reported lines: ${jsRef.current.getModel().getLineCount()}`)
-        //totalLines = jsRef.current.getModel().getLineCount();
-        if (e.source !== "modelChange" && JStotalLines === jsRef.current.getModel().getLineCount()) {
-            props.replaceCodeTag({ query: -1, index: JScursorLine });
-        } else if (e.source !== "modelChange" && JStotalLines < jsRef.current.getModel().getLineCount() && JScursorLine + 1 < jsRef.current.getModel().getLineCount()) {
-            props.insertCodeTag({ query: -1, index: JScursorLine })
-        }
-        else if (e.source !== "modelChange" && JStotalLines < jsRef.current.getModel().getLineCount() && JScursorLine + 1 === jsRef.current.getModel().getLineCount()) {
-            props.appendCodeTag({query: -1, index: JScursorLine });
-        } 
-        JStotalLines = jsRef.current.getModel().getLineCount();
-        JSlastLines = JScursorLine;
-    }); */
+    monacoRef.current = monaco;
 
     editor.onDidChangeModelContent(e => {
         console.log(e);
@@ -98,14 +78,22 @@ const WebEditors = (props) => {
             props.insertCodeTag({ query: -1, index: JScursorLine });
         } else if (!e.changes[0].forceMoveMarkers && JStotalLines < jsRef.current.getModel().getLineCount() && JScursorLine + 1 === jsRef.current.getModel().getLineCount()) {
             props.appendCodeTag({query: -1, index: JScursorLine });
+        } else if (!e.changes[0].forceMoveMarker && JStotalLines > jsRef.current.getModel().getLineCount()) {
+            for (var i = e.changes[0].range.startLineNumber - 1; i < e.changes[0].range.endLineNumber; i++) {
+                console.log(i);
+                props.deleteCodeTag({index: i });
+            }     
         }
         JStotalLines = jsRef.current.getModel().getLineCount();
         JSlastLines = JScursorLine;
     });
+
+    /* editor.onDidChangeCursorSelection((e) => {
+        console.log(e);
+        const startLine = e.selection.startLineNumber;
+        const endLine = e.selection.endLineNumber;
+    }); */
   }
-
-  
-
 
   function handleCSSDidMount(editor, monaco) {
     cssRef.current = editor;
@@ -114,6 +102,28 @@ const WebEditors = (props) => {
   function handleHTMLDidMount(editor, monaco) {
     htmlRef.current = editor;
   }
+
+  function displayTags() {
+    const arr = props.tags;
+    console.log(props.tags);
+    let result = [];
+    let start = 0;
+    for (let i = 1; i <= arr.length; i++) {
+        if (arr[i] !== arr[i - 1]) {
+            result.push([start, i - 1]);
+            start = i;
+        }
+    }
+    console.log(result);
+    for (var i = 0; i < result.length; i++) {
+        console.log(props.tags[result[i][0]]);
+        if (props.tags[result[i][0]] !== -1) {
+    
+        }
+    }
+  }
+
+
 
 
   // sends user input to backend and placed code in appropriate code section 
@@ -351,8 +361,9 @@ const WebEditors = (props) => {
           <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> 
           }
         </div>
+        <button onClick={displayTags}>Display AI Input Breakdown</button>
         <div className="web-editor-container">
-          <div className="editor" id="javascript">
+          <div className="editor" id="javascript" >
             <CodeEditor
                 language={"javascript"}
                 theme={theme}
@@ -378,9 +389,11 @@ const WebEditors = (props) => {
             />
            
           </div>
+          
           {/* <div className="editor" onMouseUp={() => {
             setOpen(!open);
-            getTextHighlight}} onMouseLeave={setOpen(false)} onClicke={setOpen(false)}>{props.htmlCode}</div> */}
+            getTextHighlight}} onMouseLeave={setOpen(false)} onClicke={setOpen(false)}>{props.htmlCode}
+          </div> */}
         </div>
         <WebOutput theme={theme}/>
     </div>
@@ -399,4 +412,4 @@ const mapStateToProps = (reduxstate) => {
  };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, insertCodeTag, replaceCodeTag, appendCodeTag })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, insertCodeTag, replaceCodeTag, appendCodeTag, deleteCodeTag })(WebEditors);

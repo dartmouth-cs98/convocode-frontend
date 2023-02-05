@@ -9,7 +9,8 @@ export const ActionTypes = {
     ADD_PROJECT_TITLE: 'ADD_PROJECT_TITLE',
     INSERT_CODE_TAG: 'INSERT_CODE_TAG',
     REPLACE_CODE_TAG: 'REPLACE_CODE_TAG',
-    APPEND_CODE_TAG: 'APPEND_CODE_TAG'
+    APPEND_CODE_TAG: 'APPEND_CODE_TAG',
+    DELETE_CODE_TAG: 'DELETE_CODE_TAG'
   };
   
   /**
@@ -104,6 +105,12 @@ export const ActionTypes = {
  export const appendCodeTag = (input) => {
   return (dispatch) => {
     dispatch({ type: ActionTypes.APPEND_CODE_TAG, payload : { query: input.query, index: input.index }});
+  };
+ };
+
+ export const deleteCodeTag = (input) => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.DELETE_CODE_TAG, payload : { index: input.index }});
   };
  };
 

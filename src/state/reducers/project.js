@@ -38,7 +38,8 @@ const ProjectReducer = (state = projectState, action) => {
         ...state,
         tags: newArray,  
       }
-      
+    case ActionTypes.DELETE_CODE_TAG:
+      return {...state, tags: [...state.tags.slice(0, action.payload.index - 1),  ...state.tags.slice(action.payload.index + 1)]};
     
     default:
       return state;

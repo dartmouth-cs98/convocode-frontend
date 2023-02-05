@@ -38,6 +38,7 @@ import {
   insertCodeTag,
   replaceCodeTag,
   appendCodeTag,
+  deleteCodeTag,
 
 } from './project';
 
@@ -70,4 +71,5 @@ export {
   insertCodeTag,
   replaceCodeTag,
   appendCodeTag,
+  deleteCodeTag,
 }
