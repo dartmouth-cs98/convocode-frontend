@@ -30,7 +30,7 @@ const SignUp = (props) => {
         <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
         <form onSubmit={(e) => handleSubmit(e)}>
           <label>
-            <h3>Username:</h3>
+            <h3>Email:</h3>
             <input type="text" value={username} id="username" onChange={(e) => setUsername(e.target.data)} />
           </label>
           <label>
