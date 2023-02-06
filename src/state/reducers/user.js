@@ -13,7 +13,6 @@ const UserReducer = (state = initialState, action) => {
     case ActionTypes.SET_USER_DATA:
       console.log(action.payload)
       return { ...state, ...action.payload };
-
     default:
       return state;
   }
