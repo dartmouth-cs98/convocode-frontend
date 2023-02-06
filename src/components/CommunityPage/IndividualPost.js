@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import like from "../../resources/lightning-bold.png"
+import share from "../../resources/share.png"
 
 
 import './community.css'
@@ -16,11 +18,13 @@ const IndividualPost = (props) => {
     setModalShow(!modalShow);
   }
 
-  const tag = props.item.tags ? props.item.tags.split(" ").forEach(element => {
-    if (element == "easy" || element == "medium" || element == "hard")
-      return element
+
+  let tag = props.item.tags ? props.item.tags.split(" ").forEach(element => {
+    if (element.toLowerCase() == "easy" || element.toLowerCase() == "medium" || element.toLowerCase() == "hard")
+      return element.toLowerCase()
   }) || "undefined" : "undefined";
 
+  tag = props.item.tags.toLowerCase()
   console.log(props.item)
   console.log(tag)
 
@@ -49,36 +53,61 @@ const IndividualPost = (props) => {
       </div>
       <ReactModal className="post-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="Post" ariaHideApp={false} >
         <div className="post-modal-content">
-          <div className="flex-col">
+          <div className="flex-col" style={{ "flex-grow": "1" }}>
             <div className="post-modal-info">
               <h2>{props.item.title}</h2>
-              <span>dummy description</span>
-              <div className="flex-row">
-                <div className="tag" id={tag}>
-                  <span>
+              <span>{props.item.description}</span>
+              <div className="flex-row" style={{ "justify-content": "space-between" }}>
+                <div className="flex-row" style={{ "align-items": "center" }}>
+                  <div className="tag" id={tag} style={{ "margin": 0 }}>
                     {props.item.tags ? (
                       props.item.tags.split(" ").map((e, idx) => {
-                        return (<span>#{e}</span>)
+                        return (<span className="tag">#{e}</span>)
                       })
                     ) : ""}
-                  </span>
+                  </div>
+                  <div className="likes" style={{ "margin": 5 }}>
+                    <img src={like} />
+                    <span>{props.item.likes}</span>
+                  </div>
                 </div>
-                <div className="likes">
-                  <img src={like} />
-                  <span>{props.item.likes}</span>
-                </div>
-                <button className="pink">Open in IDE</button>
+                <button className="pink-button" id="right">Open in IDE</button>
               </div>
-              <span className="username">@{props.item.username}</span>
-              <div>15 posts</div>
+              <div className="flex-row" style={{ "justify-content": "space-between" }}>
+                <div className="flex-col">
+                  <span className="username">@{props.item.username}</span>
+                  <span>15 posts</span>
+                </div>
+                <button className="sage-button" id="right">Share <img src={share} /></button>
+              </div>
 
             </div>
-            <div className="post-modal-commments">
-              <h1>comments</h1>
+            <div className="post-modal-comments">
+              <div className="discussion-header">Discussions</div>
+              <div>
+
+              </div>
             </div>
           </div>
-          <div className="post-modal-code">
-            <h1>code</h1>
+          <div className="post-modal-code" style={{ "flex-grow": "4" }}>
+            <div className="code-header">Code Preview</div>
+            <Tabs>
+              <TabList>
+                <Tab>HTML</Tab>
+                <Tab>CSS</Tab>
+                <Tab>JS</Tab>
+              </TabList>
+
+              <TabPanel>
+                <span>{props.item.htmlCode}</span>
+              </TabPanel>
+              <TabPanel>
+                <span>{props.item.cssCode}</span>
+              </TabPanel>
+              <TabPanel>
+                <span>{props.item.javaCode}</span>
+              </TabPanel>
+            </Tabs>
           </div>
         </div>
       </ReactModal >

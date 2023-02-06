@@ -132,13 +132,13 @@
   flex-direction: row;
   height: 100%;
   width: 100%;
-  padding: 2.5%;
+  padding: 5%;
+  justify-content: space-between;
 }
 
 .flex-col {
   display: flex;
   flex-direction: column;
-  width: 40%;
 }
 
 .flex-row {
@@ -147,5 +147,66 @@
 }
 
 .post-modal-info {
+  display: flex;
+  flex-direction: column;
   height: 50%;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.pink-button {
+  background-color: var(--unicorn);
+  align-self: center;
+  color: var(--white);
+}
+
+.tag span {
+  align-self: center;
+  margin: 0;
+  justify-self: center;
+}
+
+.sage-button {
+  background-color: var(--sage);
+  align-self: center;
+  color: var(--white);
+}
+
+button#right {
+  justify-self: end;
+}
+
+.discussion-header {
+  background-color: var(--grape);
+  border-radius: 15px 15px 0px 0px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.1px;
+  color: var(--white);
+  padding: 10px;
+}
+
+.code-header {
+  background-color: var(--black);
+  border-radius: 15px 15px 0px 0px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.1px;
+  color: var(--white);
+  padding: 10px;
+}
+
+.post-modal-comments {
+  flex-grow: 2;
+  border-radius: 15px;
+  background-color: var(--grey);
+}
+
+.post-modal-code {
+  margin: -20px 20px 0px 40px;
+  flex-grow: 1;
+  border-radius: 15px;
+  background-color: var(--grey);
 }
