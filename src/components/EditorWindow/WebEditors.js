@@ -54,7 +54,7 @@ const WebEditors = (props) => {
     try {
         // rewrite the user's JavaScript to protect loops
         var processed = transform(props.javascriptCode);
-        console.log(processed)
+        console.log(processed);
         props.addCleanedJavascript(processed.code);
         /* if (monacoRef.current) {
             var line = jsRef.current.getPosition().lineNumber;
@@ -135,7 +135,7 @@ const WebEditors = (props) => {
 
 
   const callback = line => {
-    throw new Error(`Bad loop on line ${line}`);
+    alert(`Possible infinite loop near line ${line}`);
   }
 
   const timeout = 100;
