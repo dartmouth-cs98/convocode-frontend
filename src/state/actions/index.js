@@ -40,6 +40,7 @@ import {
   addProjectTitle,
   addProjectDescription,
   addProjectTag,
+  addCleanedJavascript,
 } from './project';
 
 const ActionTypes = {
@@ -73,4 +74,5 @@ export {
   signup,
   getUserFromStorage,
   signOut,
+  addCleanedJavascript,
 }

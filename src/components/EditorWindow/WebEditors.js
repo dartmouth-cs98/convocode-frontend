@@ -1,6 +1,8 @@
 // RECORDER: https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import protect from '@freecodecamp/loop-protect';
+import * as Babel from '@babel/standalone';
 import CodeEditor from './CodeEditor';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
@@ -8,6 +10,7 @@ import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
 import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addProjectId, addProjectTitle } from '../../state/actions';
+import { addCleanedJavascript } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
@@ -24,6 +27,9 @@ import { getSuggestedQuery } from '@testing-library/react';
 import ProjectModal from '../Projects/ProjectModal';
 dotenv.config({ silent: true });
 
+
+
+
 const WebEditors = (props) => {
 
   // getting code from nav link props
@@ -39,7 +45,45 @@ const WebEditors = (props) => {
   const [currentLanguage, setCurrentLanguage] = useState("html");
   const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
+  const [errorLine, setErrorLine] = useState(0);
   
+  const jsRef = useRef(null);
+  const monacoRef = useRef(null);
+
+  useEffect(() => {
+    try {
+        // rewrite the user's JavaScript to protect loops
+        var processed = transform(props.javascriptCode);
+        console.log(processed)
+        props.addCleanedJavascript(processed.code);
+        /* if (monacoRef.current) {
+            var line = jsRef.current.getPosition().lineNumber;
+            console.log(line);
+            var markers = [{
+                severity: monacoRef.current.MarkerSeverity.Warning,
+                message: `Possible infinite loop near line ${line}!`,
+                startLineNumber: line,
+                startColumn: 1,
+                endLineNumber: line,
+                endColumn: jsRef.current.getModel().getLineLength(line) + 1
+            }];
+            monacoRef.current.editor.setModelMarkers(jsRef.current.getModel(), "owner", markers);
+        } */
+    } catch {
+        console.log("code incomplete, can't transform");
+    }
+
+  }, [props.javascriptCode]);
+
+
+  // TODO: handle delete, handle paste
+  function handleJSDidMount(editor, monaco) {
+    jsRef.current = editor;
+    console.log(jsRef);
+    monacoRef.current = monaco;
+  }
+
+
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
     // send user input to get code from openai
@@ -88,6 +132,21 @@ const WebEditors = (props) => {
       }
     });
   }
+
+
+  const callback = line => {
+    throw new Error(`Bad loop on line ${line}`);
+  }
+
+  const timeout = 100;
+  Babel.registerPlugin('loopProtection', protect(timeout, callback));
+  const transform = source => Babel.transform(source, {
+    plugins: ['loopProtection'],
+  });
+
+
+  //const transform = source => Babel.transform(source, {plugins: ['loopProtection'], }).code;
+
 
   function saveCode() {
 
@@ -151,67 +210,6 @@ const WebEditors = (props) => {
     
   }
 
-  const toggleModal = () => {
-    setModalShow(modalShow => !modalShow);
-  };
-
-  // Function to call the compile endpoint
-  // this is for python: keep in case we want to add back in
-  function submitCode() {
-
-    // reset output if it exists
-    if (outputDetails) {
-      setOutputDetails(null)
-    }
-
-
-    // Post request to compile endpoint
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/compiler`, {
-      source_code: props.code
-    }).then((res) => {
-      console.log("here");
-      console.log(res);
-      console.log(`id of compiling: ${res.data.token}`);
-      checkStatus(res.data);
-    }).catch((err) => {
-      let error = err.response ? err.response.data : err;
-      console.log(error);
-    })
-  }
-  // 
-  const checkStatus = async (id) => {
-    console.log("here");
-    // Get request to compile endpoint
-    console.log(id);
-
-    try {
-      let response = await axios.request(`${process.env.REACT_APP_BACKEND_URL}/compiler/${id.token}`);
-      console.log(response.data);
-      let status = response.status;
-      console.log(status)
-      // Processed - we have a result
-      if (status === 201) {
-        // still processing
-        console.log('still processing');
-        setTimeout(() => {
-          checkStatus(id)
-        }, 2000)
-        return
-      } else {
-        console.log(response);
-        if (response.data.status === 3) {
-          console.log(response.data.description);
-          setOutputDetails(response.data.stdout);
-        } else {
-          setOutputDetails(response.data.description + ":" + response.data.stderr);
-        }
-        return
-      }
-    } catch (err) {
-      console.log("err", err);
-    }
-  }
-
   const handleTitleChange = (event) => {
     // get new title from event
     const newTitle = event.target.value;
@@ -221,37 +219,6 @@ const WebEditors = (props) => {
     console.log("New title! Yay!")
     props.addProjectTitle(newTitle);
   };
-
-  const handleJSChange = (event) => {
-    // 👇 Get input value from "event"
-    setJSQuery(event.target.value);
-  };
-
-  const handleCSSChange = (event) => {
-    // 👇 Get input value from "event"
-    setCSSQuery(event.target.value);
-  };
-
-  const handleHTMLChange = (event) => {
-    // 👇 Get input value from "event"
-    setHTMLQuery(event.target.value);
-  };
-
-  const submitJavascript = () => {
-    handleSubmitCode("javascript");
-    setJSQuery("");
-
-  };
-
-  const submitCSS = () => {
-    handleSubmitCode("css");
-    setCSSQuery("");
-  };
-
-  const submitHTML = () => {
-    handleSubmitCode("html");
-    setHTMLQuery("");
-  }
 
   // handles input text changes
   const handleQueryChange = (event) => {
@@ -299,6 +266,7 @@ const WebEditors = (props) => {
                 language={"javascript"}
                 theme={theme}
                 width="100%"
+                mount={handleJSDidMount}
             />
           </div>
           <div className="editor">
@@ -317,7 +285,6 @@ const WebEditors = (props) => {
             />
            
           </div>
-          <WebOutput theme={theme}/>
         </div>
         <WebOutput theme={theme}/>
     </div>
@@ -332,7 +299,8 @@ const mapStateToProps = (reduxstate) => {
     cssCode: reduxstate.project.css,
     projectId: reduxstate.project.projectId,
     projectTitle: reduxstate.project.projectTitle,
+    cleanedCode: reduxstate.project.cleanedCode,
  };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript })(WebEditors);

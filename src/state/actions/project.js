@@ -9,6 +9,7 @@ export const ActionTypes = {
     ADD_PROJECT_TITLE: 'ADD_PROJECT_TITLE',
     ADD_PROJECT_DESCRIPTION: 'ADD_PROJECT_DESCRIPTION',
     ADD_PROJECT_TAG: 'ADD_PROJECT_TAG',
+    ADD_CLEANED_CODE: 'ADD_CLEANED_CODE'
 
   };
   
@@ -103,3 +104,9 @@ export const ActionTypes = {
         dispatch({ type: ActionTypes.ADD_PROJECT_TAG, payload: input });
       };
     };
+
+    export const addCleanedJavascript = (input) => {
+      return (dispatch) => {
+        dispatch({ type: ActionTypes.ADD_CLEANED_CODE, payload: input});
+      }
+    }

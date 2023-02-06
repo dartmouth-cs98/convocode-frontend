@@ -8,6 +8,7 @@ const projectState = {
   projectTitle: "",
   projectDescription: "",
   projectTag: "",
+  cleanedCode: "",
 };
 
 const ProjectReducer = (state = projectState, action) => {
@@ -32,6 +33,8 @@ const ProjectReducer = (state = projectState, action) => {
       return { ...state, projectDescription: action.payload };
     case ActionTypes.ADD_PROJECT_TAG:
       return { ...state, projectTag: action.payload};
+    case ActionTypes.ADD_CLEANED_CODE:
+      return {...state, cleanedCode: action.payload};
 
     default:
       return state;
