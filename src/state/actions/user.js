@@ -2,6 +2,7 @@ import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServi
 
 export const ActionTypes = {
   SET_USER_DATA: 'SET_USER_DATA',
+  CLEAR_USER_DATA: 'CLEAR_USER_DATA',
   API_ERROR: 'API_ERROR',
 };
 
@@ -90,8 +91,7 @@ export const getUserFromStorage = () => {
  */
 export const signOut = () => {
   return (dispatch) => {
-    console.log("sign out")
     UserServicesSignOut();
-    dispatch({ type: ActionTypes.SET_USER_DATA, payload: {} });
+    dispatch({ type: ActionTypes.CLEAR_USER_DATA, payload: {} });
   };
 };
