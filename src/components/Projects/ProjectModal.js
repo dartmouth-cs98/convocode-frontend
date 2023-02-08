@@ -49,19 +49,19 @@ const ProjectModal = (props) => {
         }
     
         // get java, html, css code, and title from ide page
-        const projectTitle = props.projectTitle;
-        const projectDescription = props.projectDescription;
-        const projectTag = props.projectTag;
-        const javaCode = props.javascriptCode;
+        const title = props.title;
+        const description = props.description;
+        const tags = props.tags;
+        const javaCode = props.javaCode;
         const htmlCode = props.htmlCode;
         const cssCode = props.cssCode;
-        const status = props.projectStatus;
+        const status = props.status;
         const username = props.user.username;
 
         // check if project id
-        const projectId = props.projectId;
+        const id = props.id;
     
-        if (projectId == "") {
+        if (id == "") {
           // no project id yet, create new project
     
           // send post information to the backend 
@@ -69,9 +69,9 @@ const ProjectModal = (props) => {
             method: "POST",
             url: `http://localhost:8000/api/project`,
             data: {
-              title: projectTitle,
-              description: projectDescription,
-              tags: projectTag,
+              title: title,
+              description: description,
+              tags: tags,
               javaCode: javaCode,
               htmlCode: htmlCode,
               cssCode: cssCode,
@@ -94,10 +94,10 @@ const ProjectModal = (props) => {
                 method: "PUT",
                 url: requestUrl,
                 data: {
-                  projectId: projectId,
-                  title: projectTitle,
-                  description: projectDescription,
-                  tags: projectTag,
+                  id: id,
+                  title: title,
+                  description: description,
+                  tags: tags,
                   javaCode: javaCode,
                   htmlCode: htmlCode,
                   cssCode: cssCode,
@@ -188,14 +188,14 @@ const ProjectModal = (props) => {
 const mapStateToProps = (reduxstate) => {
     return { 
       code: reduxstate.code.string, 
-      javascriptCode: reduxstate.project.javascript,
-      htmlCode: reduxstate.project.html,
-      cssCode: reduxstate.project.css,
-      projectId: reduxstate.project.projectId,
-      projectTitle: reduxstate.project.projectTitle,
-      projectDescription: reduxstate.project.projectDescription,
-      projectTag: reduxstate.project.projectTag,
-      projectStatus: reduxstate.project.projectStatus,
+      javascriptCode: reduxstate.project.javaCode,
+      htmlCode: reduxstate.project.htmlCode,
+      cssCode: reduxstate.project.cssCode,
+      id: reduxstate.project.id,
+      title: reduxstate.project.title,
+      description: reduxstate.project.description,
+      tag: reduxstate.project.tags,
+      status: reduxstate.project.status,
       user: reduxstate.user,
    };
   };
