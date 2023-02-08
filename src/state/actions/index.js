@@ -26,6 +26,11 @@ import {
 } from './convodex';
 
 import {
+  ActionTypes as queryActionTypes,
+  setQuery,
+} from './query';
+
+import {
   ActionTypes as projectActionTypes,
   addJavascriptCode,
   insertJavascriptCode,
@@ -49,6 +54,7 @@ const ActionTypes = {
   ...codeActionTypes,
   ...convodexActionTypes,
   ...projectActionTypes,
+  ...queryActionTypes,
 };
 
 export {
@@ -72,4 +78,5 @@ export {
   replaceCodeTag,
   appendCodeTag,
   deleteCodeTag,
+  setQuery,
 }

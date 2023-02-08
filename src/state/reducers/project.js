@@ -6,7 +6,7 @@ const projectState = {
   css: "",
   projectId: "",
   projectTitle: "",
-  tags: [],
+  tags: [-1],
 };
 
 const ProjectReducer = (state = projectState, action) => {
@@ -39,7 +39,7 @@ const ProjectReducer = (state = projectState, action) => {
         tags: newArray,  
       }
     case ActionTypes.DELETE_CODE_TAG:
-      return {...state, tags: [...state.tags.slice(0, action.payload.index - 1),  ...state.tags.slice(action.payload.index + 1)]};
+      return {...state, tags: [...state.tags.slice(0, action.payload.index),  ...state.tags.slice(action.payload.index + 1)]};
     
     default:
       return state;

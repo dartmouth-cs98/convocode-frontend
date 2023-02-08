@@ -9,6 +9,7 @@ import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addProjectId, addProjectTitle } from '../../state/actions';
 import { insertCodeTag, replaceCodeTag, appendCodeTag, deleteCodeTag } from '../../state/actions';
+import { setQuery } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
@@ -46,6 +47,9 @@ const WebEditors = (props) => {
   const [lineCount, setLineCount] = useState(1);
   const [previousLine, setPreviousLine] = useState(1);
   const [chunks, setChunks] = useState([]);
+  const [added, setAdded] = useState("");
+  const [decorations, setDecorations] = useState([]);
+  const [show, setShow] = useState(false);
 
   const jsRef = useRef(null);
   const cssRef = useRef(null);
@@ -60,14 +64,61 @@ const WebEditors = (props) => {
   // lastLines = last line inserted
   var JSlastLines = 1;
 
+  useEffect(() => {
+    /* if (jsRef.current) {
+        console.log(decorations);
+        console.log("i am here");
+        var d = jsRef.current.deltaDecorations(decorations, [{ range: new monacoRef.current.Range(JScursorLine,1,jsRef.current.getPosition().lineNumber,1), 
+            options: { isWholeLine: true, 
+            linesDecorationsClassName: 'margin-class', 
+            hoverMessage: {value: props.query}, 
+            glyphMarginClassName: "margin-class",
+            glyphMarginHoverMessage: {value: props.query},
+        stickiness: 1}}]); 
+        console.log(d);
+        setDecorations(d);
+        return () => jsRef.current.deltaDecorations(decorations, []); */
+    //document.documentElement.style.setProperty('--main-color', "aquamarine");
+    /* if (jsRef.current) {
+        var results = displayTags()
+        var decorations = []
+        for (var i = 0; i < results.length; i++) {
+            if (props.tags[results[i][0]] !== -1) {
+                decorations.push({range: new monacoRef.current.Range(results[i][0] + 1,1,results[i][1] + 1,1), 
+                    options: { isWholeLine: true, 
+                    linesDecorationsClassName: 'margin-class', 
+                    hoverMessage: {value: props.tags[results[i][0]]}, 
+                    glyphMarginClassName: "margin-class"}});
+            }      
+        }
+        var d = jsRef.current.deltaDecorations([], decorations);
+
+    } */
+
+
+    
+    //}
+
+
+  }, [show]);
+  
+  var changeLog = []
   // TODO: handle delete, handle paste
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
     console.log(jsRef);
     monacoRef.current = monaco;
 
-    editor.onDidChangeModelContent(e => {
-        console.log(e);
+    jsRef.current.onDidChangeModelContent(e => {
+        /* if (e.changes[0].forceMoveMarkers) {         
+            var d = jsRef.current.deltaDecorations([], [{ range: new monacoRef.current.Range(JScursorLine,1,jsRef.current.getPosition().lineNumber,1), options: { isWholeLine: true, inlineClassName: 'test-class', hoverMessage: {value: props.query}}}]); 
+        } */ /* else {
+            var d = jsRef.current.getModel().getDecorationsInRange(new monacoRef.current.Range(JScursorLine,1,JScursorLine,1));
+            console.log(d);
+        } */
+        //JScursorLine = jsRef.current.getPosition().lineNumber;
+        
+
         JScursorLine = jsRef.current.getPosition().lineNumber - 1;
         console.log(`total lines: ${JStotalLines}`);
         console.log(`cursor lines: ${JScursorLine + 1}`);
@@ -79,7 +130,8 @@ const WebEditors = (props) => {
         } else if (!e.changes[0].forceMoveMarkers && JStotalLines < jsRef.current.getModel().getLineCount() && JScursorLine + 1 === jsRef.current.getModel().getLineCount()) {
             props.appendCodeTag({query: -1, index: JScursorLine });
         } else if (!e.changes[0].forceMoveMarker && JStotalLines > jsRef.current.getModel().getLineCount()) {
-            for (var i = e.changes[0].range.startLineNumber - 1; i < e.changes[0].range.endLineNumber; i++) {
+            console.log(e.changes[0].range);
+            for (var i = e.changes[0].range.endLineNumber - 1; i > e.changes[0].range.startLineNumber - 1; i--) {
                 console.log(i);
                 props.deleteCodeTag({index: i });
             }     
@@ -88,12 +140,25 @@ const WebEditors = (props) => {
         JSlastLines = JScursorLine;
     });
 
+    
     /* editor.onDidChangeCursorSelection((e) => {
         console.log(e);
         const startLine = e.selection.startLineNumber;
         const endLine = e.selection.endLineNumber;
-    }); */
+
+        var decorations = [];
+        console.log(props.tags);
+        var result = displayTags();
+        for (var i = 0; i < result.length; i++) {
+            console.log(props.tags[result[i][0]]);
+            if (props.tags[result[i][0]] !== -1) {
+                decorations = jsRef.current.deltaDecorations(decorations, { range: new monacoRef.current.Range(result[i][0],1,result[i][1],1), options: { isWholeLine: true, linesDecorationsClassName: 'test-class' }})
+            }
+        }
+    });  */
   }
+  
+
 
   function handleCSSDidMount(editor, monaco) {
     cssRef.current = editor;
@@ -102,6 +167,8 @@ const WebEditors = (props) => {
   function handleHTMLDidMount(editor, monaco) {
     htmlRef.current = editor;
   }
+
+
 
   function displayTags() {
     const arr = props.tags;
@@ -115,12 +182,9 @@ const WebEditors = (props) => {
         }
     }
     console.log(result);
-    for (var i = 0; i < result.length; i++) {
-        console.log(props.tags[result[i][0]]);
-        if (props.tags[result[i][0]] !== -1) {
-    
-        }
-    }
+    console.log(jsRef.current);
+
+    return result;
   }
 
 
@@ -132,11 +196,11 @@ const WebEditors = (props) => {
     var queryType = null;
     // language check 
     if (currentLanguage === "javascript") {
-        queryType = "// Language: javascript \n//" + query;
+        queryType = "// Language: javascript \n//" + props.query;
     } else if (currentLanguage === "html") {
-        queryType = "<!-- " + query + " -->\n + <!DOCTYPE html>";
+        queryType = "<!-- " + props.query + " -->\n + <!DOCTYPE html>";
     } else {
-        queryType = "/* Langauage: CSS */\n/* " + query + "*/";
+        queryType = "/* Langauage: CSS */\n/* " + props.query + "*/";
     }
     setPreviousLine(JScursorLine);
     axios.request({
@@ -150,24 +214,25 @@ const WebEditors = (props) => {
       //const tag = {codeOutput: res.data.code, codeInput: query}
       //props.addCodeTag(tag);
       console.log(res.data.code);
-      
+      const lines = res.data.code.split(/\r\n|\r|\n/).length;
       if (currentLanguage === "javascript") {
         if (props.javascriptCode.length === 0) {
             props.addJavascriptCode(res.data.code);
         } else {
             props.insertJavascriptCode(res.data.code);
         }
-        const lines = res.data.code.split(/\r\n|\r|\n/).length;
-        console.log(lines);
+        setAdded(lines);
+        console.log(added);
         //const totalLines = editor.getModel().getLineCount();
         console.log(`current line: ${JScursorLine}`);
-        console.log(JSlastLines);
-        console.log(JSlastLines + lines);
-        for (var i = JSlastLines; i < JSlastLines + lines - 1; i++) {
-            props.appendCodeTag({index: i, query: query});
+        console.log(JScursorLine);
+        console.log(JScursorLine + lines - 1);
+        for (var i = JScursorLine; i < JScursorLine + lines - 1; i++) {
+            props.appendCodeTag({index: i, query: props.query});
+
         }
-        JScursorLine = JSlastLines + lines - 1;
-        JStotalLines += lines;
+        JScursorLine = JScursorLine + lines - 1;
+        JStotalLines = jsRef.current.getModel().getLineCount();
     
 
       } else if (currentLanguage === "html") {
@@ -318,7 +383,7 @@ const WebEditors = (props) => {
 
   // handles input text changes
   const handleQueryChange = (event) => {
-    setQuery(event.target.value);
+    props.setQuery(event.target.value);
   }
 
   // updates language based on user input
@@ -338,7 +403,7 @@ const WebEditors = (props) => {
         <HeaderBar/>
         <div className='commandBar'>
           <input placeholder="My Project Title" value={title} onChange={handleTitleChange}></input>
-          <input className="commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
+          <input className="commandInput" placeholder="Type a command" value={props.query} onChange={handleQueryChange}></input>
           <form className='languageSelect'> 
             <select onChange={handleLangSwitch}>  
               <option value = "html" > HTML   
@@ -361,7 +426,7 @@ const WebEditors = (props) => {
           <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> 
           }
         </div>
-        <button onClick={displayTags}>Display AI Input Breakdown</button>
+        <button onClick={() => {setShow(true)}}>Display AI Input Breakdown</button>
         <div className="web-editor-container">
           <div className="editor" id="javascript" >
             <CodeEditor
@@ -409,7 +474,8 @@ const mapStateToProps = (reduxstate) => {
     projectId: reduxstate.project.projectId,
     projectTitle: reduxstate.project.projectTitle,
     tags: reduxstate.project.tags,
+    query: reduxstate.query.query,
  };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, insertCodeTag, replaceCodeTag, appendCodeTag, deleteCodeTag })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, insertCodeTag, replaceCodeTag, appendCodeTag, deleteCodeTag, setQuery })(WebEditors);

@@ -63,6 +63,16 @@ input {
     background-color: #737B7D;
 }
 
-.test-class {
-    background-color: aquamarine;
+.test-class:hover {
+    background-color: var(--main-color);
 }
+
+.margin-class {
+    background: lightblue;
+	width: 10px !important;
+	margin-left: 3px;
+}
+
+:root {
+    --main-color: yellow;
+  }
