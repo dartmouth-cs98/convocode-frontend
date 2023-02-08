@@ -1,4 +1,4 @@
-import { getProject } from "../../services/projects";
+import { getProject, getUserProjects } from "../../services/projects";
 
 export const ActionTypes = {
   LOAD_PROJECT: 'LOAD_PROJECT',
@@ -33,7 +33,7 @@ export const loadProject = (id) => {
     }
   };
 };
-
+  
 /**
  * @description update the code string
  */

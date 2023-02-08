@@ -8,6 +8,7 @@ import 'react-tabs/style/react-tabs.css';
 import './projectModal.css';
 import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, addProjectStatus } from '../../state/actions';
 import axios from 'axios';
+import { getAuthTokenFromStorage } from '../../services/utils.js';
 
 const ProjectModal = (props) => {
     const [theme] = useState('light');
@@ -57,6 +58,7 @@ const ProjectModal = (props) => {
         const cssCode = props.cssCode;
         const status = props.status;
         const username = props.user.username;
+        const userToken = getAuthTokenFromStorage();
 
         // check if project id
         const id = props.id;
@@ -72,13 +74,19 @@ const ProjectModal = (props) => {
               title: title,
               description: description,
               tags: tags,
+          axios.post(
+             `http://localhost:8000/api/project`,
+            {
+              title: projectTitle,
+              description: projectDescription,
+              tags: projectTag,
               javaCode: javaCode,
               htmlCode: htmlCode,
               cssCode: cssCode,
               status: status,
-              username: username
-          }
-          }).then((res) => {
+          },
+          { headers: { authorization: userToken } }
+          ).then((res) => {
             // have some sort of popup or change the button to like "code saved!" or something
             console.log("code saved!")
             console.log(res.data);
@@ -98,12 +106,20 @@ const ProjectModal = (props) => {
                   title: title,
                   description: description,
                   tags: tags,
+              const requestUrl = `http://localhost:8000/api/project/${projectId}`;
+              axios.put(
+                requestUrl,
+                {
+                  title: projectTitle,
+                  description: projectDescription,
+                  tags: projectTag,
                   javaCode: javaCode,
                   htmlCode: htmlCode,
                   cssCode: cssCode,
                   status: status,
-              }
-              }).then((res) => {
+              },
+              { headers: { authorization: userToken } }
+              ).then((res) => {
                 // have some sort of popup or change the button to like "code saved!" or something
                 console.log("code saved!")
               });

@@ -34,6 +34,12 @@ import {
 } from './community';
 
 import {
+  ActionTypes as profileActionTypes,
+  loadUserProjects,
+  loadLikedProjects
+} from './profile';
+
+import {
   ActionTypes as projectActionTypes,
   addJavascriptCode,
   insertJavascriptCode,
@@ -82,4 +88,6 @@ export {
   getUserFromStorage,
   signOut,
   loadProjects,
+  loadUserProjects,
+  loadLikedProjects,
 }
