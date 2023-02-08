@@ -69,7 +69,7 @@ const WebEditors = (props) => {
       console.log(res.data.text);
 
       if (currentLanguage === "javascript") {
-        if (props.javascriptCode.length === 0) {
+        if (props.javaCode.length === 0) {
             props.addJavascriptCode(res.data.code);
         } else {
             props.insertJavascriptCode(res.data.code);
@@ -282,11 +282,11 @@ const WebEditors = (props) => {
 const mapStateToProps = (reduxstate) => {
   return { 
     code: reduxstate.code.string, 
-    javascriptCode: reduxstate.project.javascript,
-    htmlCode: reduxstate.project.html,
-    cssCode: reduxstate.project.css,
-    projectId: reduxstate.project.projectId,
-    projectTitle: reduxstate.project.projectTitle,
+    javaCode: reduxstate.project.javaCode,
+    htmlCode: reduxstate.project.htmlCode,
+    cssCode: reduxstate.project.cssCode,
+    id: reduxstate.project.id,
+    title: reduxstate.project.title,
  };
 };
 
