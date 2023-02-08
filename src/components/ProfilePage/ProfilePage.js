@@ -5,7 +5,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { loadUserProjects, loadLikedProjects } from "../../state/actions";
 import axios from 'axios';
 import { getUser} from '../../services/user.js';
-import IndividualPost from "../CommunityPage/IndividualPost.js"
 import PostCard from "../CommunityPage/PostCard.js"
 
 import settings from '../../resources/settings.png'
