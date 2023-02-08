@@ -11,6 +11,7 @@ import './profile.css'
 
 
 const ProfilePage = (props) => {
+
   return (
     <div className="profile-page" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />

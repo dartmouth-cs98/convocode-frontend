@@ -11,7 +11,43 @@ export const ActionTypes = {
     ADD_PROJECT_TAG: 'ADD_PROJECT_TAG',
 
   };
-  
+
+  // /**
+  //  * @description load all users's projects, public and private
+  //  * @param id project id to load
+  //  */
+  // export const loadUserProjects = (id) => {
+  //   return async (dispatch) => {
+  //     try {
+  //       const data = await getProject(id);
+  //       if (data) {
+  //         console.log(data)
+  //       }
+  //       dispatch({ type: ActionTypes.LOAD_PROJECT, payload: data });
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   };
+  // };
+
+  // /**
+  //  * @description load all projects a user has liked
+  //  * @param id project id to load
+  //  */
+  // export const loadLikedProjects = (id) => {
+  //   return async (dispatch) => {
+  //     try {
+  //       const data = await getProject(id);
+  //       if (data) {
+  //         console.log(data)
+  //       }
+  //       dispatch({ type: ActionTypes.LOAD_PROJECT, payload: data });
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   };
+  // };
+    
   /**
    * @description update the code string
    */
