@@ -68,33 +68,35 @@ export const getUserProjects = async () => {
     console.log(error);
     throw error;
   }
-
-  // const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/userprojects/${id}`;
-
-  // try {
-  //   const { data } = await axios.get(url);
-  //   // format data for redux 
-
-  //   return data;
-  // } catch (error) {
-  //   throw error;
-  // }
 };
 
 /**
- * @description loads a project from backend
- * @param id user id
+ * @description loads user authored projects from the db
  * @returns {Promise<Object>} API response
  */
-export const getLikedProjects = async (id) => {
-  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/likedprojects/${id}`;
+export const getLikedProjects = async () => {
+
+  console.log("now in projects services")
+  const userToken = getAuthTokenFromStorage();
+  console.log(userToken)
+
+  const url = `http://localhost:8000/api/project/likedprojects`;
 
   try {
-    const { data } = await axios.get(url);
-    // format data for redux 
+    console.log('trying to get all liked projects!');
+
+    const { data } = await axios.get(url, {
+      headers: {
+        authorization: userToken
+      },
+    });
+
+    console.log("back from getLikedProjects request")
+    console.log(data);
 
     return data;
   } catch (error) {
+    console.log(error);
     throw error;
   }
 };

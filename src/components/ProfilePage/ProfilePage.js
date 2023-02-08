@@ -6,6 +6,7 @@ import { loadUserProjects, loadLikedProjects } from "../../state/actions";
 import axios from 'axios';
 import { getUser} from '../../services/user.js';
 import IndividualPost from "../CommunityPage/IndividualPost.js"
+import PostCard from "../CommunityPage/PostCard.js"
 
 import settings from '../../resources/settings.png'
 import HeaderBar from "../HeaderBar/HeaderBar";
@@ -16,7 +17,8 @@ import './profile.css'
 const ProfilePage = (props) => {
 
   useEffect(() => {
-    props.loadUserProjects();
+    //props.loadUserProjects();
+    props.loadLikedProjects();
   }, []);
 
   //console.log(props.projects)
@@ -48,19 +50,24 @@ const ProfilePage = (props) => {
                 <Tab>Projects</Tab>
                 <div className="post-content">
                 {
-                  props.authoredProjects.map((item, idx) => {
+                  props.authoredProjects.map((item) => {
                     return (
-                      <>
-                        {/* <PostCard title={item.title} user={item.username} tag={item.tags} likes={item.likes} key={idx} /> */}
-                        <IndividualPost item={item} key={idx} />
-                      </>
+                      <PostCard item={item} key={item.id} />
                     )
                   })
                 }
               </div>
                 <Tab>Liked</Tab>
+                <div className="post-content">
+                {
+                  props.authoredProjects.map((item) => {
+                    return (
+                      <PostCard item={item} key={item.id} />
+                    )
+                  })
+                }
+              </div>
               </TabList>
-
               <TabPanel>
                 <h2>projects</h2>
               </TabPanel>

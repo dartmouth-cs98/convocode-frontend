@@ -7,7 +7,6 @@ export const ActionTypes = {
 
 /**
  * @description load all user's authored projects from db 
- * @param userId user id
  */
 export const loadUserProjects = () => {
   return async (dispatch) => {
@@ -26,13 +25,12 @@ export const loadUserProjects = () => {
 
 /**
  * @description load all user's liked projects from db
- * @param userId user id
  */
-export const loadLikedProjects = (userId) => {
+export const loadLikedProjects = () => {
     return async (dispatch) => {
       try {
         console.log("getting liked projects");
-        const data = await getLikedProjects(userId);
+        const data = await getLikedProjects();
         if (data) {
           console.log(data)
         }
