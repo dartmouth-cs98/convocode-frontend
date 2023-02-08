@@ -20,7 +20,7 @@ export const ActionTypes = {
  * @description load single project from backend 
  * @param id project id to load
  */
-export const loadProjects = (id) => {
+export const loadProject = (id) => {
   return async (dispatch) => {
     try {
       const data = await getProject(id);

@@ -7,6 +7,7 @@ import LandingPage from './components/LandingPage/LandingPage';
 import MobileView from './components/MobileView/MobileView';
 import CommunityPage from './components/CommunityPage/CommunityPage';
 import Profile from './components/ProfilePage/ProfilePage';
+import IndividualPost from './components/Projects/IndividualPost';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/editor" element={<WebEditors />} />
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/project/:id" element={<IndividualPost />} />
       </Routes>
     </Router>
   );
