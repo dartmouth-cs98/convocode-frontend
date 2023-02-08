@@ -19,7 +19,7 @@ const CodeEditor = (props) => {
 
   var editor_state = null;
   if (props.language == "javascript") {
-    editor_state = props.javascriptCode;
+    editor_state = props.javaCode;
   } else if (props.language == "html") {
     editor_state = props.htmlCode;
   } else {
@@ -65,9 +65,9 @@ const mapStateToProps = (reduxstate) => {
   return {
     fontSize: reduxstate.settings.fontSize,
     code: reduxstate.code.string,
-    javascriptCode: reduxstate.project.javascript,
-    htmlCode: reduxstate.project.html,
-    cssCode: reduxstate.project.css,
+    javaCode: reduxstate.project.javaCode,
+    htmlCode: reduxstate.project.htmlCode,
+    cssCode: reduxstate.project.cssCode,
     lightMode: reduxstate.settings.lightMode,
 
   };
