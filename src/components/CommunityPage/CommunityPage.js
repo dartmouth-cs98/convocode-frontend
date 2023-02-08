@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from 'react-redux';
 import HeaderBar from "../HeaderBar/HeaderBar";
-import IndividualPost from "./IndividualPost"
+import PostCard from "./PostCard"
 import { loadProjects } from "../../state/actions";
 import axios from 'axios';
 
@@ -99,12 +99,9 @@ const CommunityPage = (props) => {
         }} >FOR TESTING ONLY Comment on Project</button>
         <div className="post-content">
           {
-            props.projects.map((item, idx) => {
+            props.projects.map((item) => {
               return (
-                <>
-                  {/* <PostCard title={item.title} user={item.username} tag={item.tags} likes={item.likes} key={idx} /> */}
-                  <IndividualPost item={item} key={idx} />
-                </>
+                <PostCard item={item} key={item.id} />
               )
             })
           }

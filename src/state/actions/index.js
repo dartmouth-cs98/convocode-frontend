@@ -45,6 +45,7 @@ import {
   addProjectTitle,
   addProjectDescription,
   addProjectTag,
+  addProjectStatus,
 } from './project';
 
 const ActionTypes = {
@@ -75,6 +76,7 @@ export {
   addProjectTitle,
   addProjectDescription,
   addProjectTag,
+  addProjectStatus,
   login,
   signup,
   getUserFromStorage,
