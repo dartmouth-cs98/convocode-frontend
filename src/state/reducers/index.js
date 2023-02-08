@@ -7,6 +7,7 @@ import SettingsReducer from './settings';
 import ProjectReducer from './project';
 import UserReducer from './user';
 import CommunityReducer from './community';
+import ProfileReducer from './profile';
 
 
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   project: ProjectReducer,
   user: UserReducer,
   community: CommunityReducer,
+  profile: ProfileReducer,
 });
 
 export default rootReducer;

@@ -90,68 +90,6 @@ const WebEditors = (props) => {
     });
   }
 
-  function saveCode() {
-
-    // TO DO: get username, title, description, and tags
-
-    // get java, html, css code, and title from ide page
-    const java_code = props.javascriptCode;
-    const html_code = props.htmlCode;
-    const css_code = props.cssCode;
-    const projectTitle = props.projectTitle;
-
-    // check if project id
-    const projectId = props.projectId;
-    console.log(projectId);
-
-    if (projectId == "") {
-      // no project id yet, create new project
-
-      // send post information to the backend 
-      axios.request({
-        method: "POST",
-        url: `http://localhost:8000/api/project`,
-        data: {
-          user: "fakeusernameslay",
-          title: projectTitle,
-          description: "fakedescription",
-          tags: "medium",
-          java_code: java_code,
-          html_code: html_code,
-          css_code: css_code,
-      }
-      }).then((res) => {
-        // have some sort of popup or change the button to like "code saved!" or something
-        console.log("code saved!")
-        console.log(res.data);
-        props.addProjectId(res.data);
-      });
-      
-    } else {
-          // project already exists, update in database instead
-
-          // send post information to the backend 
-          const requestUrl = "http://localhost:8000/api/project/:id";
-          axios.request({
-            method: "PUT",
-            url: requestUrl,
-            data: {
-              projectId: projectId,
-              title: projectTitle,
-              description: "fakedescription",
-              tags: "medium",
-              java_code: java_code,
-              html_code: html_code,
-              css_code: css_code,
-          }
-          }).then((res) => {
-            // have some sort of popup or change the button to like "code saved!" or something
-            console.log("code saved!")
-          });
-    }
-    
-  }
-
   const toggleModal = () => {
     setModalShow(modalShow => !modalShow);
   };

@@ -8,6 +8,7 @@ import 'react-tabs/style/react-tabs.css';
 import './projectModal.css';
 import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, addProjectStatus } from '../../state/actions';
 import axios from 'axios';
+import { getAuthTokenFromStorage } from '../../services/utils.js';
 
 const ProjectModal = (props) => {
     const [theme] = useState('light');
@@ -55,8 +56,8 @@ const ProjectModal = (props) => {
         const javaCode = props.javascriptCode;
         const htmlCode = props.htmlCode;
         const cssCode = props.cssCode;
+        const userToken = getAuthTokenFromStorage();
         const status = props.projectStatus;
-        const username = props.user.username;
 
         // check if project id
         const projectId = props.projectId;
@@ -65,10 +66,9 @@ const ProjectModal = (props) => {
           // no project id yet, create new project
     
           // send post information to the backend 
-          axios.request({
-            method: "POST",
-            url: `http://localhost:8000/api/project`,
-            data: {
+          axios.post(
+             `http://localhost:8000/api/project`,
+            {
               title: projectTitle,
               description: projectDescription,
               tags: projectTag,
@@ -76,9 +76,9 @@ const ProjectModal = (props) => {
               htmlCode: htmlCode,
               cssCode: cssCode,
               status: status,
-              username: username
-          }
-          }).then((res) => {
+          },
+          { headers: { authorization: userToken } }
+          ).then((res) => {
             // have some sort of popup or change the button to like "code saved!" or something
             console.log("code saved!")
             console.log(res.data);
@@ -89,12 +89,10 @@ const ProjectModal = (props) => {
               // project already exists, update in database instead
     
               // send post information to the backend 
-              const requestUrl = "http://localhost:8000/api/project/:id";
-              axios.request({
-                method: "PUT",
-                url: requestUrl,
-                data: {
-                  projectId: projectId,
+              const requestUrl = `http://localhost:8000/api/project/${projectId}`;
+              axios.put(
+                requestUrl,
+                {
                   title: projectTitle,
                   description: projectDescription,
                   tags: projectTag,
@@ -102,8 +100,9 @@ const ProjectModal = (props) => {
                   htmlCode: htmlCode,
                   cssCode: cssCode,
                   status: status,
-              }
-              }).then((res) => {
+              },
+              { headers: { authorization: userToken } }
+              ).then((res) => {
                 // have some sort of popup or change the button to like "code saved!" or something
                 console.log("code saved!")
               });

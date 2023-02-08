@@ -18,9 +18,7 @@ const SUBROUTE = 'user';
  * @returns {Promise<Object>} API response
  */
 export const UserServicesLogin = async (email, password) => {
-  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/signin`;
-
-  console.log(url)
+  const url = `http://localhost:8000/api/user/signin`;
 
   try {
     const { data } = await axios.post(url, {
@@ -47,7 +45,7 @@ export const UserServicesLogin = async (email, password) => {
  * @returns {Promise<Object>} API response
  */
 export const UserServicesSignUp = async (email, password, username) => {
-  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/signup`;
+  const url = `http://localhost:8000/api/user/signup`;
   // const token = getAuthTokenFromStorage();
 
   console.log("user services sign up")
@@ -89,23 +87,30 @@ export const UserServicesSignOut = () => {
  * @returns {Promise<Object>} API response
  */
 export const getUser = async (id) => {
-  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/${id}`;
-  const token = getAuthTokenFromStorage();
+
+  // get user token
+  const userToken = getAuthTokenFromStorage();
+  console.log(userToken);
+
+ const url = `http://localhost:8000/api/user/refresh`;
 
   try {
-    const { data: response } = await axios.get(url, {
+    console.log('trying to refresh user')
+    const { data } = await axios.get(url, {
       headers: {
-        authorization: `Bearer ${token}`,
+        authorization: userToken
       },
     });
 
-    const { data } = response;
+    console.log("back from axios request")
+    console.log(data);
 
     return data;
   } catch (error) {
     console.log(error);
     throw error;
   }
+ 
 };
 
 /**
@@ -118,7 +123,7 @@ export const getUSUserFromStorage = async () => {
 
   if (!id || !token) throw new Error('Missing user id or user token');
 
-  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/${id}`;
+  const url = `http://localhost:8000/api/user/${id}`;
 
   try {
     const { data: response } = await axios.get(url, {
@@ -143,7 +148,7 @@ export const getUSUserFromStorage = async () => {
  * @returns {Promise<Object>} API response
  */
 export const updateUser = async (id, fields) => {
-  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/${id}`;
+  const url = `http://localhost:8000/api/user/${id}`;
   const token = getAuthTokenFromStorage();
 
   try {
@@ -167,7 +172,7 @@ export const updateUser = async (id, fields) => {
  * @returns {Promise<Object>} API response
  */
 export const getAllUsers = async () => {
-  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}`;
+  const url = `http://localhost:8000/api/user`;
   const token = getAuthTokenFromStorage();
 
   try {

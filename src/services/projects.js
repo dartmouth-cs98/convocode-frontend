@@ -1,4 +1,6 @@
 import axios from 'axios';
+//import { getUser } from 'user'
+import { getAuthTokenFromStorage } from './utils.js';
 
 const SUBROUTE = 'project';
 
@@ -32,6 +34,69 @@ export const getProject = async (id) => {
 
     return data;
   } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * @description loads user authored projects from the db
+ * @param id user id
+ * @returns {Promise<Object>} API response
+ */
+export const getUserProjects = async () => {
+
+  console.log("now in projects services")
+  const userToken = getAuthTokenFromStorage();
+  console.log(userToken)
+
+  const url = `http://localhost:8000/api/project/userprojects`;
+
+  try {
+    console.log('trying to get all user projects!');
+
+    const { data } = await axios.get(url, {
+      headers: {
+        authorization: userToken
+      },
+    });
+
+    console.log("back from getUserProjects request")
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+/**
+ * @description loads user authored projects from the db
+ * @returns {Promise<Object>} API response
+ */
+export const getLikedProjects = async () => {
+
+  console.log("now in projects services")
+  const userToken = getAuthTokenFromStorage();
+  console.log(userToken)
+
+  const url = `http://localhost:8000/api/project/likedprojects`;
+
+  try {
+    console.log('trying to get all liked projects!');
+
+    const { data } = await axios.get(url, {
+      headers: {
+        authorization: userToken
+      },
+    });
+
+    console.log("back from getLikedProjects request")
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    console.log(error);
     throw error;
   }
 };
