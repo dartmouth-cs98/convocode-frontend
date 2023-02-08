@@ -6,7 +6,7 @@ import CodeEditor from '../EditorWindow/CodeEditor';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import './projectModal.css';
-import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag } from '../../state/actions';
+import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, addProjectStatus } from '../../state/actions';
 import axios from 'axios';
 
 const ProjectModal = (props) => {
@@ -15,8 +15,6 @@ const ProjectModal = (props) => {
     const [projectTitle, setProjectTitle] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [projectTag, setProjectTag] = useState("");
-    const [saved, setSaved] = useState(false);
-    const [checked, setChecked] = useState(false);
 
     const projectTags= ["easy", "medium", "hard"];
 
@@ -42,12 +40,13 @@ const ProjectModal = (props) => {
         props.addProjectDescription(newDescription);
     };
 
-    const handleCheckboxChange = () => {
-        console.log("SETTING")
-        setChecked(!checked);
-      };
+    function saveCode(buttonType) {
 
-    function saveCode() {
+        if (buttonType === "post") {
+            props.addProjectStatus(true);
+        } else {
+            props.addProjectStatus(false);
+        }
     
         // get java, html, css code, and title from ide page
         const projectTitle = props.projectTitle;
@@ -56,8 +55,8 @@ const ProjectModal = (props) => {
         const javaCode = props.javascriptCode;
         const htmlCode = props.htmlCode;
         const cssCode = props.cssCode;
-        const status = true;
-        const username = "fakeusername";
+        const status = props.projectStatus;
+        const username = props.user.username;
 
         // check if project id
         const projectId = props.projectId;
@@ -170,20 +169,12 @@ const ProjectModal = (props) => {
                         </Tabs>
                         </div>
                         <div className="project-buttons">
-                            <button className="light-pink" onClick = {()=>{
-                                setSaved(!saved);
-                                saveCode();
-                                }}disabled={saved}>{saved ? 'Saved' : 'Save'}</button>
-                            <div>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    checked={checked}
-                                    onChange={handleCheckboxChange}
-                                />
-                                Make Public?
-                            </label>
-                            </div>
+                            <NavLink to="/profile"><button className="light-pink" onClick = {()=>{
+                                saveCode("save");
+                                }}>Save For Later</button></NavLink>
+                            <NavLink to="/profile"><button className="pink" onClick = {()=>{
+                                saveCode("post");
+                                }}>Post</button></NavLink>
                         </div>
                         </div>
                     </div>
@@ -204,8 +195,10 @@ const mapStateToProps = (reduxstate) => {
       projectTitle: reduxstate.project.projectTitle,
       projectDescription: reduxstate.project.projectDescription,
       projectTag: reduxstate.project.projectTag,
+      projectStatus: reduxstate.project.projectStatus,
+      user: reduxstate.user,
    };
   };
-  export default connect(mapStateToProps, { addProjectId, addProjectTitle, addProjectDescription, addProjectTag })(ProjectModal);
+  export default connect(mapStateToProps, { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, addProjectStatus })(ProjectModal);
 
 
