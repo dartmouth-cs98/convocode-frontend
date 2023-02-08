@@ -15,7 +15,7 @@ import multiTab from '../../resources/MultiTab.svg';
 import axios from 'axios';
 import './webEditor.css';
 import HeaderBar from '../HeaderBar/HeaderBar';
-
+import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import './index.css'
 
 // loads in .env file if needed
@@ -39,6 +39,7 @@ const WebEditors = (props) => {
   const [currentLanguage, setCurrentLanguage] = useState("html");
   const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
+  const [outputSelection, setOutputSelection] = useState("output");
   
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
@@ -268,7 +269,7 @@ const WebEditors = (props) => {
         {console.log(currentLanguage)}
         <HeaderBar/>
         <div className='commandBar'>
-          <input placeholder="My Project Title" value={title} onChange={handleTitleChange}></input>
+          {/* <input placeholder="My Project Title" value={title} onChange={handleTitleChange}></input> */}
           <input className="commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
           <form className='languageSelect'> 
             <select onChange={handleLangSwitch}>  
@@ -287,12 +288,13 @@ const WebEditors = (props) => {
           {/* <button className="pink" onClick={() => { 
                 saveCode();
                 }}>Save</button> */}
-          <ProjectModal></ProjectModal>
+          {/* <ProjectModal></ProjectModal> */}
           <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
-          {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> :
-          <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> 
-          }
+          {/* {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> : 
+          // <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> */}
+         <ProjectModal></ProjectModal>
         </div>
+       
         <div className="web-editor-container">
           <div className="editor">
             <CodeEditor
@@ -317,9 +319,24 @@ const WebEditors = (props) => {
             />
            
           </div>
-          <WebOutput theme={theme}/>
+          {/* <WebOutput theme={theme}/> */}
         </div>
-        <WebOutput theme={theme}/>
+        <div>
+          <Tabs id="tabs">
+            <TabList>
+              <Tab id="output">output</Tab>
+              <Tab id="console">console</Tab>
+            </TabList>
+            <TabPanel>
+              <div className='tab-output'>
+              <WebOutput theme={theme}/>
+              </div>
+            </TabPanel>
+          </Tabs>
+        
+        </div>
+ 
+ 
     </div>
   );
 };
