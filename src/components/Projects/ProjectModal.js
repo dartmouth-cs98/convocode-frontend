@@ -67,13 +67,6 @@ const ProjectModal = (props) => {
           // no project id yet, create new project
     
           // send post information to the backend 
-          axios.request({
-            method: "POST",
-            url: `http://localhost:8000/api/project`,
-            data: {
-              title: title,
-              description: description,
-              tags: tags,
           axios.post(
              `http://localhost:8000/api/project`,
             {
@@ -95,17 +88,7 @@ const ProjectModal = (props) => {
           
         } else {
               // project already exists, update in database instead
-    
               // send post information to the backend 
-              const requestUrl = "http://localhost:8000/api/project/:id";
-              axios.request({
-                method: "PUT",
-                url: requestUrl,
-                data: {
-                  id: id,
-                  title: title,
-                  description: description,
-                  tags: tags,
               const requestUrl = `http://localhost:8000/api/project/${projectId}`;
               axios.put(
                 requestUrl,
