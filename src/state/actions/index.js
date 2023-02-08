@@ -29,6 +29,17 @@ import {
 } from "./user";
 
 import {
+  ActionTypes as communityActionTypes,
+  loadProjects
+} from './community';
+
+import {
+  ActionTypes as profileActionTypes,
+  loadUserProjects,
+  loadLikedProjects
+} from './profile';
+
+import {
   ActionTypes as projectActionTypes,
   addJavascriptCode,
   insertJavascriptCode,
@@ -40,6 +51,7 @@ import {
   addProjectTitle,
   addProjectDescription,
   addProjectTag,
+  addProjectStatus,
 } from './project';
 
 const ActionTypes = {
@@ -49,6 +61,7 @@ const ActionTypes = {
   ...codeActionTypes,
   ...projectActionTypes,
   ...userActionTypes,
+  ...communityActionTypes,
 };
 
 export {
@@ -69,8 +82,12 @@ export {
   addProjectTitle,
   addProjectDescription,
   addProjectTag,
+  addProjectStatus,
   login,
   signup,
   getUserFromStorage,
   signOut,
+  loadProjects,
+  loadUserProjects,
+  loadLikedProjects,
 }

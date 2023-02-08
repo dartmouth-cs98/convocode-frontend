@@ -87,23 +87,30 @@ export const UserServicesSignOut = () => {
  * @returns {Promise<Object>} API response
  */
 export const getUser = async (id) => {
-  const url = `http://localhost:8000/api/user/${id}`;
-  const token = getAuthTokenFromStorage();
+
+  // get user token
+  const userToken = getAuthTokenFromStorage();
+  console.log(userToken);
+
+ const url = `http://localhost:8000/api/user/refresh`;
 
   try {
-    const { data: response } = await axios.get(url, {
+    console.log('trying to refresh user')
+    const { data } = await axios.get(url, {
       headers: {
-        authorization: `Bearer ${token}`,
+        authorization: userToken
       },
     });
 
-    const { data } = response;
+    console.log("back from axios request")
+    console.log(data);
 
     return data;
   } catch (error) {
     console.log(error);
     throw error;
   }
+ 
 };
 
 /**

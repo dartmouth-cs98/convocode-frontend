@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { loadUserProjects, loadLikedProjects } from "../../state/actions";
+import axios from 'axios';
+import { getUser} from '../../services/user.js';
+import IndividualPost from "../CommunityPage/IndividualPost.js"
 
 import settings from '../../resources/settings.png'
 import HeaderBar from "../HeaderBar/HeaderBar";
@@ -9,9 +13,13 @@ import HeaderBar from "../HeaderBar/HeaderBar";
 import 'react-tabs/style/react-tabs.css';
 import './profile.css'
 
-
 const ProfilePage = (props) => {
 
+  useEffect(() => {
+    props.loadUserProjects();
+  }, []);
+
+  //console.log(props.projects)
   return (
     <div className="profile-page" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />
@@ -38,6 +46,18 @@ const ProfilePage = (props) => {
             <Tabs>
               <TabList>
                 <Tab>Projects</Tab>
+                <div className="post-content">
+                {
+                  props.authoredProjects.map((item, idx) => {
+                    return (
+                      <>
+                        {/* <PostCard title={item.title} user={item.username} tag={item.tags} likes={item.likes} key={idx} /> */}
+                        <IndividualPost item={item} key={idx} />
+                      </>
+                    )
+                  })
+                }
+              </div>
                 <Tab>Liked</Tab>
               </TabList>
 
@@ -63,7 +83,9 @@ const mapStateToProps = (reduxstate) => {
   return {
     lightMode: reduxstate.settings.lightMode,
     user: reduxstate.user,
+    authoredProjects: reduxstate.profile.authoredProjects,
+    likedProjects: reduxstate.profile.likedProjects,
   };
 };
 
-export default connect(mapStateToProps, {})(ProfilePage);
+export default connect(mapStateToProps, { loadUserProjects, loadLikedProjects })(ProfilePage);

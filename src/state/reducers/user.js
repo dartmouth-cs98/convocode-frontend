@@ -11,9 +11,9 @@ const initialState = {
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.SET_USER_DATA:
-      console.log(action.payload)
       return { ...state, ...action.payload };
-
+    case ActionTypes.CLEAR_USER_DATA:
+      return { ...initialState };
     default:
       return state;
   }

@@ -8,10 +8,13 @@ const projectState = {
   projectTitle: "",
   projectDescription: "",
   projectTag: "",
+  projectStatus: Boolean,
 };
 
 const ProjectReducer = (state = projectState, action) => {
   switch (action.type) {
+    case ActionTypes.LOAD_PROJECT:
+      return { ...action.payload };
     case ActionTypes.ADD_JAVASCRIPT_CODE:
       return { ...state, javascript: action.payload };
     case ActionTypes.INSERT_JAVASCRIPT_CODE:
@@ -31,7 +34,9 @@ const ProjectReducer = (state = projectState, action) => {
     case ActionTypes.ADD_PROJECT_DESCRIPTION:
       return { ...state, projectDescription: action.payload };
     case ActionTypes.ADD_PROJECT_TAG:
-      return { ...state, projectTag: action.payload};
+      return { ...state, projectTag: action.payload };
+    case ActionTypes.ADD_PROJECT_STATUS:
+      return { ...state, projectStatus: action.payload };
 
     default:
       return state;

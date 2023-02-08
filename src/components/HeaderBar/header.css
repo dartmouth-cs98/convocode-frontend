@@ -26,8 +26,8 @@
   align-items: stretch;
 }
 
-button#documentation {
-  background-color: transparent;
+button#community {
+  background-color: var(--bus);
   box-shadow: none;
   color: var(--text-primary)
 }
@@ -40,4 +40,11 @@ button#IDE {
 button#signin {
   background-color: var(--sage);
   color: var(--white);
+}
+
+button#profile {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: none;
+  box-shadow: none;
 }
