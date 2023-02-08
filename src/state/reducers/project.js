@@ -9,6 +9,7 @@ const projectState = {
   projectDescription: "",
   projectTag: "",
   comments: [],
+  projectStatus: Boolean,
 };
 
 const ProjectReducer = (state = projectState, action) => {
@@ -44,6 +45,8 @@ const ProjectReducer = (state = projectState, action) => {
       return { ...state, projectDescription: action.payload };
     case ActionTypes.ADD_PROJECT_TAG:
       return { ...state, projectTag: action.payload };
+    case ActionTypes.ADD_PROJECT_STATUS:
+      return { ...state, projectStatus: action.payload };
 
     default:
       return state;

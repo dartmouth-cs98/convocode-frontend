@@ -12,6 +12,7 @@ export const ActionTypes = {
   ADD_PROJECT_TITLE: 'ADD_PROJECT_TITLE',
   ADD_PROJECT_DESCRIPTION: 'ADD_PROJECT_DESCRIPTION',
   ADD_PROJECT_TAG: 'ADD_PROJECT_TAG',
+  ADD_PROJECT_STATUS: 'ADD_PROJECT_STATUS',
 
 };
 
@@ -122,5 +123,14 @@ export const addProjectDescription = (input) => {
 export const addProjectTag = (input) => {
   return (dispatch) => {
     dispatch({ type: ActionTypes.ADD_PROJECT_TAG, payload: input });
+  };
+};
+
+/**
+* @description add project status
+*/
+export const addProjectStatus = (input) => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.ADD_PROJECT_STATUS, payload: input });
   };
 };
