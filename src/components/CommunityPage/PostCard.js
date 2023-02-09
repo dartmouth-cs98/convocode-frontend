@@ -7,7 +7,7 @@ const Post = (props) => {
 
   const navigate = useNavigate();
 
-  let tag = props.tags !== "" ? props.tags[0].toLowerCase() : "undefined"
+  let tag = props.item.tags.length > 0 ? props.item.tags[0].toString().toLowerCase() : "undefined"
 
   console.log(props.item)
 
@@ -19,13 +19,7 @@ const Post = (props) => {
       </div>
       <div className="footer">
         <div className="tag" id={tag}>
-          <span>
-            {props.item.tags ? (
-              props.item.tags.map((e, idx) => {
-                return (<span>#{e}</span>)
-              })
-            ) : ""}
-          </span>
+          <span>#{tag}</span>
         </div>
         <div className="likes">
           <img src={like} />
