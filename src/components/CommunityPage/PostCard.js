@@ -7,12 +7,7 @@ const Post = (props) => {
 
   const navigate = useNavigate();
 
-  let tag = props.item.tags !== "" ? props.item.tags.split(" ").forEach(element => {
-    if (element.toLowerCase() == "easy" || element.toLowerCase() == "medium" || element.toLowerCase() == "hard")
-      return element.toLowerCase()
-  }) : "undefined";
-
-  tag = tag ? tag.toLowerCase() : props.item.tags.toLowerCase()
+  let tag = props.tags !== "" ? props.tags[0].toLowerCase() : "undefined"
 
   console.log(props.item)
 
@@ -26,7 +21,7 @@ const Post = (props) => {
         <div className="tag" id={tag}>
           <span>
             {props.item.tags ? (
-              props.item.tags.split(" ").map((e, idx) => {
+              props.item.tags.map((e, idx) => {
                 return (<span>#{e}</span>)
               })
             ) : ""}
