@@ -56,6 +56,7 @@ const CodeEditor = (props) => {
         options={{
           fontSize: props.fontSize
         }}
+        onMount={props.mount}
       />
     </div>
   );

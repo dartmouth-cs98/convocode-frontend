@@ -1,6 +1,6 @@
 // RECORDER: https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import CodeEditor from './CodeEditor';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
@@ -40,6 +40,20 @@ const WebEditors = (props) => {
   const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
   const [outputSelection, setOutputSelection] = useState("output");
+
+  const jsRef = useRef(null);
+  const monacoRef = useRef(null);
+
+  function handleJSDidMount(editor, monaco) {
+    jsRef.current = editor;
+    console.log(jsRef);
+    monacoRef.current = monaco;
+
+    editor.onDidChangeModelContent ( e => {
+        console.log(editor.getModel());
+
+    });
+  }
   
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
@@ -67,12 +81,40 @@ const WebEditors = (props) => {
       console.log(res);
       console.log(res.data.code);
       console.log(res.data.text);
-
+      const line_list = res.data.code.split(/\r\n|\r|\n/);
+      console.log(line_list);
+      const last_line = line_list[line_list.length - 1];
+      const line_num = res.data.code.split(/\r\n|\r|\n/).length;
+      const last_column = last_line.length;
       if (currentLanguage === "javascript") {
         if (props.javaCode.length === 0) {
             props.addJavascriptCode(res.data.code);
         } else {
-            props.insertJavascriptCode(res.data.code);
+            console.log(jsRef.current.getPosition().lineNumber);
+            // make space for the new code 
+            console.log(line_num);
+            const total = jsRef.current.getModel().getLineCount();
+            console.log(total);
+            console.log(jsRef.current.getModel().getLineCount());
+            for (var i = jsRef.current.getPosition().lineNumber; i <= total; i++) {
+                console.log(i);
+                console.log(jsRef.current.getModel().getLineContent(i));
+                jsRef.current.executeEdits(props.query, [{
+                    range:{startLineNumber:jsRef.current.getPosition().lineNumber + line_num,startColumn:1,endLineNumber:jsRef.current.getPosition().lineNumber + line_num,endColumn:jsRef.current.getModel().getLineContent(i).length},
+                    text: jsRef.current.getModel().getLineContent(i),
+                    forceMoveMarkers: true
+                    }]);
+
+            }
+            //props.insertJavascriptCode(res.data.code);
+            for (var i = 0; i < line_num; i++) {
+                jsRef.current.executeEdits(props.query, [{
+                    range:{startLineNumber:jsRef.current.getPosition().lineNumber + i,startColumn:jsRef.current.getPosition().column,endLineNumber:jsRef.current.getPosition().lineNumber + i,endColumn:line_list[i].length},
+                    text: line_list[i],
+                    forceMoveMarkers: true
+                    }]);
+
+            }
         } 
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
@@ -239,6 +281,7 @@ const WebEditors = (props) => {
                 language={"javascript"}
                 theme={theme}
                 width="100%"
+                mount={handleJSDidMount}
             />
           </div>
           <div className="editor">
