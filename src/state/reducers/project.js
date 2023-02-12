@@ -1,52 +1,54 @@
 import { ActionTypes } from '../actions';
 
 const projectState = {
-  javascript: "",
-  html: "",
-  css: "",
-  projectId: "",
-  projectTitle: "",
-  projectDescription: "",
-  projectTag: "",
-  comments: [],
-  projectStatus: Boolean,
+  title: "",
+  description: "",
+  tags: "",
+  javaCode: "",
+  htmlCode: "",
+  cssCode: "",
+  status: Boolean,
+  likes: Number,
+  username: "",
+  comments: [""],
+  id: "",
 };
 
 const ProjectReducer = (state = projectState, action) => {
   switch (action.type) {
     case ActionTypes.LOAD_PROJECT:
       return {
-        javascript: action.payload.javaCode,
-        html: action.payload.htmlCode,
-        css: action.payload.cssCode,
-        projectId: action.payload._id,
-        projectTitle: action.payload.title,
-        projectDescription: action.payload.description,
-        projectTag: action.payload.tags,
+        javaCode: action.payload.javaCode,
+        htmlCode: action.payload.htmlCode,
+        cssCode: action.payload.cssCode,
+        id: action.payload._id,
+        title: action.payload.title,
+        description: action.payload.description,
+        tags: action.payload.tags,
         ...action.payload,
       };
     case ActionTypes.ADD_JAVASCRIPT_CODE:
-      return { ...state, javascript: action.payload };
+      return { ...state, javaCode: action.payload };
     case ActionTypes.INSERT_JAVASCRIPT_CODE:
-      return { ...state, javascript: state.javascript + action.payload };
+      return { ...state, javaCode: state.javaCode + action.payload };
     case ActionTypes.ADD_HTML_CODE:
-      return { ...state, html: action.payload };
+      return { ...state, htmlCode: action.payload };
     case ActionTypes.INSERT_HTML_CODE:
-      return { ...state, html: state.html + action.payload };
+      return { ...state, htmlCode: state.htmlCode + action.payload };
     case ActionTypes.ADD_CSS_CODE:
-      return { ...state, css: action.payload };
+      return { ...state, cssCode: action.payload };
     case ActionTypes.INSERT_CSS_CODE:
-      return { ...state, css: state.css + action.payload };
+      return { ...state, cssCode: state.cssCode + action.payload };
     case ActionTypes.ADD_PROJECT_ID:
-      return { ...state, projectId: action.payload };
+      return { ...state, id: action.payload };
     case ActionTypes.ADD_PROJECT_TITLE:
-      return { ...state, projectTitle: action.payload };
+      return { ...state, title: action.payload };
     case ActionTypes.ADD_PROJECT_DESCRIPTION:
-      return { ...state, projectDescription: action.payload };
+      return { ...state, description: action.payload };
     case ActionTypes.ADD_PROJECT_TAG:
-      return { ...state, projectTag: action.payload };
+      return { ...state, tags: action.payload };
     case ActionTypes.ADD_PROJECT_STATUS:
-      return { ...state, projectStatus: action.payload };
+      return { ...state, status: action.payload };
 
     default:
       return state;

@@ -8,6 +8,7 @@ import 'react-tabs/style/react-tabs.css';
 import './projectModal.css';
 import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, addProjectStatus } from '../../state/actions';
 import axios from 'axios';
+import { getAuthTokenFromStorage } from '../../services/utils.js';
 
 const ProjectModal = (props) => {
     const [theme] = useState('light');
@@ -49,36 +50,36 @@ const ProjectModal = (props) => {
         }
     
         // get java, html, css code, and title from ide page
-        const projectTitle = props.projectTitle;
-        const projectDescription = props.projectDescription;
-        const projectTag = props.projectTag;
-        const javaCode = props.javascriptCode;
+        const title = props.title;
+        const description = props.description;
+        const tags = props.tags;
+        const javaCode = props.javaCode;
         const htmlCode = props.htmlCode;
         const cssCode = props.cssCode;
-        const status = props.projectStatus;
+        const status = props.status;
         const username = props.user.username;
+        const userToken = getAuthTokenFromStorage();
 
         // check if project id
-        const projectId = props.projectId;
+        const id = props.id;
     
-        if (projectId == "") {
+        if (id == "") {
           // no project id yet, create new project
     
           // send post information to the backend 
-          axios.request({
-            method: "POST",
-            url: `http://localhost:8000/api/project`,
-            data: {
-              title: projectTitle,
-              description: projectDescription,
-              tags: projectTag,
+          axios.post(
+             `http://localhost:8000/api/project`,
+            {
+              title: title,
+              description: description,
+              tags: tags,
               javaCode: javaCode,
               htmlCode: htmlCode,
               cssCode: cssCode,
               status: status,
-              username: username
-          }
-          }).then((res) => {
+          },
+          { headers: { authorization: userToken } }
+          ).then((res) => {
             // have some sort of popup or change the button to like "code saved!" or something
             console.log("code saved!")
             console.log(res.data);
@@ -87,23 +88,21 @@ const ProjectModal = (props) => {
           
         } else {
               // project already exists, update in database instead
-    
               // send post information to the backend 
-              const requestUrl = "http://localhost:8000/api/project/:id";
-              axios.request({
-                method: "PUT",
-                url: requestUrl,
-                data: {
-                  projectId: projectId,
-                  title: projectTitle,
-                  description: projectDescription,
-                  tags: projectTag,
+              const requestUrl = `http://localhost:8000/api/project/${id}`;
+              axios.put(
+                requestUrl,
+                {
+                  title: title,
+                  description: description,
+                  tags: tags,
                   javaCode: javaCode,
                   htmlCode: htmlCode,
                   cssCode: cssCode,
                   status: status,
-              }
-              }).then((res) => {
+              },
+              { headers: { authorization: userToken } }
+              ).then((res) => {
                 // have some sort of popup or change the button to like "code saved!" or something
                 console.log("code saved!")
               });
@@ -188,14 +187,14 @@ const ProjectModal = (props) => {
 const mapStateToProps = (reduxstate) => {
     return { 
       code: reduxstate.code.string, 
-      javascriptCode: reduxstate.project.javascript,
-      htmlCode: reduxstate.project.html,
-      cssCode: reduxstate.project.css,
-      projectId: reduxstate.project.projectId,
-      projectTitle: reduxstate.project.projectTitle,
-      projectDescription: reduxstate.project.projectDescription,
-      projectTag: reduxstate.project.projectTag,
-      projectStatus: reduxstate.project.projectStatus,
+      javascriptCode: reduxstate.project.javaCode,
+      htmlCode: reduxstate.project.htmlCode,
+      cssCode: reduxstate.project.cssCode,
+      id: reduxstate.project.id,
+      title: reduxstate.project.title,
+      description: reduxstate.project.description,
+      tag: reduxstate.project.tags,
+      status: reduxstate.project.status,
       user: reduxstate.user,
    };
   };

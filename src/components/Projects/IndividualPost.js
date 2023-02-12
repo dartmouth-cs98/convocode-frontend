@@ -32,10 +32,7 @@ const IndividualPost = (props) => {
     props.loadProject(id);
   }, []);
 
-  let tag = props.project.tags ? props.project.tags.split(" ").forEach(element => {
-    if (element.toLowerCase() === "easy" || element.toLowerCase() === "medium" || element.toLowerCase() === "hard")
-      return element.toLowerCase()
-  }) || "undefined" : "undefined";
+  let tag = props.project.tags.length > 0 ? props.project.tags[0].toString().toLowerCase() : "undefined"
 
   console.log(props.project)
   return (
@@ -51,8 +48,8 @@ const IndividualPost = (props) => {
                 <div className="flex-row" style={{ "align-items": "center" }}>
                   <div className="tag" id={tag} style={{ "margin": 0 }}>
                     {props.project.tags ? (
-                      props.project.tags.split(" ").map((e, idx) => {
-                        return (<span className="tag">#{e}</span>)
+                      props.project.tags.map((e, idx) => {
+                        return (<span className="tag">#{e.toLowerCase()}</span>)
                       })
                     ) : ""}
                   </div>
