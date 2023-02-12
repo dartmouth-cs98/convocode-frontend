@@ -95,19 +95,25 @@ const WebEditors = (props) => {
             console.log(line_num);
             const total = jsRef.current.getModel().getLineCount();
             console.log(total);
-            console.log(jsRef.current.getModel().getLineCount());
+            const code = props.javaCode.split(/\r\n|\r|\n/);
             for (var i = jsRef.current.getPosition().lineNumber; i <= total; i++) {
                 console.log(i);
-                console.log(jsRef.current.getModel().getLineContent(i));
-                jsRef.current.executeEdits(props.query, [{
-                    range:{startLineNumber:jsRef.current.getPosition().lineNumber + line_num,startColumn:1,endLineNumber:jsRef.current.getPosition().lineNumber + line_num,endColumn:jsRef.current.getModel().getLineContent(i).length},
-                    text: jsRef.current.getModel().getLineContent(i),
+                //console.log(jsRef.current.getModel().getLineContent(i));
+                console.log(jsRef.current.getPosition().lineNumber + line_num + i);
+                jsRef.current.executeEdits("", [{
+                    range:{startLineNumber:jsRef.current.getPosition().lineNumber + line_num + i,startColumn:1,endLineNumber:jsRef.current.getPosition().lineNumber + line_num + i,endColumn:1},
+                    text: `${jsRef.current.getModel().getLineContent(i)}\n`,
                     forceMoveMarkers: true
                     }]);
 
             }
             //props.insertJavascriptCode(res.data.code);
-            for (var i = 0; i < line_num; i++) {
+            for (var i = jsRef.current.getPosition().lineNumber; i < line_num; i++) {
+                jsRef.current.executeEdits("", [{
+                    range:{startLineNumber:jsRef.current.getPosition().lineNumber + i,startColumn:jsRef.current.getPosition().column,endLineNumber:jsRef.current.getPosition().lineNumber + i,endColumn:1000},
+                    text: "",
+                    forceMoveMarkers: true
+                    }]);
                 jsRef.current.executeEdits(props.query, [{
                     range:{startLineNumber:jsRef.current.getPosition().lineNumber + i,startColumn:jsRef.current.getPosition().column,endLineNumber:jsRef.current.getPosition().lineNumber + i,endColumn:line_list[i].length},
                     text: line_list[i],
