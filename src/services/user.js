@@ -18,7 +18,7 @@ const SUBROUTE = 'user';
  * @returns {Promise<Object>} API response
  */
 export const UserServicesLogin = async (email, password) => {
-  const url = `http://localhost:8000/api/user/signin`;
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/signin`;
 
   try {
     const { data } = await axios.post(url, {
@@ -45,7 +45,7 @@ export const UserServicesLogin = async (email, password) => {
  * @returns {Promise<Object>} API response
  */
 export const UserServicesSignUp = async (email, password, username) => {
-  const url = `http://localhost:8000/api/user/signup`;
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/signup`;
   // const token = getAuthTokenFromStorage();
 
   console.log("user services sign up")
@@ -92,7 +92,7 @@ export const getUser = async (id) => {
   const userToken = getAuthTokenFromStorage();
   console.log(userToken);
 
- const url = `http://localhost:8000/api/user/refresh`;
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/refresh`;
 
   try {
     console.log('trying to refresh user')
@@ -110,7 +110,7 @@ export const getUser = async (id) => {
     console.log(error);
     throw error;
   }
- 
+
 };
 
 /**
@@ -123,7 +123,7 @@ export const getUSUserFromStorage = async () => {
 
   if (!id || !token) throw new Error('Missing user id or user token');
 
-  const url = `http://localhost:8000/api/user/${id}`;
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/${id}`;
 
   try {
     const { data: response } = await axios.get(url, {
@@ -148,7 +148,7 @@ export const getUSUserFromStorage = async () => {
  * @returns {Promise<Object>} API response
  */
 export const updateUser = async (id, fields) => {
-  const url = `http://localhost:8000/api/user/${id}`;
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/${id}`;
   const token = getAuthTokenFromStorage();
 
   try {
@@ -172,7 +172,7 @@ export const updateUser = async (id, fields) => {
  * @returns {Promise<Object>} API response
  */
 export const getAllUsers = async () => {
-  const url = `http://localhost:8000/api/user`;
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}`;
   const token = getAuthTokenFromStorage();
 
   try {
