@@ -86,53 +86,26 @@ const WebEditors = (props) => {
       const last_line = line_list[line_list.length - 1];
       const line_num = res.data.code.split(/\r\n|\r|\n/).length;
       const last_column = last_line.length;
+
       if (currentLanguage === "javascript") {
+        //const offset = jsRef.current.getOffsetAt({ lineNumber: jsRef.current.getPosition().lineNumber, column: jsRef.current.getPosition().column });
+        //console.log(offset);
         if (props.javaCode.length === 0) {
             props.addJavascriptCode(res.data.code);
         } else {
-            console.log(jsRef.current.getPosition().lineNumber);
-            // make space for the new code 
-            console.log(line_num);
-            const total = jsRef.current.getModel().getLineCount();
-            console.log(total);
-            const code = props.javaCode.split(/\r\n|\r|\n/);
-            for (var i = jsRef.current.getPosition().lineNumber; i <= total; i++) {
-                console.log(i);
-                //console.log(jsRef.current.getModel().getLineContent(i));
-                console.log(jsRef.current.getPosition().lineNumber + line_num + i);
-                jsRef.current.executeEdits("", [{
-                    range:{startLineNumber:jsRef.current.getPosition().lineNumber + line_num + i,startColumn:1,endLineNumber:jsRef.current.getPosition().lineNumber + line_num + i,endColumn:1},
-                    text: `${jsRef.current.getModel().getLineContent(i)}\n`,
-                    forceMoveMarkers: true
-                    }]);
-
-            }
-            //props.insertJavascriptCode(res.data.code);
-            for (var i = jsRef.current.getPosition().lineNumber; i < line_num; i++) {
-                jsRef.current.executeEdits("", [{
-                    range:{startLineNumber:jsRef.current.getPosition().lineNumber + i,startColumn:jsRef.current.getPosition().column,endLineNumber:jsRef.current.getPosition().lineNumber + i,endColumn:1000},
-                    text: "",
-                    forceMoveMarkers: true
-                    }]);
-                jsRef.current.executeEdits(props.query, [{
-                    range:{startLineNumber:jsRef.current.getPosition().lineNumber + i,startColumn:jsRef.current.getPosition().column,endLineNumber:jsRef.current.getPosition().lineNumber + i,endColumn:line_list[i].length},
-                    text: line_list[i],
-                    forceMoveMarkers: true
-                    }]);
-
-            }
+            props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: res.data.code});
         } 
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
             props.addHTMLCode(res.data.code);
         } else {
-            props.insertHTMLCode(res.data.code);
+            props.insertHTMLCode({index: jsRef.current.getPosition().lineNumber, code: res.data.code});
         } 
       } else {
         if (props.cssCode.length === 0) {
             props.addCSSCode(res.data.code);
         } else {
-            props.insertCSSCode(res.data.code);
+            props.insertCSSCode({index: jsRef.current.getPosition().lineNumber, code: res.data.code});
         } 
       }
     });

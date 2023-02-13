@@ -1,3 +1,4 @@
+import { useActionData } from 'react-router';
 import { ActionTypes } from '../actions';
 
 const projectState = {
@@ -13,6 +14,17 @@ const projectState = {
   comments: [""],
   id: "",
 };
+
+function insertCodeHelper(index, newCode, oldCode) {
+  const c = oldCode.split(/\r\n|\r|\n/);
+  const l = newCode.split(/\r\n|\r|\n/);
+  var idx = index;
+  for (var i = 0; i < l.length; i++) {
+    c.splice(idx, 0, l[i]);
+    idx++;
+  }
+  return c.join('\n');
+}
 
 const ProjectReducer = (state = projectState, action) => {
   switch (action.type) {
@@ -30,15 +42,18 @@ const ProjectReducer = (state = projectState, action) => {
     case ActionTypes.ADD_JAVASCRIPT_CODE:
       return { ...state, javaCode: action.payload };
     case ActionTypes.INSERT_JAVASCRIPT_CODE:
-      return { ...state, javaCode: state.javaCode + action.payload };
+      const newJS = insertCodeHelper(action.payload.index, action.payload.code, state.javaCode);
+      return { ...state, javaCode: newJS };
     case ActionTypes.ADD_HTML_CODE:
       return { ...state, htmlCode: action.payload };
     case ActionTypes.INSERT_HTML_CODE:
-      return { ...state, htmlCode: state.htmlCode + action.payload };
+      const newHTML = insertCodeHelper(action.payload.index, action.payload.code, state.htmlCode);
+      return { ...state, htmlCode: newHTML };
     case ActionTypes.ADD_CSS_CODE:
       return { ...state, cssCode: action.payload };
     case ActionTypes.INSERT_CSS_CODE:
-      return { ...state, cssCode: state.cssCode + action.payload };
+      const newCSS = insertCodeHelper(action.payload.index, action.payload.code, state.cssCode);
+      return { ...state, cssCode: newCSS };
     case ActionTypes.ADD_PROJECT_ID:
       return { ...state, id: action.payload };
     case ActionTypes.ADD_PROJECT_TITLE:
