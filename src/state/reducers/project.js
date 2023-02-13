@@ -35,7 +35,6 @@ const ProjectReducer = (state = projectState, action) => {
         id: action.payload._id,
         title: action.payload.title,
         tags: action.payload.tags,
-        ...action.payload,
       };
     case ActionTypes.ADD_JAVASCRIPT_CODE:
       return { ...state, javaCode: action.payload };
