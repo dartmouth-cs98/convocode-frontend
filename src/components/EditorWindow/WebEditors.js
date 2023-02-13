@@ -20,7 +20,7 @@ import './webEditor.css';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import './index.css'
-import Tour from '/Users/williamperez/Documents/GitHub/convocode-frontend/src/components/EditorWindow/Onboarding/Tour.js'
+import Tour from '../EditorWindow/Onboarding/Tour.js'
 
 // import { lazy } from 'react';
 
