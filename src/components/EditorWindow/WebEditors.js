@@ -17,6 +17,11 @@ import './webEditor.css';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import './index.css'
+import Tour from '/Users/williamperez/Documents/GitHub/convocode-frontend/src/components/EditorWindow/Onboarding/Tour.js'
+
+// import { lazy } from 'react';
+
+
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
@@ -40,6 +45,8 @@ const WebEditors = (props) => {
   const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
   const [outputSelection, setOutputSelection] = useState("output");
+  
+  // const Tour = lazy(() => import('/Users/williamperez/Documents/GitHub/convocode-frontend/src/components/EditorWindow/Onboarding/Tour.js'));
   
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
@@ -203,12 +210,13 @@ const WebEditors = (props) => {
   }
 
   return (
-    <div className='WebEditorApp'>
+    <div className='stop1 WebEditorApp'>
         {console.log(currentLanguage)}
-        <HeaderBar/>
+        <HeaderBar />
+        <Tour />
         <div className='commandBar'>
           {/* <input placeholder="My Project Title" value={title} onChange={handleTitleChange}></input> */}
-          <input className="commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
+          <input className="stop2 commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
           <form className='languageSelect'> 
             <select onChange={handleLangSwitch}>  
               <option value = "html" > HTML   
@@ -234,7 +242,7 @@ const WebEditors = (props) => {
         </div>
        
         <div className="web-editor-container">
-          <div className="editor">
+          <div className="stop3 editor">
             <CodeEditor
                 language={"javascript"}
                 theme={theme}
@@ -246,6 +254,7 @@ const WebEditors = (props) => {
                 language={"html"}
                 theme={theme}
                 width="100%"
+            
             />
           
           </div>
@@ -273,7 +282,7 @@ const WebEditors = (props) => {
           </Tabs>
         
         </div>
- 
+      
  
     </div>
   );
