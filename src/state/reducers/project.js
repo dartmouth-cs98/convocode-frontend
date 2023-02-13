@@ -28,7 +28,7 @@ function insertCodeHelper(index, newCode, oldCode) {
   return c.join('\n');
 }
 
-const ProjectReducer = (state = projectState, action) => {
+const ProjectReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case ActionTypes.LOAD_PROJECT:
