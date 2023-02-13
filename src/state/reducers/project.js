@@ -1,40 +1,81 @@
+import { useActionData } from 'react-router';
 import { ActionTypes } from '../actions';
 
 const projectState = {
-  javascript: "",
-  html: "",
-  css: "",
-  projectId: "",
-  projectTitle: "",
-  projectDescription: "",
-  projectTag: "",
+  title: "",
+  description: "",
+  tags: "",
+  javaCode: "",
+  htmlCode: "",
+  cssCode: "",
   cleanedCode: "",
+  status: Boolean,
+  likes: Number,
+  username: "",
+  comments: [""],
+  id: "",
 };
+
+function insertCodeHelper(index, newCode, oldCode) {
+  const c = oldCode.split(/\r\n|\r|\n/);
+  const l = newCode.split(/\r\n|\r|\n/);
+  var idx = index;
+  for (var i = 0; i < l.length; i++) {
+    c.splice(idx, 0, l[i]);
+    idx++;
+  }
+  return c.join('\n');
+}
 
 const ProjectReducer = (state = projectState, action) => {
   switch (action.type) {
+    case ActionTypes.LOAD_PROJECT:
+      return {
+        javaCode: action.payload.javaCode,
+        htmlCode: action.payload.htmlCode,
+        cssCode: action.payload.cssCode,
+        id: action.payload._id,
+        title: action.payload.title,
+        description: action.payload.description,
+        tags: action.payload.tags,
+        ...action.payload,
+      };
+    case ActionTypes.CREATE_PROJECT:
+      return {
+        javaCode: action.payload.javaCode,
+        htmlCode: action.payload.htmlCode,
+        cssCode: action.payload.cssCode,
+        id: action.payload._id,
+        title: action.payload.title,
+        tags: action.payload.tags,
+      };
     case ActionTypes.ADD_JAVASCRIPT_CODE:
-      return { ...state, javascript: action.payload };
+      return { ...state, javaCode: action.payload };
     case ActionTypes.INSERT_JAVASCRIPT_CODE:
-      return { ...state, javascript: state.javascript + action.payload };
+      const newJS = insertCodeHelper(action.payload.index, action.payload.code, state.javaCode);
+      return { ...state, javaCode: newJS };
     case ActionTypes.ADD_HTML_CODE:
-      return { ...state, html: action.payload };
+      return { ...state, htmlCode: action.payload };
     case ActionTypes.INSERT_HTML_CODE:
-      return { ...state, html: state.html + action.payload };
+      const newHTML = insertCodeHelper(action.payload.index, action.payload.code, state.htmlCode);
+      return { ...state, htmlCode: newHTML };
     case ActionTypes.ADD_CSS_CODE:
-      return { ...state, css: action.payload };
+      return { ...state, cssCode: action.payload };
     case ActionTypes.INSERT_CSS_CODE:
-      return { ...state, css: state.css + action.payload };
+      const newCSS = insertCodeHelper(action.payload.index, action.payload.code, state.cssCode);
+      return { ...state, cssCode: newCSS };
     case ActionTypes.ADD_PROJECT_ID:
-      return { ...state, projectId: action.payload };
+      return { ...state, id: action.payload };
     case ActionTypes.ADD_PROJECT_TITLE:
-      return { ...state, projectTitle: action.payload };
+      return { ...state, title: action.payload };
     case ActionTypes.ADD_PROJECT_DESCRIPTION:
-      return { ...state, projectDescription: action.payload };
+      return { ...state, description: action.payload };
     case ActionTypes.ADD_PROJECT_TAG:
-      return { ...state, projectTag: action.payload};
+      return { ...state, tags: action.payload };
     case ActionTypes.ADD_CLEANED_CODE:
-      return {...state, cleanedCode: action.payload};
+      return {...state, cleanedCode: action.payload};      
+    case ActionTypes.ADD_PROJECT_STATUS:
+      return { ...state, status: action.payload };
 
     default:
       return state;

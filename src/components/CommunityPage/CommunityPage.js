@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect } from "react";
 import { connect } from 'react-redux';
 import HeaderBar from "../HeaderBar/HeaderBar";
-// import ReactSearchBox from "react-search-box";
-import Post from "./Post.js"
+import PostCard from "./PostCard"
+import { loadProjects } from "../../state/actions";
 import axios from 'axios';
 
 import './community.css'
@@ -14,87 +13,75 @@ const CommunityPage = (props) => {
   // Set-up for testing until we have functionality to click on project and open pop-up
   function commentOnProject() {
 
-      // request to create comment
-      axios.request({
-        method: "POST",
-        url: `http://localhost:8000/api/comment`,
-        data: {
-          username: "fakeusername",
-          commentBody: "cs70 test",
+    // request to create comment
+    axios.request({
+      method: "POST",
+      url: `http://localhost:8000/api/comment`,
+      data: {
+        username: "fakeusername",
+        commentBody: "cs70 test",
       }
-      }).then((res) => {
-        const commentId = res.data;
-        console.log("created new comment, now adding comment id to project")
-        console.log(commentId);
-        // now update project with the new comment (send comment id)
-        axios.request({
-          method: "PUT",
-          url: `http://localhost:8000/api/project/:id`,
-          data: {
-            commentId: commentId,
-            // when you click on the project, it will grab the projectId
-            projectId: "63dac16ed40cb88013a722d6"
+    }).then((res) => {
+      const commentId = res.data;
+      console.log("created new comment, now adding comment id to project")
+      console.log(commentId);
+      // now update project with the new comment (send comment id)
+      axios.request({
+        method: "PUT",
+        url: `http://localhost:8000/api/project/:id`,
+        data: {
+          commentId: commentId,
+          // when you click on the project, it will grab the projectId
+          projectId: "63dac16ed40cb88013a722d6"
         }
-        }).then((res) => {
-          console.log("added comment id to project!")
-          console.log("here's the project id")
-          console.log(res.data);
+      }).then((res) => {
+        console.log("added comment id to project!")
+        console.log("here's the project id")
+        console.log(res.data);
       });
-      });
-    }
-    
+    });
+  }
+
   // TO DO: remove hard-coded test data
   // Set-up for testing until we have functionality to click on project and open pop-up
   function commentOnComment() {
 
-      // Two tasks: create a new comment then update original comment this one is replying to
-      // request to create comment
+    // Two tasks: create a new comment then update original comment this one is replying to
+    // request to create comment
+    axios.request({
+      method: "POST",
+      url: `http://localhost:8000/api/comment`,
+      data: {
+        username: "fakeusername",
+        commentBody: "this is a comment on another comment",
+      }
+    }).then((res) => {
+      const commentId = res.data;
+      console.log("created new comment, now adding comment id to original comment")
+      console.log(commentId);
+      // now update project with the new comment (send comment id)
       axios.request({
-        method: "POST",
+        method: "PUT",
         url: `http://localhost:8000/api/comment`,
         data: {
-          username: "fakeusername",
-          commentBody: "this is a comment on another comment",
-      }
-      }).then((res) => {
-        const commentId = res.data;
-        console.log("created new comment, now adding comment id to original comment")
-        console.log(commentId);
-        // now update project with the new comment (send comment id)
-        axios.request({
-          method: "PUT",
-          url: `http://localhost:8000/api/comment`,
-          data: {
-            replyCommentId: commentId,
-            // when you hit reply, it will grab the original comment id
-            commentId: "63dac1f4d40cb88013a722e0"
+          replyCommentId: commentId,
+          // when you hit reply, it will grab the original comment id
+          commentId: "63dac1f4d40cb88013a722e0"
         }
-        }).then((res) => {
-          console.log("added comment id to comment!")
-          console.log("here's the original comment id")
-          console.log(res.data);
+      }).then((res) => {
+        console.log("added comment id to comment!")
+        console.log("here's the original comment id")
+        console.log(res.data);
       });
-      });
-    
-  }
-  
-  // get all posts from database
-
-  const [projects, setProjects] = useState([]);
-
-  function getProjects(){
-    axios.request({
-      method: "GET",
-      url: `http://localhost:8000/api/project`
-    }).then((res) => {
-      // have some sort of popup or change the button to like "code saved!" or something
-      setProjects(res.data);
     });
+
   }
 
   useEffect(() => {
-    getProjects();
-  }, [projects]);
+    props.loadProjects();
+  }, []);
+
+  console.log(props.projects)
 
   return (
     <div data-theme={props.lightMode ? 'light' : 'dark'}>
@@ -107,13 +94,15 @@ const CommunityPage = (props) => {
         <div>
           SEARCH BAR
         </div>
-        <button className="pink" onClick={() => { 
-             commentOnComment();
-          }} >FOR TESTING ONLY Comment on Project</button>
+        <button className="pink" onClick={() => {
+          commentOnComment();
+        }} >FOR TESTING ONLY Comment on Project</button>
         <div className="post-content">
           {
-            projects.slice(0).reverse().map((item, idx) => {
-              return (<Post title={item.title} user={item.username} tag={item.tags} likes={item.likes} key={idx} />)
+            props.projects.map((item) => {
+              return (
+                <PostCard item={item} key={item.id} />
+              )
             })
           }
         </div>
@@ -124,7 +113,8 @@ const CommunityPage = (props) => {
 const mapStateToProps = (reduxstate) => {
   return {
     lightMode: reduxstate.settings.lightMode,
+    projects: reduxstate.community.projects,
   };
 };
 
-export default connect(mapStateToProps, {})(CommunityPage);
+export default connect(mapStateToProps, { loadProjects })(CommunityPage);

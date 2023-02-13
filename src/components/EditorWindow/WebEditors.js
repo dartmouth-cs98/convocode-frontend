@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import protect from '@freecodecamp/loop-protect';
 import * as Babel from '@babel/standalone';
+import React, { useState, useRef } from 'react';
 import CodeEditor from './CodeEditor';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
@@ -18,8 +19,13 @@ import multiTab from '../../resources/MultiTab.svg';
 import axios from 'axios';
 import './webEditor.css';
 import HeaderBar from '../HeaderBar/HeaderBar';
-
+import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import './index.css'
+import Tour from '/Users/williamperez/Documents/GitHub/convocode-frontend/src/components/EditorWindow/Onboarding/Tour.js'
+
+// import { lazy } from 'react';
+
+
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
@@ -46,6 +52,48 @@ const WebEditors = (props) => {
   const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
   const [errorLine, setErrorLine] = useState(0);
+
+  const [outputSelection, setOutputSelection] = useState("output");
+
+  const jsRef = useRef(null);
+  const monacoRef = useRef(null);
+  const cssRef = useRef(null);
+  const htmlRef = useRef(null);
+
+  function handleJSDidMount(editor, monaco) {
+    jsRef.current = editor;
+    console.log(jsRef);
+    monacoRef.current = monaco;
+
+    editor.onDidChangeModelContent ( e => {
+        console.log(editor.getModel());
+
+    });
+  }
+
+  function handleCSSDidMount(editor, monaco) {
+    cssRef.current = editor;
+    console.log(cssRef);
+
+    editor.onDidChangeModelContent ( e => {
+        console.log(editor.getModel());
+
+    });
+  }
+
+  function handleHTMLDidMount(editor, monaco) {
+    htmlRef.current = editor;
+    console.log(htmlRef);
+
+    editor.onDidChangeModelContent ( e => {
+        console.log(editor.getModel());
+
+    });
+  }
+
+
+  
+  // const Tour = lazy(() => import('/Users/williamperez/Documents/GitHub/convocode-frontend/src/components/EditorWindow/Onboarding/Tour.js'));
   
   const jsRef = useRef(null);
   const monacoRef = useRef(null);
@@ -110,24 +158,31 @@ const WebEditors = (props) => {
       console.log(res);
       console.log(res.data.code);
       console.log(res.data.text);
+      const line_list = res.data.code.split(/\r\n|\r|\n/);
+      console.log(line_list);
+      const last_line = line_list[line_list.length - 1];
+      const line_num = res.data.code.split(/\r\n|\r|\n/).length;
+      const last_column = last_line.length;
 
       if (currentLanguage === "javascript") {
-        if (props.javascriptCode.length === 0) {
+        if (props.javaCode.length === 0) {
             props.addJavascriptCode(res.data.code);
         } else {
-            props.insertJavascriptCode(res.data.code);
+            props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: res.data.code});
         } 
+        
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
             props.addHTMLCode(res.data.code);
         } else {
-            props.insertHTMLCode(res.data.code);
+            console.log(htmlRef.current.getPosition().lineNumber);
+            props.insertHTMLCode({index: htmlRef.current.getPosition().lineNumber, code: res.data.code});
         } 
       } else {
         if (props.cssCode.length === 0) {
             props.addCSSCode(res.data.code);
         } else {
-            props.insertCSSCode(res.data.code);
+            props.insertCSSCode({index: cssRef.current.getPosition().lineNumber, code: res.data.code});
         } 
       }
     });
@@ -208,6 +263,65 @@ const WebEditors = (props) => {
           });
     }
     
+  const toggleModal = () => {
+    setModalShow(modalShow => !modalShow);
+  };
+
+  // Function to call the compile endpoint
+  // this is for python: keep in case we want to add back in
+  function submitCode() {
+
+    // reset output if it exists
+    if (outputDetails) {
+      setOutputDetails(null)
+    }
+
+
+    // Post request to compile endpoint
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/compiler`, {
+      source_code: props.code
+    }).then((res) => {
+      console.log("here");
+      console.log(res);
+      console.log(`id of compiling: ${res.data.token}`);
+      checkStatus(res.data);
+    }).catch((err) => {
+      let error = err.response ? err.response.data : err;
+      console.log(error);
+    })
+  }
+  // 
+  const checkStatus = async (id) => {
+    console.log("here");
+    // Get request to compile endpoint
+    console.log(id);
+
+    try {
+      let response = await axios.request(`${process.env.REACT_APP_BACKEND_URL}/compiler/${id.token}`);
+      console.log(response.data);
+      let status = response.status;
+      console.log(status)
+      // Processed - we have a result
+      if (status === 201) {
+        // still processing
+        console.log('still processing');
+        setTimeout(() => {
+          checkStatus(id)
+        }, 2000)
+        return
+      } else {
+        console.log(response);
+        if (response.data.status === 3) {
+          console.log(response.data.description);
+          setOutputDetails(response.data.stdout);
+        } else {
+          setOutputDetails(response.data.description + ":" + response.data.stderr);
+        }
+        return
+      }
+    } catch (err) {
+      console.log("err", err);
+    }
   }
 
   const handleTitleChange = (event) => {
@@ -231,12 +345,13 @@ const WebEditors = (props) => {
   }
 
   return (
-    <div className='WebEditorApp'>
+    <div className='stop1 WebEditorApp'>
         {console.log(currentLanguage)}
-        <HeaderBar/>
+        <HeaderBar />
+        <Tour />
         <div className='commandBar'>
-          <input placeholder="My Project Title" value={title} onChange={handleTitleChange}></input>
-          <input className="commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
+          {/* <input placeholder="My Project Title" value={title} onChange={handleTitleChange}></input> */}
+          <input className="stop2 commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
           <form className='languageSelect'> 
             <select onChange={handleLangSwitch}>  
               <option value = "html" > HTML   
@@ -254,14 +369,15 @@ const WebEditors = (props) => {
           {/* <button className="pink" onClick={() => { 
                 saveCode();
                 }}>Save</button> */}
-          <ProjectModal></ProjectModal>
+          {/* <ProjectModal></ProjectModal> */}
           <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
-          {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> :
-          <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> 
-          }
+          {/* {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> : 
+          // <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> */}
+         <ProjectModal></ProjectModal>
         </div>
+       
         <div className="web-editor-container">
-          <div className="editor">
+          <div className="stop3 editor">
             <CodeEditor
                 language={"javascript"}
                 theme={theme}
@@ -274,6 +390,7 @@ const WebEditors = (props) => {
                 language={"html"}
                 theme={theme}
                 width="100%"
+                mount={handleHTMLDidMount}
             />
           
           </div>
@@ -282,11 +399,28 @@ const WebEditors = (props) => {
                 language={"css"}
                 theme={theme}
                 width="100%"
+                mount={handleCSSDidMount}
             />
            
           </div>
+          
         </div>
-        <WebOutput theme={theme}/>
+        <div>
+          <Tabs id="tabs">
+            <TabList>
+              <Tab id="output">output</Tab>
+              <Tab id="console">console</Tab>
+            </TabList>
+            <TabPanel>
+              <div className='tab-output'>
+              <WebOutput theme={theme}/>
+              </div>
+            </TabPanel>
+          </Tabs>
+        
+        </div>
+      
+ 
     </div>
   );
 };
@@ -294,11 +428,11 @@ const WebEditors = (props) => {
 const mapStateToProps = (reduxstate) => {
   return { 
     code: reduxstate.code.string, 
-    javascriptCode: reduxstate.project.javascript,
-    htmlCode: reduxstate.project.html,
-    cssCode: reduxstate.project.css,
-    projectId: reduxstate.project.projectId,
-    projectTitle: reduxstate.project.projectTitle,
+    javaCode: reduxstate.project.javaCode,
+    htmlCode: reduxstate.project.htmlCode,
+    cssCode: reduxstate.project.cssCode,
+    id: reduxstate.project.id,
+    title: reduxstate.project.title,
     cleanedCode: reduxstate.project.cleanedCode,
  };
 };

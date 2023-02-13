@@ -45,6 +45,7 @@ const WebOutput = (props) => {
   }, [props.htmlCode, props.cssCode, props.javascriptCode, props.cleanedCode]);
 
 
+
   return (
     <div className="output-window" >
       <div className="output-header">
@@ -66,9 +67,9 @@ const WebOutput = (props) => {
 
 const mapStateToProps = (reduxstate) => {
     return {
-      javascriptCode: reduxstate.project.javascript,
-      htmlCode: reduxstate.project.html,
-      cssCode: reduxstate.project.css,
+      javaCode: reduxstate.project.javaCode,
+      htmlCode: reduxstate.project.htmlCode,
+      cssCode: reduxstate.project.cssCode,
       cleanedCode: reduxstate.project.cleanedCode,
     };
   };
