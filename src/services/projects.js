@@ -100,3 +100,45 @@ export const getLikedProjects = async () => {
     throw error;
   }
 };
+
+/**
+ * @description increments like count of a project
+ * @param id project id
+ * @returns {Promise<Object>} API response
+ */
+export const likeProject = async (id) => {
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/like/${id}`;
+
+  try {
+    const { data } = await axios.put(url);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+/**
+ * @description creates a project 
+ * @param projectInfo new project data fields
+ * @returns {Promise<Object>} API response
+ */
+export const createNewProject = async (projectInfo) => {
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}`;
+  const userToken = getAuthTokenFromStorage();
+  console.log("axois post project", userToken)
+
+  try {
+    const { data } = await axios.post(url, projectInfo, {
+      headers: {
+        authorization: userToken
+      },
+    });
+
+    console.log("proj servce", data)
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

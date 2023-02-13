@@ -52,6 +52,7 @@ import {
   addProjectDescription,
   addProjectTag,
   addProjectStatus,
+  createProject,
 } from './project';
 
 const ActionTypes = {
@@ -90,4 +91,5 @@ export {
   loadProjects,
   loadUserProjects,
   loadLikedProjects,
+  createProject
 }

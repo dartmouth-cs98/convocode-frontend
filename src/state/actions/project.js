@@ -1,7 +1,8 @@
-import { getProject, getUserProjects } from "../../services/projects";
+import { getProject, createNewProject } from "../../services/projects";
 
 export const ActionTypes = {
   LOAD_PROJECT: 'LOAD_PROJECT',
+  CREATE_PROJECT: 'CREATE_PROJECT',
   ADD_JAVASCRIPT_CODE: 'ADD_JAVASCRIPT_CODE',
   INSERT_JAVASCRIPT_CODE: 'INSERT_JAVASCRIPT_CODE',
   ADD_HTML_CODE: 'ADD_HTML_CODE',
@@ -13,7 +14,6 @@ export const ActionTypes = {
   ADD_PROJECT_DESCRIPTION: 'ADD_PROJECT_DESCRIPTION',
   ADD_PROJECT_TAG: 'ADD_PROJECT_TAG',
   ADD_PROJECT_STATUS: 'ADD_PROJECT_STATUS',
-
 };
 
 /**
@@ -33,7 +33,25 @@ export const loadProject = (id) => {
     }
   };
 };
-  
+
+/**
+ * @description generates a new project
+ * @param newProject the data 
+ */
+export const createProject = (newProject) => {
+  return async (dispatch) => {
+    try {
+      const data = await createNewProject(newProject);
+      if (data) {
+        console.log("created", data)
+      }
+      dispatch({ type: ActionTypes.CREATE_PROJECT, payload: data });
+    } catch (error) {
+      console.log(error)
+    }
+  };
+};
+
 /**
  * @description update the code string
  */
