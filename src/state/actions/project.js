@@ -14,6 +14,7 @@ export const ActionTypes = {
   ADD_PROJECT_DESCRIPTION: 'ADD_PROJECT_DESCRIPTION',
   ADD_PROJECT_TAG: 'ADD_PROJECT_TAG',
   ADD_PROJECT_STATUS: 'ADD_PROJECT_STATUS',
+  CLEAR_PROJECT_DATA: 'CLEAR_PROJECT_DATA',
   ADD_CLEANED_CODE: 'ADD_CLEANED_CODE'
 };
 
@@ -159,5 +160,14 @@ export const addProjectTag = (input) => {
 export const addProjectStatus = (input) => {
   return (dispatch) => {
     dispatch({ type: ActionTypes.ADD_PROJECT_STATUS, payload: input });
+  };
+};
+
+/**
+ * @description clears project data
+ */
+export const clearProject = () => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.CLEAR_PROJECT_DATA, payload: {} });
   };
 };

@@ -1,7 +1,7 @@
 import { useActionData } from 'react-router';
 import { ActionTypes } from '../actions';
 
-const projectState = {
+const initialState = {
   title: "",
   description: "",
   tags: "",
@@ -16,6 +16,7 @@ const projectState = {
   id: "",
 };
 
+
 function insertCodeHelper(index, newCode, oldCode) {
   const c = oldCode.split(/\r\n|\r|\n/);
   const l = newCode.split(/\r\n|\r|\n/);
@@ -28,6 +29,7 @@ function insertCodeHelper(index, newCode, oldCode) {
 }
 
 const ProjectReducer = (state = projectState, action) => {
+
   switch (action.type) {
     case ActionTypes.LOAD_PROJECT:
       return {
@@ -76,7 +78,8 @@ const ProjectReducer = (state = projectState, action) => {
       return {...state, cleanedCode: action.payload};      
     case ActionTypes.ADD_PROJECT_STATUS:
       return { ...state, status: action.payload };
-
+    case ActionTypes.CLEAR_PROJECT_DATA:
+      return { ...initialState };
     default:
       return state;
   }

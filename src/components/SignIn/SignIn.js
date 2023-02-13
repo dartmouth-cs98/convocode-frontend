@@ -17,6 +17,7 @@ const SignUp = (props) => {
   const handleSubmit = (event) => {
     try {
       props.login(event.target[0].value, event.target[1].value);
+      // add other user stuff in redux here
     } catch (error) {
       console.log("Unable to sign up at this time:", error)
     }

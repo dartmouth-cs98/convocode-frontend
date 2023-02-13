@@ -2,7 +2,8 @@ import { getUserProjects, getLikedProjects } from '../../services/projects'
 
 export const ActionTypes = {
   LOAD_USER_PROJECTS: 'LOAD_USER_PROJECTS',
-  LOAD_LIKED_PROJECTS: 'LOAD_LIKED_PROJECTS'
+  LOAD_LIKED_PROJECTS: 'LOAD_LIKED_PROJECTS',
+  CLEAR_PROFILE_DATA: 'CLEAR_PROFILE_DATA',
 };
 
 /**
