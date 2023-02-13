@@ -146,14 +146,6 @@ export const addProjectTag = (input) => {
 };
 
 
-   /**
-   * @description add project tag
-   */
-    export const addProjectTag = (input) => {
-      return (dispatch) => {
-        dispatch({ type: ActionTypes.ADD_PROJECT_TAG, payload: input });
-      };
-    };
 
     export const addCleanedJavascript = (input) => {
       return (dispatch) => {
