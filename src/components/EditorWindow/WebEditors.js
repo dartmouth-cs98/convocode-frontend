@@ -43,6 +43,8 @@ const WebEditors = (props) => {
 
   const jsRef = useRef(null);
   const monacoRef = useRef(null);
+  const cssRef = useRef(null);
+  const htmlRef = useRef(null);
 
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
@@ -54,6 +56,28 @@ const WebEditors = (props) => {
 
     });
   }
+
+  function handleCSSDidMount(editor, monaco) {
+    cssRef.current = editor;
+    console.log(cssRef);
+
+    editor.onDidChangeModelContent ( e => {
+        console.log(editor.getModel());
+
+    });
+  }
+
+  function handleHTMLDidMount(editor, monaco) {
+    htmlRef.current = editor;
+    console.log(htmlRef);
+
+    editor.onDidChangeModelContent ( e => {
+        console.log(editor.getModel());
+
+    });
+  }
+
+
   
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
@@ -88,24 +112,24 @@ const WebEditors = (props) => {
       const last_column = last_line.length;
 
       if (currentLanguage === "javascript") {
-        //const offset = jsRef.current.getOffsetAt({ lineNumber: jsRef.current.getPosition().lineNumber, column: jsRef.current.getPosition().column });
-        //console.log(offset);
         if (props.javaCode.length === 0) {
             props.addJavascriptCode(res.data.code);
         } else {
             props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: res.data.code});
         } 
+        
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
             props.addHTMLCode(res.data.code);
         } else {
-            props.insertHTMLCode({index: jsRef.current.getPosition().lineNumber, code: res.data.code});
+            console.log(htmlRef.current.getPosition().lineNumber);
+            props.insertHTMLCode({index: htmlRef.current.getPosition().lineNumber, code: res.data.code});
         } 
       } else {
         if (props.cssCode.length === 0) {
             props.addCSSCode(res.data.code);
         } else {
-            props.insertCSSCode({index: jsRef.current.getPosition().lineNumber, code: res.data.code});
+            props.insertCSSCode({index: cssRef.current.getPosition().lineNumber, code: res.data.code});
         } 
       }
     });
@@ -182,37 +206,6 @@ const WebEditors = (props) => {
     props.addProjectTitle(newTitle);
   };
 
-  const handleJSChange = (event) => {
-    // 👇 Get input value from "event"
-    setJSQuery(event.target.value);
-  };
-
-  const handleCSSChange = (event) => {
-    // 👇 Get input value from "event"
-    setCSSQuery(event.target.value);
-  };
-
-  const handleHTMLChange = (event) => {
-    // 👇 Get input value from "event"
-    setHTMLQuery(event.target.value);
-  };
-
-  const submitJavascript = () => {
-    handleSubmitCode("javascript");
-    setJSQuery("");
-
-  };
-
-  const submitCSS = () => {
-    handleSubmitCode("css");
-    setCSSQuery("");
-  };
-
-  const submitHTML = () => {
-    handleSubmitCode("html");
-    setHTMLQuery("");
-  }
-
   // handles input text changes
   const handleQueryChange = (event) => {
     setQuery(event.target.value);
@@ -268,6 +261,7 @@ const WebEditors = (props) => {
                 language={"html"}
                 theme={theme}
                 width="100%"
+                mount={handleHTMLDidMount}
             />
           
           </div>
@@ -276,6 +270,7 @@ const WebEditors = (props) => {
                 language={"css"}
                 theme={theme}
                 width="100%"
+                mount={handleCSSDidMount}
             />
            
           </div>
