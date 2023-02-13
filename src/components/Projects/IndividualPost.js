@@ -6,6 +6,7 @@ import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, Red
 import { loadProject } from "../../state/actions/project";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import HeaderBar from "../HeaderBar/HeaderBar"
+import CodePreview from './CodePreview';
 import like from "../../resources/lightning-bold.png"
 import down from "../../resources/down.png"
 import copy from "../../resources/copy.png"
@@ -123,13 +124,19 @@ const IndividualPost = (props) => {
               </TabList>
 
               <TabPanel>
-                <span>{props.project.htmlCode}</span>
+                <CodePreview
+                  language={"html"}
+                />
               </TabPanel>
               <TabPanel>
-                <span>{props.project.cssCode}</span>
+                <CodePreview
+                  language={"css"}
+                />
               </TabPanel>
               <TabPanel>
-                <span>{props.project.javaCode}</span>
+                <CodePreview
+                  language={"java"}
+                />
               </TabPanel>
             </Tabs>
           </div>
