@@ -1,6 +1,6 @@
 // RECORDER: https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import CodeEditor from './CodeEditor';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
@@ -45,6 +45,44 @@ const WebEditors = (props) => {
   const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
   const [outputSelection, setOutputSelection] = useState("output");
+
+  const jsRef = useRef(null);
+  const monacoRef = useRef(null);
+  const cssRef = useRef(null);
+  const htmlRef = useRef(null);
+
+  function handleJSDidMount(editor, monaco) {
+    jsRef.current = editor;
+    console.log(jsRef);
+    monacoRef.current = monaco;
+
+    editor.onDidChangeModelContent ( e => {
+        console.log(editor.getModel());
+
+    });
+  }
+
+  function handleCSSDidMount(editor, monaco) {
+    cssRef.current = editor;
+    console.log(cssRef);
+
+    editor.onDidChangeModelContent ( e => {
+        console.log(editor.getModel());
+
+    });
+  }
+
+  function handleHTMLDidMount(editor, monaco) {
+    htmlRef.current = editor;
+    console.log(htmlRef);
+
+    editor.onDidChangeModelContent ( e => {
+        console.log(editor.getModel());
+
+    });
+  }
+
+
   
   // const Tour = lazy(() => import('/Users/williamperez/Documents/GitHub/convocode-frontend/src/components/EditorWindow/Onboarding/Tour.js'));
   
@@ -74,24 +112,31 @@ const WebEditors = (props) => {
       console.log(res);
       console.log(res.data.code);
       console.log(res.data.text);
+      const line_list = res.data.code.split(/\r\n|\r|\n/);
+      console.log(line_list);
+      const last_line = line_list[line_list.length - 1];
+      const line_num = res.data.code.split(/\r\n|\r|\n/).length;
+      const last_column = last_line.length;
 
       if (currentLanguage === "javascript") {
         if (props.javaCode.length === 0) {
             props.addJavascriptCode(res.data.code);
         } else {
-            props.insertJavascriptCode(res.data.code);
+            props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: res.data.code});
         } 
+        
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
             props.addHTMLCode(res.data.code);
         } else {
-            props.insertHTMLCode(res.data.code);
+            console.log(htmlRef.current.getPosition().lineNumber);
+            props.insertHTMLCode({index: htmlRef.current.getPosition().lineNumber, code: res.data.code});
         } 
       } else {
         if (props.cssCode.length === 0) {
             props.addCSSCode(res.data.code);
         } else {
-            props.insertCSSCode(res.data.code);
+            props.insertCSSCode({index: cssRef.current.getPosition().lineNumber, code: res.data.code});
         } 
       }
     });
@@ -168,37 +213,6 @@ const WebEditors = (props) => {
     props.addProjectTitle(newTitle);
   };
 
-  const handleJSChange = (event) => {
-    // 👇 Get input value from "event"
-    setJSQuery(event.target.value);
-  };
-
-  const handleCSSChange = (event) => {
-    // 👇 Get input value from "event"
-    setCSSQuery(event.target.value);
-  };
-
-  const handleHTMLChange = (event) => {
-    // 👇 Get input value from "event"
-    setHTMLQuery(event.target.value);
-  };
-
-  const submitJavascript = () => {
-    handleSubmitCode("javascript");
-    setJSQuery("");
-
-  };
-
-  const submitCSS = () => {
-    handleSubmitCode("css");
-    setCSSQuery("");
-  };
-
-  const submitHTML = () => {
-    handleSubmitCode("html");
-    setHTMLQuery("");
-  }
-
   // handles input text changes
   const handleQueryChange = (event) => {
     setQuery(event.target.value);
@@ -247,6 +261,7 @@ const WebEditors = (props) => {
                 language={"javascript"}
                 theme={theme}
                 width="100%"
+                mount={handleJSDidMount}
             />
           </div>
           <div className="editor">
@@ -254,7 +269,7 @@ const WebEditors = (props) => {
                 language={"html"}
                 theme={theme}
                 width="100%"
-            
+                mount={handleHTMLDidMount}
             />
           
           </div>
@@ -263,6 +278,7 @@ const WebEditors = (props) => {
                 language={"css"}
                 theme={theme}
                 width="100%"
+                mount={handleCSSDidMount}
             />
            
           </div>
