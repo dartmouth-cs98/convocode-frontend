@@ -1,6 +1,6 @@
 import { ActionTypes } from '../actions';
 
-const projectState = {
+const initialState = {
   title: "",
   description: "",
   tags: "",
@@ -14,7 +14,7 @@ const projectState = {
   id: "",
 };
 
-const ProjectReducer = (state = projectState, action) => {
+const ProjectReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.LOAD_PROJECT:
       return {
@@ -49,7 +49,8 @@ const ProjectReducer = (state = projectState, action) => {
       return { ...state, tags: action.payload };
     case ActionTypes.ADD_PROJECT_STATUS:
       return { ...state, status: action.payload };
-
+    case ActionTypes.CLEAR_PROJECT_DATA:
+      return { ...initialState };
     default:
       return state;
   }

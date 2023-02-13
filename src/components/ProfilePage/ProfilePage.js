@@ -15,12 +15,9 @@ import './profile.css'
 
 const ProfilePage = (props) => {
 
-  useEffect(() => {
-    props.loadUserProjects();
-    props.loadLikedProjects();
-  }, []);
+  // const [projectDescription, setProjectDescription] = useState("");
+  // const [projectTag, setProjectTag] = useState("");
 
-  //console.log(props.projects)
   return (
     <div className="profile-page" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />
@@ -28,18 +25,18 @@ const ProfilePage = (props) => {
         <div>
           <div className="user-header">
             <div id="col" style={{ justifyContent: "space-between" }}>
-              <h1>Welcome, User!</h1>
+              <h1>Welcome, {props.user.username}</h1>
               <button id="settings">Settings <img src={settings} /></button>
             </div>
             <div id="col">
               <div className="user-info" id="bus-border">
-                Advanced Coder
+              {props.user.status} 
               </div>
               <div className="user-info" id="grape-border">
-                300 Projects
+              {props.user.projectCount} Projects
               </div>
               <div className="user-info" id="easy-a-border">
-                300 Liked
+              {props.user.likeCount} Liked
               </div>
             </div>
           </div>
@@ -59,7 +56,7 @@ const ProfilePage = (props) => {
                 <Tab>Liked</Tab>
                 <div className="post-content">
                 {
-                  props.authoredProjects.map((item) => {
+                  props.likedProjects.map((item) => {
                     return (
                       <PostCard item={item} key={item.id} />
                     )
@@ -76,11 +73,6 @@ const ProfilePage = (props) => {
             </Tabs>
           </div>
         </div>
-        <div className="popular">
-          <div className="pop-header">
-            <h4>Popular Right Now</h4>
-          </div>
-        </div>
       </div>
     </div >
   );
@@ -89,9 +81,9 @@ const mapStateToProps = (reduxstate) => {
   return {
     lightMode: reduxstate.settings.lightMode,
     user: reduxstate.user,
-    authoredProjects: reduxstate.profile.authoredProjects,
-    likedProjects: reduxstate.profile.likedProjects,
+    authoredProjects: reduxstate.user.authoredProjects,
+    likedProjects: reduxstate.user.likedProjects,
   };
 };
 
-export default connect(mapStateToProps, { loadUserProjects, loadLikedProjects })(ProfilePage);
+export default connect(mapStateToProps, {})(ProfilePage);

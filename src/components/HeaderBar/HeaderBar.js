@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signOut } from '../../state/actions/user';
+import { clearProject } from '../../state/actions/project';
 
 import "./header.css"
 
@@ -29,7 +30,7 @@ const HeaderBar = (props) => {
                 <NavLink to="/"><h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1></NavLink>
                 <div className='header-buttons'>
                   <NavLink to="/community"><button id="community">Community</button></NavLink>
-                  <NavLink to="/editor" state={{ name: "newfile.py" }}><button id="IDE">Open IDE</button></NavLink>
+                  <NavLink to="/editor" state={{ name: "newfile.py" }}><button id="IDE" onClick={props.clearProject}>Open IDE</button></NavLink>
                   <NavLink to="/profile"><button id="profile">@{props.user.username}</button></NavLink>
                 </div>
               </>
@@ -55,4 +56,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { signOut })(HeaderBar);
+export default connect(mapStateToProps, { signOut, clearProject })(HeaderBar);

@@ -18,6 +18,7 @@ const SUBROUTE = 'user';
  * @returns {Promise<Object>} API response
  */
 export const UserServicesLogin = async (email, password) => {
+  console.log("in user serves login")
   const url = `http://localhost:8000/api/user/signin`;
 
   try {
@@ -31,6 +32,7 @@ export const UserServicesLogin = async (email, password) => {
       setAuthTokenInStorage(data.token);
       setUserIdInStorage(data.user.username);
     }
+
     return data.user;
   } catch (error) {
     throw error;
@@ -183,6 +185,70 @@ export const getAllUsers = async () => {
     });
 
     const { data } = response;
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+/**
+ * @description loads user authored projects from the db
+ * @param id user id
+ * @returns {Promise<Object>} API response
+ */
+export const getUserProjects = async () => {
+
+  console.log("now in projects services")
+  const userToken = getAuthTokenFromStorage();
+  console.log("do we have auth token yet");
+  console.log(userToken)
+
+  const url = `http://localhost:8000/api/project/userprojects`;
+
+  try {
+    console.log('trying to get all user projects!');
+
+    const { data } = await axios.get(url, {
+      headers: {
+        authorization: userToken
+      },
+    });
+
+    console.log("back from getUserProjects request")
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+/**
+ * @description loads user authored projects from the db
+ * @returns {Promise<Object>} API response
+ */
+export const getLikedProjects = async () => {
+
+  console.log("now in projects services")
+  const userToken = getAuthTokenFromStorage();
+  console.log(userToken)
+
+  const url = `http://localhost:8000/api/project/likedprojects`;
+
+  try {
+    console.log('trying to get all liked projects!');
+
+    const { data } = await axios.get(url, {
+      headers: {
+        authorization: userToken
+      },
+    });
+
+    console.log("back from getLikedProjects request")
+    console.log(data);
 
     return data;
   } catch (error) {

@@ -1,8 +1,11 @@
-import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp } from "../../services/user.js"
+import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, getLikedProjects, getUserProjects } from "../../services/user.js"
 
 export const ActionTypes = {
   SET_USER_DATA: 'SET_USER_DATA',
+  SET_AUTHORED_PROJECTS: 'SET_AUTHORED_PROJECTS',
+  SET_LIKED_PROJECTS: 'SET_LIKED_PROJECTS',
   CLEAR_USER_DATA: 'CLEAR_USER_DATA',
+  CLEAR_PROFILE_DATA: 'CLEAR_PROFILE_DATA',
   API_ERROR: 'API_ERROR',
 };
 
@@ -22,6 +25,21 @@ export const login = (email, password, onSuccess = () => { }, onError = () => { 
       if (data) {
         dispatch({ type: ActionTypes.SET_USER_DATA, payload: data });
       }
+
+      // get authored projects from backend
+      const authoredProjects = await getUserProjects();
+
+      if (authoredProjects) {
+        dispatch({ type: ActionTypes.SET_AUTHORED_PROJECTS, payload: authoredProjects });
+      }
+
+      // get authored projects from backend
+      const likedProjects = await getLikedProjects();
+
+      if (likedProjects) {
+        dispatch({ type: ActionTypes.SET_LIKED_PROJECTS, payload: likedProjects });
+      }
+
       onSuccess();
     } catch (error) {
       console.log(error)
@@ -50,6 +68,8 @@ export const signup = (email, password, username, onSuccess = () => { }, onError
     try {
       const data = await UserServicesSignUp(email, password, username);
       if (data) {
+        console.log("user data on signup")
+        console.log(data)
         dispatch({ type: ActionTypes.SET_USER_DATA, payload: data });
       }
       onSuccess();
@@ -95,5 +115,6 @@ export const signOut = () => {
   return (dispatch) => {
     UserServicesSignOut();
     dispatch({ type: ActionTypes.CLEAR_USER_DATA, payload: {} });
+    dispatch({ type: ActionTypes.CLEAR_PROFILE_DATA, payload: {} });
   };
 };
