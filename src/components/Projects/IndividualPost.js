@@ -1,24 +1,55 @@
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, RedditShareButton, RedditIcon, EmailShareButton, EmailIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
-import { loadProject } from "../../state/actions/project";
+import { createProject, loadProject } from "../../state/actions/project";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import HeaderBar from "../HeaderBar/HeaderBar"
+import CodePreview from './CodePreview';
 import like from "../../resources/lightning-bold.png"
 import down from "../../resources/down.png"
 import copy from "../../resources/copy.png"
 
 
 import './individualPost.css'
+import { likeProject } from "../../services/projects";
 
 const IndividualPost = (props) => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     setOpen(!open);
   };
+
+  const openInIDE = () => {
+    console.log("open in ide")
+    //check if signed in 
+    if (props.user.username === '') {
+      alert("Please sign in before opening a new project.")
+    } else {
+      //likeProject(props.project._id)
+
+      if (props.user.projects.includes(props.project._id) !== 1) {
+        console.log("not my project")
+
+        const projectInfo = {
+          title: `Copy of ${props.project.title}`,
+          javaCode: props.project.javaCode,
+          htmlCode: props.project.htmlCode,
+          cssCode: props.project.cssCode,
+          tags: props.project.tags,
+        }
+
+        console.log("new project to create", projectInfo)
+
+        props.createProject(projectInfo)
+
+      }
+      navigate('/editor')
+    }
+  }
 
   let { id } = useParams();
   console.log(id);
@@ -32,7 +63,9 @@ const IndividualPost = (props) => {
     props.loadProject(id);
   }, []);
 
-  let tag = props.project.tags.length > 0 ? props.project.tags[0].toString().toLowerCase() : "undefined"
+  // let tag = props.project.tags.length > 0 ? props.project.tags[0].toString().toLowerCase() : "undefined"
+
+  let tag = "undefined"
 
   console.log(props.project)
   return (
@@ -58,7 +91,7 @@ const IndividualPost = (props) => {
                     <span>{props.project.likes}</span>
                   </div>
                 </div>
-                <button className="pink-button" id="right">Open in IDE</button>
+                <button className="pink-button" id="right" onClick={openInIDE}>Open in IDE</button>
               </div>
               <div className="flex-row" style={{ "justify-content": "space-between" }}>
                 <div className="flex-col">
@@ -123,13 +156,19 @@ const IndividualPost = (props) => {
               </TabList>
 
               <TabPanel>
-                <span>{props.project.htmlCode}</span>
+                <CodePreview
+                  language={"html"}
+                />
               </TabPanel>
               <TabPanel>
-                <span>{props.project.cssCode}</span>
+                <CodePreview
+                  language={"css"}
+                />
               </TabPanel>
               <TabPanel>
-                <span>{props.project.javaCode}</span>
+                <CodePreview
+                  language={"java"}
+                />
               </TabPanel>
             </Tabs>
           </div>
@@ -146,4 +185,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { loadProject })(IndividualPost);
+export default connect(mapStateToProps, { loadProject, createProject })(IndividualPost);

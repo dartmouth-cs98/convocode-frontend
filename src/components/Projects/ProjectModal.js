@@ -57,8 +57,8 @@ const ProjectModal = (props) => {
         const htmlCode = props.htmlCode;
         const cssCode = props.cssCode;
         const status = props.status;
-        const username = props.user.username;
         const userToken = getAuthTokenFromStorage();
+        const cleanedCode = props.cleanedCode;
 
         // check if project id
         const id = props.id;
@@ -77,6 +77,7 @@ const ProjectModal = (props) => {
               htmlCode: htmlCode,
               cssCode: cssCode,
               status: status,
+              cleanedCode: cleanedCode,
           },
           { headers: { authorization: userToken } }
           ).then((res) => {
@@ -100,6 +101,7 @@ const ProjectModal = (props) => {
                   htmlCode: htmlCode,
                   cssCode: cssCode,
                   status: status,
+                  cleanedCode: cleanedCode,
               },
               { headers: { authorization: userToken } }
               ).then((res) => {
@@ -112,7 +114,7 @@ const ProjectModal = (props) => {
 
     return (
         <div>
-            <button onClick={handleModalToggle} className="pink">Post</button>
+            <button onClick={handleModalToggle} className="stop4 pink">Post</button>
             <div className="project-modal">
                 <ReactModal className="edit-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
                     <div className="modal-container">
@@ -196,6 +198,7 @@ const mapStateToProps = (reduxstate) => {
       tag: reduxstate.project.tags,
       status: reduxstate.project.status,
       user: reduxstate.user,
+      cleanedCode: reduxstate.project.cleanedCode,
    };
   };
   export default connect(mapStateToProps, { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, addProjectStatus })(ProjectModal);

@@ -7,10 +7,10 @@ import { connect } from 'react-redux';
 import { addCode } from "../../state/actions";
 import { addJavascriptCode, addHTMLCode, addCSSCode } from "../../state/actions";
 
-import './index.css'
+import '../EditorWindow/index.css'
 
 
-const CodeEditor = (props) => {
+const CodePreview = (props) => {
   const defaults = {
     javascript: "// Javascript Editor",
     css: "/* CSS Editor */",
@@ -29,34 +29,21 @@ const CodeEditor = (props) => {
 
 
   const handleEditorChange = (value) => {
-    if (props.language === "javascript") {
-      props.addJavascriptCode(value);
-    } else if (props.language === "html") {
-      props.addHTMLCode(value);
-    } else if (props.language === "css") {
-      props.addCSSCode(value);
-    } else {
-      props.addCode(value);
-    }
+    alert("Open in IDE to edit code.")
   };
 
 
   return (
     <div className="overlay rounded-md w-full h-full shadow-4xl">
-      <div className='html-header'>{props.language}</div>
       <Editor
         className="bottom-rounded"
-        height="45vh"
-        width={props.width}
+        height="70vh"
+        width="100%"
         language={props.language || "python"}
         value={editor_state}
         theme={props.lightMode ? 'vs-light' : 'vs-dark'}
         defaultValue={defaults[props.language]}
         onChange={handleEditorChange}
-        onMount={props.mount}
-        options={{
-          fontSize: props.fontSize
-        }}
       />
     </div>
   );
@@ -74,4 +61,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, addHTMLCode, addCSSCode })(CodeEditor);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, addHTMLCode, addCSSCode })(CodePreview);
