@@ -6,6 +6,8 @@ const initialState = {
   projects: [],
   likes: [],
   lightMode: true,
+  projectCount: 0,
+  likeCount: 0,
 };
 
 const UserReducer = (state = initialState, action) => {

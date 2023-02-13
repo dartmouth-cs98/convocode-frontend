@@ -17,6 +17,8 @@ export const login = (email, password, onSuccess = () => { }, onError = () => { 
   return async (dispatch) => {
     try {
       const data = await UserServicesLogin(email, password);
+      console.log("got user data!")
+      console.log(data);
       if (data) {
         dispatch({ type: ActionTypes.SET_USER_DATA, payload: data });
       }

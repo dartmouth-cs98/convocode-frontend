@@ -16,7 +16,7 @@ import './profile.css'
 const ProfilePage = (props) => {
 
   useEffect(() => {
-    //props.loadUserProjects();
+    props.loadUserProjects();
     props.loadLikedProjects();
   }, []);
 
