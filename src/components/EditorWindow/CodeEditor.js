@@ -53,6 +53,7 @@ const CodeEditor = (props) => {
         theme={props.lightMode ? 'vs-light' : 'vs-dark'}
         defaultValue={defaults[props.language]}
         onChange={handleEditorChange}
+        onMount={props.mount}
         options={{
           fontSize: props.fontSize
         }}

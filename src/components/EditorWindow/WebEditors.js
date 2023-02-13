@@ -1,5 +1,8 @@
 // RECORDER: https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
 
+import React, { useState, useEffect, useRef } from 'react';
+import protect from '@freecodecamp/loop-protect';
+import * as Babel from '@babel/standalone';
 import React, { useState, useRef } from 'react';
 import CodeEditor from './CodeEditor';
 import { connect } from 'react-redux';
@@ -8,6 +11,7 @@ import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
 import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addProjectId, addProjectTitle } from '../../state/actions';
+import { addCleanedJavascript } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
@@ -29,6 +33,9 @@ import { getSuggestedQuery } from '@testing-library/react';
 import ProjectModal from '../Projects/ProjectModal';
 dotenv.config({ silent: true });
 
+
+
+
 const WebEditors = (props) => {
 
   // getting code from nav link props
@@ -44,6 +51,8 @@ const WebEditors = (props) => {
   const [currentLanguage, setCurrentLanguage] = useState("html");
   const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
+  const [errorLine, setErrorLine] = useState(0);
+
   const [outputSelection, setOutputSelection] = useState("output");
 
   const jsRef = useRef(null);
@@ -86,6 +95,43 @@ const WebEditors = (props) => {
   
   // const Tour = lazy(() => import('/Users/williamperez/Documents/GitHub/convocode-frontend/src/components/EditorWindow/Onboarding/Tour.js'));
   
+  const jsRef = useRef(null);
+  const monacoRef = useRef(null);
+
+  useEffect(() => {
+    try {
+        // rewrite the user's JavaScript to protect loops
+        var processed = transform(props.javascriptCode);
+        console.log(processed);
+        props.addCleanedJavascript(processed.code);
+        /* if (monacoRef.current) {
+            var line = jsRef.current.getPosition().lineNumber;
+            console.log(line);
+            var markers = [{
+                severity: monacoRef.current.MarkerSeverity.Warning,
+                message: `Possible infinite loop near line ${line}!`,
+                startLineNumber: line,
+                startColumn: 1,
+                endLineNumber: line,
+                endColumn: jsRef.current.getModel().getLineLength(line) + 1
+            }];
+            monacoRef.current.editor.setModelMarkers(jsRef.current.getModel(), "owner", markers);
+        } */
+    } catch {
+        console.log("code incomplete, can't transform");
+    }
+
+  }, [props.javascriptCode]);
+
+
+  // TODO: handle delete, handle paste
+  function handleJSDidMount(editor, monaco) {
+    jsRef.current = editor;
+    console.log(jsRef);
+    monacoRef.current = monaco;
+  }
+
+
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
     // send user input to get code from openai
@@ -142,6 +188,81 @@ const WebEditors = (props) => {
     });
   }
 
+
+  const callback = line => {
+    alert(`Possible infinite loop near line ${line}`);
+  }
+
+  const timeout = 100;
+  Babel.registerPlugin('loopProtection', protect(timeout, callback));
+  const transform = source => Babel.transform(source, {
+    plugins: ['loopProtection'],
+  });
+
+
+  //const transform = source => Babel.transform(source, {plugins: ['loopProtection'], }).code;
+
+
+  function saveCode() {
+
+    // TO DO: get username, title, description, and tags
+
+    // get java, html, css code, and title from ide page
+    const java_code = props.javascriptCode;
+    const html_code = props.htmlCode;
+    const css_code = props.cssCode;
+    const projectTitle = props.projectTitle;
+
+    // check if project id
+    const projectId = props.projectId;
+    console.log(projectId);
+
+    if (projectId == "") {
+      // no project id yet, create new project
+
+      // send post information to the backend 
+      axios.request({
+        method: "POST",
+        url: `http://localhost:8000/api/project`,
+        data: {
+          user: "fakeusernameslay",
+          title: projectTitle,
+          description: "fakedescription",
+          tags: "medium",
+          java_code: java_code,
+          html_code: html_code,
+          css_code: css_code,
+      }
+      }).then((res) => {
+        // have some sort of popup or change the button to like "code saved!" or something
+        console.log("code saved!")
+        console.log(res.data);
+        props.addProjectId(res.data);
+      });
+      
+    } else {
+          // project already exists, update in database instead
+
+          // send post information to the backend 
+          const requestUrl = "http://localhost:8000/api/project/:id";
+          axios.request({
+            method: "PUT",
+            url: requestUrl,
+            data: {
+              projectId: projectId,
+              title: projectTitle,
+              description: "fakedescription",
+              tags: "medium",
+              java_code: java_code,
+              html_code: html_code,
+              css_code: css_code,
+          }
+          }).then((res) => {
+            // have some sort of popup or change the button to like "code saved!" or something
+            console.log("code saved!")
+          });
+    }
+    
   const toggleModal = () => {
     setModalShow(modalShow => !modalShow);
   };
@@ -282,7 +403,7 @@ const WebEditors = (props) => {
             />
            
           </div>
-          {/* <WebOutput theme={theme}/> */}
+          
         </div>
         <div>
           <Tabs id="tabs">
@@ -312,7 +433,8 @@ const mapStateToProps = (reduxstate) => {
     cssCode: reduxstate.project.cssCode,
     id: reduxstate.project.id,
     title: reduxstate.project.title,
+    cleanedCode: reduxstate.project.cleanedCode,
  };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript })(WebEditors);

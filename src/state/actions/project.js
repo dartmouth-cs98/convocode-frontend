@@ -14,6 +14,7 @@ export const ActionTypes = {
   ADD_PROJECT_DESCRIPTION: 'ADD_PROJECT_DESCRIPTION',
   ADD_PROJECT_TAG: 'ADD_PROJECT_TAG',
   ADD_PROJECT_STATUS: 'ADD_PROJECT_STATUS',
+  ADD_CLEANED_CODE: 'ADD_CLEANED_CODE'
 };
 
 /**
@@ -143,6 +144,22 @@ export const addProjectTag = (input) => {
     dispatch({ type: ActionTypes.ADD_PROJECT_TAG, payload: input });
   };
 };
+
+
+   /**
+   * @description add project tag
+   */
+    export const addProjectTag = (input) => {
+      return (dispatch) => {
+        dispatch({ type: ActionTypes.ADD_PROJECT_TAG, payload: input });
+      };
+    };
+
+    export const addCleanedJavascript = (input) => {
+      return (dispatch) => {
+        dispatch({ type: ActionTypes.ADD_CLEANED_CODE, payload: input});
+      }
+    }
 
 /**
 * @description add project status
