@@ -98,7 +98,7 @@ const WebEditors = (props) => {
   useEffect(() => {
     try {
         // rewrite the user's JavaScript to protect loops
-        var processed = transform(props.javascriptCode);
+        var processed = transform(props.javaCode);
         console.log(processed);
         props.addCleanedJavascript(processed.code);
         /* if (monacoRef.current) {
@@ -118,7 +118,7 @@ const WebEditors = (props) => {
         console.log("code incomplete, can't transform");
     }
 
-  }, [props.javascriptCode]);
+  }, [props.javaCode]);
 
 
 
