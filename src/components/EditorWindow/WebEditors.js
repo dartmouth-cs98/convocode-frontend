@@ -21,6 +21,7 @@ import HeaderBar from '../HeaderBar/HeaderBar';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import './index.css'
 import Tour from '../EditorWindow/Onboarding/Tour.js'
+import OutputWindow from './OutputWindow'
 
 // import { lazy } from 'react';
 
@@ -201,7 +202,7 @@ const WebEditors = (props) => {
   // Function to call the compile endpoint
   // this is for python: keep in case we want to add back in
   function submitCode() {
-
+    
     // reset output if it exists
     if (outputDetails) {
       setOutputDetails(null)
@@ -209,8 +210,8 @@ const WebEditors = (props) => {
 
 
     // Post request to compile endpoint
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/compiler`, {
-      source_code: props.code
+    axios.post(`${process.env.REACT_APP_ROOT_URL}/compiler`, {
+      source_code: props.javaCode
     }).then((res) => {
       console.log("here");
       console.log(res);
@@ -223,12 +224,11 @@ const WebEditors = (props) => {
   }
   // 
   const checkStatus = async (id) => {
-    console.log("here");
     // Get request to compile endpoint
     console.log(id);
 
     try {
-      let response = await axios.request(`${process.env.REACT_APP_BACKEND_URL}/compiler/${id.token}`);
+      let response = await axios.request(`${process.env.REACT_APP_ROOT_URL}/compiler/${id.token}`);
       console.log(response.data);
       let status = response.status;
       console.log(status)
@@ -344,6 +344,11 @@ const WebEditors = (props) => {
             <TabPanel>
               <div className='tab-output'>
               <WebOutput theme={theme}/>
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className='tab-output'>
+              <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode}/>
               </div>
             </TabPanel>
           </Tabs>
