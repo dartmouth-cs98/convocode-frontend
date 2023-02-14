@@ -47,9 +47,10 @@ export const getUserProjects = async () => {
 
   console.log("now in projects services")
   const userToken = getAuthTokenFromStorage();
+  console.log("do we have auth token yet");
   console.log(userToken)
 
-  const url = `http://localhost:8000/api/project/userprojects`;
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/userprojects`;
 
   try {
     console.log('trying to get all user projects!');
@@ -80,7 +81,7 @@ export const getLikedProjects = async () => {
   const userToken = getAuthTokenFromStorage();
   console.log(userToken)
 
-  const url = `http://localhost:8000/api/project/likedprojects`;
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/likedprojects`;
 
   try {
     console.log('trying to get all liked projects!');

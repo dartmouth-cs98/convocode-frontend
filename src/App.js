@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import WebEditors from './components/EditorWindow/WebEditors';
 import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
@@ -26,6 +26,7 @@ function App() {
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/project/:id" element={<IndividualPost />} />
+        <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </Router>
   );
