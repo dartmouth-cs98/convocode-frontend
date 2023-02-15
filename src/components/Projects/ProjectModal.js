@@ -16,6 +16,7 @@ const ProjectModal = (props) => {
     const [projectTitle, setProjectTitle] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [projectTag, setProjectTag] = useState("");
+    const [tags, setTags] = useState([]);
 
     const projectTags= ["easy", "medium", "hard"];
 
@@ -39,6 +40,19 @@ const ProjectModal = (props) => {
         const newDescription = event.target.value;
         setProjectDescription(newDescription);
         props.addProjectDescription(newDescription);
+    };
+
+    const handleAddTags = (event) => {
+        if (event.key === "Enter" && event.target.value !== ""){
+            const newTag = event.target.value;
+            setTags([...tags, newTag]);
+            event.target.value = "";
+        }
+    };
+
+    const handleRemoveTags = (index) => {
+        setTags([...tags.filter(tag => tags.indexOf(tag) !== index)]);
+
     };
 
     function saveCode(buttonType) {
@@ -122,16 +136,31 @@ const ProjectModal = (props) => {
                             <div className="project-details">
                                 <div className="project-detail">
                                 <label className="label-header">Project Level</label>
-                                <div className="tags">
-                                    { projectTags.map((tag) => {
-                                        return (
-                                        <div className="tag-btn">
-                                            <input type="radio" id={tag} value={tag} name="tags" onChange={handleTagChange}/>
-                                            <label htmlFor={tag} id={tag}>#{tag}</label>
-                                        </div>)
+                                    <div className="tags">
+                                        { projectTags.map((tag) => {
+                                            return (
+                                            <div className="tag-btn">
+                                                <input type="radio" id={tag} value={tag} name="tags" onChange={handleTagChange}/>
+                                                <label htmlFor={tag} id={tag}>#{tag}</label>
+                                            </div>)
                                         })
                                         }
+                                    </div>
                                 </div>
+                                <div className="project-detail">
+                                    <label className="label-header">Project Tags</label>
+                                    <div className="tags-input-container">
+                                        { tags.map((tag, index) => {
+                                            return (
+                                                <div className="tag-item" key={index}>
+                                                <span className="text">{tag}</span>
+                                                <span className="close" onClick={()=>handleRemoveTags(index)}>&times;</span>
+                                            </div>
+                                            )
+                                        })
+                                        }
+                                        <input className="tags-input" type="text" onKeyUp={handleAddTags} placeholder="Press enter to add tags" />
+                                    </div>
                                 </div>
                             <div className="project-detail">
                             <label className="label-header">Project Title</label>
