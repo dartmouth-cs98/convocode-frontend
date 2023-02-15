@@ -24,7 +24,7 @@ const ProjectModal = (props) => {
         setModalShow(!modalShow);
     };
 
-    const handleTagChange = (event) => {
+    const handleLevelChange = (event) => {
         const newTag= event.target.value;
         setProjectTag(newTag);
         props.addProjectTag(newTag);
@@ -43,6 +43,9 @@ const ProjectModal = (props) => {
     };
 
     const handleAddTags = (event) => {
+        if (tags.length === 4) {
+            return (console.error("too many tags"));
+        }
         if (event.key === "Enter" && event.target.value !== ""){
             const newTag = event.target.value;
             setTags([...tags, newTag]);
@@ -52,7 +55,6 @@ const ProjectModal = (props) => {
 
     const handleRemoveTags = (index) => {
         setTags([...tags.filter(tag => tags.indexOf(tag) !== index)]);
-
     };
 
     function saveCode(buttonType) {
@@ -140,28 +142,28 @@ const ProjectModal = (props) => {
                                         { projectTags.map((tag) => {
                                             return (
                                             <div className="tag-btn">
-                                                <input type="radio" id={tag} value={tag} name="tags" onChange={handleTagChange}/>
+                                                <input type="radio" id={tag} value={tag} name="tags" onChange={handleLevelChange}/>
                                                 <label htmlFor={tag} id={tag}>#{tag}</label>
                                             </div>)
                                         })
                                         }
                                     </div>
                                 </div>
-                                <div className="project-detail">
+                                {/* <div className="project-detail"> */}
                                     <label className="label-header">Project Tags</label>
                                     <div className="tags-input-container">
                                         { tags.map((tag, index) => {
                                             return (
                                                 <div className="tag-item" key={index}>
-                                                <span className="text">{tag}</span>
-                                                <span className="close" onClick={()=>handleRemoveTags(index)}>&times;</span>
-                                            </div>
+                                                    <span className="text">#{tag}</span>
+                                                    <span className="close" onClick={()=>handleRemoveTags(index)}>&times;</span>
+                                                </div>
                                             )
                                         })
                                         }
                                         <input className="tags-input" type="text" onKeyUp={handleAddTags} placeholder="Press enter to add tags" />
                                     </div>
-                                </div>
+                                {/* </div> */}
                             <div className="project-detail">
                             <label className="label-header">Project Title</label>
                                 <textarea name="project-title" value={props.projectTitle} onChange={handleTitleChange} rows={4} cols={40}></textarea>
