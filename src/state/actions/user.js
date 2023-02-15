@@ -1,4 +1,5 @@
-import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, getLikedProjects, getUserProjects } from "../../services/user.js"
+import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp } from "../../services/user.js"
+import { getLikedProjects, getUserProjects } from "../../services/projects.js";
 
 export const ActionTypes = {
   SET_USER_DATA: 'SET_USER_DATA',
