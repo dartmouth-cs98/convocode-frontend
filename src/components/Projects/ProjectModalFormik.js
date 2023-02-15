@@ -28,6 +28,8 @@ const ProjectModal = (props) => {
             .required('Required'),
         description: Yup.string()
             .required('Required'),
+        code: Yup.string()
+            .required('Required'),
     });
 
     const handleModalToggle = () => {
