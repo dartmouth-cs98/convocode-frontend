@@ -143,83 +143,47 @@ const ProjectModal = (props) => {
             <button onClick={handleModalToggle} className="stop4 pink">Post</button>
             <div className="project-modal">
                 <ReactModal className="edit-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
-                    <div className="modal-container">
-                        <div className="left-container">
-                            <div className="project-details">
-                                <div className="project-detail">
-                                <label className="label-header">Project Level</label>
-                                    <div className="tags">
-                                        { projectTags.map((tag) => {
-                                            return (
-                                            <div className="tag-btn">
-                                                <input type="radio" id={tag} value={tag} name="tags" onChange={handleLevelChange}/>
-                                                <label htmlFor={tag} id={tag}>#{tag}</label>
-                                            </div>)
-                                        })
-                                        }
-                                    </div>
-                                </div>
-                                <div className="project-detail">
-                                    <label className="label-header">Project Tags</label>
-                                    <div className="tags-input-container">
-                                        { tags.map((tag, index) => {
-                                            return (
-                                                <div className="tag-item" key={index}>
-                                                    <span className="text">#{tag}</span>
-                                                    <span className="close" onClick={()=>handleRemoveTags(index)}>&times;</span>
-                                                </div>
-                                            )
-                                        })
-                                        }
-                                        <input className="tags-input" type="text" onKeyUp={handleAddTags} placeholder="Press enter to add tags" />
-                                    </div>
-                                </div>
-                            <div className="project-detail">
-                            <label className="label-header">Project Title</label>
-                                <textarea name="project-title" value={props.projectTitle} onChange={handleTitleChange} rows={4} cols={40}></textarea>
-                            </div>
-                            <div className="project-detail">
-                            <label className="label-header">Project Description</label>
-                                <textarea name="project-desc" value={projectDescription} onChange={handleDescriptionChange} rows={4} cols={40}></textarea>
-                             </div>
-                            </div>
-                        </div>
-                        <div className="right-container">
-                        <div className="tab-editors">
-                        <label className="label-header">Code Preview</label>
-                        <Tabs id="tabs">
-                            <TabList>
-                                <Tab id="tab">JS</Tab>
-                                <Tab id="tab">HTML</Tab>
-                                <Tab id="tab">CSS</Tab>
-                            </TabList>
-                            <TabPanel>
-                                <div className="tab-editor">
-                                <CodeEditor language={"javascript"} theme={theme} width="100%" />
-                                </div>
-                            </TabPanel>
-                            <TabPanel>
-                                <div className="tab-editor">
-                                <CodeEditor language={"html"} theme={theme} width="100%" />
-                                </div>
-                            </TabPanel>
-                            <TabPanel>
-                                <div className="tab-editor">
-                                <CodeEditor language={"css"} theme={theme} width="100%" />
-                                </div>
-                            </TabPanel>
-                        </Tabs>
-                        </div>
-                        <div className="project-buttons">
-                            <NavLink to="/profile"><button className="light-pink" onClick = {()=>{
-                                saveCode("save");
-                                }}>Save For Later</button></NavLink>
-                            <NavLink to="/profile"><button className="pink" onClick = {()=>{
-                                saveCode("post");
-                                }}>Post</button></NavLink>
-                        </div>
-                        </div>
-                    </div>
+                    <Formik
+                        initialValues={{
+                            level: "",
+                            tags: [""], 
+                            title: '',
+                            description: '',
+                        }}
+                        validationSchema={ProjectSchema} >
+                        {({ errors, touched }) => (
+                            <Form>
+                                <h3>Project Level</h3>
+                                <Field name="level" />
+                                {errors.level && touched.level ? (
+                                    <div role="group" aria-labelledby="my-radio-group">
+                                    <label>
+                                        <Field type="radio" name="level" value="easy" />
+                                        easy
+                                    </label>
+                                    <label>
+                                        <Field type="radio" name="level" value="medium" />
+                                        medium
+                                    </label>
+                                    <label>
+                                        <Field type="radio" name="level" value="hard" />
+                                        hard
+                                    </label>
+                                    </div>  
+                                ) : null}
+                                <h3>Project Title</h3>
+                                <Field name="title" />
+                                {errors.title && touched.title ? (
+                                    <div>{errors.title}</div>
+                                ) : null}
+                                <h3>Project Description</h3>
+                                <Field name="description" />
+                                {errors.description && touched.description ? (
+                                    <div>{errors.description}</div>
+                                ) : null}
+                            </Form>
+                        )}
+                    </Formik>
                 </ReactModal>
             </div>
         </div>
