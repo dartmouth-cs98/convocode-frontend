@@ -17,27 +17,10 @@ const ProjectModal = (props) => {
     const [modalShow, setModalShow] = useState(false);
     const [projectTitle, setProjectTitle] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
-    const [projectTag, setProjectTag] = useState("");
-    const [tags, setTags] = useState([]);
-    const projectTags= ["easy", "medium", "hard"];
-
-    const ProjectSchema = Yup.object().shape({
-        level: Yup.string()
-            .required('Required'),
-        title: Yup.string()
-            .required('Required'),
-        description: Yup.string()
-            .required('Required'),
-    });
+    const [projectTags, setProjectTags] = useState([]);
 
     const handleModalToggle = () => {
         setModalShow(!modalShow);
-    };
-
-    const handleLevelChange = (event) => {
-        const newTag= event.target.value;
-        setProjectTag(newTag);
-        props.addProjectTag(newTag);
     };
 
     const handleTitleChange = (event) => {
@@ -53,29 +36,28 @@ const ProjectModal = (props) => {
     };
 
     const handleAddTags = (event) => {
-        if (tags.length === 4) {
+        if (projectTags.length === 4) {
             return;
         }
-
         if (event.key === "Enter" && event.target.value !== ""){
             const newTag = event.target.value;
-            setTags([...tags, newTag]);
+            setProjectTags([...projectTags, newTag]);
+            props.addProjectTag(newTag);
             event.target.value = "";
         }
     };
 
     const handleRemoveTags = (index) => {
-        setTags([...tags.filter(tag => tags.indexOf(tag) !== index)]);
+        setProjectTags([...projectTags.filter(tag => projectTags.indexOf(tag) !== index)]);
     };
 
     function saveCode(buttonType) {
-
         if (buttonType === "post") {
             props.addProjectStatus(true);
         } else {
             props.addProjectStatus(false);
         }
-    
+
         // get java, html, css code, and title from ide page
         const title = props.title;
         const description = props.description;
@@ -147,22 +129,9 @@ const ProjectModal = (props) => {
                         <div className="left-container">
                             <div className="project-details">
                                 <div className="project-detail">
-                                <label className="label-header">Project Level</label>
-                                    <div className="tags">
-                                        { projectTags.map((tag) => {
-                                            return (
-                                            <div className="tag-btn">
-                                                <input type="radio" id={tag} value={tag} name="tags" onChange={handleLevelChange}/>
-                                                <label htmlFor={tag} id={tag}>#{tag}</label>
-                                            </div>)
-                                        })
-                                        }
-                                    </div>
-                                </div>
-                                <div className="project-detail">
                                     <label className="label-header">Project Tags</label>
                                     <div className="tags-input-container">
-                                        { tags.map((tag, index) => {
+                                        { projectTags.map((tag, index) => {
                                             return (
                                                 <div className="tag-item" key={index}>
                                                     <span className="text">#{tag}</span>
@@ -211,12 +180,12 @@ const ProjectModal = (props) => {
                         </Tabs>
                         </div>
                         <div className="project-buttons">
-                            <NavLink to="/profile"><button className="light-pink" onClick = {()=>{
+                            <button className="light-pink" onClick = {()=>{
                                 saveCode("save");
-                                }}>Save For Later</button></NavLink>
-                            <NavLink to="/profile"><button className="pink" onClick = {()=>{
+                                }}>Save For Later</button>
+                            <button className="pink" onClick = {()=>{
                                 saveCode("post");
-                                }}>Post</button></NavLink>
+                                }}>Post</button>
                         </div>
                         </div>
                     </div>

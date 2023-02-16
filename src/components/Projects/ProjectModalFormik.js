@@ -4,25 +4,26 @@ import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import CodeEditor from '../EditorWindow/CodeEditor';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import './projectModal.css';
 import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, addProjectStatus } from '../../state/actions';
 import axios from 'axios';
 import { getAuthTokenFromStorage } from '../../services/utils.js';
 import { Formik, Form, Field } from 'formik';
+import { useForm } from "react-hook-form";
 import * as Yup from 'yup';
+import 'react-tabs/style/react-tabs.css';
+import './projectModal.css';
+import { dark } from "@mui/material/styles/createPalette";
 
 const ProjectModal = (props) => {
     const [theme] = useState('light');
     const [modalShow, setModalShow] = useState(false);
     const [projectTitle, setProjectTitle] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
-    const [projectTag, setProjectTag] = useState("");
-    const [tags, setTags] = useState([]);
-    const projectTags= ["easy", "medium", "hard"];
+    const [projectTags, setProjectTags] = useState([]);
+    const { register, handleSubmit } = useForm();
 
     const ProjectSchema = Yup.object().shape({
-        level: Yup.string()
+        tags: Yup.array().of(Yup.string())
             .required('Required'),
         title: Yup.string()
             .required('Required'),
@@ -34,12 +35,6 @@ const ProjectModal = (props) => {
 
     const handleModalToggle = () => {
         setModalShow(!modalShow);
-    };
-
-    const handleLevelChange = (event) => {
-        const newTag= event.target.value;
-        setProjectTag(newTag);
-        props.addProjectTag(newTag);
     };
 
     const handleTitleChange = (event) => {
@@ -55,19 +50,33 @@ const ProjectModal = (props) => {
     };
 
     const handleAddTags = (event) => {
-        if (tags.length === 4) {
+        if (projectTags.length === 4) {
             return;
         }
-
         if (event.key === "Enter" && event.target.value !== ""){
             const newTag = event.target.value;
-            setTags([...tags, newTag]);
+            setProjectTags([...projectTags, newTag]);
             event.target.value = "";
         }
     };
 
     const handleRemoveTags = (index) => {
-        setTags([...tags.filter(tag => tags.indexOf(tag) !== index)]);
+        setProjectTags([...projectTags.filter(tag => projectTags.indexOf(tag) !== index)]);
+    };
+
+    function handleKeyDown(event) {
+        if (projectTags.length === 4) {
+            return;
+        }
+        if (event.key !== 'Enter') return
+        const value = event.target.value
+        if (!value.trim()) return
+        setProjectTags([...projectTags, value])
+        event.target.value = ''
+    }
+
+    const onSubmit = (event) => {
+        event.preventdefault();
     };
 
     function saveCode(buttonType) {
@@ -145,47 +154,82 @@ const ProjectModal = (props) => {
             <button onClick={handleModalToggle} className="stop4 pink">Post</button>
             <div className="project-modal">
                 <ReactModal className="edit-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
-                    <Formik
-                        initialValues={{
-                            level: "",
-                            tags: [""], 
-                            title: '',
-                            description: '',
-                        }}
-                        validationSchema={ProjectSchema} >
-                        {({ errors, touched }) => (
-                            <Form>
-                                <h3>Project Level</h3>
-                                <Field name="level" />
-                                {errors.level && touched.level ? (
-                                    <div role="group" aria-labelledby="my-radio-group">
-                                    <label>
-                                        <Field type="radio" name="level" value="easy" />
-                                        easy
-                                    </label>
-                                    <label>
-                                        <Field type="radio" name="level" value="medium" />
-                                        medium
-                                    </label>
-                                    <label>
-                                        <Field type="radio" name="level" value="hard" />
-                                        hard
-                                    </label>
-                                    </div>  
-                                ) : null}
-                                <h3>Project Title</h3>
-                                <Field name="title" />
-                                {errors.title && touched.title ? (
-                                    <div>{errors.title}</div>
-                                ) : null}
-                                <h3>Project Description</h3>
-                                <Field name="description" />
-                                {errors.description && touched.description ? (
-                                    <div>{errors.description}</div>
-                                ) : null}
-                            </Form>
-                        )}
-                    </Formik>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="modal-container">
+                            <div className="left-container">
+                                <div className="project-details">
+                                    <div className="project-detail">
+                                        <label className="label-header">Project Tags</label>
+                                        <div className="tags-input-container">
+                                            { projectTags.map((tag, index) => {
+                                                return (
+                                                    <div className="tag-item" key={index}>
+                                                        <span className="text">#{tag}</span>
+                                                        <span className="close" onClick={()=>handleRemoveTags(index)}>&times;</span>
+                                                    </div>
+                                                    )
+                                                })
+                                            }
+                                            <input className="tags-input" type="text" onKeyDown={handleKeyDown} placeholder="Press enter to add tags"
+                                                {...register("tags", {
+                                                    required: true,
+                                                    maxLength: 4
+                                                })}/>
+                                        </div>
+                                    </div>
+                                    <div className="project-detail">
+                                        <label className="label-header">Project Title</label>
+                                        <textarea name="project-title" value={props.projectTitle} onChange={handleTitleChange} rows={4} cols={40}
+                                            {...register("title", {
+                                                required: true,
+                                                })}/>
+                                    </div>
+                                    <div className="project-detail">
+                                        <label className="label-header">Project Description</label>
+                                        <textarea name="project-desc" value={props.projectDescription} onChange={handleDescriptionChange} rows={4} cols={40}
+                                            {...register("description", {
+                                                required: true,
+                                                 })}/>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div className="right-container">
+                        <div className="tab-editors">
+                        <label className="label-header">Code Preview</label>
+                        <Tabs id="tabs">
+                            <TabList>
+                                <Tab id="tab">JS</Tab>
+                                <Tab id="tab">HTML</Tab>
+                                <Tab id="tab">CSS</Tab>
+                            </TabList>
+                            <TabPanel>
+                                <div className="tab-editor">
+                                <CodeEditor language={"javascript"} theme={theme} width="100%" />
+                                </div>
+                            </TabPanel>
+                            <TabPanel>
+                                <div className="tab-editor">
+                                <CodeEditor language={"html"} theme={theme} width="100%" />
+                                </div>
+                            </TabPanel>
+                            <TabPanel>
+                                <div className="tab-editor">
+                                <CodeEditor language={"css"} theme={theme} width="100%" />
+                                </div>
+                            </TabPanel>
+                        </Tabs>
+                        </div>
+                        <div className="project-buttons">
+                            <button className="light-pink" onClick = {()=>{
+                                saveCode("save");
+                                }}>Save For Later</button>
+                            <button className="pink" onClick = {()=>{
+                                saveCode("post");
+                                }}>Post</button>
+                        </div>
+                        </div>
+                        </div>                       
+                    </form>
                 </ReactModal>
             </div>
         </div>
