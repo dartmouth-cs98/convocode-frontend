@@ -1,4 +1,4 @@
-import { getProject, createNewProject } from "../../services/projects";
+import { getProject, createNewProject, getComments } from "../../services/projects";
 
 export const ActionTypes = {
   LOAD_PROJECT: 'LOAD_PROJECT',
@@ -15,7 +15,8 @@ export const ActionTypes = {
   ADD_PROJECT_TAG: 'ADD_PROJECT_TAG',
   ADD_PROJECT_STATUS: 'ADD_PROJECT_STATUS',
   CLEAR_PROJECT_DATA: 'CLEAR_PROJECT_DATA',
-  ADD_CLEANED_CODE: 'ADD_CLEANED_CODE'
+  ADD_CLEANED_CODE: 'ADD_CLEANED_CODE',
+  ADD_COMMENTS: 'ADD_COMMENTS',
 };
 
 /**
@@ -25,11 +26,20 @@ export const ActionTypes = {
 export const loadProject = (id) => {
   return async (dispatch) => {
     try {
+      console.log("in load project")
       const data = await getProject(id);
       if (data) {
         console.log(data)
       }
+
+      // get comments on project too
+      console.log('try getting comments!')
+      const commentData = await getComments(id);
+      console.log(commentData);
+      
       dispatch({ type: ActionTypes.LOAD_PROJECT, payload: data });
+      dispatch({ type: ActionTypes.ADD_COMMENTS, payload: commentData });
+
     } catch (error) {
       console.log(error)
     }
