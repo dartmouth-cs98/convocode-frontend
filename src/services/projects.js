@@ -1,5 +1,4 @@
 import axios from 'axios';
-//import { getUser } from 'user'
 import { getAuthTokenFromStorage } from './utils.js';
 
 const SUBROUTE = 'project';
