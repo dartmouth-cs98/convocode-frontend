@@ -4,7 +4,7 @@ import { ActionTypes } from '../actions';
 const initialState = {
   title: "",
   description: "",
-  tags: "",
+  tags: [""],
   javaCode: "",
   htmlCode: "",
   cssCode: "",
@@ -13,6 +13,7 @@ const initialState = {
   likes: Number,
   username: "",
   comments: [""],
+  commentObjects: [],
   id: "",
 };
 
@@ -78,6 +79,8 @@ const ProjectReducer = (state = initialState, action) => {
       return {...state, cleanedCode: action.payload};      
     case ActionTypes.ADD_PROJECT_STATUS:
       return { ...state, status: action.payload };
+    case ActionTypes.ADD_COMMENTS:
+      return { ...state, commentObjects: action.payload };
     case ActionTypes.CLEAR_PROJECT_DATA:
       return { ...initialState };
     default:
