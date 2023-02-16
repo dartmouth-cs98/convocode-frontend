@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from 'react-redux';
 import HeaderBar from "../HeaderBar/HeaderBar";
 import PostCard from "./PostCard"
+import AlgoliaSearch from "./AlgoliaSearch"
 import { loadProjects } from "../../state/actions";
 import axios from 'axios';
 
@@ -81,7 +82,6 @@ const CommunityPage = (props) => {
     props.loadProjects();
   }, []);
 
-  console.log(props.projects)
 
   return (
     <div data-theme={props.lightMode ? 'light' : 'dark'}>
@@ -92,7 +92,7 @@ const CommunityPage = (props) => {
           <h4>Pushing the boundaries of how we engage with AI</h4>
         </div>
         <div>
-          SEARCH BAR
+          <AlgoliaSearch />
         </div>
         <button className="pink" onClick={() => {
           commentOnComment();
