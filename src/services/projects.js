@@ -20,6 +20,30 @@ export const getAllProjects = async () => {
 
 
 /**
+ * @description loads searched projects from backend
+ * @returns {Promise<Object>} API response
+ */
+export const searchProjects = async (searchString) => {
+  console.log(searchString);
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/search`;
+  try {
+    const config = {
+      params: {
+        searchString: searchString
+      }
+    };
+   
+    const { data } = await axios.get(url,config);
+    
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
+/**
  * @description loads a project from backend
  * @param id project id
  * @returns {Promise<Object>} API response
