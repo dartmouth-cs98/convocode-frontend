@@ -19,7 +19,7 @@ const SUBROUTE = 'user';
  */
 export const UserServicesLogin = async (email, password) => {
 
-  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/signin`;
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/login`;
 
   try {
     const { data } = await axios.post(url, {

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { login } from '../../state/actions';
 
 import HeaderBar from "../HeaderBar/HeaderBar";
+import ErrorModal from "../Error/ErrorModal";
 
 import './signin.css'
 
@@ -13,15 +14,22 @@ const SignUp = (props) => {
 
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+  const [modalShow, setModalShow] = useState(false);
+  const [error, setError] = useState("")
+
+  const handleModalToggle = () => {
+    setModalShow(!modalShow);
+    setError("");
+  }
 
   const handleSubmit = (event) => {
     try {
       props.login(event.target[0].value, event.target[1].value);
-      // add other user stuff in redux here
     } catch (error) {
       console.log("Unable to sign up at this time:", error)
+      setError(error)
+      modalShow(true)
     }
-    navigate('/')
   }
 
   return (
@@ -29,6 +37,7 @@ const SignUp = (props) => {
       <HeaderBar />
       <div className="content">
         <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
+        <ErrorModal isOpen={modalShow} handleModalToggle={handleModalToggle} title="Sign In" error={error} />
         <form onSubmit={(e) => handleSubmit(e)}>
           <label>
             <h3>Email:</h3>
@@ -49,7 +58,10 @@ const SignUp = (props) => {
   );
 };
 const mapStateToProps = (reduxstate) => {
-  return { lightMode: reduxstate.settings.lightMode };
+  return {
+    lightMode: reduxstate.settings.lightMode,
+    user: reduxstate.user.error
+  };
 };
 
 export default connect(mapStateToProps, { login })(SignUp);
