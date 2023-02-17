@@ -93,6 +93,94 @@ button#right {
   padding: 10px;
 }
 
+.commentcontainer {
+  flex-grow: 2;
+  border-radius: 15px;
+  background-color: var(--grey);
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+}
+
+.comment {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.comment .username {
+  color: var(--black);
+  padding-bottom: 10px;
+}
+
+.comment .timestamp {
+
+
+  color: var(--black);
+
+  align-items: baseline;
+  justify-content: flex-end;
+  padding: 2px;
+}
+
+.comment .commentbody {
+
+  color: var(--black);
+
+  align-items: baseline;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.CommentBox{
+  display: flex;
+  flex-direction: row;
+  padding: 15px 0 15px 20px;
+}
+
+.ReplyBox{
+  display: flex;
+  flex-direction: row;
+  /* padding-left: 60px; */
+  padding: 15px 0 15px 60px;
+}
+
+.leftLine{ 
+  border-right: solid;
+  padding-top: 0.2;
+}
+
+.white-button {
+  background-color: var(--white);
+  align-self: center;
+  color: var(--black);
+}
+
+.discussion-footer {
+  background-color: var(--grey);
+  border-radius: 0px 0px 15px 15px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.1px;
+  color: var(--white);
+  padding: 10px;
+}
+.commentLine1{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+ 
+}
+.commentLine1Text{
+  display: flex;
+  flex-direction: row;
+  margin-right: 15px;
+
+}
+
 .code-header {
   background-color: var(--black);
   border-radius: 15px 15px 0px 0px;
@@ -102,12 +190,6 @@ button#right {
   letter-spacing: 0.1px;
   color: var(--white);
   padding: 10px;
-}
-
-.post-modal-comments {
-  flex-grow: 2;
-  border-radius: 15px;
-  background-color: var(--grey);
 }
 
 .post-modal-code {

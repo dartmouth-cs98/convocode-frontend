@@ -1,4 +1,4 @@
-import { getProject, createNewProject } from "../../services/projects";
+import { getProject, createNewProject, getComments, commentOnProject, commentOnComment } from "../../services/projects";
 
 export const ActionTypes = {
   LOAD_PROJECT: 'LOAD_PROJECT',
@@ -15,7 +15,8 @@ export const ActionTypes = {
   ADD_PROJECT_TAG: 'ADD_PROJECT_TAG',
   ADD_PROJECT_STATUS: 'ADD_PROJECT_STATUS',
   CLEAR_PROJECT_DATA: 'CLEAR_PROJECT_DATA',
-  ADD_CLEANED_CODE: 'ADD_CLEANED_CODE'
+  ADD_CLEANED_CODE: 'ADD_CLEANED_CODE',
+  ADD_COMMENTS: 'ADD_COMMENTS',
 };
 
 /**
@@ -26,10 +27,40 @@ export const loadProject = (id) => {
   return async (dispatch) => {
     try {
       const data = await getProject(id);
-      if (data) {
-        console.log(data)
+
+      // get comments on project too
+      const commentObjects = await getComments(id);
+      console.log("unsorted comment data")
+      console.log(commentObjects);
+
+      // build new array in comment-reply order
+       // they should already be sorted by date as returned by mongoose
+      var sortedComments = [];
+
+      for (const comment of commentObjects) {
+  
+        // check if base comment or reply
+        if (!(comment.replyingTo)) {  // is base comment
+
+            // push base comment
+            sortedComments.push(comment);
+            // get its id
+            const currentCommentId = comment.id;
+            // find its replies
+            const replies = commentObjects.filter(comment => comment.replyingTo == currentCommentId);
+            // push its replies
+            for (const reply of replies) {
+              sortedComments.push(reply);
+            }
+        }
+        // skip if reply 
       }
+      console.log("sorted comments")
+      console.log(sortedComments)
+      
       dispatch({ type: ActionTypes.LOAD_PROJECT, payload: data });
+      dispatch({ type: ActionTypes.ADD_COMMENTS, payload: sortedComments });
+
     } catch (error) {
       console.log(error)
     }
@@ -169,5 +200,41 @@ export const addProjectStatus = (input) => {
 export const clearProject = () => {
   return (dispatch) => {
     dispatch({ type: ActionTypes.CLEAR_PROJECT_DATA, payload: {} });
+  };
+};
+
+/**
+ * @description comment on project - reach through 'Submit' buttom
+ * @param id project id to load
+ */
+export const comment = (projectId, username, commentBody) => {
+
+  return async (dispatch) => {
+    try {
+
+      // add comment to db
+      const data = await commentOnProject(projectId, username, commentBody);
+      console.log(data)
+
+    } catch (error) {
+      console.log(error)
+    }
+  };
+};
+
+/**
+ * @description reply to comment - reached by 'Reply' button
+ * @param id project id to load
+ */
+export const reply = (projectId, commentId, username, commentBody) => {
+  return async (dispatch) => {
+    try {
+      const commentData = await commentOnComment(projectId, commentId, username, commentBody);
+      console.log(commentData);
+
+
+    } catch (error) {
+      console.log(error)
+    }
   };
 };

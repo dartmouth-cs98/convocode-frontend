@@ -2,6 +2,7 @@ import axios from 'axios';
 import { getAuthTokenFromStorage } from './utils.js';
 
 const SUBROUTE = 'project';
+const SUBROUTE_COMMENT = 'comment';
 
 /**
  * @description loads projects from backend
@@ -60,6 +61,55 @@ export const getProject = async (id) => {
     throw error;
   }
 };
+
+/**
+ * @description loads the comments on a project from the backend
+ * @param id project id
+ * @returns {Promise<Object>} API response
+ */
+export const getComments = async (id) => {
+  const requestUrl = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE_COMMENT}/${id}`;
+
+  try {
+
+    // send request to db for project comments
+    const { data } = await axios.get(requestUrl, { projectId: id })
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const commentOnProject = async (projectId, username, commentBody) => {
+
+  const commentInfo = {
+    username: username,
+    commentBody, commentBody
+  }
+
+  const requestUrl = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE_COMMENT}/${projectId}`;
+    // request to create comment
+
+    const { data } = await axios.post(requestUrl, { commentInfo });
+    return data;
+
+  }
+
+export const commentOnComment = async (projectId, commentId, username, commentBody) => {
+
+  const commentInfo = {
+    commentId: commentId,
+    username: username,
+    commentBody, commentBody
+  }
+
+  const requestUrl = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE_COMMENT}/${projectId}`;
+
+  const { data } = await axios.post(requestUrl, { commentInfo });
+  
+  return data;
+
+  }
 
 /**
  * @description loads user authored projects from the db

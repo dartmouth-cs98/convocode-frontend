@@ -10,6 +10,7 @@ import CodePreview from './CodePreview';
 import like from "../../resources/lightning-bold.png"
 import down from "../../resources/down.png"
 import copy from "../../resources/copy.png"
+import CommentCard from "./CommentCard"
 
 
 import './individualPost.css'
@@ -22,6 +23,38 @@ const IndividualPost = (props) => {
   const handleOpen = () => {
     setOpen(!open);
   };
+
+  // // TO DO: test this method which should repopulate props.commentObjects on load
+  // function formatComments() {
+
+  //     const commentObjects = props.project.commentObjects;
+
+  //     // build new array in comment-reply order
+  //      // they should already be sorted by date as returned by mongoose
+  //     var sortedComments = [];
+
+  //     for (const comment of commentObjects) {
+  
+  //       // check if base comment or reply
+  //       if (!(comment.replyingTo)) {  // is base comment
+
+  //           // push base comment
+  //           sortedComments.push(comment);
+  //           // get its id
+  //           const currentCommentId = comment.id;
+  //           // find its replies
+  //           const replies = commentObjects.filter(comment => comment.replyingTo == currentCommentId);
+  //           // push its replies
+  //           for (const reply of replies) {
+  //             sortedComments.push(reply);
+  //           }
+  //       }
+  //       // skip if reply 
+  //     }
+
+  //     //set comments in props to this new sorted array
+  //     props.project.commentObjects = sortedComments;
+  // };
 
   const openInIDE = () => {
     console.log("open in ide")
@@ -139,11 +172,23 @@ const IndividualPost = (props) => {
               }
 
             </div>
-            <div className="post-modal-comments">
-              <div className="discussion-header">Discussions</div>
-              <div>
-
-              </div>
+            <div className="commentcontainer">     
+              <div className="discussion-header">Discussion</div>
+           
+              <div className="comments"> 
+              {
+                props.project.commentObjects.map((item) => {
+                  {console.log('hey')}
+                  {console.log(item.replyingTo)}
+                  return (
+                    
+                      <CommentCard item={item} key={item.id} reply={item.replyingTo} />
+                  
+                  )
+                })
+              }
+            </div>
+              <div className="discussion-footer">An input box goes here</div>
             </div>
           </div>
           <div className="post-modal-code" style={{ "flex-grow": "4" }}>
