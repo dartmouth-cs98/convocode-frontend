@@ -91,7 +91,7 @@ const CommunityPage = (props) => {
           <h1>Welcome to the ConvoDex Community</h1>
           <h4>Pushing the boundaries of how we engage with AI</h4>
         </div>
-        <div>
+        <div className="search">
           <AlgoliaSearch />
         </div>
         <button className="pink" onClick={() => {
