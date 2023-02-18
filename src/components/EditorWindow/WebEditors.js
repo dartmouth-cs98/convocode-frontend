@@ -19,6 +19,7 @@ import HeaderBar from '../HeaderBar/HeaderBar';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import './index.css'
 import Tour from '../EditorWindow/Onboarding/Tour.js'
+import ErrorModal from '../Error/ErrorModal';
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
@@ -34,11 +35,13 @@ const WebEditors = (props) => {
   // getting code from nav link props
   const [theme] = useState("light");
   const [outputDetails, setOutputDetails] = useState(null);
-  const [_modalShow, setModalShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const [error, setError] = useState(null);
   const [_title, setTitle] = useState("");
   const [query, setQuery] = useState("");
   const [currentLanguage, setCurrentLanguage] = useState("html");
   const [loading, setLoading] = useState(false);
+
 
   const jsRef = useRef(null);
   const monacoRef = useRef(null);
@@ -151,6 +154,10 @@ const WebEditors = (props) => {
           props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: res.code });
         }
       }
+    }).catch((error) => {
+      console.log("caught ", error)
+      setError(error)
+      setModalShow(true)
     });
   }
 
@@ -170,7 +177,8 @@ const WebEditors = (props) => {
 
 
   const toggleModal = () => {
-    setModalShow(modalShow => !modalShow);
+    setModalShow(false);
+    setError(null)
   };
 
   const handleTitleChange = (event) => {
@@ -198,6 +206,10 @@ const WebEditors = (props) => {
       {console.log(currentLanguage)}
       <HeaderBar />
       <Tour />
+      {error ?
+        <ErrorModal isOpen={modalShow} handleModalToggle={toggleModal} title="OpenAI API Request" error={error.message} />
+        :
+        <></>}
       <div className='commandBar'>
         {/* <input placeholder="My Project Title" value={title} onChange={handleTitleChange}></input> */}
         <input className="stop2 commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>

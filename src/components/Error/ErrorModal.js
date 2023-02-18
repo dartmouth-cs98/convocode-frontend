@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactModal from 'react-modal';
 
 import error from '../../resources/error.png';
@@ -6,7 +6,7 @@ import './error.css';
 
 const ErrorModal = (props) => {
   return (
-    <ReactModal className="error-modal" isOpen={props.isOpen} onRequestClose={props.handleModalToggle} ariaHideApp={false} onAfterClose={props.onClose}>
+    <ReactModal className="error-modal" isOpen={props.isOpen} onRequestClose={props.handleModalToggle} ariaHideApp={false} onAfterClose={props.onClose ? props.onClose : () => { }}>
       <h1 id="smaller">Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
       <div className="error-content">
         <div className="error-title">
@@ -17,7 +17,7 @@ const ErrorModal = (props) => {
         <p>{props.error}</p>
         <p>Please check your connection and try again.</p>
       </div>
-    </ReactModal>
+    </ReactModal >
   )
 };
 
