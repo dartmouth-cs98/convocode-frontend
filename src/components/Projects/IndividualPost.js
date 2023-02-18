@@ -108,35 +108,39 @@ const IndividualPost = (props) => {
         <div className="post-modal-content">
           <div className="flex-col" style={{ "flex-grow": "1" }}>
             <div className="post-modal-info">
-              <h2>{props.project.title}</h2>
+              <h2 style={{ "margin": "0" }}>{props.project.title}</h2>
+              <div className="flex-col">
+                  <span className="username"style={{ "font-weight": "600", "font-size":"16px"}}>@{props.project.username}</span>
+           
+                </div>
               <span>{props.project.description}</span>
+              <div className="flex-row" style={{ "width": "100%", "justify-content": "left", "alignItems":"center" }}>
+               
+                  <div className="" style={{ "margin-right": 10}}>
+                    <img src={like} />
+                    <span>{props.project.likes}</span>
+                  </div>
+               
+                  <button className="pink-button" id="right" onClick={openInIDE} style={{ "margin-right": "10px"}}>Open in IDE</button>
+                
+                  <CopyToClipboard text={url}>
+                    <button className="sage-button" id="right" style={{ 'margin-right': '10px' }}><img src={copy} /></button>
+                  </CopyToClipboard>
+                  <button className="sage-button" id="right" style={{ "margin-right": "10px"}} onClick={handleOpen}>Share <img src={down} /></button>
+    
+              
+               
+              </div>
               <div className="flex-row" style={{ "justify-content": "space-between" }}>
-                <div className="flex-row" style={{ "align-items": "center" }}>
-                  <div className="tag" id={tag} style={{ "margin": 0 }}>
+              <div className="tag" id={tag} style={{ "margin": "10px 5px"}}>
                     {props.project.tags ? (
                       props.project.tags.map((e, idx) => {
                         return (<span className="tag">#{e.toLowerCase()}</span>)
                       })
                     ) : ""}
                   </div>
-                  <div className="likes" style={{ "margin": 5 }}>
-                    <img src={like} />
-                    <span>{props.project.likes}</span>
-                  </div>
-                </div>
-                <button className="pink-button" id="right" onClick={openInIDE}>Open in IDE</button>
-              </div>
-              <div className="flex-row" style={{ "justify-content": "space-between" }}>
-                <div className="flex-col">
-                  <span className="username">@{props.project.username}</span>
-                  <span>15 posts</span>
-                </div>
-                <div>
-                  <CopyToClipboard text={url}>
-                    <button className="sage-button" id="right" style={{ 'margin-right': '10px' }}><img src={copy} /></button>
-                  </CopyToClipboard>
-                  <button className="sage-button" id="right" onClick={handleOpen}>Share <img src={down} /></button>
-                </div>
+                
+                
               </div>
               {
                 open ?
@@ -175,7 +179,7 @@ const IndividualPost = (props) => {
             <div className="commentcontainer">     
               <div className="discussion-header">Discussion</div>
            
-              <div className="comments"> 
+              <div className="comments" style={{"overflow": "auto", "height":"50vh"}}> 
               {
                 props.project.commentObjects.map((item) => {
                   {console.log('hey')}
@@ -188,7 +192,7 @@ const IndividualPost = (props) => {
                 })
               }
             </div>
-              <div className="discussion-footer">An input box goes here</div>
+              <div className="discussion-footer"style={{"margin": "5px"}}>An input box goes here</div>
             </div>
           </div>
           <div className="post-modal-code" style={{ "flex-grow": "4" }}>
