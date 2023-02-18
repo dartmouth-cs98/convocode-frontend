@@ -7,6 +7,7 @@ import { signup } from '../../state/actions';
 
 
 import HeaderBar from "../HeaderBar/HeaderBar";
+import ErrorModal from "../Error/ErrorModal";
 
 import './signup.css'
 
@@ -36,14 +37,22 @@ const SignUp = (props) => {
       .oneOf([Yup.ref('password'), null], "Passwords do not match!"),
   });
 
-  const submit = (values) => {
-    try {
-      props.signup(values.email, values.password, values.username);
-    } catch (error) {
-      console.log("Unable to sign up at this time:", error)
-    }
-    navigate('/')
+  const [modalShow, setModalShow] = useState(false);
+  const [error, setError] = useState("")
 
+  const handleModalToggle = () => {
+    setModalShow(!modalShow);
+    setError("");
+  }
+
+  const submit = (values) => {
+    const error = props.signup(values.email, values.password, values.username);
+
+    if (error) {
+      console.log("Unable to sign up at this time:", error)
+      setError(error)
+      modalShow(true)
+    }
   }
 
   return (
@@ -51,6 +60,7 @@ const SignUp = (props) => {
       <HeaderBar />
       <div className="content">
         <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
+        <ErrorModal isOpen={modalShow} handleModalToggle={handleModalToggle} title="Sign In" error={error} />
         <Formik
           initialValues={{
             name: '',

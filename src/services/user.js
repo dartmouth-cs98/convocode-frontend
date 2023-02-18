@@ -35,7 +35,8 @@ export const UserServicesLogin = async (email, password) => {
 
     return data.user;
   } catch (error) {
-    throw error;
+    console.log("services error")
+    return error;
   }
 };
 
@@ -56,13 +57,7 @@ export const UserServicesSignUp = async (email, password, username) => {
       email,
       password,
       username,
-    },
-      // {
-      //   headers: {
-      //     authorization: `Bearer ${token}`,
-      //   },
-      // }
-    );
+    });
 
     if (data) {
       setAuthTokenInStorage(data.token);
@@ -70,7 +65,7 @@ export const UserServicesSignUp = async (email, password, username) => {
       return data.user;
     }
   } catch (error) {
-    console.log(error);
+    console.log("i found error", error);
     throw error;
   }
 };
