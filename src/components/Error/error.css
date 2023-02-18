@@ -1,0 +1,52 @@
+  @import '../../index.css';
+
+  .error-modal {
+    position: absolute;
+    top: 35vh;
+    left: 25vw;
+    right: 25vw;
+    bottom: 35vh;
+    background-color: var(--boring);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--grey);
+  }
+
+  h1#smaller {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 22px;
+    margin-bottom: 5vh;
+  }
+
+  .error-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: space-around;
+    align-items: center;
+  }
+
+  .error-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .error-title img {
+    margin: 5px;
+  }

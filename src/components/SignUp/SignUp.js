@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { signup } from '../../state/actions';
+import { signup, clearUserError } from '../../state/actions';
 
 
 import HeaderBar from "../HeaderBar/HeaderBar";
@@ -12,7 +12,6 @@ import ErrorModal from "../Error/ErrorModal";
 import './signup.css'
 
 const SignUp = (props) => {
-  const navigate = useNavigate();
 
   const SignupSchema = Yup.object().shape({
     name: Yup.string()
@@ -38,29 +37,30 @@ const SignUp = (props) => {
   });
 
   const [modalShow, setModalShow] = useState(false);
-  const [error, setError] = useState("")
 
   const handleModalToggle = () => {
     setModalShow(!modalShow);
-    setError("");
   }
 
   const submit = (values) => {
-    const error = props.signup(values.email, values.password, values.username);
-
-    if (error) {
-      console.log("Unable to sign up at this time:", error)
-      setError(error)
-      modalShow(true)
-    }
+    props.signup(values.email, values.password, values.username);
   }
+
+  useEffect(() => {
+    console.log("current state of ", props.error)
+    setModalShow(props.error !== {})
+  }, [props.error]);
+
 
   return (
     <div className="sign-up" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />
       <div className="content">
         <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
-        <ErrorModal isOpen={modalShow} handleModalToggle={handleModalToggle} title="Sign In" error={error} />
+        {props.error.data ?
+          <ErrorModal isOpen={modalShow} handleModalToggle={handleModalToggle} title={props.error.location} error={props.error.data} onClose={props.clearUserError} /> :
+          <></>
+        }
         <Formik
           initialValues={{
             name: '',
@@ -105,13 +105,14 @@ const SignUp = (props) => {
           )}
         </Formik>
       </div>
-    </div>
+    </div >
   );
 };
 const mapStateToProps = (reduxstate) => {
   return {
     lightMode: reduxstate.settings.lightMode,
+    error: reduxstate.user.error,
   };
 };
 
-export default connect(mapStateToProps, { signup })(SignUp);
+export default connect(mapStateToProps, { signup, clearUserError })(SignUp);

@@ -26,6 +26,7 @@ import {
   signup,
   getUserFromStorage,
   signOut,
+  clearUserError,
 } from "./user";
 
 import {
@@ -65,6 +66,7 @@ const ActionTypes = {
   ...projectActionTypes,
   ...userActionTypes,
   ...communityActionTypes,
+  ...profileActionTypes,
 };
 
 export {
@@ -94,5 +96,6 @@ export {
   loadProjects,
   loadUserProjects,
   loadLikedProjects,
-  createProject
+  createProject,
+  clearUserError
 }

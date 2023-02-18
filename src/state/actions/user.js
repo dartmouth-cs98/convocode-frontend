@@ -1,5 +1,6 @@
 import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp } from "../../services/user.js"
 import { getLikedProjects, getUserProjects } from "../../services/projects.js";
+import { useNavigate } from "react-router-dom";
 
 export const ActionTypes = {
   SET_USER_DATA: 'SET_USER_DATA',
@@ -7,7 +8,8 @@ export const ActionTypes = {
   SET_LIKED_PROJECTS: 'SET_LIKED_PROJECTS',
   CLEAR_USER_DATA: 'CLEAR_USER_DATA',
   CLEAR_PROFILE_DATA: 'CLEAR_PROFILE_DATA',
-  API_ERROR: 'API_ERROR',
+  SET_ERROR: 'SET_ERROR',
+  CLEAR_ERROR: 'CLEAR_ERROR',
 };
 
 /**
@@ -41,7 +43,11 @@ export const login = (email, password) => {
 
     } catch (error) {
       console.log(error)
-      return (error)
+      const e = {
+        location: "Sign In",
+        data: error
+      }
+      dispatch({ type: ActionTypes.SET_ERROR, payload: e });
     };
   };
 }
@@ -63,8 +69,12 @@ export const signup = (email, password, username) => {
       }
     } catch (error) {
       console.log("error in actions", error)
-      return new Error(error);
-    }
+      const e = {
+        location: "Sign Up",
+        data: error
+      }
+      dispatch({ type: ActionTypes.SET_ERROR, payload: e });
+    };
   };
 };
 
@@ -91,5 +101,15 @@ export const signOut = () => {
     UserServicesSignOut();
     dispatch({ type: ActionTypes.CLEAR_USER_DATA, payload: {} });
     dispatch({ type: ActionTypes.CLEAR_PROFILE_DATA, payload: {} });
+  };
+};
+
+
+/**
+ * @description action creator for clearing user error state
+ */
+export const clearUserError = () => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.CLEAR_ERROR, payload: {} });
   };
 };

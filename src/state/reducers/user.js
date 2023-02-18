@@ -9,9 +9,11 @@ const initialState = {
   projectCount: 0,
   likeCount: 0,
   status: "",
+  error: {},
 };
 
 const UserReducer = (state = initialState, action) => {
+  console.log("user reducer, ", action.payload)
   switch (action.type) {
     case ActionTypes.SET_USER_DATA:
       return { ...state, ...action.payload };
@@ -21,6 +23,10 @@ const UserReducer = (state = initialState, action) => {
       return { ...state, likedProjects: action.payload };
     case ActionTypes.CLEAR_USER_DATA:
       return { ...initialState };
+    case ActionTypes.SET_ERROR:
+      return { ...state, error: action.payload };
+    case ActionTypes.CLEAR_ERROR:
+      return { ...state, error: {} };
     default:
       return state;
   }

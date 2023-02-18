@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
-import { login } from '../../state/actions';
+import { login, clearUserError } from '../../state/actions';
 
 import HeaderBar from "../HeaderBar/HeaderBar";
 import ErrorModal from "../Error/ErrorModal";
@@ -15,29 +15,29 @@ const SignUp = (props) => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [modalShow, setModalShow] = useState(false);
-  const [error, setError] = useState("")
 
   const handleModalToggle = () => {
     setModalShow(!modalShow);
-    setError("");
   }
 
   const handleSubmit = (event) => {
-    try {
-      props.login(event.target[0].value, event.target[1].value);
-    } catch (error) {
-      console.log("Unable to sign up at this time:", error)
-      setError(error)
-      modalShow(true)
-    }
+    props.login(event.target[0].value, event.target[1].value);
   }
+
+  useEffect(() => {
+    console.log("current state of ", props.error)
+    setModalShow(props.error !== {})
+  }, [props.error]);
 
   return (
     <div className="sign-in" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />
       <div className="content">
         <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
-        <ErrorModal isOpen={modalShow} handleModalToggle={handleModalToggle} title="Sign In" error={error} />
+        {props.error.data ?
+          <ErrorModal isOpen={modalShow} handleModalToggle={handleModalToggle} title={props.error.location} error={props.error.data.message} onClose={props.clearUserError} /> :
+          <></>
+        }
         <form onSubmit={(e) => handleSubmit(e)}>
           <label>
             <h3>Email:</h3>
@@ -60,8 +60,8 @@ const SignUp = (props) => {
 const mapStateToProps = (reduxstate) => {
   return {
     lightMode: reduxstate.settings.lightMode,
-    user: reduxstate.user.error
+    error: reduxstate.user.error,
   };
 };
 
-export default connect(mapStateToProps, { login })(SignUp);
+export default connect(mapStateToProps, { login, clearUserError })(SignUp);

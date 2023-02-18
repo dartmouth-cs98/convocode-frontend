@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@babel/standalone": "^7.20.15",
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@freecodecamp/loop-protect": "^3.0.0",
     "@monaco-editor/react": "^4.4.6",
     "@reduxjs/toolkit": "^1.8.6",
