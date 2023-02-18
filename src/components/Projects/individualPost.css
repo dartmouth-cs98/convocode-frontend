@@ -38,7 +38,7 @@
   flex-direction: row;
   height: 100%;
   width: 100%;
-  padding: 5%;
+  padding: 3%;
   justify-content: space-between;
 }
 
@@ -99,7 +99,7 @@ button#right {
   background-color: var(--grey);
   display: flex;
   flex-direction: column;
-  width: 30vw;
+  width: 35vw;
 }
 
 .comment {
