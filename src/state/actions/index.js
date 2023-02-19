@@ -54,6 +54,7 @@ import {
   addCleanedJavascript,
   addProjectStatus,
   createProject,
+  addCodeHistory,
 
 } from './project';
 
@@ -94,5 +95,6 @@ export {
   loadProjects,
   loadUserProjects,
   loadLikedProjects,
-  createProject
+  createProject,
+  addCodeHistory,
 }

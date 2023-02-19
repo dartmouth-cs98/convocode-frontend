@@ -43,7 +43,10 @@ const CodeEditor = (props) => {
 
   return (
     <div className="overlay rounded-md w-full h-full shadow-4xl">
-      <div className='html-header'>{props.language}</div>
+      <div className="html-header">
+      <div>{props.language}</div>
+      <button onClick={props.tagDisplay}>Show tags</button>
+      </div>
       <Editor
         className="bottom-rounded"
         height="45vh"

@@ -15,7 +15,8 @@ export const ActionTypes = {
   ADD_PROJECT_TAG: 'ADD_PROJECT_TAG',
   ADD_PROJECT_STATUS: 'ADD_PROJECT_STATUS',
   CLEAR_PROJECT_DATA: 'CLEAR_PROJECT_DATA',
-  ADD_CLEANED_CODE: 'ADD_CLEANED_CODE'
+  ADD_CLEANED_CODE: 'ADD_CLEANED_CODE',
+  ADD_CODE_HISTORY: 'ADD_CODE_HISTORY',
 };
 
 /**
@@ -171,3 +172,11 @@ export const clearProject = () => {
     dispatch({ type: ActionTypes.CLEAR_PROJECT_DATA, payload: {} });
   };
 };
+
+  export const addCodeHistory = (input) => {
+    return (dispatch) => {
+      dispatch({ type: ActionTypes.ADD_CODE_HISTORY, payload: input });
+    };
+  };
+
+

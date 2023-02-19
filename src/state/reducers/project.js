@@ -14,6 +14,7 @@ const initialState = {
   username: "",
   comments: [""],
   id: "",
+  codeHistory: [],
 };
 
 
@@ -80,6 +81,8 @@ const ProjectReducer = (state = initialState, action) => {
       return { ...state, status: action.payload };
     case ActionTypes.CLEAR_PROJECT_DATA:
       return { ...initialState };
+    case ActionTypes.ADD_CODE_HISTORY:
+      return {...state, codeHistory: [...state.codeHistory, {query: action.payload.query, code: action.payload.updatedCode, tags: action.payload.tags}]};
     default:
       return state;
   }

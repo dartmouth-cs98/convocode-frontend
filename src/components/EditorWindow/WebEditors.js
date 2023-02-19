@@ -11,6 +11,7 @@ import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addProjectId, addProjectTitle } from '../../state/actions';
 import { addCleanedJavascript } from '../../state/actions';
+import { addCodeHistory } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
@@ -19,8 +20,8 @@ import axios from 'axios';
 import './webEditor.css';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import './index.css'
-import Tour from '../EditorWindow/Onboarding/Tour.js'
+import './index.css';
+import Tour from '../EditorWindow/Onboarding/Tour.js';
 
 // import { lazy } from 'react';
 
@@ -47,10 +48,21 @@ const WebEditors = (props) => {
   const [CSSquery, setCSSQuery] = useState("");
   const [HTMLquery, setHTMLQuery] = useState("");
   const [query, setQuery] = useState("");
+  const [remoteAdd, setRemoteAdd] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("html");
+  const [changedLines, setChangedLines] = useState([])
   const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
-  const [errorLine, setErrorLine] = useState(0);
+  const [decorations, setDecorations] = useState([]);
+  const [decorationDict, setDecorationDict] = useState({
+    1: "unicornDecorator",
+    2: "easyADecorator",
+    3: "grapeDecorator",
+    4: "skyDecorator",
+    5: "sageDecorator",
+    6: "busDecorator",
+    7: "pumpkinSpiceDecorator"
+  });
 
   const [outputSelection, setOutputSelection] = useState("output");
 
@@ -58,17 +70,144 @@ const WebEditors = (props) => {
   const monacoRef = useRef(null);
   const cssRef = useRef(null);
   const htmlRef = useRef(null);
+  
+  // code 1: shorter
+  // code 2: longer
+
+  function endTagView() {
+    console.log(decorations);
+    jsRef.current.deltaDecorations([], []);
+    setDecorations([]);
+  }
+
+ function getNewTags(q, newCode) {
+    console.log("hello");
+    var tags = []
+    if (props.codeHistory.length === 0) {
+      for (var i = 0; i < newCode.length; i++) {
+        tags.push(q);
+      }
+    }
+    else {
+      const oldCode = props.codeHistory.slice(-1)[0].code;
+      console.log(oldCode);
+      if (oldCode.length === 1) {
+        for (var i = 0; i < newCode.length; i++) {
+          tags.push(q);
+        }
+
+      } else {
+        // if the new code is larger in line count than the old code
+        // pointer for location in old code
+        var oP = 0;
+        // pointer for location in new code
+        var nP = 0;
+        const oldTags = props.codeHistory.slice(-1)[0].tags;
+        if (oldCode.length <= newCode.length) {
+          while (oP < oldCode.length || nP < newCode.length) {
+            if (oldCode[oP] === newCode[nP]) {
+              tags.push(oldTags[oP]);
+              nP++;
+              oP++;
+            }
+            else {
+              tags.push(q);
+              nP++;
+              if (oldCode.length === newCode.length) {
+                oP++;
+              }
+            }
+          }
+        } else {
+          while (oP < oldCode.length || nP < newCode.length) {
+            if (oldCode[oP] === newCode[nP]) {
+              tags.push(oldTags[oP]);
+              nP++;
+              oP++;
+            }
+            else {
+              oP++;
+              }
+            }
+          }
+      }       
+    }
+    console.log(tags);
+    return tags;
+  }  
+
+  function checkInsertion(tag) {
+    return tag !== -1;
+  }
+
+  function onlyUnique(value, index, arr) {
+    return arr.indexOf(value) === index;
+  }
+
+  function findTagRange(tag, arr) {
+    var range = []
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] === tag) {
+        range.push(i);
+      }
+    }
+    return range;
+  }
+  
+  function getRanges() {
+    var currTags = props.codeHistory.slice(-1)[0].tags;
+    var insertionTags = currTags.filter(checkInsertion);
+    var unique = insertionTags.filter(onlyUnique);
+    var ranges = []
+    for (var i = 0; i < unique.length; i++) {
+      var r = findTagRange(unique[i], currTags);
+      var start = r[0];
+      var end = r[r.length - 1];
+      ranges.push([start, end]);
+    }
+    return ranges;
+  }
+
+  function displayJSTags() {
+    var ranges = getRanges();
+    console.log(ranges);
+    var dList = [];
+    var currTags = props.codeHistory.slice(-1)[0].tags;
+    for (var i = 0; i < ranges.length; i++) {
+      var decId = (i + 1)%7;
+      const start = ranges[i][0];
+      const end = ranges[i][1];
+      console.log(currTags[start]);
+      dList.push({
+        range: new monacoRef.current.Range(start + 1,1,end + 1,1),
+        options: {
+          isWholeLine: true,
+          className: decorationDict[decId],
+          hoverMessage: {value: currTags[start]}
+        }
+      });
+    }  
+    console.log(dList);
+    jsRef.current.updateOptions({readOnly: true});
+    var decorations = jsRef.current.deltaDecorations([], dList);
+    console.log(decorations);
+    setDecorations(decorations);
+  }
+    
+
 
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
-    console.log(jsRef);
     monacoRef.current = monaco;
+    jsRef.current.onDidChangeModelContent (e => {
+    
 
-    editor.onDidChangeModelContent ( e => {
-        console.log(editor.getModel());
+
 
     });
+
   }
+
 
   function handleCSSDidMount(editor, monaco) {
     cssRef.current = editor;
@@ -76,7 +215,6 @@ const WebEditors = (props) => {
 
     editor.onDidChangeModelContent ( e => {
         console.log(editor.getModel());
-
     });
   }
 
@@ -101,21 +239,23 @@ const WebEditors = (props) => {
         var processed = transform(props.javaCode);
         console.log(processed);
         props.addCleanedJavascript(processed.code);
-        /* if (monacoRef.current) {
-            var line = jsRef.current.getPosition().lineNumber;
-            console.log(line);
-            var markers = [{
-                severity: monacoRef.current.MarkerSeverity.Warning,
-                message: `Possible infinite loop near line ${line}!`,
-                startLineNumber: line,
-                startColumn: 1,
-                endLineNumber: line,
-                endColumn: jsRef.current.getModel().getLineLength(line) + 1
-            }];
-            monacoRef.current.editor.setModelMarkers(jsRef.current.getModel(), "owner", markers);
-        } */
     } catch {
         console.log("code incomplete, can't transform");
+    } try {
+      console.log(remoteAdd);
+      if (remoteAdd) {
+        const newTags = getNewTags(query, props.javaCode.split(/\r\n|\r|\n/));
+        props.addCodeHistory({query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
+        setRemoteAdd(false);
+
+      } else {
+        const newTags = getNewTags(-1, props.javaCode.split(/\r\n|\r|\n/));
+        props.addCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
+
+      }
+
+    } catch {
+      console.log("couldn't add code history");
     }
 
   }, [props.javaCode]);
@@ -126,6 +266,8 @@ const WebEditors = (props) => {
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
     // send user input to get code from openai
+    setRemoteAdd(true);
+    console.log(remoteAdd);
     var queryType = null;
     // language check 
     if (currentLanguage === "javascript") {
@@ -146,21 +288,36 @@ const WebEditors = (props) => {
       }
     }).then((res) => {
       setLoading(false);
+      
       console.log(res);
-      console.log(res.data.code);
-      console.log(res.data.text);
+      //console.log(res.data.code);
+      //console.log(res.data.text);
+      //setQuery(query);
       const line_list = res.data.code.split(/\r\n|\r|\n/);
       console.log(line_list);
       const last_line = line_list[line_list.length - 1];
       const line_num = res.data.code.split(/\r\n|\r|\n/).length;
-      const last_column = last_line.length;
-
       if (currentLanguage === "javascript") {
+        console.log(jsRef.current.getPosition().lineNumber);
+        const startEdits = jsRef.current.getPosition().lineNumber;
+        const endEdits = jsRef.current.getPosition().lineNumber + line_num;
+        console.log(`start edits: ${startEdits}`);
+        console.log(`end edits: ${endEdits}`);
+        setChangedLines([startEdits, endEdits]);
+        console.log(changedLines);
         if (props.javaCode.length === 0) {
             props.addJavascriptCode(res.data.code);
         } else {
             props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: res.data.code});
-        } 
+        }
+        
+        /* const newLine = jsRef.current.getPosition().lineNumber + line_num - 1;
+        console.log(`new positon set: ${newLine} ${last_line.length}`);
+        jsRef.current.setPosition({
+          lineNumber: newLine,
+          column: last_line.length,
+        }); 
+        console.log(`new position: ${jsRef.current.getPosition()}`); */
         
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
@@ -308,12 +465,13 @@ const WebEditors = (props) => {
         </div>
        
         <div className="web-editor-container">
-          <div className="stop3 editor">
+          <div className="stop3 editor" onClick={endTagView}>
             <CodeEditor
                 language={"javascript"}
                 theme={theme}
                 width="100%"
                 mount={handleJSDidMount}
+                tagDisplay={displayJSTags}
             />
           </div>
           <div className="editor">
@@ -322,6 +480,7 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
                 mount={handleHTMLDidMount}
+                tagDisplay={displayJSTags}
             />
           
           </div>
@@ -331,6 +490,7 @@ const WebEditors = (props) => {
                 theme={theme}
                 width="100%"
                 mount={handleCSSDidMount}
+                tagDisplay={displayJSTags}
             />    
           </div>
           
@@ -364,7 +524,9 @@ const mapStateToProps = (reduxstate) => {
     id: reduxstate.project.id,
     title: reduxstate.project.title,
     cleanedCode: reduxstate.project.cleanedCode,
+    codeHistory: reduxstate.project.codeHistory,
+    previousFrame: reduxstate.project.previousFrame,
  };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript, addCodeHistory })(WebEditors);
