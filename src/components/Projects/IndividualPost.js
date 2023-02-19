@@ -7,7 +7,7 @@ import { createProject, loadProject } from "../../state/actions/project";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import HeaderBar from "../HeaderBar/HeaderBar"
 import CodePreview from './CodePreview';
-import like from "../../resources/lightning-bold.png"
+import like from "../../resources/heartLikes.svg"
 import down from "../../resources/down.png"
 import copy from "../../resources/copy.png"
 import CommentCard from "./CommentCard"
@@ -116,9 +116,9 @@ const IndividualPost = (props) => {
               <span>{props.project.description}</span>
               <div className="flex-row" style={{ "width": "100%", "justify-content": "left", "alignItems":"center" }}>
                
-                  <div className="" style={{ "margin-right": 10}}>
-                    <img src={like} />
-                    <span>{props.project.likes}</span>
+                  <div className="">
+                    <img src={like} style={{ "margin-right": 5}}/>
+                    <span style={{ "margin-right": 10}} >{props.project.likes}</span>
                   </div>
                
                   <button className="pink-button" id="right" onClick={openInIDE} style={{ "margin-right": "10px"}}>Open in IDE</button>

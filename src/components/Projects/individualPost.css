@@ -200,7 +200,8 @@ button#right {
 }
 
 .dropdown {
-  top: 48%;
+  top: 28%;
+  left: 19.5%;
   position: absolute;
   display: flex;
   flex-direction: column;
