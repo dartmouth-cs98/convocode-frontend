@@ -76,11 +76,13 @@ const ProjectReducer = (state = initialState, action) => {
     case ActionTypes.ADD_PROJECT_TAG:
       return { ...state, tags: action.payload };
     case ActionTypes.ADD_CLEANED_CODE:
-      return {...state, cleanedCode: action.payload};      
+      return { ...state, cleanedCode: action.payload };
     case ActionTypes.ADD_PROJECT_STATUS:
       return { ...state, status: action.payload };
     case ActionTypes.ADD_COMMENTS:
       return { ...state, commentObjects: action.payload };
+    case ActionTypes.LIKE_PROJECT:
+      return { ...state, likes: action.payload };
     case ActionTypes.CLEAR_PROJECT_DATA:
       return { ...initialState };
     default:
