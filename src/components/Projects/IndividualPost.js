@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, RedditShareButton, RedditIcon, EmailShareButton, EmailIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
-import { createProject, loadProject, setReplyingTo } from "../../state/actions/project";
+import { createProject, loadProject, setReplyingTo, likeProject, refreshUser } from "../../state/actions";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import HeaderBar from "../HeaderBar/HeaderBar"
 import CodePreview from './CodePreview';
@@ -19,6 +19,7 @@ import './individualPost.css'
 const IndividualPost = (props) => {
 
   const [userComment, setComment] = useState("");
+  const [hasLiked, setHasLiked] = useState(false);
 
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -71,9 +72,9 @@ const IndividualPost = (props) => {
   }, []);
 
   useEffect(() => {
-     if (props.project.replyingUser) {
+    if (props.project.replyingUser) {
       setComment(`@${props.project.replyingUser} `);
-     }
+    }
   }, [props.project.replyingUser]);
 
   // handles input text changes
@@ -81,6 +82,20 @@ const IndividualPost = (props) => {
     setComment(event.target.value);
     console.log(userComment)
   }
+
+  useEffect(() => {
+    props.refreshUser()
+  }, [props.project.likes]);
+
+
+  useEffect(() => {
+    if (props.user.likedProjects.includes(props.project.id)) {
+      setHasLiked(true);
+    } else {
+      setHasLiked(false);
+    }
+
+  }, [props.user.likedProjects]);
 
 
   let tag = "undefined"
@@ -102,7 +117,7 @@ const IndividualPost = (props) => {
               <div className="flex-row" style={{ "width": "100%", "justify-content": "left", "alignItems": "center" }}>
 
                 <button className="likes" style={{ width: '70px' }} onClick={like}>
-                  <img src={likeUnfilled} />
+                  {hasLiked ? <img src={likeFilled} /> : <img src={likeUnfilled} />}
                   <span style={{ padding: '3px' }}>{props.project.likes}</span>
                 </button>
 
@@ -163,27 +178,27 @@ const IndividualPost = (props) => {
             </div>
             <div className="commentcontainer">
               <div className="discussion-header">Discussion</div>
-           
-              <div className="comments"> 
-              {
-                props.project.commentObjects.map((item) => {
-              
-                  return (
-                    
+
+              <div className="comments">
+                {
+                  props.project.commentObjects.map((item) => {
+
+                    return (
+
                       <CommentCard item={item} key={item.id} reply={item.replyingTo} />
-                  
-                  )
-                })
-              }
-            </div>
-            <div className="discussionFooter">
-            <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange}></input>
-            <button className="yellow-button" onClick={() => {
+
+                    )
+                  })
+                }
+              </div>
+              <div className="discussionFooter">
+                <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange}></input>
+                <button className="yellow-button" onClick={() => {
                   props.comment(props.project.id, userComment, props.project.replyingTo);
                   setComment("");
                   props.setReplyingTo("", "");
                   props.loadProject(id);
-              }} >Submit</button>
+                }} >Submit</button>
               </div>
             </div>
           </div>
@@ -226,4 +241,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { loadProject, createProject, comment, setReplyingTo })(IndividualPost);
+export default connect(mapStateToProps, { loadProject, createProject, comment, setReplyingTo, likeProject, refreshUser })(IndividualPost);
