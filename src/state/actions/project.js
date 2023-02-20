@@ -17,6 +17,9 @@ export const ActionTypes = {
   CLEAR_PROJECT_DATA: 'CLEAR_PROJECT_DATA',
   ADD_CLEANED_CODE: 'ADD_CLEANED_CODE',
   ADD_COMMENTS: 'ADD_COMMENTS',
+  ADD_NEW_COMMENT: 'ADD_NEW_COMMENT',
+  SET_REPLYING_TO: 'SET_REPLYING_TO',
+  SET_REPLYING_USER: 'SET_REPLYING_USER'
 };
 
 /**
@@ -26,6 +29,7 @@ export const ActionTypes = {
 export const loadProject = (id) => {
   return async (dispatch) => {
     try {
+
       const data = await getProject(id);
 
       // get comments on project too
@@ -207,14 +211,16 @@ export const clearProject = () => {
  * @description comment on project - reach through 'Submit' buttom
  * @param id project id to load
  */
-export const comment = (projectId, username, commentBody) => {
-
+export const comment = (projectId, commentBody, replyingTo) => {
+ 
   return async (dispatch) => {
     try {
 
       // add comment to db
-      const data = await commentOnProject(projectId, username, commentBody);
-      console.log(data)
+      const data = await commentOnProject(projectId, commentBody, replyingTo);
+
+      // dispatch new comment
+      dispatch({ type: ActionTypes.ADD_NEW_COMMENT, payload: data });
 
     } catch (error) {
       console.log(error)
@@ -223,18 +229,14 @@ export const comment = (projectId, username, commentBody) => {
 };
 
 /**
- * @description reply to comment - reached by 'Reply' button
- * @param id project id to load
- */
-export const reply = (projectId, commentId, username, commentBody) => {
-  return async (dispatch) => {
-    try {
-      const commentData = await commentOnComment(projectId, commentId, username, commentBody);
-      console.log(commentData);
-
-
-    } catch (error) {
-      console.log(error)
-    }
+* @description adds replyingTo 
+*/
+export const setReplyingTo = (replyingTo, username) => {
+  return (dispatch) => {
+    console.log("SET REPLYING TO")
+    console.log(replyingTo)
+    console.log(username)
+    dispatch({ type: ActionTypes.SET_REPLYING_TO, payload: replyingTo });
+    dispatch({ type: ActionTypes.SET_REPLYING_USER, payload: username });
   };
 };

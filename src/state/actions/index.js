@@ -54,7 +54,8 @@ import {
   addCleanedJavascript,
   addProjectStatus,
   createProject,
-
+  comment,
+  setReplyingTo,
 } from './project';
 
 const ActionTypes = {
@@ -94,5 +95,7 @@ export {
   loadProjects,
   loadUserProjects,
   loadLikedProjects,
-  createProject
+  createProject,
+  comment,
+  setReplyingTo,
 }
