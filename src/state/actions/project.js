@@ -17,6 +17,9 @@ export const ActionTypes = {
   ADD_PROJECT_STATUS: 'ADD_PROJECT_STATUS',
   CLEAR_PROJECT_DATA: 'CLEAR_PROJECT_DATA',
   ADD_CLEANED_CODE: 'ADD_CLEANED_CODE',
+  ADD_JAVA_CODE_HISTORY: 'ADD_JAVA_CODE_HISTORY',
+  ADD_CSS_CODE_HISTORY: 'ADD_CSS_CODE_HISTORY',
+  ADD_HTML_CODE_HISTORY: 'ADD_HTML_CODE_HISTORY',
   ADD_COMMENTS: 'ADD_COMMENTS',
   ADD_NEW_COMMENT: 'ADD_NEW_COMMENT',
   SET_REPLYING_TO: 'SET_REPLYING_TO',
@@ -208,6 +211,25 @@ export const clearProject = () => {
     dispatch({ type: ActionTypes.CLEAR_PROJECT_DATA, payload: {} });
   };
 };
+
+  export const addJavaCodeHistory = (input) => {
+    return (dispatch) => {
+      dispatch({ type: ActionTypes.ADD_JAVA_CODE_HISTORY, payload: input });
+    };
+  };
+
+  export const addCSSCodeHistory = (input) => {
+    return (dispatch) => {
+      dispatch({ type: ActionTypes.ADD_CSS_CODE_HISTORY, payload: input });
+    };
+  };
+
+  export const addHTMLCodeHistory = (input) => {
+    return (dispatch) => {
+      dispatch({ type: ActionTypes.ADD_HTML_CODE_HISTORY, payload: input });
+    };
+  };
+
 
 
 /**

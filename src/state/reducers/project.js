@@ -15,6 +15,9 @@ const initialState = {
   comments: [""],
   commentObjects: [],
   id: "",
+  javaCodeHistory: [{query: -1, code: [""], tags: [-1]}],
+  cssCodeHistory: [{query: -1, code: [""], tags: [-1]}],
+  htmlCodeHistory: [{query: -1, code: [""], tags: [-1]}],
   replyingTo: "",
   replyingUser: "",
 };
@@ -93,6 +96,12 @@ const ProjectReducer = (state = initialState, action) => {
       return { ...state, likes: action.payload };
     case ActionTypes.CLEAR_PROJECT_DATA:
       return { ...initialState };
+    case ActionTypes.ADD_JAVA_CODE_HISTORY:
+      return {...state, javaCodeHistory: [...state.javaCodeHistory, {query: action.payload.query, code: action.payload.updatedCode, tags: action.payload.tags}]};
+    case ActionTypes.ADD_CSS_CODE_HISTORY:
+      return {...state, cssCodeHistory: [...state.cssCodeHistory, {query: action.payload.query, code: action.payload.updatedCode, tags: action.payload.tags}]};
+    case ActionTypes.ADD_HTML_CODE_HISTORY:
+      return {...state, htmlCodeHistory: [...state.htmlCodeHistory, {query: action.payload.query, code: action.payload.updatedCode, tags: action.payload.tags}]};
     default:
       return state;
   }

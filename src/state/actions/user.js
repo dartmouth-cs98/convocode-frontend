@@ -1,4 +1,6 @@
-import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, getUser } from "../../services/user.js"
+
+import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, setOnboarding, getUser } from "../../services/user.js"
+
 import { getLikedProjects, getUserProjects } from "../../services/projects.js";
 
 export const ActionTypes = {
@@ -8,6 +10,8 @@ export const ActionTypes = {
   CLEAR_USER_DATA: 'CLEAR_USER_DATA',
   CLEAR_PROFILE_DATA: 'CLEAR_PROFILE_DATA',
   API_ERROR: 'API_ERROR',
+  ONBOARDED: 'ONBOARDED'
+
 };
 
 /**
@@ -141,3 +145,13 @@ export const signOut = () => {
     dispatch({ type: ActionTypes.CLEAR_PROFILE_DATA, payload: {} });
   };
 };
+
+/**
+ * @description action for setting onboarded as false after runing through process
+ */
+export const onboarding  = ()  => {
+  return async (dispatch) => {
+    setOnboarding();
+    dispatch({ type: ActionTypes.ONBOARDED, payload: false });
+  }
+}

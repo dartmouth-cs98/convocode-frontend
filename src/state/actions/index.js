@@ -26,6 +26,7 @@ import {
   signup,
   getUserFromStorage,
   signOut,
+  onboarding,
   refreshUser,
 } from "./user";
 
@@ -39,6 +40,13 @@ import {
   loadUserProjects,
   loadLikedProjects
 } from './profile';
+
+import {
+  ActionTypes as tagDisplayActionTypes,
+  setJavaDisplay,
+  setCSSDisplay,
+  setHTMLDisplay
+} from './tagDisplay';
 
 import {
   ActionTypes as projectActionTypes,
@@ -55,6 +63,9 @@ import {
   addCleanedJavascript,
   addProjectStatus,
   createProject,
+  addHTMLCodeHistory,
+  addJavaCodeHistory,
+  addCSSCodeHistory,
   comment,
   setReplyingTo,
   likeProject,
@@ -69,6 +80,7 @@ const ActionTypes = {
   ...projectActionTypes,
   ...userActionTypes,
   ...communityActionTypes,
+  ...tagDisplayActionTypes,
 };
 
 export {
@@ -94,11 +106,18 @@ export {
   signup,
   getUserFromStorage,
   signOut,
+  onboarding,
   addCleanedJavascript,
   loadProjects,
   loadUserProjects,
   loadLikedProjects,
   createProject,
+  addJavaCodeHistory,
+  addCSSCodeHistory,
+  addHTMLCodeHistory,
+  setJavaDisplay,
+  setCSSDisplay,
+  setHTMLDisplay,
   comment,
   setReplyingTo,
   likeProject,

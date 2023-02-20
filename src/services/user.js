@@ -192,3 +192,25 @@ export const getAllUsers = async () => {
     throw error;
   }
 };
+
+
+/**
+ * @description sets onboarding to false
+ * @returns {Promise<Object>} API response
+ */
+ export const setOnboarding = async () => {
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}`;
+  const token = getAuthTokenFromStorage();
+
+  try {
+    const { data } = await axios.put(url, {onboarded: false }, {
+      headers: {
+        authorization: token,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
