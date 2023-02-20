@@ -8,6 +8,8 @@ export const ActionTypes = {
   CLEAR_USER_DATA: 'CLEAR_USER_DATA',
   CLEAR_PROFILE_DATA: 'CLEAR_PROFILE_DATA',
   API_ERROR: 'API_ERROR',
+  ONBOARDED: 'ONBOARDED'
+
 };
 
 /**
@@ -119,3 +121,12 @@ export const signOut = () => {
     dispatch({ type: ActionTypes.CLEAR_PROFILE_DATA, payload: {} });
   };
 };
+
+/**
+ * @description action for setting onboarded as false after runing through process
+ */
+export const onboarding  = ()  => {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.ONBOARDED, payload: false });
+  }
+}
