@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { loadUserProjects, loadLikedProjects } from "../../state/actions";
+import { refreshUser } from "../../state/actions";
 import axios from 'axios';
 import { getUser } from '../../services/user.js';
 import PostCard from "../CommunityPage/PostCard.js"
@@ -15,8 +15,9 @@ import './profile.css'
 
 const ProfilePage = (props) => {
 
-  // const [projectDescription, setProjectDescription] = useState("");
-  // const [projectTag, setProjectTag] = useState("");
+  useEffect(() => {
+    props.refreshUser();
+  }, []);
 
   return (
     <div className="profile-page" data-theme={props.lightMode ? 'light' : 'dark'}>
@@ -90,4 +91,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, {})(ProfilePage);
+export default connect(mapStateToProps, { refreshUser })(ProfilePage);

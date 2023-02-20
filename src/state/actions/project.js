@@ -1,4 +1,5 @@
-import { getProject, createNewProject, getComments, commentOnProject, commentOnComment } from "../../services/projects";
+import { getProject, createNewProject, getComments, commentOnProject, commentOnComment, likeServiceProject } from "../../services/projects";
+import { refreshUser } from "./user";
 
 export const ActionTypes = {
   LOAD_PROJECT: 'LOAD_PROJECT',
@@ -20,6 +21,7 @@ export const ActionTypes = {
   ADD_NEW_COMMENT: 'ADD_NEW_COMMENT',
   SET_REPLYING_TO: 'SET_REPLYING_TO',
   SET_REPLYING_USER: 'SET_REPLYING_USER'
+  LIKE_PROJECT: 'LIKE_PROJECT',
 };
 
 /**
@@ -38,30 +40,30 @@ export const loadProject = (id) => {
       console.log(commentObjects);
 
       // build new array in comment-reply order
-       // they should already be sorted by date as returned by mongoose
+      // they should already be sorted by date as returned by mongoose
       var sortedComments = [];
 
       for (const comment of commentObjects) {
-  
+
         // check if base comment or reply
         if (!(comment.replyingTo)) {  // is base comment
 
-            // push base comment
-            sortedComments.push(comment);
-            // get its id
-            const currentCommentId = comment.id;
-            // find its replies
-            const replies = commentObjects.filter(comment => comment.replyingTo == currentCommentId);
-            // push its replies
-            for (const reply of replies) {
-              sortedComments.push(reply);
-            }
+          // push base comment
+          sortedComments.push(comment);
+          // get its id
+          const currentCommentId = comment.id;
+          // find its replies
+          const replies = commentObjects.filter(comment => comment.replyingTo == currentCommentId);
+          // push its replies
+          for (const reply of replies) {
+            sortedComments.push(reply);
+          }
         }
         // skip if reply 
       }
       console.log("sorted comments")
       console.log(sortedComments)
-      
+
       dispatch({ type: ActionTypes.LOAD_PROJECT, payload: data });
       dispatch({ type: ActionTypes.ADD_COMMENTS, payload: sortedComments });
 
@@ -183,11 +185,11 @@ export const addProjectTag = (input) => {
 
 
 
-    export const addCleanedJavascript = (input) => {
-      return (dispatch) => {
-        dispatch({ type: ActionTypes.ADD_CLEANED_CODE, payload: input});
-      }
-    }
+export const addCleanedJavascript = (input) => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.ADD_CLEANED_CODE, payload: input });
+  }
+}
 
 /**
 * @description add project status
@@ -204,6 +206,24 @@ export const addProjectStatus = (input) => {
 export const clearProject = () => {
   return (dispatch) => {
     dispatch({ type: ActionTypes.CLEAR_PROJECT_DATA, payload: {} });
+  };
+};
+
+
+/**
+ * @description like a project
+ * @param id project id to like
+ */
+export const likeProject = (projectId) => {
+  return async (dispatch) => {
+    try {
+      console.log("in try to like ")
+      const data = await likeServiceProject(projectId)
+      console.log(data)
+      dispatch({ type: ActionTypes.LIKE_PROJECT, payload: data });
+    } catch (error) {
+      console.log(error)
+    }
   };
 };
 

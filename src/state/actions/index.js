@@ -26,6 +26,7 @@ import {
   signup,
   getUserFromStorage,
   signOut,
+  refreshUser,
 } from "./user";
 
 import {
@@ -56,6 +57,8 @@ import {
   createProject,
   comment,
   setReplyingTo,
+  likeProject,
+  loadProject,
 } from './project';
 
 const ActionTypes = {
@@ -98,4 +101,7 @@ export {
   createProject,
   comment,
   setReplyingTo,
+  likeProject,
+  refreshUser,
+  loadProject,
 }
