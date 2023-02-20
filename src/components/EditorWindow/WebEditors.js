@@ -487,15 +487,6 @@ const WebEditors = (props) => {
         <ProjectModal></ProjectModal>
       </div>
 
-      <div className="web-editor-container">
-        <div className="stop3 editor">
-          <CodeEditor
-            language={"javascript"}
-            theme={theme}
-            width="100%"
-            mount={handleJSDidMount}
-          />
-        </div>
        
         <div className="web-editor-container">
           <div className="stop3 editor">
@@ -525,17 +516,7 @@ const WebEditors = (props) => {
                 toggleDisplay={toggleDisplay}
                 mount={handleCSSDidMount}
             />    
-          </div>
-          
-        </div>
-        <div className="editor">
-          <CodeEditor
-            language={"css"}
-            theme={theme}
-            width="100%"
-            mount={handleCSSDidMount}
-          />
-        </div>
+          </div>  
 
       </div>
       <div>
