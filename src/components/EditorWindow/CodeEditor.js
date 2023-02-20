@@ -6,6 +6,7 @@ import Editor from "@monaco-editor/react";
 import { connect } from 'react-redux';
 import { addCode } from "../../state/actions";
 import { addJavascriptCode, addHTMLCode, addCSSCode } from "../../state/actions";
+import { setDisplay } from "../../state/actions";
 
 import './index.css'
 
@@ -27,7 +28,6 @@ const CodeEditor = (props) => {
   }
 
 
-
   const handleEditorChange = (value) => {
     if (props.language === "javascript") {
       props.addJavascriptCode(value);
@@ -45,7 +45,7 @@ const CodeEditor = (props) => {
     <div className="overlay rounded-md w-full h-full shadow-4xl">
       <div className="html-header">
       <div>{props.language}</div>
-      <button onClick={props.tagDisplay}>Show tags</button>
+      <button onClick={() => props.toggleDisplay()}>{props.tagDisplay ? 'Back to Editing' : 'Command History'}</button>
       </div>
       <Editor
         className="bottom-rounded"
@@ -73,8 +73,9 @@ const mapStateToProps = (reduxstate) => {
     htmlCode: reduxstate.project.htmlCode,
     cssCode: reduxstate.project.cssCode,
     lightMode: reduxstate.settings.lightMode,
+    tagDisplay: reduxstate.tagDisplay.tagDisplay,
 
   };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, addHTMLCode, addCSSCode })(CodeEditor);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, addHTMLCode, addCSSCode, setDisplay })(CodeEditor);

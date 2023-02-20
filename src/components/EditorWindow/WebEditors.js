@@ -12,6 +12,7 @@ import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addProjectId, addProjectTitle } from '../../state/actions';
 import { addCleanedJavascript } from '../../state/actions';
 import { addCodeHistory } from '../../state/actions';
+import { setDisplay } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
@@ -74,11 +75,6 @@ const WebEditors = (props) => {
   // code 1: shorter
   // code 2: longer
 
-  function endTagView() {
-    console.log(decorations);
-    jsRef.current.deltaDecorations([], []);
-    setDecorations([]);
-  }
 
  function getNewTags(q, newCode) {
     console.log("hello");
@@ -189,12 +185,29 @@ const WebEditors = (props) => {
     }  
     console.log(dList);
     jsRef.current.updateOptions({readOnly: true});
-    var decorations = jsRef.current.deltaDecorations([], dList);
+    var d = jsRef.current.deltaDecorations([], dList);
+    setDecorations(d);
     console.log(decorations);
-    setDecorations(decorations);
+    props.setDisplay(true);
   }
-    
 
+  function endTagView() {
+    //console.log(decorations);
+    console.log("is this firing?");
+    jsRef.current.deltaDecorations(decorations, []);
+    jsRef.current.updateOptions({readOnly: false});
+    props.setDisplay(false);
+    setDecorations([]);
+  }
+
+  function toggleDisplay() {
+    if (props.tagDisplay) {
+      endTagView();
+
+    } else {
+      displayJSTags();
+    }
+  }
 
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
@@ -227,6 +240,8 @@ const WebEditors = (props) => {
 
     });
   }
+
+
 
 
   
@@ -465,13 +480,13 @@ const WebEditors = (props) => {
         </div>
        
         <div className="web-editor-container">
-          <div className="stop3 editor" onClick={endTagView}>
+          <div className="stop3 editor">
             <CodeEditor
                 language={"javascript"}
                 theme={theme}
                 width="100%"
+                toggleDisplay={toggleDisplay}
                 mount={handleJSDidMount}
-                tagDisplay={displayJSTags}
             />
           </div>
           <div className="editor">
@@ -479,8 +494,8 @@ const WebEditors = (props) => {
                 language={"html"}
                 theme={theme}
                 width="100%"
+                toggleDisplay={toggleDisplay}
                 mount={handleHTMLDidMount}
-                tagDisplay={displayJSTags}
             />
           
           </div>
@@ -489,8 +504,8 @@ const WebEditors = (props) => {
                 language={"css"}
                 theme={theme}
                 width="100%"
+                toggleDisplay={toggleDisplay}
                 mount={handleCSSDidMount}
-                tagDisplay={displayJSTags}
             />    
           </div>
           
@@ -526,7 +541,8 @@ const mapStateToProps = (reduxstate) => {
     cleanedCode: reduxstate.project.cleanedCode,
     codeHistory: reduxstate.project.codeHistory,
     previousFrame: reduxstate.project.previousFrame,
+    tagDisplay: reduxstate.tagDisplay.tagDisplay
  };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript, addCodeHistory })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript, addCodeHistory, setDisplay })(WebEditors);
