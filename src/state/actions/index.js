@@ -26,6 +26,7 @@ import {
   signup,
   getUserFromStorage,
   signOut,
+  onboarding,
   refreshUser,
 } from "./user";
 
@@ -94,6 +95,7 @@ export {
   signup,
   getUserFromStorage,
   signOut,
+  onboarding,
   addCleanedJavascript,
   loadProjects,
   loadUserProjects,
