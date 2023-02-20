@@ -208,8 +208,6 @@ export const getAllUsers = async () => {
         authorization: token,
       },
     });
-
-    console.log("set onboaridng", data)
     return data;
   } catch (error) {
     console.log(error);

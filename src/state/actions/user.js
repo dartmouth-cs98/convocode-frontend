@@ -1,5 +1,5 @@
 
-import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, setOnboarding } from "../../services/user.js"
+import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, setOnboarding, getUser } from "../../services/user.js"
 
 import { getLikedProjects, getUserProjects } from "../../services/projects.js";
 
