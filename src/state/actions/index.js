@@ -117,7 +117,7 @@ export {
   addHTMLCodeHistory,
   setJavaDisplay,
   setCSSDisplay,
-  setHTMLDisplay
+  setHTMLDisplay,
   comment,
   setReplyingTo,
   likeProject,
