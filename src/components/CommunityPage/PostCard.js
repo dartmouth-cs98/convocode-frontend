@@ -7,7 +7,7 @@ const Post = (props) => {
 
   const navigate = useNavigate();
 
-  let tag = props.item.tags.length > 0 ? props.item.tags[0].toString().toLowerCase() : "undefined"
+  let tag = "undefined"
 
   console.log(props.item)
 

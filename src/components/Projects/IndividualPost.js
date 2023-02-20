@@ -149,21 +149,19 @@ const IndividualPost = (props) => {
             </div>
             <div className="commentcontainer">
               <div className="discussion-header">Discussion</div>
-<<<<<<< HEAD
-           
-              <div className="comments" style={{"overflow": "auto", "height":"50vh"}}> 
-              {
-                props.project.commentObjects.map((item) => {
-                  {console.log('hey')}
-                  {console.log(item.replyingTo)}
-                  return (
+
+              <div className="comments" style={{ "overflow": "auto", "height": "50vh" }}>
+                {
+                  props.project.commentObjects.map((item) => {
+                    { console.log('hey') }
+                    { console.log(item.replyingTo) }
+                    return (
                       <CommentCard item={item} key={item.id} reply={item.replyingTo} />
-                  )
-                })
-              }
-            </div>
-              <div className="discussion-footer"style={{"margin": "5px"}}>An input box goes here</div>
-=======
+                    )
+                  })
+                }
+              </div>
+              <div className="discussion-footer" style={{ "margin": "5px" }}>An input box goes here</div>
 
               <div className="comments" style={{ "overflow": "auto", "height": "50vh" }}>
                 {
@@ -179,7 +177,6 @@ const IndividualPost = (props) => {
                 }
               </div>
               <div className="discussion-footer" style={{ "margin": "5px" }}>An input box goes here</div>
->>>>>>> e2c3e4a (basic liking)
             </div>
           </div>
           <div className="post-modal-code" style={{ "flex-grow": "4" }}>

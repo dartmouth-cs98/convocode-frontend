@@ -58,7 +58,7 @@ const SignUp = (props) => {
       <div className="content">
         <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
         {props.error.data ?
-          <ErrorModal isOpen={modalShow} handleModalToggle={handleModalToggle} title={props.error.location} error={props.error.data} onClose={props.clearUserError} /> :
+          <ErrorModal isOpen={modalShow} handleModalToggle={handleModalToggle} title={props.error.location} error={props.error.data.error} status={props.error.status} onClose={props.clearUserError} /> :
           <></>
         }
         <Formik

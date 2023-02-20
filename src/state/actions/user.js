@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, setOnboarding } from "../../services/user.js"
-=======
-import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, getUser } from "../../services/user.js"
->>>>>>> e2c3e4a (basic liking)
+import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, setOnboarding, getUser } from "../../services/user.js"
 import { getLikedProjects, getUserProjects } from "../../services/projects.js";
 import { useNavigate } from "react-router-dom";
 
@@ -77,7 +73,8 @@ export const signup = (email, password, username) => {
       console.log("error in actions", error)
       const e = {
         location: "Sign Up",
-        data: error
+        data: error.response.data,
+        status: error.response.status,
       }
       dispatch({ type: ActionTypes.SET_ERROR, payload: e });
     };

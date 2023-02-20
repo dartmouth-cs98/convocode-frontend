@@ -7,15 +7,20 @@ import './error.css';
 const ErrorModal = (props) => {
   return (
     <ReactModal className="error-modal" isOpen={props.isOpen} onRequestClose={props.handleModalToggle} ariaHideApp={false} onAfterClose={props.onClose ? props.onClose : () => { }}>
-      <h1 id="smaller">Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
+      <div className='error-header'>
+        <span>🚨</span>
+        <span>{props.status}</span>
+        <span>🚨</span>
+      </div>
       <div className="error-content">
-        <div className="error-title">
-          <img style={{ height: '30px' }} alt="error alert" src={error} />
-          <h2>Error Occured on {props.title}</h2>
-          <img style={{ height: '30px' }} alt="error alert" src={error} />
+        <div className='error-text'>
+          <p>Oops, seems like something went wrong.</p>
+          <p>{props.error}</p>
         </div>
-        <p>{props.error}</p>
-        <p>Please check your connection and try again.</p>
+        <button onClick={() => {
+          props.handleModalToggle()
+          props.onClose()
+        }}>Close</button>
       </div>
     </ReactModal >
   )
