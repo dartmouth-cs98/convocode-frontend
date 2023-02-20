@@ -67,8 +67,6 @@ const WebEditors = (props) => {
     7: "pumpkinSpiceDecorator"
   });
 
-  const [outputSelection, setOutputSelection] = useState("output");
-
   const jsRef = useRef(null);
   const monacoRef = useRef(null);
   const cssRef = useRef(null);
@@ -196,11 +194,25 @@ const WebEditors = (props) => {
 
   function findTagRange(tag, arr) {
     var range = []
+    var currRange = []
+    var adding = false;
     for (var i = 0; i < arr.length; i++) {
+      if (adding === true && arr[i] !== tag) {
+        adding = false;
+        range.push(currRange);
+        currRange = [];
+      } 
       if (arr[i] === tag) {
-        range.push(i);
+        if (range.length === 0) {
+          adding = true
+        }
+        currRange.push(i);
       }
     }
+    if (currRange.length !== 0) {
+      range.push(currRange);
+    }
+    console.log(range);
     return range;
   }
 
@@ -213,9 +225,12 @@ const WebEditors = (props) => {
     var ranges = []
     for (var i = 0; i < unique.length; i++) {
       var r = findTagRange(unique[i], currTags);
-      var start = r[0];
-      var end = r[r.length - 1];
-      ranges.push([start, end]);
+      for (var j = 0; j < r.length; j++) {
+        var start = r[j][0];
+        var end = r[j][r[j].length - 1];
+        ranges.push([start, end]);
+      }
+      
     }
     return ranges;
 
@@ -340,10 +355,12 @@ const WebEditors = (props) => {
         const newTags = getNewTags(query, props.htmlCode.split(/\r\n|\r|\n/), "html");
         props.addHTMLCodeHistory({query: query, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags});
         setRemoteAdd(false);
+        console.log(newTags);
 
       } else {
         const newTags = getNewTags(-1, props.htmlCode.split(/\r\n|\r|\n/), "html");
         props.addHTMLCodeHistory({query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags});
+        console.log(newTags);
       }
     } catch {
       console.log("couldn't add code history");
