@@ -11,7 +11,7 @@ import IndividualPost from './components/Projects/IndividualPost';
 
 
 function App() {
-  const [isMobile] = useState(window.innerWidth < 725);
+  const [isMobile] = useState(window.innerWidth < 550);
   console.log(window.innerWidth)
 
   if (isMobile) return <MobileView />;

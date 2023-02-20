@@ -9,9 +9,9 @@ export const ActionTypes = {
   SET_LIKED_PROJECTS: 'SET_LIKED_PROJECTS',
   CLEAR_USER_DATA: 'CLEAR_USER_DATA',
   CLEAR_PROFILE_DATA: 'CLEAR_PROFILE_DATA',
-  API_ERROR: 'API_ERROR',
-  ONBOARDED: 'ONBOARDED'
-
+  SET_USER_ERROR: 'SET_USER_ERROR',
+  CLEAR_USER_ERROR: 'CLEAR_USER_ERROR',
+  ONBOARDED: 'ONBOARDED',
 };
 
 /**
@@ -77,17 +77,14 @@ export const signup = (email, password, username, onSuccess = () => { }, onError
         console.log(data)
         dispatch({ type: ActionTypes.SET_USER_DATA, payload: data });
       }
-      onSuccess();
     } catch (error) {
-      console.log(error)
-      dispatch({
-        type: ActionTypes.API_ERROR,
-        payload: {
-          action: 'SIGNUP',
-          error,
-        },
-      });
-      onError(error);
+      console.log("error in actions", error)
+      const e = {
+        location: "Sign Up",
+        data: error.response.data,
+        status: error.response.status,
+      }
+      dispatch({ type: ActionTypes.SET_USER_ERROR, payload: e });
     }
   };
 };
@@ -149,9 +146,18 @@ export const signOut = () => {
 /**
  * @description action for setting onboarded as false after runing through process
  */
-export const onboarding  = ()  => {
+export const onboarding = () => {
   return async (dispatch) => {
     setOnboarding();
     dispatch({ type: ActionTypes.ONBOARDED, payload: false });
+  }
+}
+
+/**
+ * @description clear api error
+ */
+export const clearUserError = () => {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.CLEAR_USER_ERROR, payload: {} });
   }
 }
