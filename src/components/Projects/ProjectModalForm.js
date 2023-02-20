@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import CodeEditor from '../EditorWindow/CodeEditor';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, deleteProjectTag, addProjectStatus } from '../../state/actions';
+import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, deleteProjectTag, addProjectStatus, createProject } from '../../state/actions';
 import { getAuthTokenFromStorage } from '../../services/utils.js';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -16,7 +16,6 @@ const ProjectModalForm = (props) => {
     const [theme] = useState('light');
     const [modalShow, setModalShow] = useState(false);
     const [projectTags, setProjectTags] = useState([]);
-    const [submitAction, setSubmitAction] = useState("");
     const navigate = useNavigate();
 
     const ProjectSchema = Yup.object().shape({
@@ -26,12 +25,6 @@ const ProjectModalForm = (props) => {
             .required('Required'),
         description: Yup.string()
             .required('Required'),
-        // htmlCode: Yup.string()
-        //     .required('Required'),
-        // javaCode: Yup.string()
-        //     .required('Required'),
-        // cssCode: Yup.string()
-        //     .required('Required'),
     });
     
     const handleModalToggle = () => {
@@ -63,7 +56,7 @@ const ProjectModalForm = (props) => {
                     tags: projectTags,
                     title: values.title,
                     description: values.description,
-                    javaCode: props.javascriptCode,
+                    javaCode: props.javaCode,
                     htmlCode: props.htmlCode,
                     cssCode: props.cssCode,
                     cleanedCode: props.cleanedCode,
@@ -74,7 +67,7 @@ const ProjectModalForm = (props) => {
             } else {
                 const projectInfo = {
                     title: values.title,
-                    javaCode: props.javascriptCode,
+                    javaCode: props.javaCode,
                     htmlCode: props.htmlCode,
                     cssCode: props.cssCode,
                     tags: projectTags,
@@ -138,16 +131,13 @@ const ProjectModalForm = (props) => {
                             tags: [],
                             title: '',
                             description: '',
-                            // htmlCode: props.htmlCode,
-                            // javaCode: props.javascriptCode,
-                            // cssCode: props.cssCode,
                         }}
                         validationSchema={ProjectSchema}
                         onSubmit={(values) =>
                             submit(values)
                         }
                         >
-                            {({ errors, touched }) => (
+                            {({ errors, touched, props }) => (
                                 <Form className="edit-modal-form">
                                         <div className="edit-modal-info flex-col"  style={{ "flex-grow": "1" }}>
                                             <div id="tags-box" className="input-info ">
@@ -162,7 +152,6 @@ const ProjectModalForm = (props) => {
                                                     })
                                                     }
                                                 <Field name="tags" id="project-input" onKeyUp={handleAddTags} onKeyPress={e => { e.which === 13 && e.preventDefault()}}/>
-                                                {/* <Field name="tags" id="project-input" onKeyUp={handleAddTags}/>  */}
                                                 {errors.tags && touched.tags ? (
                                                     <div>{errors.tags}</div>
                                                 ) : null}
@@ -170,7 +159,6 @@ const ProjectModalForm = (props) => {
                                             <div className="input-info">
                                                 <h3 className="input-header">Project Title</h3>
                                                 <Field name="title" id="project-input" onKeyPress={e => { e.which === 13 && e.preventDefault()}}/>
-                                                {/* <Field name="title" id="project-input"/> */}
                                                 {errors.title && touched.title ? (
                                                     <div>{errors.title}</div>
                                                 ) : null}
@@ -178,7 +166,6 @@ const ProjectModalForm = (props) => {
                                             <div className="input-info">
                                                 <h3 className="input-header">Project Description</h3>
                                                 <Field name="description" id="project-input" onKeyPress={e => { e.which === 13 && e.preventDefault()}}/>
-                                                {/* <Field name="description" id="project-input"/> */}
                                                 {errors.description && touched.description ? (
                                                     <div>{errors.description}</div>
                                                 ) : null}
@@ -212,7 +199,7 @@ const ProjectModalForm = (props) => {
                                             </Tabs>
                                             </div>
                                             <div className="project-buttons">
-                                                <button className="light-pink" onClick={()=>save(Formik.values)}>Save For Later</button>
+                                                <button className="light-pink" type="button" onClick={()=>save(props.values)}>Save For Later</button>
                                                 <button className="pink" type="submit">Post</button>
                                             </div>
                                         </div>
@@ -230,7 +217,7 @@ const ProjectModalForm = (props) => {
 const mapStateToProps = (reduxstate) => {
     return {
         code: reduxstate.code.string,
-        javascriptCode: reduxstate.project.javaCode,
+        javaCode: reduxstate.project.javaCode,
         htmlCode: reduxstate.project.htmlCode,
         cssCode: reduxstate.project.cssCode,
         id: reduxstate.project.id,
@@ -243,5 +230,5 @@ const mapStateToProps = (reduxstate) => {
     };
 };
 
-export default connect(mapStateToProps, {addProjectId, addProjectTitle, addProjectDescription, addProjectTag, deleteProjectTag, addProjectStatus})(ProjectModalForm);
+export default connect(mapStateToProps, {addProjectId, addProjectTitle, addProjectDescription, addProjectTag, deleteProjectTag, addProjectStatus, createProject})(ProjectModalForm);
 
