@@ -47,9 +47,7 @@ const ProjectModalForm = (props) => {
     };
 
     const save = (values) => {
-        console.log("values", values);
         try {
-            console.log("tags in field", values.tags);
             const status = false;
             if (props.id) {
                 const projectInfo = {
@@ -74,7 +72,7 @@ const ProjectModalForm = (props) => {
                     status: status,
                   }
           
-                console.log("new project to create", projectInfo)
+                console.log("new project to create", projectInfo);
                 props.createProject(projectInfo);
             }
         } catch (error) {
@@ -85,7 +83,6 @@ const ProjectModalForm = (props) => {
 
     const submit = (values) => {
         try {
-            console.log("tags in field", values.tags);
             const status = true;
             if (props.id) {
             const projectInfo = {
@@ -109,9 +106,7 @@ const ProjectModalForm = (props) => {
                     tags: projectTags,
                     status: status,
                   }
-          
-                  console.log("new project to create", projectInfo)
-          
+                console.log("new project to create", projectInfo);
                 props.createProject(projectInfo);
 
             }
