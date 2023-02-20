@@ -6,7 +6,7 @@ import Editor from "@monaco-editor/react";
 import { connect } from 'react-redux';
 import { addCode } from "../../state/actions";
 import { addJavascriptCode, addHTMLCode, addCSSCode } from "../../state/actions";
-import { setDisplay } from "../../state/actions";
+import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from "../../state/actions";
 
 import './index.css'
 
@@ -27,6 +27,15 @@ const CodeEditor = (props) => {
     editor_state = props.cssCode;
   }
 
+  var tagState;
+  if (props.language === "javascript") {
+    tagState = props.javaDisplay;
+  } else if (props.language === "html") {
+    tagState = props.htmlDisplay;
+  } else {
+    tagState = props.cssDisplay;
+  }
+
 
   const handleEditorChange = (value) => {
     if (props.language === "javascript") {
@@ -45,7 +54,7 @@ const CodeEditor = (props) => {
     <div className="overlay rounded-md w-full h-full shadow-4xl">
       <div className="html-header">
       <div>{props.language}</div>
-      <button onClick={() => props.toggleDisplay()}>{props.tagDisplay ? 'Back to Editing' : 'Command History'}</button>
+      <button onClick={() => props.toggleDisplay(props.language)}>{tagState ? 'Back to Editing' : 'Command History'}</button>
       </div>
       <Editor
         className="bottom-rounded"
@@ -73,9 +82,11 @@ const mapStateToProps = (reduxstate) => {
     htmlCode: reduxstate.project.htmlCode,
     cssCode: reduxstate.project.cssCode,
     lightMode: reduxstate.settings.lightMode,
-    tagDisplay: reduxstate.tagDisplay.tagDisplay,
+    javaDisplay: reduxstate.tagDisplay.javaDisplay,
+    cssDisplay: reduxstate.tagDisplay.cssDisplay,
+    htmlDisplay: reduxstate.tagDisplay.htmlDisplay,
 
   };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, addHTMLCode, addCSSCode, setDisplay })(CodeEditor);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, addHTMLCode, addCSSCode, setJavaDisplay, setCSSDisplay, setHTMLDisplay })(CodeEditor);

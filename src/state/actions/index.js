@@ -41,7 +41,9 @@ import {
 
 import {
   ActionTypes as tagDisplayActionTypes,
-  setDisplay,
+  setJavaDisplay,
+  setCSSDisplay,
+  setHTMLDisplay
 } from './tagDisplay';
 
 import {
@@ -59,7 +61,9 @@ import {
   addCleanedJavascript,
   addProjectStatus,
   createProject,
-  addCodeHistory,
+  addHTMLCodeHistory,
+  addJavaCodeHistory,
+  addCSSCodeHistory,
 
 } from './project';
 
@@ -102,6 +106,10 @@ export {
   loadUserProjects,
   loadLikedProjects,
   createProject,
-  addCodeHistory,
-  setDisplay,
+  addJavaCodeHistory,
+  addCSSCodeHistory,
+  addHTMLCodeHistory,
+  setJavaDisplay,
+  setCSSDisplay,
+  setHTMLDisplay
 }

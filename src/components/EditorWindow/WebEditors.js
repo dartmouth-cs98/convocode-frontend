@@ -11,8 +11,8 @@ import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addProjectId, addProjectTitle } from '../../state/actions';
 import { addCleanedJavascript } from '../../state/actions';
-import { addCodeHistory } from '../../state/actions';
-import { setDisplay } from '../../state/actions';
+import { addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory } from '../../state/actions';
+import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import singleTab from '../../resources/SingleTab.svg';
@@ -54,7 +54,9 @@ const WebEditors = (props) => {
   const [changedLines, setChangedLines] = useState([])
   const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
-  const [decorations, setDecorations] = useState([]);
+  const [jsDecorations, setJsDecorations] = useState([]);
+  const [cssDecorations, setCssDecorations] = useState([]);
+  const [htmlDecorations, setHtmlDecorations] = useState([]);
   const [decorationDict, setDecorationDict] = useState({
     1: "unicornDecorator",
     2: "easyADecorator",
@@ -71,21 +73,73 @@ const WebEditors = (props) => {
   const monacoRef = useRef(null);
   const cssRef = useRef(null);
   const htmlRef = useRef(null);
-  
-  // code 1: shorter
-  // code 2: longer
 
+  function getHistory(codeType) {
+    var history;
+    if (codeType === "javascript") {
+      history = props.javaCodeHistory;
+    } else if (codeType === "css") {
+      history = props.cssCodeHistory;
+    } else {
+      history = props.htmlCodeHistory;
+    }
+    return history;
 
- function getNewTags(q, newCode) {
-    console.log("hello");
+  }
+
+  function getEditor(codeType) {
+    var editorRef;
+    if (codeType === "javascript") {
+      editorRef = jsRef.current;
+    } else if (codeType === "css") {
+      editorRef = cssRef.current;
+    } else {
+      editorRef = htmlRef.current;
+    }
+    return editorRef;
+
+  }
+
+  function setDisplay(codeType, bool) {
+    if (codeType === "javascript") {
+      props.setJavaDisplay(bool);
+    } else if (codeType === "css") {
+      props.setCSSDisplay(bool);
+    } else {
+      props.setHTMLDisplay(bool);
+    }
+  }
+
+  function setDecorations(codeType, d) {
+    if (codeType === "javascript") {
+      setJsDecorations(d);
+    } else if (codeType === "css") {
+      setCssDecorations(d);
+    } else {
+      setHtmlDecorations(d);
+    }
+  }
+
+  function getDecorations(codeType) {
+    if (codeType === "javascript") {
+      return jsDecorations;
+    } else if (codeType === "css") {
+      return cssDecorations;
+    } else {
+      return htmlDecorations;
+    }
+  }
+
+ function getNewTags(q, newCode, codeType) {
+    var history = getHistory(codeType);
     var tags = []
-    if (props.codeHistory.length === 0) {
+    if (history.length === 0) {
       for (var i = 0; i < newCode.length; i++) {
         tags.push(q);
       }
     }
     else {
-      const oldCode = props.codeHistory.slice(-1)[0].code;
+      const oldCode = history.slice(-1)[0].code;
       console.log(oldCode);
       if (oldCode.length === 1) {
         for (var i = 0; i < newCode.length; i++) {
@@ -98,7 +152,7 @@ const WebEditors = (props) => {
         var oP = 0;
         // pointer for location in new code
         var nP = 0;
-        const oldTags = props.codeHistory.slice(-1)[0].tags;
+        const oldTags = history.slice(-1)[0].tags;
         if (oldCode.length <= newCode.length) {
           while (oP < oldCode.length || nP < newCode.length) {
             if (oldCode[oP] === newCode[nP]) {
@@ -149,9 +203,11 @@ const WebEditors = (props) => {
     }
     return range;
   }
+
   
-  function getRanges() {
-    var currTags = props.codeHistory.slice(-1)[0].tags;
+  function getRanges(codeType) {
+    var history = getHistory(codeType);
+    var currTags = history.slice(-1)[0].tags;
     var insertionTags = currTags.filter(checkInsertion);
     var unique = insertionTags.filter(onlyUnique);
     var ranges = []
@@ -162,13 +218,16 @@ const WebEditors = (props) => {
       ranges.push([start, end]);
     }
     return ranges;
+
+    
   }
 
-  function displayJSTags() {
-    var ranges = getRanges();
-    console.log(ranges);
+  function displayTags(codeType) {
+    var history = getHistory(codeType);
+    var editor = getEditor(codeType);
+    var ranges = getRanges(codeType);
     var dList = [];
-    var currTags = props.codeHistory.slice(-1)[0].tags;
+    var currTags = history.slice(-1)[0].tags;
     for (var i = 0; i < ranges.length; i++) {
       var decId = (i + 1)%7;
       const start = ranges[i][0];
@@ -182,72 +241,53 @@ const WebEditors = (props) => {
           hoverMessage: {value: currTags[start]}
         }
       });
-    }  
-    console.log(dList);
-    jsRef.current.updateOptions({readOnly: true});
-    var d = jsRef.current.deltaDecorations([], dList);
-    setDecorations(d);
-    console.log(decorations);
-    props.setDisplay(true);
+    }
+    editor.updateOptions({readOnly: true});
+    var d = editor.deltaDecorations([], dList);
+    setDecorations(codeType, d);
+    setDisplay(codeType, true);
+       
   }
 
-  function endTagView() {
-    //console.log(decorations);
-    console.log("is this firing?");
-    jsRef.current.deltaDecorations(decorations, []);
-    jsRef.current.updateOptions({readOnly: false});
-    props.setDisplay(false);
-    setDecorations([]);
+  function endTagView(codeType) {
+    var editorRef = getEditor(codeType);
+    editorRef.deltaDecorations(getDecorations(codeType), []);
+    editorRef.updateOptions({readOnly: false});
+    setDisplay(codeType, false);
+    setDecorations([], codeType);
   }
 
-  function toggleDisplay() {
-    if (props.tagDisplay) {
-      endTagView();
+  function toggleDisplay(codeType) {
+    var display;
+    if (codeType === "javascript") {
+      display = props.javaDisplay;
+    } else if (codeType === "css") {
+      display = props.cssDisplay;
+    } else {
+      display = props.htmlDisplay;
+    }
+    if (display) {
+      endTagView(codeType);
 
     } else {
-      displayJSTags();
+      displayTags(codeType);
     }
   }
 
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
     monacoRef.current = monaco;
-    jsRef.current.onDidChangeModelContent (e => {
-    
-
-
-
-    });
-
   }
-
 
   function handleCSSDidMount(editor, monaco) {
     cssRef.current = editor;
-    console.log(cssRef);
-
-    editor.onDidChangeModelContent ( e => {
-        console.log(editor.getModel());
-    });
   }
 
   function handleHTMLDidMount(editor, monaco) {
     htmlRef.current = editor;
-    console.log(htmlRef);
-
-    editor.onDidChangeModelContent ( e => {
-        console.log(editor.getModel());
-
-    });
   }
-
-
-
-
-  
   // const Tour = lazy(() => import('/Users/williamperez/Documents/GitHub/convocode-frontend/src/components/EditorWindow/Onboarding/Tour.js'));
   
-
   useEffect(() => {
     try {
         // rewrite the user's JavaScript to protect loops
@@ -259,13 +299,13 @@ const WebEditors = (props) => {
     } try {
       console.log(remoteAdd);
       if (remoteAdd) {
-        const newTags = getNewTags(query, props.javaCode.split(/\r\n|\r|\n/));
-        props.addCodeHistory({query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
+        const newTags = getNewTags(query, props.javaCode.split(/\r\n|\r|\n/), "javascript");
+        props.addJavaCodeHistory({query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
         setRemoteAdd(false);
 
       } else {
-        const newTags = getNewTags(-1, props.javaCode.split(/\r\n|\r|\n/));
-        props.addCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
+        const newTags = getNewTags(-1, props.javaCode.split(/\r\n|\r|\n/), "javascript");
+        props.addJavaCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
 
       }
 
@@ -274,6 +314,41 @@ const WebEditors = (props) => {
     }
 
   }, [props.javaCode]);
+
+  useEffect(() => {
+    try {
+      console.log(remoteAdd);
+      if (remoteAdd) {
+        const newTags = getNewTags(query, props.cssCode.split(/\r\n|\r|\n/), "css");
+        props.addCSSCodeHistory({query: query, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: newTags});
+        setRemoteAdd(false);
+
+      } else {
+        const newTags = getNewTags(-1, props.cssCode.split(/\r\n|\r|\n/), "css");
+        props.addCSSCodeHistory({query: -1, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: newTags});
+      }
+    } catch {
+      console.log("couldn't add code history");
+    }
+
+  }, [props.cssCode]);
+
+  useEffect(() => {
+    try {
+      console.log(remoteAdd);
+      if (remoteAdd) {
+        const newTags = getNewTags(query, props.htmlCode.split(/\r\n|\r|\n/), "html");
+        props.addHTMLCodeHistory({query: query, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags});
+        setRemoteAdd(false);
+
+      } else {
+        const newTags = getNewTags(-1, props.htmlCode.split(/\r\n|\r|\n/), "html");
+        props.addHTMLCodeHistory({query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags});
+      }
+    } catch {
+      console.log("couldn't add code history");
+    }
+  }, [props.htmlCode]);
 
 
 
@@ -313,27 +388,11 @@ const WebEditors = (props) => {
       const last_line = line_list[line_list.length - 1];
       const line_num = res.data.code.split(/\r\n|\r|\n/).length;
       if (currentLanguage === "javascript") {
-        console.log(jsRef.current.getPosition().lineNumber);
-        const startEdits = jsRef.current.getPosition().lineNumber;
-        const endEdits = jsRef.current.getPosition().lineNumber + line_num;
-        console.log(`start edits: ${startEdits}`);
-        console.log(`end edits: ${endEdits}`);
-        setChangedLines([startEdits, endEdits]);
-        console.log(changedLines);
         if (props.javaCode.length === 0) {
             props.addJavascriptCode(res.data.code);
         } else {
             props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: res.data.code});
-        }
-        
-        /* const newLine = jsRef.current.getPosition().lineNumber + line_num - 1;
-        console.log(`new positon set: ${newLine} ${last_line.length}`);
-        jsRef.current.setPosition({
-          lineNumber: newLine,
-          column: last_line.length,
-        }); 
-        console.log(`new position: ${jsRef.current.getPosition()}`); */
-        
+        }    
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
             props.addHTMLCode(res.data.code);
@@ -539,10 +598,13 @@ const mapStateToProps = (reduxstate) => {
     id: reduxstate.project.id,
     title: reduxstate.project.title,
     cleanedCode: reduxstate.project.cleanedCode,
-    codeHistory: reduxstate.project.codeHistory,
-    previousFrame: reduxstate.project.previousFrame,
-    tagDisplay: reduxstate.tagDisplay.tagDisplay
+    javaCodeHistory: reduxstate.project.javaCodeHistory,
+    cssCodeHistory: reduxstate.project.cssCodeHistory,
+    htmlCodeHistory: reduxstate.project.htmlCodeHistory,
+    javaDisplay: reduxstate.tagDisplay.javaDisplay,
+    cssDisplay: reduxstate.tagDisplay.cssDisplay,
+    htmlDisplay: reduxstate.tagDisplay.htmlDisplay,
  };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript, addCodeHistory, setDisplay })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setJavaDisplay, setCSSDisplay, setHTMLDisplay })(WebEditors);

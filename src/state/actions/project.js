@@ -16,7 +16,9 @@ export const ActionTypes = {
   ADD_PROJECT_STATUS: 'ADD_PROJECT_STATUS',
   CLEAR_PROJECT_DATA: 'CLEAR_PROJECT_DATA',
   ADD_CLEANED_CODE: 'ADD_CLEANED_CODE',
-  ADD_CODE_HISTORY: 'ADD_CODE_HISTORY',
+  ADD_JAVA_CODE_HISTORY: 'ADD_JAVA_CODE_HISTORY',
+  ADD_CSS_CODE_HISTORY: 'ADD_CSS_CODE_HISTORY',
+  ADD_HTML_CODE_HISTORY: 'ADD_HTML_CODE_HISTORY',
 };
 
 /**
@@ -173,9 +175,21 @@ export const clearProject = () => {
   };
 };
 
-  export const addCodeHistory = (input) => {
+  export const addJavaCodeHistory = (input) => {
     return (dispatch) => {
-      dispatch({ type: ActionTypes.ADD_CODE_HISTORY, payload: input });
+      dispatch({ type: ActionTypes.ADD_JAVA_CODE_HISTORY, payload: input });
+    };
+  };
+
+  export const addCSSCodeHistory = (input) => {
+    return (dispatch) => {
+      dispatch({ type: ActionTypes.ADD_CSS_CODE_HISTORY, payload: input });
+    };
+  };
+
+  export const addHTMLCodeHistory = (input) => {
+    return (dispatch) => {
+      dispatch({ type: ActionTypes.ADD_HTML_CODE_HISTORY, payload: input });
     };
   };
 
