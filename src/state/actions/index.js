@@ -42,6 +42,13 @@ import {
 } from './profile';
 
 import {
+  ActionTypes as tagDisplayActionTypes,
+  setJavaDisplay,
+  setCSSDisplay,
+  setHTMLDisplay
+} from './tagDisplay';
+
+import {
   ActionTypes as projectActionTypes,
   addJavascriptCode,
   insertJavascriptCode,
@@ -56,6 +63,9 @@ import {
   addCleanedJavascript,
   addProjectStatus,
   createProject,
+  addHTMLCodeHistory,
+  addJavaCodeHistory,
+  addCSSCodeHistory,
   comment,
   setReplyingTo,
   likeProject,
@@ -70,6 +80,7 @@ const ActionTypes = {
   ...projectActionTypes,
   ...userActionTypes,
   ...communityActionTypes,
+  ...tagDisplayActionTypes,
 };
 
 export {
@@ -101,6 +112,12 @@ export {
   loadUserProjects,
   loadLikedProjects,
   createProject,
+  addJavaCodeHistory,
+  addCSSCodeHistory,
+  addHTMLCodeHistory,
+  setJavaDisplay,
+  setCSSDisplay,
+  setHTMLDisplay
   comment,
   setReplyingTo,
   likeProject,

@@ -30,6 +30,9 @@
     padding: 10px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 .commandBar{
     padding-left: 25px;
@@ -62,3 +65,46 @@ input {
 .heather-grey{
     background-color: #737B7D;
 }
+
+.unicornDecorator {
+    background: var(--unicorn);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.grapeDecorator {
+    background: var(--grape);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.pumpkinSpiceDecorator {
+    background: var(--pumpkinSpice);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.busDecorator {
+    background: var(--bus);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.skyDecorator {
+    background: var(--sky);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.sageDecorator {
+    background: var(--sage);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.easyADecorator {
+    background: var(--easyA);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
