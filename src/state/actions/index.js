@@ -26,6 +26,8 @@ import {
   signup,
   getUserFromStorage,
   signOut,
+  onboarding,
+  refreshUser,
 } from "./user";
 
 import {
@@ -64,7 +66,10 @@ import {
   addHTMLCodeHistory,
   addJavaCodeHistory,
   addCSSCodeHistory,
-
+  comment,
+  setReplyingTo,
+  likeProject,
+  loadProject,
 } from './project';
 
 const ActionTypes = {
@@ -101,6 +106,7 @@ export {
   signup,
   getUserFromStorage,
   signOut,
+  onboarding,
   addCleanedJavascript,
   loadProjects,
   loadUserProjects,
@@ -112,4 +118,9 @@ export {
   setJavaDisplay,
   setCSSDisplay,
   setHTMLDisplay
+  comment,
+  setReplyingTo,
+  likeProject,
+  refreshUser,
+  loadProject,
 }

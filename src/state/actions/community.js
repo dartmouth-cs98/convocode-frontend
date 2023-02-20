@@ -1,4 +1,4 @@
-import { getAllProjects } from '../../services/projects'
+import { getAllProjects, searchProjects } from '../../services/projects'
 
 export const ActionTypes = {
   LOAD_PROJECTS: 'LOAD_PROJECTS',
@@ -8,13 +8,17 @@ export const ActionTypes = {
  * @description load all projects from backend 
  * @param num quantity of projects to load
  */
-export const loadProjects = (num = "") => {
+export const loadProjects = (searchString = "") => {
   return async (dispatch) => {
     try {
-      const data = await getAllProjects();
-      if (data) {
-        console.log(data)
+      let data = null;
+      if(searchString === ""){
+        data = await getAllProjects();
       }
+      else{
+        data = await searchProjects(searchString);
+      }
+      
       dispatch({ type: ActionTypes.LOAD_PROJECTS, payload: data });
     } catch (error) {
       console.log(error)

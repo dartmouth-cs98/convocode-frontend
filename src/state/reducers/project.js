@@ -4,7 +4,7 @@ import { ActionTypes } from '../actions';
 const initialState = {
   title: "",
   description: "",
-  tags: "",
+  tags: [""],
   javaCode: "",
   htmlCode: "",
   cssCode: "",
@@ -13,10 +13,13 @@ const initialState = {
   likes: Number,
   username: "",
   comments: [""],
+  commentObjects: [],
   id: "",
   javaCodeHistory: [{query: -1, code: [""], tags: [-1]}],
   cssCodeHistory: [{query: -1, code: [""], tags: [-1]}],
   htmlCodeHistory: [{query: -1, code: [""], tags: [-1]}],
+  replyingTo: "",
+  replyingUser: "",
 };
 
 
@@ -78,9 +81,19 @@ const ProjectReducer = (state = initialState, action) => {
     case ActionTypes.ADD_PROJECT_TAG:
       return { ...state, tags: action.payload };
     case ActionTypes.ADD_CLEANED_CODE:
-      return {...state, cleanedCode: action.payload};      
+      return { ...state, cleanedCode: action.payload };
     case ActionTypes.ADD_PROJECT_STATUS:
       return { ...state, status: action.payload };
+    case ActionTypes.ADD_COMMENTS:
+      return { ...state, commentObjects: action.payload };
+    case ActionTypes.ADD_NEW_COMMENT:
+      return { ...state, commentObjects: [...state.commentObjects, action.payload] };
+    case ActionTypes.SET_REPLYING_TO:
+      return { ...state, replyingTo: action.payload };
+    case ActionTypes.SET_REPLYING_USER:
+      return { ...state, replyingUser: action.payload };
+    case ActionTypes.LIKE_PROJECT:
+      return { ...state, likes: action.payload };
     case ActionTypes.CLEAR_PROJECT_DATA:
       return { ...initialState };
     case ActionTypes.ADD_JAVA_CODE_HISTORY:

@@ -19,7 +19,7 @@ const SUBROUTE = 'user';
  */
 export const UserServicesLogin = async (email, password) => {
 
-  const url = `http://localhost:8000/api/user/signin`;
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/signin`;
 
   try {
     const { data } = await axios.post(url, {
@@ -193,63 +193,23 @@ export const getAllUsers = async () => {
   }
 };
 
+
 /**
- * @description loads user authored projects from the db
- * @param id user id
+ * @description sets onboarding to false
  * @returns {Promise<Object>} API response
  */
-export const getUserProjects = async () => {
-
-  console.log("now in projects services")
-  const userToken = getAuthTokenFromStorage();
-  console.log("do we have auth token yet");
-  console.log(userToken)
-
-  const url = `http://localhost:8000/api/project/userprojects`;
+ export const setOnboarding = async () => {
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}`;
+  const token = getAuthTokenFromStorage();
 
   try {
-    console.log('trying to get all user projects!');
-
-    const { data } = await axios.get(url, {
+    const { data } = await axios.put(url, {onboarded: false }, {
       headers: {
-        authorization: userToken
+        authorization: token,
       },
     });
 
-    console.log("back from getUserProjects request")
-    console.log(data);
-
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
-
-/**
- * @description loads user authored projects from the db
- * @returns {Promise<Object>} API response
- */
-export const getLikedProjects = async () => {
-
-  console.log("now in projects services")
-  const userToken = getAuthTokenFromStorage();
-  console.log(userToken)
-
-  const url = `http://localhost:8000/api/project/likedprojects`;
-
-  try {
-    console.log('trying to get all liked projects!');
-
-    const { data } = await axios.get(url, {
-      headers: {
-        authorization: userToken
-      },
-    });
-
-    console.log("back from getLikedProjects request")
-    console.log(data);
-
+    console.log("set onboaridng", data)
     return data;
   } catch (error) {
     console.log(error);

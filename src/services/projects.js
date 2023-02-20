@@ -1,8 +1,8 @@
 import axios from 'axios';
-//import { getUser } from 'user'
 import { getAuthTokenFromStorage } from './utils.js';
 
 const SUBROUTE = 'project';
+const SUBROUTE_COMMENT = 'comment';
 
 /**
  * @description loads projects from backend
@@ -21,13 +21,39 @@ export const getAllProjects = async () => {
 
 
 /**
+ * @description loads searched projects from backend
+ * @returns {Promise<Object>} API response
+ */
+export const searchProjects = async (searchString) => {
+  console.log(searchString);
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/search`;
+  try {
+    const config = {
+      params: {
+        searchString: searchString
+      }
+    };
+
+    const { data } = await axios.get(url, config);
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
+/**
  * @description loads a project from backend
  * @param id project id
  * @returns {Promise<Object>} API response
  */
 export const getProject = async (id) => {
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/${id}`;
-
+  console.log("in get project")
+  console.log(url)
+  console.log(id);
   try {
     const { data } = await axios.get(url);
     // format data for redux 
@@ -39,6 +65,57 @@ export const getProject = async (id) => {
 };
 
 /**
+ * @description loads the comments on a project from the backend
+ * @param id project id
+ * @returns {Promise<Object>} API response
+ */
+export const getComments = async (id) => {
+  const requestUrl = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE_COMMENT}/${id}`;
+
+  try {
+
+    // send request to db for project comments
+    const { data } = await axios.get(requestUrl, { projectId: id })
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const commentOnProject = async (projectId, commentBody, replyingTo) => {
+
+  const commentInfo = {
+    commentBody: commentBody,
+    replyingTo: replyingTo
+  }
+
+  const userToken = getAuthTokenFromStorage();
+
+  const requestUrl = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE_COMMENT}/${projectId}`;
+  // request to create comment
+
+    const { data } = await axios.post(requestUrl, commentInfo, { headers: { authorization: userToken } });
+    return data;
+
+}
+
+export const commentOnComment = async (projectId, commentId, username, commentBody) => {
+
+  const commentInfo = {
+    commentId: commentId,
+    username: username,
+    commentBody, commentBody
+  }
+
+  const requestUrl = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE_COMMENT}/${projectId}`;
+
+  const { data } = await axios.post(requestUrl, { commentInfo });
+
+  return data;
+
+}
+
+/**
  * @description loads user authored projects from the db
  * @param id user id
  * @returns {Promise<Object>} API response
@@ -47,9 +124,10 @@ export const getUserProjects = async () => {
 
   console.log("now in projects services")
   const userToken = getAuthTokenFromStorage();
+  console.log("do we have auth token yet");
   console.log(userToken)
 
-  const url = `http://localhost:8000/api/project/userprojects`;
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/userprojects`;
 
   try {
     console.log('trying to get all user projects!');
@@ -80,7 +158,7 @@ export const getLikedProjects = async () => {
   const userToken = getAuthTokenFromStorage();
   console.log(userToken)
 
-  const url = `http://localhost:8000/api/project/likedprojects`;
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/likedprojects`;
 
   try {
     console.log('trying to get all liked projects!');
@@ -106,11 +184,19 @@ export const getLikedProjects = async () => {
  * @param id project id
  * @returns {Promise<Object>} API response
  */
-export const likeProject = async (id) => {
+export const likeServiceProject = async (id) => {
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/like/${id}`;
+  const userToken = getAuthTokenFromStorage();
 
+  console.log("in like proj servbice ", url, id, userToken)
   try {
-    const { data } = await axios.put(url);
+    const { data } = await axios.put(url, {}, {
+      headers: {
+        authorization: userToken
+      },
+    });
+
+    console.log("returned data ", data)
     return data;
   } catch (error) {
     throw error;

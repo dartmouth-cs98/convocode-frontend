@@ -15,8 +15,6 @@ import { addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory } from '../..
 import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
-import singleTab from '../../resources/SingleTab.svg';
-import multiTab from '../../resources/MultiTab.svg';
 import axios from 'axios';
 import './webEditor.css';
 import HeaderBar from '../HeaderBar/HeaderBar';
@@ -24,14 +22,10 @@ import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import './index.css';
 import Tour from '../EditorWindow/Onboarding/Tour.js';
 
-// import { lazy } from 'react';
-
-
-
 // loads in .env file if needed
 import dotenv from 'dotenv';
-import { getSuggestedQuery } from '@testing-library/react';
 import ProjectModal from '../Projects/ProjectModal';
+import { getOpenAICode } from '../../services/getCode';
 dotenv.config({ silent: true });
 
 
@@ -42,12 +36,8 @@ const WebEditors = (props) => {
   // getting code from nav link props
   const [theme] = useState("light");
   const [outputDetails, setOutputDetails] = useState(null);
-  const [open, setOpen] = useState(true);
-  const [modalShow, setModalShow] = useState(false);
-  const [title, setTitle] = useState("");
-  const [JSquery, setJSQuery] = useState("");
-  const [CSSquery, setCSSQuery] = useState("");
-  const [HTMLquery, setHTMLQuery] = useState("");
+  const [_modalShow, setModalShow] = useState(false);
+  const [_title, setTitle] = useState("");
   const [query, setQuery] = useState("");
   const [remoteAdd, setRemoteAdd] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("html");
@@ -98,6 +88,7 @@ const WebEditors = (props) => {
 
   }
 
+
   function setDisplay(codeType, bool) {
     if (codeType === "javascript") {
       props.setJavaDisplay(bool);
@@ -117,6 +108,7 @@ const WebEditors = (props) => {
       setHtmlDecorations(d);
     }
   }
+
 
   function getDecorations(codeType) {
     if (codeType === "javascript") {
@@ -184,9 +176,11 @@ const WebEditors = (props) => {
     return tags;
   }  
 
+
   function checkInsertion(tag) {
     return tag !== -1;
   }
+
 
   function onlyUnique(value, index, arr) {
     return arr.indexOf(value) === index;
@@ -326,6 +320,7 @@ const WebEditors = (props) => {
 
     } catch {
       console.log("couldn't add code history");
+
     }
 
   }, [props.javaCode]);
@@ -378,22 +373,16 @@ const WebEditors = (props) => {
     var queryType = null;
     // language check 
     if (currentLanguage === "javascript") {
-        queryType = "// Language: javascript \n//" + query;
-        console.log(queryType)
+      queryType = "// Language: javascript \n//" + query;
+      console.log(queryType)
     } else if (currentLanguage === "html") {
-        queryType = "<!-- " + query + " -->\n + <!DOCTYPE html>";
-        console.log(queryType)
+      queryType = "<!-- " + query + " -->\n + <!DOCTYPE html>";
+      console.log(queryType)
     } else {
-        queryType = "/* Langauage: CSS */\n/* " + query + "*/";
-        console.log(queryType)
+      queryType = "/* Langauage: CSS */\n/* " + query + "*/";
+      console.log(queryType)
     }
-    axios.request({
-      method: "POST",
-      url: `http://localhost:8000/api/getcode`,
-      data: {
-        userInput: queryType
-      }
-    }).then((res) => {
+    getOpenAICode(queryType).then((res) => {
       setLoading(false);
       
       console.log(res);
@@ -404,25 +393,26 @@ const WebEditors = (props) => {
       console.log(line_list);
       const last_line = line_list[line_list.length - 1];
       const line_num = res.data.code.split(/\r\n|\r|\n/).length;
+
       if (currentLanguage === "javascript") {
         if (props.javaCode.length === 0) {
-            props.addJavascriptCode(res.data.code);
+          props.addJavascriptCode(res.code);
         } else {
             props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: res.data.code});
         }    
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
-            props.addHTMLCode(res.data.code);
+          props.addHTMLCode(res.code);
         } else {
-            console.log(htmlRef.current.getPosition().lineNumber);
-            props.insertHTMLCode({index: htmlRef.current.getPosition().lineNumber, code: res.data.code});
-        } 
+          console.log(htmlRef.current.getPosition().lineNumber);
+          props.insertHTMLCode({ index: htmlRef.current.getPosition().lineNumber, code: res.code });
+        }
       } else {
         if (props.cssCode.length === 0) {
-            props.addCSSCode(res.data.code);
+          props.addCSSCode(res.code);
         } else {
-            props.insertCSSCode({index: cssRef.current.getPosition().lineNumber, code: res.data.code});
-        } 
+          props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: res.code });
+        }
       }
     });
   }
@@ -441,67 +431,10 @@ const WebEditors = (props) => {
 
   //const transform = source => Babel.transform(source, {plugins: ['loopProtection'], }).code;
 
-    
+
   const toggleModal = () => {
     setModalShow(modalShow => !modalShow);
   };
-
-  // Function to call the compile endpoint
-  // this is for python: keep in case we want to add back in
-  function submitCode() {
-
-    // reset output if it exists
-    if (outputDetails) {
-      setOutputDetails(null)
-    }
-
-
-    // Post request to compile endpoint
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/compiler`, {
-      source_code: props.code
-    }).then((res) => {
-      console.log("here");
-      console.log(res);
-      console.log(`id of compiling: ${res.data.token}`);
-      checkStatus(res.data);
-    }).catch((err) => {
-      let error = err.response ? err.response.data : err;
-      console.log(error);
-    })
-  }
-  // 
-  const checkStatus = async (id) => {
-    console.log("here");
-    // Get request to compile endpoint
-    console.log(id);
-
-    try {
-      let response = await axios.request(`${process.env.REACT_APP_BACKEND_URL}/compiler/${id.token}`);
-      console.log(response.data);
-      let status = response.status;
-      console.log(status)
-      // Processed - we have a result
-      if (status === 201) {
-        // still processing
-        console.log('still processing');
-        setTimeout(() => {
-          checkStatus(id)
-        }, 2000)
-        return
-      } else {
-        console.log(response);
-        if (response.data.status === 3) {
-          console.log(response.data.description);
-          setOutputDetails(response.data.stdout);
-        } else {
-          setOutputDetails(response.data.description + ":" + response.data.stderr);
-        }
-        return
-      }
-    } catch (err) {
-      console.log("err", err);
-    }
-  }
 
   const handleTitleChange = (event) => {
     // get new title from event
@@ -519,40 +452,49 @@ const WebEditors = (props) => {
   }
 
   // updates language based on user input
-  const handleLangSwitch  = (event) => { 
+  const handleLangSwitch = (event) => {
     setCurrentLanguage(event.target.value);
   }
 
   return (
     <div className='stop1 WebEditorApp'>
-        {console.log(currentLanguage)}
-        <HeaderBar />
-        <Tour />
-        <div className='commandBar'>
-          {/* <input placeholder="My Project Title" value={title} onChange={handleTitleChange}></input> */}
-          <input className="stop2 commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
-          <form className='languageSelect'> 
-            <select onChange={handleLangSwitch}>  
-              <option value = "html" > HTML   
-              </option>  
-              <option value = "css" > CSS   
-              </option>  
-              <option value = "javascript"> JavaScript  
-              </option>  
-            </select>  
-          </form>  
-          <button className="pink" onClick={() => { 
-             setLoading(!loading);
-             handleSubmitCode();
-          }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button> 
-          {/* <button className="pink" onClick={() => { 
+      {console.log(currentLanguage)}
+      <HeaderBar />
+      <Tour />
+      <div className='commandBar'>
+        <input className="stop2 commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
+        <form className='languageSelect'>
+          <select onChange={handleLangSwitch}>
+            <option value="html" > HTML
+            </option>
+            <option value="css" > CSS
+            </option>
+            <option value="javascript"> JavaScript
+            </option>
+          </select>
+        </form>
+        <button className="pink" onClick={() => {
+          setLoading(!loading);
+          handleSubmitCode();
+        }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button>
+        {/* <button className="pink" onClick={() => { 
                 saveCode();
                 }}>Save</button> */}
-          {/* <ProjectModal></ProjectModal> */}
-          <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
-          {/* {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> : 
+        {/* <ProjectModal></ProjectModal> */}
+        <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
+        {/* {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> : 
           // <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> */}
-         <ProjectModal></ProjectModal>
+        <ProjectModal></ProjectModal>
+      </div>
+
+      <div className="web-editor-container">
+        <div className="stop3 editor">
+          <CodeEditor
+            language={"javascript"}
+            theme={theme}
+            width="100%"
+            mount={handleJSDidMount}
+          />
         </div>
        
         <div className="web-editor-container">
@@ -586,29 +528,39 @@ const WebEditors = (props) => {
           </div>
           
         </div>
-        <div>
-          <Tabs id="tabs">
-            <TabList>
-              <Tab id="output">output</Tab>
-              <Tab id="console">console</Tab>
-            </TabList>
-            <TabPanel>
-              <div className='tab-output'>
-              <WebOutput theme={theme}/>
-              </div>
-            </TabPanel>
-          </Tabs>
-        
+        <div className="editor">
+          <CodeEditor
+            language={"css"}
+            theme={theme}
+            width="100%"
+            mount={handleCSSDidMount}
+          />
         </div>
-      
- 
+
+      </div>
+      <div>
+        <Tabs id="tabs">
+          <TabList>
+            <Tab id="output">output</Tab>
+            <Tab id="console">console</Tab>
+          </TabList>
+          <TabPanel>
+            <div className='tab-output'>
+              <WebOutput theme={theme} />
+            </div>
+          </TabPanel>
+        </Tabs>
+
+      </div>
+
+
     </div>
   );
 };
 
 const mapStateToProps = (reduxstate) => {
-  return { 
-    code: reduxstate.code.string, 
+  return {
+    code: reduxstate.code.string,
     javaCode: reduxstate.project.javaCode,
     htmlCode: reduxstate.project.htmlCode,
     cssCode: reduxstate.project.cssCode,

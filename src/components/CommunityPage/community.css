@@ -19,15 +19,25 @@
   margin-top: 30px;
 }
 
+.search {
+  display: flex;
+  width: 100vw;
+  height: 10vh;
+  align-items: center;
+  justify-items: center;
+  margin: 4vh 0 4vh 0;
+}
+
 .post-content {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .post {
-  height: 200px;
-  width: 350px;
-  margin: 40px;
+  height: 20vh;
+  width: 25%;
+  margin: 0% 2% 2% 2%;
 }
 
 .post#easy {
@@ -52,8 +62,8 @@
 }
 
 .post .titles {
-  width: 350px;
-  height: 150px;
+  width: 25%;
+  height: 15vh;
   color: var(--white);
   display: flex;
   align-items: baseline;
@@ -71,8 +81,7 @@
 }
 
 .post .footer {
-  width: 350px;
-  height: 50px;
+  height: 5vh;
   background-color: var(--boring);
   display: flex;
   border-radius: 5px;
@@ -106,4 +115,11 @@
 
 .likes {
   margin: 20px;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+button.likes:active {
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  transform: translateY(4px);
 }
