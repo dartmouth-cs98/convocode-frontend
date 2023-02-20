@@ -10,6 +10,8 @@ export const ActionTypes = {
   CLEAR_PROFILE_DATA: 'CLEAR_PROFILE_DATA',
   SET_ERROR: 'SET_ERROR',
   CLEAR_ERROR: 'CLEAR_ERROR',
+  ONBOARDED: 'ONBOARDED'
+
 };
 
 /**
@@ -113,3 +115,14 @@ export const clearUserError = () => {
     dispatch({ type: ActionTypes.CLEAR_ERROR, payload: {} });
   };
 };
+
+
+
+/**
+ * @description action for setting onboarded as false after runing through process
+ */
+export const onboarding = () => {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.ONBOARDED, payload: false });
+  }
+}

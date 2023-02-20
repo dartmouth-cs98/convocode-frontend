@@ -9,6 +9,7 @@ const initialState = {
   projectCount: 0,
   likeCount: 0,
   status: "",
+  onboarded: true,
   error: {},
 };
 
@@ -27,6 +28,8 @@ const UserReducer = (state = initialState, action) => {
       return { ...state, error: action.payload };
     case ActionTypes.CLEAR_ERROR:
       return { ...state, error: {} };
+    case ActionTypes.ONBOARDED:
+      return { ...state, onboarded: action.payload }
     default:
       return state;
   }
