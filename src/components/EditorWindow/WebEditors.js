@@ -485,15 +485,9 @@ const WebEditors = (props) => {
         <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
         {/* {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> : 
           // <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> */}
-<<<<<<< HEAD
          {/* <ProjectModal></ProjectModal> */}
          <ProjectModalForm></ProjectModalForm>
         </div>
-=======
-        <ProjectModal></ProjectModal>
-      </div>
-
->>>>>>> c44b2c06884192bcfd41b309e5db6d788109903e
        
         <div className="web-editor-container">
           <div className="stop3 editor">
