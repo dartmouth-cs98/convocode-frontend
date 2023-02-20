@@ -1,4 +1,6 @@
+
 import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, setOnboarding } from "../../services/user.js"
+
 import { getLikedProjects, getUserProjects } from "../../services/projects.js";
 
 export const ActionTypes = {
@@ -104,6 +106,28 @@ export const getUserFromStorage = () => {
         type: ActionTypes.API_ERROR,
         payload: {
           action: 'LOGIN FROM STORAGE',
+          error,
+        },
+      });
+    }
+  };
+};
+
+
+/**
+ * @description action creator for logging user in from local storage
+ */
+export const refreshUser = () => {
+  return async (dispatch) => {
+    try {
+      console.log("getting from storage")
+      const response = await getUser();
+      dispatch({ type: ActionTypes.SET_USER_DATA, payload: response });
+    } catch (error) {
+      dispatch({
+        type: ActionTypes.API_ERROR,
+        payload: {
+          action: 'REFRESH USER',
           error,
         },
       });

@@ -199,7 +199,6 @@ const WebEditors = (props) => {
       <HeaderBar />
       <Tour />
       <div className='commandBar'>
-        {/* <input placeholder="My Project Title" value={title} onChange={handleTitleChange}></input> */}
         <input className="stop2 commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></input>
         <form className='languageSelect'>
           <select onChange={handleLangSwitch}>
