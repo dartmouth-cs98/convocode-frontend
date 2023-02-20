@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
-
+import { loadProjects } from "../../state/actions";
 import HeaderBar from "../HeaderBar/HeaderBar";
 import FileModal from "./FileModal";
-
+import PostCard from "../../components/CommunityPage/PostCard"
 import lily from '../../resources/headshots/LilyHeadshot.png';
 import dylan from '../../resources/headshots/DylanHeadshot.png';
 import will from '../../resources/headshots/WillHeadshot.png';
@@ -15,6 +15,12 @@ import './landing.css'
 
 
 const LandingPage = (props) => {
+
+  useEffect(() => {
+    props.loadProjects();
+  }, []);
+
+
   return (
     <div className="landing-page" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />
@@ -22,9 +28,9 @@ const LandingPage = (props) => {
         <h1>Welcome to Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
         <h2>Building Community Around Exploring AI.</h2>
         <div className="file-buttons">
-          <FileModal />
+        <button><NavLink to="/editor">Start Coding</NavLink></button>
           <button><NavLink to="/community">Get Inspired</NavLink></button>
-        </div>
+      </div>
       </div>
       <div className="floating-text">
         <div>
@@ -43,12 +49,26 @@ const LandingPage = (props) => {
           <p id="floating-sa">"stackoverflow analysis"</p>
         </div>
       </div>
+      
+
       <div className="video-content">
-        <h1>Learn About Our Platform</h1>
+        <h1>🌐 Learn About Our Platform</h1>
         <iframe title="Intro Video" > </iframe>
       </div>
+      <div className="trending-content">
+        <h1>🔥 Trending Post</h1>
+        <div className="landing-post-content">
+            {
+              props.projects.map((item) => {
+                return (
+                  <PostCard item={item} key={item.id} />
+                )
+              })
+            }
+        </div>
+      </div>
       <div className="team-content">
-        <h1>Meet Our Team</h1>
+        <h1> 👏🏽 Meet Our Team</h1>
         <div className="member-content">
           <div className="team-member">
             <img className="headshot" alt="Annie Headshot" src={annie} />
@@ -97,14 +117,17 @@ const LandingPage = (props) => {
         </div>
         <div className="footer-right">
           <NavLink to="/editor" className="footer-link">IDE</NavLink>
-          <NavLink to="/documentation" className="footer-link">Documentation</NavLink>
+          <NavLink to="/community" className="footer-link">Community</NavLink>
         </div>
       </div>
     </div>
   );
 };
 const mapStateToProps = (reduxstate) => {
-  return { lightMode: reduxstate.settings.lightMode };
+  return { 
+    lightMode: reduxstate.settings.lightMode,
+    projects: reduxstate.community.projects,
+  };
 };
 
-export default connect(mapStateToProps, {})(LandingPage);
+export default connect(mapStateToProps, {loadProjects})(LandingPage);

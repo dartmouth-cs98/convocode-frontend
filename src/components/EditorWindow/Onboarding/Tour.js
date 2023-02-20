@@ -1,5 +1,7 @@
 import React from "react";
 import JoyRide from "react-joyride";
+import { connect } from 'react-redux';
+import { onboarding } from "../../../state/actions/user";
 const TOUR_STEPS = [
     {
         target: ".stop1",
@@ -16,21 +18,36 @@ const TOUR_STEPS = [
        },
        {
         target:".stop4",
-        content:"🌐 Ready to share with other developers or save to your projects? Press the Post button and fill out the necessary information"
+        content:"🌐 Ready to share with other developers or save to your projects? Press the Post button and fill out the necessary information",
        }
 
 ];
 
+const Tour = (props) => {
 
-const Tour = () => {
+  // Call back function to stop onboarding
+  const  printCallback = (prop) => {
+    console.log(prop)
+    if (prop.index == 3){ 
+      props.onboarding()
+    }
+    if (prop.action == "skip"){
+      props.onboarding()
+    }
+    if (prop.action == "close"){
+      props.onboarding()
+    }
+  }
   return (
     <>
       <JoyRide
         steps={TOUR_STEPS}
-
+        run={props.onboarded}
         continuous={true}
         showSkipButton={true}
         showProgress={true}
+        disableBeacon={true}
+        callback={printCallback}
         styles={{
           tooltipContainer: {
               textAlign: "left",
@@ -53,6 +70,11 @@ const Tour = () => {
   );
 };
 
+const mapStateToProps = (reduxstate) => {
+  return {
+    onboarded: reduxstate.user.onboarded
+  };
+};
 
-export default Tour;
+export default  connect(mapStateToProps, { onboarding })(Tour);
 

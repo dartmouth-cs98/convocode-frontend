@@ -1,10 +1,10 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { loadUserProjects, loadLikedProjects } from "../../state/actions";
+import { refreshUser } from "../../state/actions";
 import axios from 'axios';
-import { getUser} from '../../services/user.js';
+import { getUser } from '../../services/user.js';
 import PostCard from "../CommunityPage/PostCard.js"
 
 import settings from '../../resources/settings.png'
@@ -15,8 +15,9 @@ import './profile.css'
 
 const ProfilePage = (props) => {
 
-  // const [projectDescription, setProjectDescription] = useState("");
-  // const [projectTag, setProjectTag] = useState("");
+  useEffect(() => {
+    props.refreshUser();
+  }, []);
 
   return (
     <div className="profile-page" data-theme={props.lightMode ? 'light' : 'dark'}>
@@ -30,13 +31,13 @@ const ProfilePage = (props) => {
             </div>
             <div id="col">
               <div className="user-info" id="bus-border">
-              {props.user.status} 
+                {props.user.status}
               </div>
               <div className="user-info" id="grape-border">
-              {props.user.projectCount} Projects
+                {props.user.projectCount} Projects
               </div>
               <div className="user-info" id="easy-a-border">
-              {props.user.likeCount} Liked
+                {props.user.likeCount} Liked
               </div>
             </div>
           </div>
@@ -45,24 +46,28 @@ const ProfilePage = (props) => {
               <TabList>
                 <Tab>Projects</Tab>
                 <div className="post-content">
-                {
-                  props.authoredProjects.map((item) => {
-                    return (
-                      <PostCard item={item} key={item.id} />
-                    )
-                  })
-                }
-              </div>
+                  {
+                    props.authoredProjects ? (
+                      props.authoredProjects.map((item) => {
+                        return (
+                          <PostCard item={item} key={item.id} />
+                        )
+                      })
+                    ) : <div />
+                  }
+                </div>
                 <Tab>Liked</Tab>
                 <div className="post-content">
-                {
-                  props.likedProjects.map((item) => {
-                    return (
-                      <PostCard item={item} key={item.id} />
-                    )
-                  })
-                }
-              </div>
+                  {
+                    props.likedProjects ? (
+                      props.likedProjects.map((item) => {
+                        return (
+                          <PostCard item={item} key={item.id} />
+                        )
+                      })
+                    ) : <div />
+                  }
+                </div>
               </TabList>
               <TabPanel>
                 <h2>projects</h2>
@@ -86,4 +91,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, {})(ProfilePage);
+export default connect(mapStateToProps, { refreshUser })(ProfilePage);
