@@ -33,9 +33,9 @@ export const searchProjects = async (searchString) => {
         searchString: searchString
       }
     };
-   
-    const { data } = await axios.get(url,config);
-    
+
+    const { data } = await axios.get(url, config);
+
     return data;
   } catch (error) {
     throw error;
@@ -88,12 +88,12 @@ export const commentOnProject = async (projectId, username, commentBody) => {
   }
 
   const requestUrl = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE_COMMENT}/${projectId}`;
-    // request to create comment
+  // request to create comment
 
-    const { data } = await axios.post(requestUrl, { commentInfo });
-    return data;
+  const { data } = await axios.post(requestUrl, { commentInfo });
+  return data;
 
-  }
+}
 
 export const commentOnComment = async (projectId, commentId, username, commentBody) => {
 
@@ -106,10 +106,10 @@ export const commentOnComment = async (projectId, commentId, username, commentBo
   const requestUrl = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE_COMMENT}/${projectId}`;
 
   const { data } = await axios.post(requestUrl, { commentInfo });
-  
+
   return data;
 
-  }
+}
 
 /**
  * @description loads user authored projects from the db
@@ -180,11 +180,19 @@ export const getLikedProjects = async () => {
  * @param id project id
  * @returns {Promise<Object>} API response
  */
-export const likeProject = async (id) => {
+export const likeServiceProject = async (id) => {
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/like/${id}`;
+  const userToken = getAuthTokenFromStorage();
 
+  console.log("in like proj servbice ", url, id, userToken)
   try {
-    const { data } = await axios.put(url);
+    const { data } = await axios.put(url, {}, {
+      headers: {
+        authorization: userToken
+      },
+    });
+
+    console.log("returned data ", data)
     return data;
   } catch (error) {
     throw error;

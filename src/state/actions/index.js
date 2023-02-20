@@ -26,8 +26,12 @@ import {
   signup,
   getUserFromStorage,
   signOut,
+<<<<<<< HEAD
   clearUserError,
   onboarding,
+=======
+  refreshUser,
+>>>>>>> e2c3e4a (basic liking)
 } from "./user";
 
 import {
@@ -56,7 +60,8 @@ import {
   addCleanedJavascript,
   addProjectStatus,
   createProject,
-
+  likeProject,
+  loadProject,
 } from './project';
 
 const ActionTypes = {
@@ -99,6 +104,12 @@ export {
   loadUserProjects,
   loadLikedProjects,
   createProject,
+<<<<<<< HEAD
   clearUserError,
   onboarding,
+=======
+  likeProject,
+  refreshUser,
+  loadProject,
+>>>>>>> e2c3e4a (basic liking)
 }

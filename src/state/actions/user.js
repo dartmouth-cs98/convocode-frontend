@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, setOnboarding } from "../../services/user.js"
+=======
+import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, getUser } from "../../services/user.js"
+>>>>>>> e2c3e4a (basic liking)
 import { getLikedProjects, getUserProjects } from "../../services/projects.js";
 import { useNavigate } from "react-router-dom";
 
@@ -91,6 +95,28 @@ export const getUserFromStorage = () => {
       dispatch({ type: ActionTypes.SET_USER_DATA, payload: response });
     } catch (error) {
       return (error)
+    }
+  };
+};
+
+
+/**
+ * @description action creator for logging user in from local storage
+ */
+export const refreshUser = () => {
+  return async (dispatch) => {
+    try {
+      console.log("getting from storage")
+      const response = await getUser();
+      dispatch({ type: ActionTypes.SET_USER_DATA, payload: response });
+    } catch (error) {
+      dispatch({
+        type: ActionTypes.API_ERROR,
+        payload: {
+          action: 'REFRESH USER',
+          error,
+        },
+      });
     }
   };
 };
