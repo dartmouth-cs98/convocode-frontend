@@ -28,6 +28,7 @@ import {
   signOut,
   onboarding,
   refreshUser,
+  clearUserError,
 } from "./user";
 
 import {
@@ -123,4 +124,5 @@ export {
   likeProject,
   refreshUser,
   loadProject,
+  clearUserError,
 }
