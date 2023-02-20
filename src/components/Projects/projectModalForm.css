@@ -1,0 +1,46 @@
+.project-modal {
+    position: absolute;
+    top: 10vh;
+    left: 15vw;
+    right: 15vw;
+    bottom: 5vh;
+}
+.edit-modal-form {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    padding: 5%;
+    justify-content: space-evenly;
+    gap: 20px;
+    background-color: var(--boring);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+}
+.edit-modal-info{
+    display: flex;
+    flex-direction: column;
+}
+.edit-modal-code{
+    display: flex;
+    flex-direction: column;
+}
+.input-header{
+    margin-bottom: 0;
+    background-color: var(--black);
+    color: var(--boring);
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+#project-input{
+    width: 100%;
+}
+.project-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-bottom: 10px;
+}
+
+
