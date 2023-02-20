@@ -24,38 +24,6 @@ const IndividualPost = (props) => {
     setOpen(!open);
   };
 
-  // // TO DO: test this method which should repopulate props.commentObjects on load
-  // function formatComments() {
-
-  //     const commentObjects = props.project.commentObjects;
-
-  //     // build new array in comment-reply order
-  //      // they should already be sorted by date as returned by mongoose
-  //     var sortedComments = [];
-
-  //     for (const comment of commentObjects) {
-  
-  //       // check if base comment or reply
-  //       if (!(comment.replyingTo)) {  // is base comment
-
-  //           // push base comment
-  //           sortedComments.push(comment);
-  //           // get its id
-  //           const currentCommentId = comment.id;
-  //           // find its replies
-  //           const replies = commentObjects.filter(comment => comment.replyingTo == currentCommentId);
-  //           // push its replies
-  //           for (const reply of replies) {
-  //             sortedComments.push(reply);
-  //           }
-  //       }
-  //       // skip if reply 
-  //     }
-
-  //     //set comments in props to this new sorted array
-  //     props.project.commentObjects = sortedComments;
-  // };
-
   const openInIDE = () => {
     console.log("open in ide")
     //check if signed in 
@@ -185,9 +153,7 @@ const IndividualPost = (props) => {
                   {console.log('hey')}
                   {console.log(item.replyingTo)}
                   return (
-                    
                       <CommentCard item={item} key={item.id} reply={item.replyingTo} />
-                  
                   )
                 })
               }

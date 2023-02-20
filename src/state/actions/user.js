@@ -1,4 +1,4 @@
-import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp } from "../../services/user.js"
+import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, setOnboarding } from "../../services/user.js"
 import { getLikedProjects, getUserProjects } from "../../services/projects.js";
 
 export const ActionTypes = {
@@ -127,6 +127,7 @@ export const signOut = () => {
  */
 export const onboarding  = ()  => {
   return async (dispatch) => {
+    setOnboarding();
     dispatch({ type: ActionTypes.ONBOARDED, payload: false });
   }
 }
