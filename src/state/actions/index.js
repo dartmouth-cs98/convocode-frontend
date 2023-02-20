@@ -55,6 +55,8 @@ import {
   addCleanedJavascript,
   addProjectStatus,
   createProject,
+  comment,
+  setReplyingTo,
   likeProject,
   loadProject,
 } from './project';
@@ -97,6 +99,8 @@ export {
   loadUserProjects,
   loadLikedProjects,
   createProject,
+  comment,
+  setReplyingTo,
   likeProject,
   refreshUser,
   loadProject,

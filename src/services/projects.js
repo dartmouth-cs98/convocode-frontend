@@ -51,7 +51,9 @@ export const searchProjects = async (searchString) => {
  */
 export const getProject = async (id) => {
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/${id}`;
-
+  console.log("in get project")
+  console.log(url)
+  console.log(id);
   try {
     const { data } = await axios.get(url);
     // format data for redux 
@@ -80,18 +82,20 @@ export const getComments = async (id) => {
   }
 };
 
-export const commentOnProject = async (projectId, username, commentBody) => {
+export const commentOnProject = async (projectId, commentBody, replyingTo) => {
 
   const commentInfo = {
-    username: username,
-    commentBody, commentBody
+    commentBody: commentBody,
+    replyingTo: replyingTo
   }
+
+  const userToken = getAuthTokenFromStorage();
 
   const requestUrl = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE_COMMENT}/${projectId}`;
   // request to create comment
 
-  const { data } = await axios.post(requestUrl, { commentInfo });
-  return data;
+    const { data } = await axios.post(requestUrl, commentInfo, { headers: { authorization: userToken } });
+    return data;
 
 }
 

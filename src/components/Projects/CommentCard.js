@@ -1,7 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import like from "../../resources/lightning-bold.png"
 import './individualPost.css'
+import { connect } from 'react-redux';
+import { setReplyingTo } from "../../state/actions/project.js"
 
 const Comment = (props) => {
 
@@ -9,10 +9,7 @@ const Comment = (props) => {
   var boxClass;
 
   // check if replyingTo field of comment is not empty string
-  console.log("in comment card");
-  console.log(props.reply);
   if (props.reply) {   // is a reply box
-    console.log("is reply")
     boxClass = "ReplyBox";
   } else {
     boxClass = "CommentBox"     // is a comment box
@@ -21,7 +18,6 @@ const Comment = (props) => {
   return (
     <div className={boxClass}>
         <div className="leftLine"></div>
-       
         <div key={props.key} className="comment">
             <div className="commentLine1">
                 <div className="commentLine1Text">
@@ -32,7 +28,7 @@ const Comment = (props) => {
                         <span>{props.item.createdAt}</span>
                     </div>
                 </div>
-                <button></button>
+                <button className="white-button"id="right" onClick= {() => props.setReplyingTo(props.item.id, props.item.username)}>Reply</button>
             </div>
             <div className="commentbody">
                 <span>{props.item.commentBody}</span>
@@ -42,5 +38,9 @@ const Comment = (props) => {
   );
 };
 
-
-export default Comment;
+const mapStateToProps = (reduxstate) => {
+  return {
+    project: reduxstate.project,
+  };
+};
+export default connect(mapStateToProps, { setReplyingTo })(Comment);

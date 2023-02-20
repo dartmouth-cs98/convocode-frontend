@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, RedditShareButton, RedditIcon, EmailShareButton, EmailIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
-import { createProject, loadProject, likeProject, refreshUser } from "../../state/actions";
+import { createProject, loadProject, setReplyingTo } from "../../state/actions/project";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import HeaderBar from "../HeaderBar/HeaderBar"
 import CodePreview from './CodePreview';
@@ -12,11 +12,14 @@ import likeFilled from "../../resources/likes-filled.svg"
 import down from "../../resources/down.png"
 import copy from "../../resources/copy.png"
 import CommentCard from "./CommentCard"
-
+import { comment } from "../../state/actions/project.js"
 
 import './individualPost.css'
 
 const IndividualPost = (props) => {
+
+  const [userComment, setComment] = useState("");
+
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -67,7 +70,18 @@ const IndividualPost = (props) => {
     props.loadProject(id);
   }, []);
 
-  // let tag = props.project.tags.length > 0 ? props.project.tags[0].toString().toLowerCase() : "undefined"
+  useEffect(() => {
+     if (props.project.replyingUser) {
+      setComment(`@${props.project.replyingUser} `);
+     }
+  }, [props.project.replyingUser]);
+
+  // handles input text changes
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
+    console.log(userComment)
+  }
+
 
   let tag = "undefined"
 
@@ -149,21 +163,28 @@ const IndividualPost = (props) => {
             </div>
             <div className="commentcontainer">
               <div className="discussion-header">Discussion</div>
-
-              <div className="comments" style={{ "overflow": "auto", "height": "50vh" }}>
-                {
-                  props.project.commentObjects.map((item) => {
-                    { console.log('hey') }
-                    { console.log(item.replyingTo) }
-                    return (
-
+           
+              <div className="comments"> 
+              {
+                props.project.commentObjects.map((item) => {
+              
+                  return (
+                    
                       <CommentCard item={item} key={item.id} reply={item.replyingTo} />
-
-                    )
-                  })
-                }
+                  
+                  )
+                })
+              }
+            </div>
+            <div className="discussionFooter">
+            <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange}></input>
+            <button className="yellow-button" onClick={() => {
+                  props.comment(props.project.id, userComment, props.project.replyingTo);
+                  setComment("");
+                  props.setReplyingTo("", "");
+                  props.loadProject(id);
+              }} >Submit</button>
               </div>
-              <div className="discussion-footer" style={{ "margin": "5px" }}>An input box goes here</div>
             </div>
           </div>
           <div className="post-modal-code" style={{ "flex-grow": "4" }}>
@@ -205,6 +226,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  loadProject, createProject, likeProject, refreshUser
-})(IndividualPost);
+export default connect(mapStateToProps, { loadProject, createProject, comment, setReplyingTo })(IndividualPost);
