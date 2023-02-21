@@ -327,6 +327,7 @@ const WebEditors = (props) => {
       console.log("couldn't add code history");
 
     }
+    setQuery("");
 
   }, [props.javaCode]);
 
@@ -345,6 +346,7 @@ const WebEditors = (props) => {
     } catch {
       console.log("couldn't add code history");
     }
+    setQuery("");
 
   }, [props.cssCode]);
 
@@ -365,6 +367,7 @@ const WebEditors = (props) => {
     } catch {
       console.log("couldn't add code history");
     }
+    setQuery("");
   }, [props.htmlCode]);
 
 
@@ -482,8 +485,10 @@ const WebEditors = (props) => {
         if (response.data.status === 3) {
           console.log(response.data.description);
           setOutputDetails(response.data.stdout);
+          setStdin("");
         } else {
           setOutputDetails(response.data.description + ":" + response.data.stderr);
+          setStdin("");
         }
         return
       }
@@ -588,7 +593,7 @@ const WebEditors = (props) => {
             </TabPanel>
             <TabPanel>
               <div className='tab-output'>
-              <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdn={setStdin}/>
+              <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdin={setStdin}/>
               </div>
             </TabPanel>
           </Tabs>
