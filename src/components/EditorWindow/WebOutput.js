@@ -48,12 +48,6 @@ const WebOutput = (props) => {
 
   return (
     <div className="output-window" >
-      <div className="output-header">
-        <button className="transparent">
-          Run
-          <img src={Run} alt="run" />
-        </button>
-      </div>
       <Iframe url={iframeSrc}
           width="640px"
           height="320px"

@@ -1,11 +1,12 @@
 import React from "react";
+import StdinWindow from "./StdinWindow";
 
 import Run from '../../resources/play.png'
 
 import './index.css'
 
 
-const Output = ({ output, theme, handleRunClick }) => {
+const Output = ({ output, theme, handleRunClick, stdin, setStdin }) => {
 
   var newText;
   if (output != null) {
@@ -16,16 +17,19 @@ const Output = ({ output, theme, handleRunClick }) => {
 
 
   return (
-    <div className="output-window" data-theme={theme}>
-      <div className="output-header">
-        <button onClick={handleRunClick} className="transparent">
-          Run
-          <img src={Run} alt="run" />
-        </button>
+    <div>
+      <div className="console-window" data-theme={theme}>
+        <div className="output-header">
+          <button onClick={handleRunClick} className="transparent">
+            Run
+            <img src={Run} alt="run" />
+          </button>
+        </div>
+        <div className="out-text">
+          {newText}
+        </div>
       </div>
-      <div className="out-text">
-        {newText}
-      </div>
+      <StdinWindow stdin={stdin} setStdin={setStdin} />
     </div>
   );
 };
