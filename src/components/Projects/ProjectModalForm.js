@@ -252,8 +252,11 @@ const ProjectModalForm = (props) => {
     const navigate = useNavigate();
 
     const ProjectSchema = Yup.object().shape({
-        tags: Yup.array().of(Yup.string())
-            .nullable(),
+        // tags: Yup.array().of(Yup.string())
+        //     .required('Required').nullable(),
+        tags: Yup.array()
+            .max(4, 'Only 4 tags are allowed')
+            .required('Provide atleast one tag'),
         title: Yup.string()
             .required('Required'),
         description: Yup.string()
