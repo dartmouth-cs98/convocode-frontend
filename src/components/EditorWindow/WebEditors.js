@@ -386,19 +386,13 @@ const WebEditors = (props) => {
       setLoading(false);
       
       console.log(res);
-      //console.log(res.data.code);
-      //console.log(res.data.text);
-      //setQuery(query);
-      const line_list = res.data.code.split(/\r\n|\r|\n/);
-      console.log(line_list);
-      const last_line = line_list[line_list.length - 1];
-      const line_num = res.data.code.split(/\r\n|\r|\n/).length;
+
 
       if (currentLanguage === "javascript") {
         if (props.javaCode.length === 0) {
           props.addJavascriptCode(res.code);
         } else {
-            props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: res.data.code});
+            props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: res.code});
         }    
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
