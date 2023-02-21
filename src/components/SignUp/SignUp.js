@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { signup } from '../../state/actions';
+import { signup, clearUserError } from '../../state/actions';
 
-
+import ErrorModal from "../Error/ErrorModal";
 import HeaderBar from "../HeaderBar/HeaderBar";
 
 import './signup.css'
@@ -36,21 +36,38 @@ const SignUp = (props) => {
       .oneOf([Yup.ref('password'), null], "Passwords do not match!"),
   });
 
-  const submit = (values) => {
-    try {
-      props.signup(values.email, values.password, values.username);
-    } catch (error) {
-      console.log("Unable to sign up at this time:", error)
-    }
-    navigate('/')
+  const [modalShow, setModalShow] = useState(false);
 
+  const handleModalToggle = () => {
+    setModalShow(!modalShow);
   }
+
+  const submit = (values) => {
+    props.signup(values.email, values.password, values.username);
+  }
+
+  useEffect(() => {
+    console.log("current state of ", props.error)
+    setModalShow(props.error !== {})
+  }, [props.error]);
+
+  useEffect(() => {
+    //once propeerly signed in navigate to home page
+    if (props.user.username) {
+      navigate("/")
+    }
+  }, [props.user.username]);
+
 
   return (
     <div className="sign-up" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />
       <div className="content">
         <h1>Convo<span id="sage">C</span><span id="sky">o</span><span id="grape">d</span><span id="pumpkin-spice">e</span></h1>
+        {props.error.data ?
+          <ErrorModal isOpen={modalShow} handleModalToggle={handleModalToggle} title={props.error.location} error={props.error.data.error} status={props.error.status} onClose={props.clearUserError} /> :
+          <></>
+        }
         <Formik
           initialValues={{
             name: '',
@@ -101,7 +118,9 @@ const SignUp = (props) => {
 const mapStateToProps = (reduxstate) => {
   return {
     lightMode: reduxstate.settings.lightMode,
+    error: reduxstate.user.error,
+    user: reduxstate.user,
   };
 };
 
-export default connect(mapStateToProps, { signup })(SignUp);
+export default connect(mapStateToProps, { signup, clearUserError })(SignUp);

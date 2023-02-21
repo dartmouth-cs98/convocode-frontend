@@ -8,6 +8,7 @@ import ProjectReducer from './project';
 import UserReducer from './user';
 import CommunityReducer from './community';
 import ProfileReducer from './profile';
+import TagDisplayReducer from './tagDisplay';
 
 
 const rootReducer = combineReducers({
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   user: UserReducer,
   community: CommunityReducer,
   profile: ProfileReducer,
+  tagDisplay: TagDisplayReducer,
 });
 
 export default rootReducer;
