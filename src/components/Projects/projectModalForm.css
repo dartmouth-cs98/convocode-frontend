@@ -20,10 +20,15 @@
 .edit-modal-info{
     display: flex;
     flex-direction: column;
+    /* align-items: flex-start; */
+    width: 22vw;
 }
 .edit-modal-code{
     display: flex;
     flex-direction: column;
+}
+.input-info{
+    margin-bottom: 25px;
 }
 .input-header{
     margin-bottom: 0;
@@ -35,12 +40,22 @@
 }
 #project-input{
     width: 100%;
+    height: 40px;
 }
+/* #project-input[textarea]{
+
+} */
 .project-buttons{
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     padding-bottom: 10px;
 }
+/* .description-box{
+    height: 35vh
+} */
 
+/* .title-box{
+    height: 25vh
+} */
 

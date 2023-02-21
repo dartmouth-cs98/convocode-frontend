@@ -482,13 +482,14 @@ const WebEditors = (props) => {
                 saveCode();
                 }}>Save</button> */}
         {/* <ProjectModal></ProjectModal> */}
+
         <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
         {/* {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> : 
           // <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> */}
          {/* <ProjectModal></ProjectModal> */}
-         <ProjectModalForm></ProjectModalForm>
+         <ProjectModalForm toggleDisplay={toggleDisplay}></ProjectModalForm>
         </div>
-       
+
         <div className="web-editor-container">
           <div className="stop3 editor">
             <CodeEditor
