@@ -589,7 +589,6 @@ const WebEditors = (props) => {
               </div>
             </TabPanel>
           </Tabs>
-        
         </div>
       </div>
   );
