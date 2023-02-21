@@ -591,13 +591,7 @@ const WebEditors = (props) => {
           </Tabs>
         
         </div>
-      
- 
-          </div>  
-
       </div>
-
-    </div>
   );
 };
 
