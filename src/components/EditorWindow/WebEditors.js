@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import protect from '@freecodecamp/loop-protect';
 import * as Babel from '@babel/standalone';
 import CodeEditor from './CodeEditor';
+import StdinWindow from './StdinWindow';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
 import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
@@ -38,6 +39,7 @@ const WebEditors = (props) => {
 
   // getting code from nav link props
   const [theme] = useState("light");
+  const [stdin, setStdin] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [_modalShow, setModalShow] = useState(false);
   const [_title, setTitle] = useState("");
@@ -445,7 +447,8 @@ const WebEditors = (props) => {
 
     // Post request to compile endpoint
     axios.post(`${process.env.REACT_APP_ROOT_URL}/compiler`, {
-      source_code: props.javaCode
+      source_code: props.javaCode,
+      customInput: stdin
     }).then((res) => {
       console.log("here");
       console.log(res);
@@ -585,7 +588,7 @@ const WebEditors = (props) => {
             </TabPanel>
             <TabPanel>
               <div className='tab-output'>
-              <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode}/>
+              <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdn={setStdin}/>
               </div>
             </TabPanel>
           </Tabs>

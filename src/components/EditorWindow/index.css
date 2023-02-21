@@ -218,6 +218,21 @@ input.submit {
   margin-top: 15px;
   width: 100%;
   height: 100%;
+  background-color: white;
+}
+
+/* Console Window */
+.console-window {
+  margin-top: 15px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--boring);
+}
+
+.stdin-window {
+  width: 100%;
+  height: 25%;
+  padding: 10px;
 }
 
 .output-header {
