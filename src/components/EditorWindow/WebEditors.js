@@ -19,8 +19,11 @@ import axios from 'axios';
 import './webEditor.css';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import './index.css';
-import Tour from '../EditorWindow/Onboarding/Tour.js';
+import './index.css'
+import Tour from '../EditorWindow/Onboarding/Tour.js'
+import OutputWindow from './OutputWindow'
+
+// import { lazy } from 'react';
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
@@ -430,6 +433,62 @@ const WebEditors = (props) => {
     setModalShow(modalShow => !modalShow);
   };
 
+  // Function to call the compile endpoint
+  // this is for python: keep in case we want to add back in
+  function submitCode() {
+    
+    // reset output if it exists
+    if (outputDetails) {
+      setOutputDetails(null)
+    }
+
+
+    // Post request to compile endpoint
+    axios.post(`${process.env.REACT_APP_ROOT_URL}/compiler`, {
+      source_code: props.javaCode
+    }).then((res) => {
+      console.log("here");
+      console.log(res);
+      console.log(`id of compiling: ${res.data.token}`);
+      checkStatus(res.data);
+    }).catch((err) => {
+      let error = err.response ? err.response.data : err;
+      console.log(error);
+    })
+  }
+  // 
+  const checkStatus = async (id) => {
+    // Get request to compile endpoint
+    console.log(id);
+
+    try {
+      let response = await axios.request(`${process.env.REACT_APP_ROOT_URL}/compiler/${id.token}`);
+      console.log(response.data);
+      let status = response.status;
+      console.log(status)
+      // Processed - we have a result
+      if (status === 201) {
+        // still processing
+        console.log('still processing');
+        setTimeout(() => {
+          checkStatus(id)
+        }, 2000)
+        return
+      } else {
+        console.log(response);
+        if (response.data.status === 3) {
+          console.log(response.data.description);
+          setOutputDetails(response.data.stdout);
+        } else {
+          setOutputDetails(response.data.description + ":" + response.data.stderr);
+        }
+        return
+      }
+    } catch (err) {
+      console.log("err", err);
+    }
+  }
+
   const handleTitleChange = (event) => {
     // get new title from event
     const newTitle = event.target.value;
@@ -510,24 +569,33 @@ const WebEditors = (props) => {
                 toggleDisplay={toggleDisplay}
                 mount={handleCSSDidMount}
             />    
+          </div>
+          
+        </div>
+        <div>
+          <Tabs id="tabs">
+            <TabList>
+              <Tab id="output">output</Tab>
+              <Tab id="console">console</Tab>
+            </TabList>
+            <TabPanel>
+              <div className='tab-output'>
+              <WebOutput theme={theme}/>
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className='tab-output'>
+              <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode}/>
+              </div>
+            </TabPanel>
+          </Tabs>
+        
+        </div>
+      
+ 
           </div>  
 
       </div>
-      <div>
-        <Tabs id="tabs">
-          <TabList>
-            <Tab id="output">output</Tab>
-            <Tab id="console">console</Tab>
-          </TabList>
-          <TabPanel>
-            <div className='tab-output'>
-              <WebOutput theme={theme} />
-            </div>
-          </TabPanel>
-        </Tabs>
-
-      </div>
-
 
     </div>
   );
