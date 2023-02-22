@@ -40,6 +40,7 @@ export const login = (email, password, onSuccess = () => { }, onError = () => { 
 
       // get authored projects from backend
       const likedProjects = await getLikedProjects();
+      console.log(likedProjects)
 
       if (likedProjects) {
         dispatch({ type: ActionTypes.SET_LIKED_PROJECTS, payload: likedProjects });
@@ -120,6 +121,20 @@ export const refreshUser = () => {
       console.log("getting from storage")
       const response = await getUser();
       dispatch({ type: ActionTypes.SET_USER_DATA, payload: response });
+
+      const authoredProjects = await getUserProjects();
+
+      if (authoredProjects) {
+        dispatch({ type: ActionTypes.SET_AUTHORED_PROJECTS, payload: authoredProjects });
+      }
+
+      // get authored projects from backend
+      const likedProjects = await getLikedProjects();
+      console.log(likedProjects)
+
+      if (likedProjects) {
+        dispatch({ type: ActionTypes.SET_LIKED_PROJECTS, payload: likedProjects });
+      }
     } catch (error) {
       dispatch({
         type: ActionTypes.API_ERROR,

@@ -15,9 +15,9 @@ import './profile.css'
 
 const ProfilePage = (props) => {
 
-  useEffect(() => {
-    props.refreshUser();
-  }, []);
+  // useEffect(() => {
+  //   props.refreshUser();
+  // }, []);
 
   return (
     <div className="profile-page" data-theme={props.lightMode ? 'light' : 'dark'}>
@@ -47,6 +47,7 @@ const ProfilePage = (props) => {
                 <Tab>Projects</Tab>
                 <div className="post-content">
                   {
+               
                     props.authoredProjects ? (
                       props.authoredProjects.map((item) => {
                         return (
@@ -59,6 +60,7 @@ const ProfilePage = (props) => {
                 <Tab>Liked</Tab>
                 <div className="post-content">
                   {
+                 
                     props.likedProjects ? (
                       props.likedProjects.map((item) => {
                         return (
