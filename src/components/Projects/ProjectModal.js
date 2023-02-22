@@ -9,8 +9,6 @@ import './projectModal.css';
 import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, addProjectStatus } from '../../state/actions';
 import axios from 'axios';
 import { getAuthTokenFromStorage } from '../../services/utils.js';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 
 const ProjectModal = (props) => {
     const [theme] = useState('light');

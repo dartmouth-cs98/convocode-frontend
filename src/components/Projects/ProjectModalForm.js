@@ -5,10 +5,8 @@ import { connect } from 'react-redux';
 import CodeEditor from '../EditorWindow/CodeEditor';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, deleteProjectTag, addProjectStatus, createProject } from '../../state/actions';
-import { getAuthTokenFromStorage } from '../../services/utils.js';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
 import 'react-tabs/style/react-tabs.css';
 import './projectModalForm.css';
 
@@ -19,11 +17,6 @@ const ProjectModalForm = (props) => {
     const navigate = useNavigate();
 
     const ProjectSchema = Yup.object().shape({
-        // tags: Yup.array().of(Yup.string())
-        //     .required('Required').nullable(),
-        tags: Yup.array()
-            .max(4, 'Only 4 tags are allowed')
-            .required('Provide atleast one tag'),
         title: Yup.string()
             .required('Required'),
         description: Yup.string()
@@ -52,6 +45,7 @@ const ProjectModalForm = (props) => {
     const save = (values) => {
         try {
             const status = false;
+
             if (props.id) {
                 const projectInfo = {
                     tags: projectTags,
@@ -87,6 +81,7 @@ const ProjectModalForm = (props) => {
     const submit = (values) => {
         try {
             const status = true;
+
             if (props.id) {
             const projectInfo = {
                 tags: projectTags,
@@ -128,7 +123,6 @@ const ProjectModalForm = (props) => {
                 <ReactModal className="project-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
                     <Formik 
                         initialValues={{
-                            tags: [],
                             title: '',
                             description: '',
                         }}
@@ -137,12 +131,11 @@ const ProjectModalForm = (props) => {
                             submit(values)
                         }
                         >
-                            {({ errors, touched, props }) => (
+                            {({ errors, touched, values }) => (
                                 <Form className="edit-modal-form">
                                         <div className="edit-modal-info flex-col"  style={{ "flex-grow": "1" }}>
                                             <div id="tags-box" className="input-info ">
                                                 <h3 className="input-header">Project Tags</h3>
-                                                    {console.log(projectTags)}
                                                     { projectTags.map((tag, index) => {
                                                         return (
                                                         <div className="tag-item" key={index}>
@@ -152,10 +145,7 @@ const ProjectModalForm = (props) => {
                                                         )
                                                     })
                                                     }
-                                                <Field name="tags" id="project-input" onKeyUp={handleAddTags} onKeyPress={e => { e.which === 13 && e.preventDefault()}}/>
-                                                {errors.tags && touched.tags ? (
-                                                    <div>{errors.tags}</div>
-                                                ) : null}
+                                                <input id="project-input" type="text" onKeyUp={handleAddTags} placeholder="Press enter to add tags" />
                                             </div>
                                             <div className="input-info">
                                                 <h3 className="input-header">Project Title</h3>
@@ -171,7 +161,6 @@ const ProjectModalForm = (props) => {
                                                     <div>{errors.description}</div>
                                                 ) : null}
                                             </div>
-                                            
                                         </div>
                                         <div className="edit-modal-code" style={{ "flex-grow": "4" }}>
                                         <div className="edit-modal-editor">
@@ -200,7 +189,7 @@ const ProjectModalForm = (props) => {
                                             </Tabs>
                                             </div>
                                             <div className="project-buttons">
-                                                <button className="light-pink" type="button" onClick={()=>save(props.values)}>Save For Later</button>
+                                                <button className="light-pink" type="button" onClick={()=>save(values)}>Save For Later</button>
                                                 <button className="pink" type="submit">Post</button>
                                             </div>
                                         </div>
