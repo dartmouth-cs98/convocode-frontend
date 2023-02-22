@@ -14,7 +14,9 @@ export const ActionTypes = {
   ADD_PROJECT_TITLE: 'ADD_PROJECT_TITLE',
   ADD_PROJECT_DESCRIPTION: 'ADD_PROJECT_DESCRIPTION',
   ADD_PROJECT_TAG: 'ADD_PROJECT_TAG',
+  DELETE_PROJECT_TAG: 'DELETE_PROJECT_TAG',
   ADD_PROJECT_STATUS: 'ADD_PROJECT_STATUS',
+  ADD_PROJECT_OBJECT: 'ADD_PROJECT_OBJECT',
   CLEAR_PROJECT_DATA: 'CLEAR_PROJECT_DATA',
   ADD_CLEANED_CODE: 'ADD_CLEANED_CODE',
   ADD_JAVA_CODE_HISTORY: 'ADD_JAVA_CODE_HISTORY',
@@ -186,13 +188,21 @@ export const addProjectTag = (input) => {
   };
 };
 
+/**
+* @description delete project tag
+*/
+export const deleteProjectTag = (input) => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.DELETE_PROJECT_TAG, payload: input });
+  };
+};
 
 
 export const addCleanedJavascript = (input) => {
   return (dispatch) => {
-    dispatch({ type: ActionTypes.ADD_CLEANED_CODE, payload: input });
-  }
-}
+      dispatch({ type: ActionTypes.ADD_CLEANED_CODE, payload: input});
+  };
+};
 
 /**
 * @description add project status
@@ -202,6 +212,7 @@ export const addProjectStatus = (input) => {
     dispatch({ type: ActionTypes.ADD_PROJECT_STATUS, payload: input });
   };
 };
+
 
 /**
  * @description clears project data

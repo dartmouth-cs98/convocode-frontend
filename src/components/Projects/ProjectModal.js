@@ -15,18 +15,10 @@ const ProjectModal = (props) => {
     const [modalShow, setModalShow] = useState(false);
     const [projectTitle, setProjectTitle] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
-    const [projectTag, setProjectTag] = useState("");
-
-    const projectTags= ["easy", "medium", "hard"];
+    const [projectTags, setProjectTags] = useState([]);
 
     const handleModalToggle = () => {
         setModalShow(!modalShow);
-    };
-
-    const handleTagChange = (event) => {
-        const newTag= event.target.value;
-        setProjectTag(newTag);
-        props.addProjectTag(newTag);
     };
 
     const handleTitleChange = (event) => {
@@ -41,14 +33,29 @@ const ProjectModal = (props) => {
         props.addProjectDescription(newDescription);
     };
 
-    function saveCode(buttonType) {
+    const handleAddTags = (event) => {
+        if (projectTags.length === 4) {
+            return;
+        }
+        if (event.key === "Enter" && event.target.value !== ""){
+            const newTag = event.target.value;
+            setProjectTags([...projectTags, newTag]);
+            props.addProjectTag(newTag);
+            event.target.value = "";
+        }
+    };
 
+    const handleRemoveTags = (index) => {
+        setProjectTags([...projectTags.filter(tag => projectTags.indexOf(tag) !== index)]);
+    };
+
+    function saveCode(buttonType) {
         if (buttonType === "post") {
             props.addProjectStatus(true);
         } else {
             props.addProjectStatus(false);
         }
-    
+
         // get java, html, css code, and title from ide page
         const title = props.title;
         const description = props.description;
@@ -65,7 +72,6 @@ const ProjectModal = (props) => {
     
         if (id == "") {
           // no project id yet, create new project
-    
           // send post information to the backend 
           axios.post(
              `http://localhost:8000/api/project`,
@@ -121,17 +127,19 @@ const ProjectModal = (props) => {
                         <div className="left-container">
                             <div className="project-details">
                                 <div className="project-detail">
-                                <label className="label-header">Project Level</label>
-                                <div className="tags">
-                                    { projectTags.map((tag) => {
-                                        return (
-                                        <div className="tag-btn">
-                                            <input type="radio" id={tag} value={tag} name="tags" onChange={handleTagChange}/>
-                                            <label htmlFor={tag} id={tag}>#{tag}</label>
-                                        </div>)
+                                    <label className="label-header">Project Tags</label>
+                                    <div className="tags-input-container">
+                                        { projectTags.map((tag, index) => {
+                                            return (
+                                                <div className="tag-item" key={index}>
+                                                    <span className="text">#{tag}</span>
+                                                    <span className="close" onClick={()=>handleRemoveTags(index)}>&times;</span>
+                                                </div>
+                                            )
                                         })
                                         }
-                                </div>
+                                        <input className="tags-input" type="text" onKeyUp={handleAddTags} placeholder="Press enter to add tags" />
+                                    </div>
                                 </div>
                             <div className="project-detail">
                             <label className="label-header">Project Title</label>
@@ -170,16 +178,15 @@ const ProjectModal = (props) => {
                         </Tabs>
                         </div>
                         <div className="project-buttons">
-                            <NavLink to="/profile"><button className="light-pink" onClick = {()=>{
+                            <button className="light-pink" onClick = {()=>{
                                 saveCode("save");
-                                }}>Save For Later</button></NavLink>
-                            <NavLink to="/profile"><button className="pink" onClick = {()=>{
+                                }}>Save For Later</button>
+                            <button className="pink" onClick = {()=>{
                                 saveCode("post");
-                                }}>Post</button></NavLink>
+                                }}>Post</button>
                         </div>
                         </div>
                     </div>
-
                 </ReactModal>
             </div>
         </div>
