@@ -20,9 +20,9 @@ import axios from 'axios';
 import './webEditor.css';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import './index.css'
-import Tour from '../EditorWindow/Onboarding/Tour.js'
-import OutputWindow from './OutputWindow'
+import './index.css';
+import Tour from '../EditorWindow/Onboarding/Tour.js';
+import OutputWindow from './OutputWindow';
 
 // import { lazy } from 'react';
 
@@ -30,6 +30,7 @@ import OutputWindow from './OutputWindow'
 import dotenv from 'dotenv';
 import ProjectModal from '../Projects/ProjectModal';
 import { getOpenAICode } from '../../services/getCode';
+import { setUserIdInStorage } from '../../services/utils';
 dotenv.config({ silent: true });
 
 
@@ -45,6 +46,8 @@ const WebEditors = (props) => {
   const [_title, setTitle] = useState("");
   const [query, setQuery] = useState("");
   const [remoteAdd, setRemoteAdd] = useState(false);
+  const [undo, setUndo] = useState(false);
+  const [stackLocation, setStackLocation] = useState(props.javaCodeHistory[props.javaCodeHistory.length - 1]);
   const [currentLanguage, setCurrentLanguage] = useState("html");
   const [changedLines, setChangedLines] = useState([])
   const [view, setView] = useState("multi");
@@ -66,6 +69,8 @@ const WebEditors = (props) => {
   const monacoRef = useRef(null);
   const cssRef = useRef(null);
   const htmlRef = useRef(null);
+
+  var u = false;
 
   function getHistory(codeType) {
     var history;
@@ -291,6 +296,7 @@ const WebEditors = (props) => {
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
     monacoRef.current = monaco;
+    
   }
 
   function handleCSSDidMount(editor, monaco) {
@@ -310,26 +316,43 @@ const WebEditors = (props) => {
         props.addCleanedJavascript(processed.code);
     } catch {
         console.log("code incomplete, can't transform");
+    
     } try {
-      console.log(remoteAdd);
-      if (remoteAdd) {
+
+      if (undo) {
+        const newTags = props.javaCodeHistory[stackLocation - 1].tags;
+        console.log(`undo: ${newTags}`);
+        props.addJavaCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
+        setStackLocation(stackLocation - 1);
+        console.log("here");
+      }
+      else if (remoteAdd) {
         const newTags = getNewTags(query, props.javaCode.split(/\r\n|\r|\n/), "javascript");
         props.addJavaCodeHistory({query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
         setRemoteAdd(false);
+        setStackLocation(props.javaCodeHistory.length - 1);
+        setUndo(false);
 
       } else {
         const newTags = getNewTags(-1, props.javaCode.split(/\r\n|\r|\n/), "javascript");
         props.addJavaCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
+        setStackLocation(props.javaCodeHistory.length - 1);
+        setUndo(false);
 
       }
+      console.log(` stack location: ${stackLocation}`);
+      console.log(`stack length: ${props.javaCodeHistory.length - 1}`);
 
-    } catch {
+    } catch(err) {
       console.log("couldn't add code history");
+      console.log(err);
 
     }
     setQuery("");
 
   }, [props.javaCode]);
+
+  
 
   useEffect(() => {
     try {
@@ -370,8 +393,36 @@ const WebEditors = (props) => {
     setQuery("");
   }, [props.htmlCode]);
 
+  /* function handleUndo(event) {
+    console.log(event);
+    if (event.metaKey && event.key === 'z') {
+      // Handle undo logic here
+      console.log("undoing");
+      setUndo(true);
+      //event.preventDefault(); // Prevent the default behavior of the undo command
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleUndo);
+    return () => document.removeEventListener('keydown', handleUndo);
+  }, []); */
 
 
+  /* if (jsRef.current) {
+    console.log(monacoRef.KeyMod);
+    jsRef.current.addCommand(monacoRef.current.KeyMod.CtrlCmd | monacoRef.current.KeyCode.KEY_Z, function() {
+      console.log("HELLO");
+      setUndo(true);
+   });
+
+  } */
+  
+  
+  
+
+
+  
 
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
