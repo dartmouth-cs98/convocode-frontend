@@ -23,6 +23,7 @@ import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import './index.css'
 import Tour from '../EditorWindow/Onboarding/Tour.js'
 import OutputWindow from './OutputWindow'
+import { decorationDict } from '../../utils/decorationDict';
 
 // import { lazy } from 'react';
 
@@ -53,15 +54,6 @@ const WebEditors = (props) => {
   const [jsDecorations, setJsDecorations] = useState([]);
   const [cssDecorations, setCssDecorations] = useState([]);
   const [htmlDecorations, setHtmlDecorations] = useState([]);
-  const [decorationDict, setDecorationDict] = useState({
-    1: "unicornDecorator",
-    2: "easyADecorator",
-    3: "grapeDecorator",
-    4: "skyDecorator",
-    5: "sageDecorator",
-    6: "busDecorator",
-    7: "pumpkinSpiceDecorator"
-  });
 
   const jsRef = useRef(null);
   const monacoRef = useRef(null);
@@ -372,7 +364,7 @@ const WebEditors = (props) => {
   }, [props.htmlCode]);
 
 
-
+  
 
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
@@ -549,7 +541,7 @@ const WebEditors = (props) => {
           // <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> */}
          {/* <ProjectModal></ProjectModal> */}
          <ProjectModalForm toggleDisplay={toggleDisplay}></ProjectModalForm>
-        </div>
+      </div>
 
         <div className="web-editor-container">
           <div className="stop3 editor">

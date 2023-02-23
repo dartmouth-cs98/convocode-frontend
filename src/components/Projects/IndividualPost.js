@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { connect } from 'react-redux';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, RedditShareButton, RedditIcon, EmailShareButton, EmailIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
 import { createProject, loadProject, setReplyingTo, likeProject, refreshUser } from "../../state/actions";
+import { addCSSCodeHistory, addJavaCodeHistory, addHTMLCodeHistory } from "../../state/actions/project.js";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import HeaderBar from "../HeaderBar/HeaderBar"
 import CodePreview from './CodePreview';
@@ -13,16 +14,222 @@ import down from "../../resources/down.png"
 import copy from "../../resources/copy.png"
 import CommentCard from "./CommentCard"
 import { comment } from "../../state/actions/project.js"
+import { decorationDict } from "../../utils/decorationDict";
 
 import './individualPost.css'
 
 const IndividualPost = (props) => {
 
+  const jsRef = useRef(null);
+  const htmlRef = useRef(null);
+  const cssRef = useRef(null);
+  const monacoRef = useRef(null);
+
   const [userComment, setComment] = useState("");
   const [hasLiked, setHasLiked] = useState(false);
+  const [jsDecorations, setJsDecorations] = useState([]);
+  const [cssDecorations, setCssDecorations] = useState([]);
+  const [htmlDecorations, setHtmlDecorations] = useState([]);
 
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  
+
+  function setDisplayPost(codeType, bool) {
+    if (codeType === "javascript") {
+      props.setJavaDisplay(bool);
+    } else if (codeType === "css") {
+      props.setCSSDisplay(bool);
+    } else {
+      props.setHTMLDisplay(bool);
+    }
+  }
+
+  function setDecorationsPost(codeType, d) {
+    if (codeType === "javascript") {
+      setJsDecorations(d);
+    } else if (codeType === "css") {
+      setCssDecorations(d);
+    } else {
+      setHtmlDecorations(d);
+    }
+  }
+
+
+  function getDecorationsPost(codeType) {
+    if (codeType === "javascript") {
+      return jsDecorations;
+    } else if (codeType === "css") {
+      return cssDecorations;
+    } else {
+      return htmlDecorations;
+    }
+  }
+
+  function getHistoryPost(codeType) {
+    var history;
+    if (codeType === "javascript") {
+      history = props.javaCodeHistory;
+    } else if (codeType === "css") {
+      history = props.cssCodeHistory;
+    } else {
+      history = props.htmlCodeHistory;
+    }
+    console.log(props.htmlCodeHistory);
+    return history;
+
+  }
+
+  function getEditorPost(codeType) {
+    var editorRef;
+    if (codeType === "javascript") {
+      editorRef = jsRef.current;
+    } else if (codeType === "css") {
+      editorRef = cssRef.current;
+    } else {
+      editorRef = htmlRef.current;
+    }
+    return editorRef;
+
+  }
+
+  function checkInsertion(tag) {
+    return tag !== -1;
+  }
+
+
+  function onlyUnique(value, index, arr) {
+    return arr.indexOf(value) === index;
+  }
+
+  function findTagRange(tag, arr) {
+    var range = []
+    var currRange = []
+    var adding = false;
+    for (var i = 0; i < arr.length; i++) {
+      if (adding === true && arr[i] !== tag) {
+        adding = false;
+        range.push(currRange);
+        currRange = [];
+      } 
+      if (arr[i] === tag) {
+        if (range.length === 0) {
+          adding = true
+        }
+        currRange.push(i);
+      }
+    }
+    if (currRange.length !== 0) {
+      range.push(currRange);
+    }
+    console.log(range);
+    return range;
+  }
+
+  
+  function getRangesPost(codeType) {
+    var history = getHistoryPost(codeType);
+    var currTags = history.slice(-1)[0].tags;
+    var insertionTags = currTags.filter(checkInsertion);
+    var unique = insertionTags.filter(onlyUnique);
+    var ranges = []
+    for (var i = 0; i < unique.length; i++) {
+      var r = findTagRange(unique[i], currTags);
+      for (var j = 0; j < r.length; j++) {
+        var start = r[j][0];
+        var end = r[j][r[j].length - 1];
+        ranges.push([start, end]);
+      }
+      
+    }
+    return ranges;
+
+    
+  }
+
+  function displayTagsPost(codeType) {
+    var history = getHistoryPost(codeType);
+    var editor = getEditorPost(codeType);
+    var ranges = getRangesPost(codeType);
+    var dList = [];
+    var currTags = history.slice(-1)[0].tags;
+    for (var i = 0; i < ranges.length; i++) {
+      var decId = (i + 1)%7;
+      const start = ranges[i][0];
+      const end = ranges[i][1];
+      console.log(currTags[start]);
+      dList.push({
+        range: new monacoRef.current.Range(start + 1,1,end + 1,1),
+        options: {
+          isWholeLine: true,
+          className: decorationDict[decId],
+          hoverMessage: {value: currTags[start]}
+        }
+      });
+    }
+    editor.updateOptions({readOnly: true});
+    var d = editor.deltaDecorations([], dList);
+    setDecorationsPost(codeType, d);
+    setDisplayPost(codeType, true);
+       
+  }
+
+  function endTagViewPost(codeType) {
+    var editorRef = getEditorPost(codeType);
+    editorRef.deltaDecorations(getDecorationsPost(codeType), []);
+    editorRef.updateOptions({readOnly: false});
+    setDisplayPost(codeType, false);
+    setDecorationsPost([], codeType);
+  }
+
+  function toggleDisplay(codeType) {
+    var display;
+    if (codeType === "javascript") {
+      display = props.javaDisplay;
+    } else if (codeType === "css") {
+      display = props.cssDisplay;
+    } else {
+      display = props.htmlDisplay;
+    }
+    if (display) {
+      endTagViewPost(codeType);
+
+    } else {
+      displayTagsPost(codeType);
+    }
+  }
+
+  function handleDidJSMount(editor, monaco) {
+    console.log("is this mounted");
+    jsRef.current = editor;
+    monacoRef.current = monaco;
+    jsRef.current.updateOptions({readOnly: true});
+    const messageContribution = jsRef.current.getContribution('editor.contrib.messageController');
+    const diposable = jsRef.current.onDidAttemptReadOnlyEdit(() => {
+      messageContribution.showMessage("Open in IDE to edit code.", jsRef.current.getPosition());
+    });
+  }
+
+  function handleDidCSSMount(editor, monaco) {
+    console.log("is this mounted");
+    cssRef.current = editor;
+    cssRef.current.updateOptions({readOnly: true});
+    const messageContribution = cssRef.current.getContribution('editor.contrib.messageController');
+    const diposable = cssRef.current.onDidAttemptReadOnlyEdit(() => {
+      messageContribution.showMessage("Open in IDE to edit code.", cssRef.current.getPosition());
+    });
+  }
+
+  function handleDidHTMLMount(editor, monaco) {
+    console.log("is this mounted");
+    htmlRef.current = editor;
+    htmlRef.current.updateOptions({readOnly: true});
+    const messageContribution = htmlRef.current.getContribution('editor.contrib.messageController');
+    const diposable = htmlRef.current.onDidAttemptReadOnlyEdit(() => {
+      messageContribution.showMessage("Open in IDE to edit code.", htmlRef.current.getPosition());
+    });
+  }
+
 
   const handleOpen = () => {
     setOpen(!open);
@@ -212,16 +419,22 @@ const IndividualPost = (props) => {
               <TabPanel>
                 <CodePreview
                   language={"html"}
+                  handleDidMount={handleDidHTMLMount}
+                  toggleDisplay={toggleDisplay}
                 />
               </TabPanel>
               <TabPanel>
                 <CodePreview
                   language={"css"}
+                  handleDidMount={handleDidCSSMount}
+                  toggleDisplay={toggleDisplay}
                 />
               </TabPanel>
               <TabPanel>
                 <CodePreview
-                  language={"java"}
+                  language={"javaacript"}
+                  handleDidMount={handleDidJSMount}
+                  toggleDisplay={toggleDisplay}
                 />
               </TabPanel>
             </Tabs>
@@ -236,7 +449,10 @@ const mapStateToProps = (reduxstate) => {
   return {
     project: reduxstate.project,
     user: reduxstate.user,
+    javaCodeHistory: reduxstate.project.javaCodeHistory,
+    cssCodeHistory: reduxstate.project.cssCodeHistory,
+    htmlCodeHistory: reduxstate.project.htmlCodeHistory,
   };
 };
 
-export default connect(mapStateToProps, { loadProject, createProject, comment, setReplyingTo, likeProject, refreshUser })(IndividualPost);
+export default connect(mapStateToProps, { loadProject, createProject, comment, setReplyingTo, likeProject, refreshUser, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory })(IndividualPost);
