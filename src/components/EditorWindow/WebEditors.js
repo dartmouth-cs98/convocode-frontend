@@ -46,7 +46,6 @@ const WebEditors = (props) => {
   const [_title, setTitle] = useState("");
   const [query, setQuery] = useState("");
   const [remoteAdd, setRemoteAdd] = useState(false);
-  const [undo, setUndo] = useState(false);
   const [stackLocation, setStackLocation] = useState(props.javaCodeHistory[props.javaCodeHistory.length - 1]);
   const [currentLanguage, setCurrentLanguage] = useState("html");
   const [changedLines, setChangedLines] = useState([])
@@ -69,6 +68,10 @@ const WebEditors = (props) => {
   const monacoRef = useRef(null);
   const cssRef = useRef(null);
   const htmlRef = useRef(null);
+
+  const jsUndo = useRef(false);
+  const cssUndo = useRef(false);
+  const htmlUndo = useRef(false);
 
   var u = false;
 
@@ -296,15 +299,27 @@ const WebEditors = (props) => {
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
     monacoRef.current = monaco;
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+      jsUndo.current = true;
+      editor.getModel().undo();
+    });
     
   }
 
   function handleCSSDidMount(editor, monaco) {
     cssRef.current = editor;
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+      cssUndo.current = true;
+      editor.getModel().undo();
+    });
   }
 
   function handleHTMLDidMount(editor, monaco) {
     htmlRef.current = editor;
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+      htmlUndo.current = true;
+      editor.getModel().undo();
+    });
   }
   // const Tour = lazy(() => import('/Users/williamperez/Documents/GitHub/convocode-frontend/src/components/EditorWindow/Onboarding/Tour.js'));
   
@@ -319,7 +334,7 @@ const WebEditors = (props) => {
     
     } try {
 
-      if (undo) {
+      if (jsUndo.current) {
         const newTags = props.javaCodeHistory[stackLocation - 1].tags;
         console.log(`undo: ${newTags}`);
         props.addJavaCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
@@ -331,13 +346,13 @@ const WebEditors = (props) => {
         props.addJavaCodeHistory({query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
         setRemoteAdd(false);
         setStackLocation(props.javaCodeHistory.length - 1);
-        setUndo(false);
+        jsUndo.current = false;
 
       } else {
         const newTags = getNewTags(-1, props.javaCode.split(/\r\n|\r|\n/), "javascript");
         props.addJavaCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
         setStackLocation(props.javaCodeHistory.length - 1);
-        setUndo(false);
+        jsUndo.current = false;
 
       }
       console.log(` stack location: ${stackLocation}`);
@@ -417,6 +432,9 @@ const WebEditors = (props) => {
    });
 
   } */
+
+    
+
   
   
   
