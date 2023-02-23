@@ -18,10 +18,8 @@ export const ActionTypes = {
  * @description action creator for logging user in
  * @param {String} email user email
  * @param {String} password user password (plain text)
- * @param {Function} [onSuccess = () => {}] callback for when request is successful
- * @param {Function} [onError = () => {}] callback for when request fails
  */
-export const login = (email, password, onSuccess = () => { }, onError = () => { }) => {
+export const login = (email, password) => {
   return async (dispatch) => {
     try {
       const data = await UserServicesLogin(email, password);
@@ -45,17 +43,14 @@ export const login = (email, password, onSuccess = () => { }, onError = () => { 
         dispatch({ type: ActionTypes.SET_LIKED_PROJECTS, payload: likedProjects });
       }
 
-      onSuccess();
     } catch (error) {
-      console.log(error)
-      dispatch({
-        type: ActionTypes.API_ERROR,
-        payload: {
-          action: 'LOGIN',
-          error,
-        },
-      });
-      onError(error);
+      console.log("error in actions", error)
+      const e = {
+        location: "Sign In",
+        data: error.response.data,
+        status: error.response.status,
+      }
+      dispatch({ type: ActionTypes.SET_USER_ERROR, payload: e });
     }
   };
 };
@@ -65,10 +60,8 @@ export const login = (email, password, onSuccess = () => { }, onError = () => { 
  * @param {String} email user email
  * @param {String} password user password (plain text)
  * @param {String} username username
- * @param {Function} [onSuccess = () => {}] callback for when request is successful
- * @param {Function} [onError = () => {}] callback for when request fails
  */
-export const signup = (email, password, username, onSuccess = () => { }, onError = () => { }) => {
+export const signup = (email, password, username) => {
   return async (dispatch) => {
     try {
       const data = await UserServicesSignUp(email, password, username);
@@ -100,7 +93,7 @@ export const getUserFromStorage = () => {
       dispatch({ type: ActionTypes.SET_USER_DATA, payload: response });
     } catch (error) {
       dispatch({
-        type: ActionTypes.API_ERROR,
+        type: ActionTypes.SET_USER_ERROR,
         payload: {
           action: 'LOGIN FROM STORAGE',
           error,
@@ -122,7 +115,7 @@ export const refreshUser = () => {
       dispatch({ type: ActionTypes.SET_USER_DATA, payload: response });
     } catch (error) {
       dispatch({
-        type: ActionTypes.API_ERROR,
+        type: ActionTypes.SET_USER_ERROR,
         payload: {
           action: 'REFRESH USER',
           error,
