@@ -7,17 +7,23 @@ import axios from 'axios';
 import { getUser } from '../../services/user.js';
 import PostCard from "../CommunityPage/PostCard.js"
 
-import settings from '../../resources/settings.png'
+// import settings from '../../resources/settings.png'
 import HeaderBar from "../HeaderBar/HeaderBar";
+import ProfileSettingsModal from "./profile-settings-modal";
 
 import 'react-tabs/style/react-tabs.css';
 import './profile.css'
 
 const ProfilePage = (props) => {
 
-  useEffect(() => {
-    props.refreshUser();
-  }, []);
+  // useEffect(() => {
+  //   // props.refreshUser();
+  // }, []);
+
+  const [modalShow, setModalShow] = useState(false);
+  const handleModalToggle = () => {
+    setModalShow(!modalShow);
+  }
 
   return (
     <div className="profile-page" data-theme={props.lightMode ? 'light' : 'dark'}>
@@ -27,7 +33,7 @@ const ProfilePage = (props) => {
           <div className="user-header">
             <div id="col" style={{ justifyContent: "space-between" }}>
               <h1>Welcome, {props.user.username}</h1>
-              <button id="settings">Settings <img src={settings} /></button>
+              <ProfileSettingsModal modalShow={modalShow} handleModalToggle={handleModalToggle}/> 
             </div>
             <div id="col">
               <div className="user-info" id="bus-border">
@@ -42,10 +48,18 @@ const ProfilePage = (props) => {
             </div>
           </div>
           <div className="projects">
+
             <Tabs>
               <TabList>
                 <Tab>Projects</Tab>
-                <div className="post-content">
+                <Tab>Liked</Tab>
+                {/* {console.log(props.likedProjects)}
+                {console.log(props.authoredProjects)}
+                 */}
+              </TabList>
+              <TabPanel >
+      
+                <div className="profile-post-container">
                   {
                     props.authoredProjects ? (
                       props.authoredProjects.map((item) => {
@@ -56,8 +70,10 @@ const ProfilePage = (props) => {
                     ) : <div />
                   }
                 </div>
-                <Tab>Liked</Tab>
-                <div className="post-content">
+              </TabPanel>
+              <TabPanel>
+                <h2>likes</h2>
+                {/* <div className="post-content">
                   {
                     props.likedProjects ? (
                       props.likedProjects.map((item) => {
@@ -66,18 +82,31 @@ const ProfilePage = (props) => {
                         )
                       })
                     ) : <div />
-                  }
-                </div>
-              </TabList>
-              <TabPanel>
-                <h2>projects</h2>
-              </TabPanel>
-              <TabPanel>
-                <h2>likes</h2>
+                  } 
+                      </div> */}
+            
               </TabPanel>
             </Tabs>
           </div>
         </div>
+        <div className="profile-explore"> 
+          <div className="profile-explore-header">
+            <h3>Popular Now</h3>
+          </div> 
+          <div className="trending">
+            { props.authoredProjects ? (
+                props.authoredProjects.map((item) => {
+                    return (
+                      <div className="profile-explore-card-container">
+                        <PostCard item={item} key={item.id} />
+                      </div>
+                    )
+                  })
+                ) : <div />
+              }
+          </div>
+        </div>
+      
       </div>
     </div >
   );

@@ -9,7 +9,7 @@
   height: 93vh;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .user-header {
@@ -18,11 +18,11 @@
   width: 60vw;
   justify-content: center;
   flex-direction: column;
-  padding-left: 40px;
+  /* padding-left: 40px; */
 }
 
 button#settings {
-  background-color: var(--darkGrey);
+  background: var(--darkGrey);
   color: var(--white);
   padding: 10px;
   height: 45px;
@@ -86,6 +86,7 @@ button#settings {
   width: 100%;
   height: 55vh;
   border-radius: 0px 10px 10px 10px;
+  overflow: auto;
 }
 
 .react-tabs__tab {
@@ -99,4 +100,58 @@ button#settings {
 .react-tabs__tab--selected {
   background-color: var(--unicorn);
   border: none;
+}
+.profile-explore{
+  display: flex;
+  flex-direction: column;
+  margin-top: 35px;
+  /* align-items: center; */
+  width: 30vw;
+}
+.profile-explore-header{
+  background-color: var(--black);
+  border-radius: 15px 15px 0px 0px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.1px;
+  color: var(--white);
+  padding: 10px;
+}
+.trending{
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  overflow: auto;
+  background-color: var(--boring);
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.profile-explore-card-container{
+  margin-top: 10px;
+  width: 100%;
+  display: flex; 
+  justify-content: center;
+}
+.profile-explore-card-container .post{
+  width: 75%
+}
+.profile-explore-card-container .post .titles{
+  width: 70%
+}
+.profile-post-container{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  align-items: left;
+
+}
+.profile-post-container .post{
+  width: 22vw;
+  margin-top: 25px;
+
+}
+.profile-post-container .post .titles{
+  width: 70%
 }

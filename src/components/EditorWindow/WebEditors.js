@@ -559,7 +559,7 @@ const WebEditors = (props) => {
                 mount={handleJSDidMount}
             />
           </div>
-          <div className="editor">
+          <div className="stop4 editor">
             <CodeEditor
                 language={"html"}
                 theme={theme}

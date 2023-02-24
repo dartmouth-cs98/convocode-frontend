@@ -18,9 +18,14 @@ const TOUR_STEPS = [
        },
        {
         target:".stop4",
+        content:"👀 Toggle on the Command History and hover over the code to view commands that generated code"
+       },
+
+       {
+        target:".stop5",
         content:"🌐 Ready to share with other developers or save to your projects? Press the Post button and fill out the necessary information",
        }
-
+       
 ];
 
 const Tour = (props) => {
@@ -28,7 +33,8 @@ const Tour = (props) => {
   // Call back function to stop onboarding
   const  printCallback = (prop) => {
     console.log(prop)
-    if (prop.index == 3){ 
+    if (prop.index == 4){ 
+
       props.onboarding()
     }
     if (prop.action == "skip"){

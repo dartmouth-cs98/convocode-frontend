@@ -114,7 +114,7 @@ const ProjectModal = (props) => {
 
     return (
         <div>
-            <button onClick={handleModalToggle} className="stop4 pink">Post</button>
+            <button onClick={handleModalToggle} className="stop5 pink">Post</button>
             <div className="project-modal">
                 <ReactModal className="edit-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
                     <div className="modal-container">
