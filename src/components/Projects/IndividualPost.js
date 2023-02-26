@@ -5,6 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, RedditShareButton, RedditIcon, EmailShareButton, EmailIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
 import { createProject, loadProject, setReplyingTo, likeProject, refreshUser } from "../../state/actions";
 import { addCSSCodeHistory, addJavaCodeHistory, addHTMLCodeHistory } from "../../state/actions/project.js";
+import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from '../../state/actions';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import HeaderBar from "../HeaderBar/HeaderBar"
 import CodePreview from './CodePreview';
@@ -195,12 +196,12 @@ const IndividualPost = (props) => {
       endTagViewPost(codeType);
 
     } else {
+      console.log("displaying");
       displayTagsPost(codeType);
     }
   }
 
   function handleDidJSMount(editor, monaco) {
-    console.log("is this mounted");
     jsRef.current = editor;
     monacoRef.current = monaco;
     jsRef.current.updateOptions({readOnly: true});
@@ -211,7 +212,6 @@ const IndividualPost = (props) => {
   }
 
   function handleDidCSSMount(editor, monaco) {
-    console.log("is this mounted");
     cssRef.current = editor;
     cssRef.current.updateOptions({readOnly: true});
     const messageContribution = cssRef.current.getContribution('editor.contrib.messageController');
@@ -221,7 +221,6 @@ const IndividualPost = (props) => {
   }
 
   function handleDidHTMLMount(editor, monaco) {
-    console.log("is this mounted");
     htmlRef.current = editor;
     htmlRef.current.updateOptions({readOnly: true});
     const messageContribution = htmlRef.current.getContribution('editor.contrib.messageController');
@@ -250,6 +249,7 @@ const IndividualPost = (props) => {
           javaCode: props.project.javaCode,
           htmlCode: props.project.htmlCode,
           cssCode: props.project.cssCode,
+
           tags: props.project.tags,
         }
 
@@ -433,7 +433,7 @@ const IndividualPost = (props) => {
               </TabPanel>
               <TabPanel>
                 <CodePreview
-                  language={"javaacript"}
+                  language={"javascript"}
                   handleDidMount={handleDidJSMount}
                   toggleDisplay={toggleDisplay}
                 />
@@ -453,7 +453,10 @@ const mapStateToProps = (reduxstate) => {
     javaCodeHistory: reduxstate.project.javaCodeHistory,
     cssCodeHistory: reduxstate.project.cssCodeHistory,
     htmlCodeHistory: reduxstate.project.htmlCodeHistory,
+    javaDisplay: reduxstate.tagDisplay.javaDisplay,
+    cssDisplay: reduxstate.tagDisplay.cssDisplay,
+    htmlDisplay: reduxstate.tagDisplay.htmlDisplay,
   };
 };
 
-export default connect(mapStateToProps, { loadProject, createProject, comment, setReplyingTo, likeProject, refreshUser, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory })(IndividualPost);
+export default connect(mapStateToProps, { loadProject, createProject, comment, setReplyingTo, likeProject, refreshUser, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setCSSDisplay, setJavaDisplay, setHTMLDisplay })(IndividualPost);
