@@ -39,9 +39,6 @@ const ProfilePage = (props) => {
               <ProfileSettings modalShow={modalShow} handleModalToggle={handleModalToggle}/> 
             </div>
             <div id="col">
-              {/* <div className="user-info" id="bus-border">
-                {props.user.status}
-              </div> */}
               <div className="user-info" id="grape-border">
                 {props.user.projectCount} Projects 💻
               </div>
@@ -56,9 +53,9 @@ const ProfilePage = (props) => {
               <TabList>
                 <Tab>Projects</Tab>
                 <Tab>Liked</Tab>
-                {/* {console.log(props.likedProjects)}
+                {console.log(props.likedProjects)}
                 {console.log(props.authoredProjects)}
-                 */}
+                
               </TabList>
               <TabPanel >
       
@@ -77,7 +74,7 @@ const ProfilePage = (props) => {
               </TabPanel>
               <TabPanel>
                 <h2>likes</h2>
-                {/* <div className="post-content">
+                <div className="post-content">
                   {
                  
                     props.user.likedProjects ? (
@@ -88,7 +85,7 @@ const ProfilePage = (props) => {
                       })
                     ) : <div />
                   } 
-                      </div> */}
+                      </div>
             
               </TabPanel>
             </Tabs>
