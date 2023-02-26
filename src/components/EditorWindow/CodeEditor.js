@@ -56,7 +56,7 @@ const CodeEditor = (props) => {
        {console.log("code editor", props)}
       <div className="html-header">
       <div>{props.language}</div>
-      <button onClick={() => props.toggleDisplay(props.language)}>{tagState ? 'Back to Editing' : 'Command History'}</button>
+      <button onClick={() => props.toggleDisplay(props.history, props.displayRef, props.editor, props.decorationRef, props.decorationSetter, props.monaco)}>{tagState ? 'Back to Editing' : 'Command History'}</button>
       </div>
       <Editor
         className="bottom-rounded"

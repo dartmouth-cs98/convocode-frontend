@@ -50,6 +50,14 @@ import {
 } from './tagDisplay';
 
 import {
+  ActionTypes as editorActionTypes,
+  setJavaEditor,
+  setCssEditor,
+  setHtmlEditor,
+  setMonaco,
+} from './editors';
+
+import {
   ActionTypes as projectActionTypes,
   addJavascriptCode,
   insertJavascriptCode,
@@ -83,6 +91,7 @@ const ActionTypes = {
   ...userActionTypes,
   ...communityActionTypes,
   ...tagDisplayActionTypes,
+  ...editorActionTypes
 };
 
 export {
@@ -127,4 +136,8 @@ export {
   refreshUser,
   loadProject,
   clearUserError,
+  setJavaEditor,
+  setCssEditor,
+  setHtmlEditor,
+  setMonaco,
 }

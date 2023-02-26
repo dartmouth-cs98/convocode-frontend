@@ -14,6 +14,7 @@ import { addProjectId, addProjectTitle } from '../../state/actions';
 import { addCleanedJavascript } from '../../state/actions';
 import { addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory } from '../../state/actions';
 import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from '../../state/actions';
+import { setJavaEditor, setCssEditor, setHtmlEditor, setMonaco } from '../../state/actions';
 import WebOutput from './WebOutput';
 import settings from '../../resources/settings.png';
 import axios from 'axios';
@@ -23,6 +24,7 @@ import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import './index.css'
 import Tour from '../EditorWindow/Onboarding/Tour.js'
 import OutputWindow from './OutputWindow'
+import {toggleDisplay} from '../../utils/tagUtils';
 
 // import { lazy } from 'react';
 
@@ -53,15 +55,6 @@ const WebEditors = (props) => {
   const [jsDecorations, setJsDecorations] = useState([]);
   const [cssDecorations, setCssDecorations] = useState([]);
   const [htmlDecorations, setHtmlDecorations] = useState([]);
-  const [decorationDict, setDecorationDict] = useState({
-    1: "unicornDecorator",
-    2: "easyADecorator",
-    3: "grapeDecorator",
-    4: "skyDecorator",
-    5: "sageDecorator",
-    6: "busDecorator",
-    7: "pumpkinSpiceDecorator"
-  });
 
   const jsRef = useRef(null);
   const monacoRef = useRef(null);
@@ -81,50 +74,6 @@ const WebEditors = (props) => {
 
   }
 
-  function getEditor(codeType) {
-    var editorRef;
-    if (codeType === "javascript") {
-      editorRef = jsRef.current;
-    } else if (codeType === "css") {
-      editorRef = cssRef.current;
-    } else {
-      editorRef = htmlRef.current;
-    }
-    return editorRef;
-
-  }
-
-
-  function setDisplay(codeType, bool) {
-    if (codeType === "javascript") {
-      props.setJavaDisplay(bool);
-    } else if (codeType === "css") {
-      props.setCSSDisplay(bool);
-    } else {
-      props.setHTMLDisplay(bool);
-    }
-  }
-
-  function setDecorations(codeType, d) {
-    if (codeType === "javascript") {
-      setJsDecorations(d);
-    } else if (codeType === "css") {
-      setCssDecorations(d);
-    } else {
-      setHtmlDecorations(d);
-    }
-  }
-
-
-  function getDecorations(codeType) {
-    if (codeType === "javascript") {
-      return jsDecorations;
-    } else if (codeType === "css") {
-      return cssDecorations;
-    } else {
-      return htmlDecorations;
-    }
-  }
 
  function getNewTags(q, newCode, codeType) {
     var history = getHistory(codeType);
@@ -183,123 +132,19 @@ const WebEditors = (props) => {
   }  
 
 
-  function checkInsertion(tag) {
-    return tag !== -1;
-  }
-
-
-  function onlyUnique(value, index, arr) {
-    return arr.indexOf(value) === index;
-  }
-
-  function findTagRange(tag, arr) {
-    var range = []
-    var currRange = []
-    var adding = false;
-    for (var i = 0; i < arr.length; i++) {
-      if (adding === true && arr[i] !== tag) {
-        adding = false;
-        range.push(currRange);
-        currRange = [];
-      } 
-      if (arr[i] === tag) {
-        if (range.length === 0) {
-          adding = true
-        }
-        currRange.push(i);
-      }
-    }
-    if (currRange.length !== 0) {
-      range.push(currRange);
-    }
-    console.log(range);
-    return range;
-  }
-
-  
-  function getRanges(codeType) {
-    var history = getHistory(codeType);
-    var currTags = history.slice(-1)[0].tags;
-    var insertionTags = currTags.filter(checkInsertion);
-    var unique = insertionTags.filter(onlyUnique);
-    var ranges = []
-    for (var i = 0; i < unique.length; i++) {
-      var r = findTagRange(unique[i], currTags);
-      for (var j = 0; j < r.length; j++) {
-        var start = r[j][0];
-        var end = r[j][r[j].length - 1];
-        ranges.push([start, end]);
-      }
-      
-    }
-    return ranges;
-
-    
-  }
-
-  function displayTags(codeType) {
-    var history = getHistory(codeType);
-    var editor = getEditor(codeType);
-    var ranges = getRanges(codeType);
-    var dList = [];
-    var currTags = history.slice(-1)[0].tags;
-    for (var i = 0; i < ranges.length; i++) {
-      var decId = (i + 1)%7;
-      const start = ranges[i][0];
-      const end = ranges[i][1];
-      console.log(currTags[start]);
-      dList.push({
-        range: new monacoRef.current.Range(start + 1,1,end + 1,1),
-        options: {
-          isWholeLine: true,
-          className: decorationDict[decId],
-          hoverMessage: {value: currTags[start]}
-        }
-      });
-    }
-    editor.updateOptions({readOnly: true});
-    var d = editor.deltaDecorations([], dList);
-    setDecorations(codeType, d);
-    setDisplay(codeType, true);
-       
-  }
-
-  function endTagView(codeType) {
-    var editorRef = getEditor(codeType);
-    editorRef.deltaDecorations(getDecorations(codeType), []);
-    editorRef.updateOptions({readOnly: false});
-    setDisplay(codeType, false);
-    setDecorations([], codeType);
-  }
-
-  function toggleDisplay(codeType) {
-    var display;
-    if (codeType === "javascript") {
-      display = props.javaDisplay;
-    } else if (codeType === "css") {
-      display = props.cssDisplay;
-    } else {
-      display = props.htmlDisplay;
-    }
-    if (display) {
-      endTagView(codeType);
-
-    } else {
-      displayTags(codeType);
-    }
-  }
-
   function handleJSDidMount(editor, monaco) {
-    jsRef.current = editor;
-    monacoRef.current = monaco;
+    props.setJavaEditor(editor);
+    props.setMonaco(monaco);
+    //jsRef.current = editor;
+    //monacoRef.current = monaco;
   }
 
   function handleCSSDidMount(editor, monaco) {
-    cssRef.current = editor;
+    props.setCssEditor(editor);
   }
 
   function handleHTMLDidMount(editor, monaco) {
-    htmlRef.current = editor;
+    props.setHtmlEditor(editor);
   }
   // const Tour = lazy(() => import('/Users/williamperez/Documents/GitHub/convocode-frontend/src/components/EditorWindow/Onboarding/Tour.js'));
   
@@ -372,8 +217,6 @@ const WebEditors = (props) => {
   }, [props.htmlCode]);
 
 
-
-
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
     // send user input to get code from openai
@@ -401,20 +244,19 @@ const WebEditors = (props) => {
         if (props.javaCode.length === 0) {
           props.addJavascriptCode(res.code);
         } else {
-            props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: res.code});
+            props.insertJavascriptCode({index: props.jsRef.getPosition().lineNumber, code: res.code});
         }    
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
           props.addHTMLCode(res.code);
         } else {
-          console.log(htmlRef.current.getPosition().lineNumber);
-          props.insertHTMLCode({ index: htmlRef.current.getPosition().lineNumber, code: res.code });
+          props.insertHTMLCode({ index: props.htmlRef.getPosition().lineNumber, code: res.code });
         }
       } else {
         if (props.cssCode.length === 0) {
           props.addCSSCode(res.code);
         } else {
-          props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: res.code });
+          props.insertCSSCode({ index: props.cssRef.getPosition().lineNumber, code: res.code });
         }
       }
     });
@@ -559,6 +401,13 @@ const WebEditors = (props) => {
                 width="100%"
                 toggleDisplay={toggleDisplay}
                 mount={handleJSDidMount}
+                displayRef={props.javaDisplay}
+                editor={props.jsRef}
+                decorationRef={jsDecorations}
+                decorationSetter={setJsDecorations}
+                displaySetter={props.setJavaDisplay}
+                monaco={props.monacoRef}
+                history={props.javaCodeHistory}
             />
           </div>
           <div className="editor">
@@ -568,6 +417,13 @@ const WebEditors = (props) => {
                 width="100%"
                 toggleDisplay={toggleDisplay}
                 mount={handleHTMLDidMount}
+                displayRef={props.htmlDisplay}
+                editor={props.htmlRef}
+                decorationRef={htmlDecorations}
+                decorationSetter={setHtmlDecorations}
+                displaySetter={props.setHTMLDisplay}
+                monaco={props.monacoRef}
+                history={props.htmlCodeHistory}
             />
           
           </div>
@@ -578,7 +434,14 @@ const WebEditors = (props) => {
                 width="100%"
                 toggleDisplay={toggleDisplay}
                 mount={handleCSSDidMount}
-            />    
+                displayRef={props.cssDisplay}
+                editor={props.cssRef}
+                decorationRef={cssDecorations}
+                decorationSetter={setCssDecorations}
+                displaySetter={props.setCSSDisplay}
+                monaco={props.monacoRef}
+                history={props.cssCodeHistory}
+            />  
           </div>
           
         </div>
@@ -619,7 +482,11 @@ const mapStateToProps = (reduxstate) => {
     javaDisplay: reduxstate.tagDisplay.javaDisplay,
     cssDisplay: reduxstate.tagDisplay.cssDisplay,
     htmlDisplay: reduxstate.tagDisplay.htmlDisplay,
+    jsRef: reduxstate.editors.jsRef,
+    cssRef: reduxstate.editors.cssRef,
+    htmlRef: reduxstate.editors.htmlRef,
+    monacoRef: reduxstate.editors.monacoRef,
  };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setJavaDisplay, setCSSDisplay, setHTMLDisplay })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setJavaDisplay, setCSSDisplay, setHTMLDisplay, setJavaEditor, setCssEditor, setHtmlEditor, setMonaco })(WebEditors);
