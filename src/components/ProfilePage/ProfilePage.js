@@ -15,15 +15,18 @@ import 'react-tabs/style/react-tabs.css';
 import './profile.css'
 
 const ProfilePage = (props) => {
-
-  // useEffect(() => {
-  //   // props.refreshUser();
-  // }, []);
-
   const [modalShow, setModalShow] = useState(false);
   const handleModalToggle = () => {
     setModalShow(!modalShow);
   }
+
+  useEffect(() => {
+    window.onbeforeunload = props.refreshUser();
+
+    return () => {
+        window.onbeforeunload = null;
+    };
+}, []);
 
   return (
     <div className="profile-page" data-theme={props.lightMode ? 'light' : 'dark'}>
@@ -61,8 +64,9 @@ const ProfilePage = (props) => {
       
                 <div className="profile-post-container">
                   {
-                    props.authoredProjects ? (
-                      props.authoredProjects.map((item) => {
+               
+                    props.user.authoredProjects ? (
+                      props.user.authoredProjects.map((item) => {
                         return (
                           <PostCard item={item} key={item.id} />
                         )
@@ -75,8 +79,9 @@ const ProfilePage = (props) => {
                 <h2>likes</h2>
                 {/* <div className="post-content">
                   {
-                    props.likedProjects ? (
-                      props.likedProjects.map((item) => {
+                 
+                    props.user.likedProjects ? (
+                      props.user.likedProjects.map((item) => {
                         return (
                           <PostCard item={item} key={item.id} />
                         )
@@ -115,8 +120,6 @@ const mapStateToProps = (reduxstate) => {
   return {
     lightMode: reduxstate.settings.lightMode,
     user: reduxstate.user,
-    authoredProjects: reduxstate.user.authoredProjects,
-    likedProjects: reduxstate.user.likedProjects,
   };
 };
 
