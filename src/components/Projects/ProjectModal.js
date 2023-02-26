@@ -66,6 +66,9 @@ const ProjectModal = (props) => {
         const status = props.status;
         const userToken = getAuthTokenFromStorage();
         const cleanedCode = props.cleanedCode;
+        const jsHistory = props.javaCodeHistory;
+        const htmlHistory = props.htmlCodeHistory;
+        const cssHistory = props.cssCodeHistory;
 
         // check if project id
         const id = props.id;
@@ -84,6 +87,9 @@ const ProjectModal = (props) => {
               cssCode: cssCode,
               status: status,
               cleanedCode: cleanedCode,
+              javaCodeHistory: jsHistory,
+              htmlCodeHistory: htmlHistory,
+              cssCodeHistory: cssHistory
           },
           { headers: { authorization: userToken } }
           ).then((res) => {
@@ -108,6 +114,9 @@ const ProjectModal = (props) => {
                   cssCode: cssCode,
                   status: status,
                   cleanedCode: cleanedCode,
+                  javaCodeHistory: jsHistory,
+                  htmlCodeHistory: htmlHistory,
+                  cssCodeHistory: cssHistory
               },
               { headers: { authorization: userToken } }
               ).then((res) => {

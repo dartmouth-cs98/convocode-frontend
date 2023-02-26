@@ -388,12 +388,13 @@ const IndividualPost = (props) => {
            
               <div className="comments"> 
               {
+                props.user.commentObjects ? (
                 props.project.commentObjects.map((item) => {
               
                   return (
                       <CommentCard item={item} key={item.id} reply={item.replyingTo} />
                   )
-                })
+                })) : <div />
               }
             </div>
             <div className="discussionFooter">

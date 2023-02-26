@@ -20,7 +20,6 @@
 .edit-modal-info{
     display: flex;
     flex-direction: column;
-    /* align-items: flex-start; */
     width: 22vw;
 }
 .edit-modal-code{
@@ -42,20 +41,19 @@
     width: 100%;
     height: 40px;
 }
-/* #project-input[textarea]{
-
-} */
 .project-buttons{
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     padding-bottom: 10px;
 }
-/* .description-box{
-    height: 35vh
-} */
-
-/* .title-box{
-    height: 25vh
-} */
+.tag-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+.tag-button {
+    background-color: var(--bus);
+}
 

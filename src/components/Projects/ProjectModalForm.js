@@ -9,10 +9,12 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import 'react-tabs/style/react-tabs.css';
 import './projectModalForm.css';
+import '../../index.css'
 
 const ProjectModalForm = (props) => {
     const [theme] = useState('light');
     const [modalShow, setModalShow] = useState(false);
+    const [newTag, setNewTag] = useState('');
     const [projectTags, setProjectTags] = useState([]);
     const navigate = useNavigate();
 
@@ -27,14 +29,28 @@ const ProjectModalForm = (props) => {
         setModalShow(!modalShow);
     }; 
 
+    // const handleAddTags = (event) => {
+    //     if (projectTags.length === 4){
+    //         return;
+    //     }
+    //     if (event.key == "Enter" && event.target.value !== ""){
+    //         const newTag = event.target.value;
+    //         setProjectTags([...projectTags, newTag]);
+    //         event.target.value = "";
+    //     }
+    // }
+
+    const handleTagChange = (event) => {
+        setNewTag(event.target.value);
+    }
+
     const handleAddTags = (event) => {
         if (projectTags.length === 4){
             return;
         }
-        if (event.key == "Enter" && event.target.value !== ""){
-            const newTag = event.target.value;
+        if (newTag !== ""){
             setProjectTags([...projectTags, newTag]);
-            event.target.value = "";
+            setNewTag("");
         }
     }
 
@@ -118,7 +134,7 @@ const ProjectModalForm = (props) => {
 
     return (
         <div>
-            <button onClick={handleModalToggle} className="stop4 pink">Post</button>
+            <button onClick={handleModalToggle} className="stop5 pink">Post</button>
             <div className="form-modal">
                 <ReactModal className="project-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
                     <Formik 
@@ -145,18 +161,24 @@ const ProjectModalForm = (props) => {
                                                         )
                                                     })
                                                     }
-                                                <input id="project-input" type="text" onKeyUp={handleAddTags} placeholder="Press enter to add tags" />
+                                                {/* <input id="project-input" type="text" onKeyUp={handleAddTags} placeholder="Press enter to add tags" /> */}
+                                                <input id="project-input" type="text" onChange={handleTagChange} value={newTag}/>
+                                                <div className="tag-button-container">
+                                                    <button className="tag-button" type="button" onClick={handleAddTags}>Add Tag</button>
+                                                </div>
                                             </div>
                                             <div className="input-info">
                                                 <h3 className="input-header">Project Title</h3>
-                                                <Field name="title" id="project-input" onKeyPress={e => { e.which === 13 && e.preventDefault()}}/>
+                                                {/* <Field name="title" id="project-input" onKeyPress={e => { e.which === 13 && e.preventDefault()}}/> */}
+                                                <Field name="title" id="project-input"/>
                                                 {errors.title && touched.title ? (
                                                     <div>{errors.title}</div>
                                                 ) : null}
                                             </div>
                                             <div className="input-info">
                                                 <h3 className="input-header">Project Description</h3>
-                                                <Field name="description" id="project-input" onKeyPress={e => { e.which === 13 && e.preventDefault()}}/>
+                                                {/* <Field name="description" id="project-input" onKeyPress={e => { e.which === 13 && e.preventDefault()}}/> */}
+                                                <Field name="description" id="project-input"/>
                                                 {errors.description && touched.description ? (
                                                     <div>{errors.description}</div>
                                                 ) : null}
@@ -173,17 +195,17 @@ const ProjectModalForm = (props) => {
                                                 </TabList>
                                                 <TabPanel>
                                                     <div className="tab-editor">
-                                                        <CodeEditor language={"javascript"} theme={theme} width="100%" toggleDisplay={toggleDisplay}/>
+                                                        <CodeEditor language={"javascript"} theme={theme} width="100%" toggleDisplay={props.toggleDisplay}/>
                                                     </div>
                                                 </TabPanel>
                                                 <TabPanel>
                                                     <div className="tab-editor">
-                                                        <CodeEditor language={"html"} theme={theme} width="100%" toggleDisplay={toggleDisplay}/>
+                                                        <CodeEditor language={"html"} theme={theme} width="100%" toggleDisplay={props.toggleDisplay}/>
                                                     </div>
                                                 </TabPanel>
                                                 <TabPanel>
                                                     <div className="tab-editor">
-                                                        <CodeEditor language={"css"} theme={theme} width="100%" toggleDisplay={toggleDisplay}/>
+                                                        <CodeEditor language={"css"} theme={theme} width="100%" toggleDisplay={props.toggleDisplay}/>
                                                     </div>
                                                 </TabPanel>
                                             </Tabs>
