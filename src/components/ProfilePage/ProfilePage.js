@@ -16,12 +16,17 @@ import './profile.css'
 
 const ProfilePage = (props) => {
   const [modalShow, setModalShow] = useState(false);
+
+  const trending = [...props.projects];
+  const t = trending.slice(0, 6);
+
   const handleModalToggle = () => {
     setModalShow(!modalShow);
   }
 
   useEffect(() => {
     window.onbeforeunload = props.refreshUser();
+    // props.refreshProjects();
 
     return () => {
         window.onbeforeunload = null;
@@ -36,7 +41,7 @@ const ProfilePage = (props) => {
           <div className="user-header">
             <div id="col" style={{ justifyContent: "space-between" }}>
               <h1>👋🏼 Welcome, {props.user.username}</h1>
-              <ProfileSettings modalShow={modalShow} handleModalToggle={handleModalToggle}/> 
+              {/* <ProfileSettings modalShow={modalShow} handleModalToggle={handleModalToggle}/>  */}
             </div>
             <div id="col">
               <div className="user-info" id="grape-border">
@@ -53,15 +58,11 @@ const ProfilePage = (props) => {
               <TabList>
                 <Tab>Projects</Tab>
                 <Tab>Liked</Tab>
-                {console.log(props.likedProjects)}
-                {console.log(props.authoredProjects)}
-                
               </TabList>
               <TabPanel >
       
                 <div className="profile-post-container">
                   {
-               
                     props.user.authoredProjects ? (
                       props.user.authoredProjects.map((item) => {
                         return (
@@ -73,10 +74,8 @@ const ProfilePage = (props) => {
                 </div>
               </TabPanel>
               <TabPanel>
-                <h2>likes</h2>
-                <div className="post-content">
+                <div className="profile-post-container">
                   {
-                 
                     props.user.likedProjects ? (
                       props.user.likedProjects.map((item) => {
                         return (
@@ -86,7 +85,6 @@ const ProfilePage = (props) => {
                     ) : <div />
                   } 
                       </div>
-            
               </TabPanel>
             </Tabs>
           </div>
@@ -96,8 +94,8 @@ const ProfilePage = (props) => {
             <h3>Popular Now</h3>
           </div> 
           <div className="trending">
-            { props.authoredProjects ? (
-                props.authoredProjects.map((item) => {
+            { t ? (
+               t.map((item) => {
                     return (
                       <div className="profile-explore-card-container">
                         <PostCard item={item} key={item.id} />
@@ -117,6 +115,7 @@ const mapStateToProps = (reduxstate) => {
   return {
     lightMode: reduxstate.settings.lightMode,
     user: reduxstate.user,
+    projects: reduxstate.community.projects
   };
 };
 

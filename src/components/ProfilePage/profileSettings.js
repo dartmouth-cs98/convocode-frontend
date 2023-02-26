@@ -21,7 +21,7 @@ const ProfileSettings = (props) => {
         <div>
             <button onClick={props.handleModalToggle} className="bus" style={{ width: "fit-content" }}>Profile Settings </button>
 
-                <ReactModal className="project-modal" isOpen={props.modalShow} onRequestClose={props.handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
+                <ReactModal className="profile-modal" isOpen={props.modalShow} onRequestClose={props.handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
                     <div className="profile-settings-header">
                         <h2>Settings</h2>
                         <button className="transparent" onClick={props.handleModalToggle}><img src={X} alt="close" id="click" /></button>
@@ -40,8 +40,6 @@ const ProfileSettings = (props) => {
                     <div className="updateProfile">
                      <button className="pink">Update Profile</button>
                     </div>
-
-              
                     
                 </ReactModal>
         
