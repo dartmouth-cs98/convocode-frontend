@@ -148,20 +148,20 @@ button#right {
   padding: 10px;
 }
 
-.CommentBox{
+.CommentBox {
   display: flex;
   flex-direction: row;
   padding: 15px 0 15px 20px;
 }
 
-.ReplyBox{
+.ReplyBox {
   display: flex;
   flex-direction: row;
   /* padding-left: 60px; */
   padding: 15px 0 15px 60px;
 }
 
-.leftLine{ 
+.leftLine {
   border-right: solid;
   padding-top: 0.2;
 }
@@ -176,13 +176,15 @@ button#right {
   color: var(--white);
   padding: 10px;
 }
-.commentLine1{
+
+.commentLine1 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
- 
+
 }
-.commentLine1Text{
+
+.commentLine1Text {
   display: flex;
   flex-direction: row;
   margin-right: 15px;
@@ -208,8 +210,6 @@ button#right {
 }
 
 .dropdown {
-  top: 28%;
-  left: 19.5%;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -230,9 +230,9 @@ button#right {
   box-shadow: none;
 }
 
-.discussionFooter{
+.discussionFooter {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
- 
+
 }
