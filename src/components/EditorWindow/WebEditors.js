@@ -494,7 +494,6 @@ const WebEditors = (props) => {
               </select>
           </form>
         </div>
-        {/* <div className="ide-buttons"> */}
           <div className="ide-buttons-1">
             <button className="pink" onClick={() => {
               setLoading(!loading);
@@ -505,7 +504,6 @@ const WebEditors = (props) => {
           <div className="ide-buttons-2">
             <ProjectModalForm className="web-editor-modal"></ProjectModalForm>
           </div>
-        {/* </div> */}
       </div>
         <div className="web-editor-container">
           <div className="stop3 editor">
