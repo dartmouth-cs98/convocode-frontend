@@ -1,8 +1,9 @@
 // BASED OFF OF: https://www.freecodecamp.org/news/how-to-build-react-based-code-editor/
 // monaco-editor package for Editor component
 
-import React from "react";
+import React, {useRef} from "react";
 import Editor from "@monaco-editor/react";
+import CodeEditor from "../EditorWindow/CodeEditor";
 import { connect } from 'react-redux';
 import { addCode } from "../../state/actions";
 import { addJavascriptCode, addHTMLCode, addCSSCode } from "../../state/actions";
@@ -11,6 +12,7 @@ import '../EditorWindow/index.css'
 
 
 const CodePreview = (props) => {
+
   const defaults = {
     javascript: "// Javascript Editor",
     css: "/* CSS Editor */",
@@ -28,14 +30,9 @@ const CodePreview = (props) => {
 
 
 
-  const handleEditorChange = (value) => {
-    alert("Open in IDE to edit code.")
-  };
-
-
   return (
     <div className="overlay rounded-md w-full h-full shadow-4xl">
-      <Editor
+      <CodeEditor
         className="bottom-rounded"
         height="70vh"
         width="100%"
@@ -43,7 +40,8 @@ const CodePreview = (props) => {
         value={editor_state}
         theme={props.lightMode ? 'vs-light' : 'vs-dark'}
         defaultValue={defaults[props.language]}
-        onChange={handleEditorChange}
+        mount={props.handleDidMount}
+        toggleDisplay={props.toggleDisplay}
       />
     </div>
   );
