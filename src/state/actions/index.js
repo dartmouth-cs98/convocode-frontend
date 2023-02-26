@@ -36,11 +36,11 @@ import {
   loadProjects
 } from './community';
 
-import {
-  ActionTypes as profileActionTypes,
-  loadUserProjects,
-  loadLikedProjects
-} from './profile';
+// import {
+//   ActionTypes as profileActionTypes,
+//   loadUserProjects,
+//   loadLikedProjects
+// } from './profile';
 
 import {
   ActionTypes as tagDisplayActionTypes,
@@ -110,8 +110,6 @@ export {
   onboarding,
   addCleanedJavascript,
   loadProjects,
-  loadUserProjects,
-  loadLikedProjects,
   createProject,
   addJavaCodeHistory,
   addCSSCodeHistory,

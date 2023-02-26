@@ -1,12 +1,8 @@
 
 import { UserServicesLogin, UserServicesSignOut, getUSUserFromStorage, UserServicesSignUp, setOnboarding, getUser } from "../../services/user.js"
 
-import { getLikedProjects, getUserProjects } from "../../services/projects.js";
-
 export const ActionTypes = {
   SET_USER_DATA: 'SET_USER_DATA',
-  SET_AUTHORED_PROJECTS: 'SET_AUTHORED_PROJECTS',
-  SET_LIKED_PROJECTS: 'SET_LIKED_PROJECTS',
   CLEAR_USER_DATA: 'CLEAR_USER_DATA',
   CLEAR_PROFILE_DATA: 'CLEAR_PROFILE_DATA',
   SET_USER_ERROR: 'SET_USER_ERROR',
@@ -24,27 +20,28 @@ export const ActionTypes = {
 export const login = (email, password, onSuccess = () => { }, onError = () => { }) => {
   return async (dispatch) => {
     try {
+      console.log('in login on frontend')
       const data = await UserServicesLogin(email, password);
       console.log("got user data!")
       console.log(data);
       if (data) {
         dispatch({ type: ActionTypes.SET_USER_DATA, payload: data });
       }
+      
+      // // get authored projects from backend
+      // const authoredProjects = await getUserProjects();
 
-      // get authored projects from backend
-      const authoredProjects = await getUserProjects();
+      // if (authoredProjects) {
+      //   dispatch({ type: ActionTypes.SET_AUTHORED_PROJECTS, payload: authoredProjects });
+      // }
 
-      if (authoredProjects) {
-        dispatch({ type: ActionTypes.SET_AUTHORED_PROJECTS, payload: authoredProjects });
-      }
+      // // get authored projects from backend
+      // const likedProjects = await getLikedProjects();
+      // console.log(likedProjects)
 
-      // get authored projects from backend
-      const likedProjects = await getLikedProjects();
-      console.log(likedProjects)
-
-      if (likedProjects) {
-        dispatch({ type: ActionTypes.SET_LIKED_PROJECTS, payload: likedProjects });
-      }
+      // if (likedProjects) {
+      //   dispatch({ type: ActionTypes.SET_LIKED_PROJECTS, payload: likedProjects });
+      // }
 
       onSuccess();
     } catch (error) {
@@ -118,23 +115,10 @@ export const getUserFromStorage = () => {
 export const refreshUser = () => {
   return async (dispatch) => {
     try {
-      console.log("getting from storage")
+
       const response = await getUser();
       dispatch({ type: ActionTypes.SET_USER_DATA, payload: response });
 
-      const authoredProjects = await getUserProjects();
-
-      if (authoredProjects) {
-        dispatch({ type: ActionTypes.SET_AUTHORED_PROJECTS, payload: authoredProjects });
-      }
-
-      // get authored projects from backend
-      const likedProjects = await getLikedProjects();
-      console.log(likedProjects)
-
-      if (likedProjects) {
-        dispatch({ type: ActionTypes.SET_LIKED_PROJECTS, payload: likedProjects });
-      }
     } catch (error) {
       dispatch({
         type: ActionTypes.API_ERROR,
