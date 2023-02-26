@@ -55,6 +55,15 @@ const WebEditors = (props) => {
   const cssRef = useRef(null);
   const htmlRef = useRef(null);
 
+  const handleInputKeypress = e => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      setLoading(!loading);
+      handleSubmitCode();
+    }
+};
+
   function getHistory(codeType) {
     var history;
     if (codeType === "javascript") {
@@ -476,7 +485,7 @@ const WebEditors = (props) => {
       <Tour />
       <div className='commandBar'>
         <div className='command-text-container'>
-          <textarea className="stop2 commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange}></textarea>
+          <textarea className="stop2 commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
           <form className='languageSelect'>
               <select onChange={handleLangSwitch}>
                 <option value="html" >HTML</option>
@@ -494,7 +503,7 @@ const WebEditors = (props) => {
             <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
           </div>
           <div className="ide-buttons-2">
-            <ProjectModalForm className="web-editor-modal" toggleDisplay={toggleDisplay}></ProjectModalForm>
+            <ProjectModalForm className="web-editor-modal"></ProjectModalForm>
           </div>
         {/* </div> */}
       </div>

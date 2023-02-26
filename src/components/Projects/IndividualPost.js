@@ -386,21 +386,20 @@ const IndividualPost = (props) => {
             </div>
             <div className="commentcontainer">
               <div className="discussion-header">Discussion</div>
-
-              <div className="comments">
-                {
-                  props.user.commentObjects ? (
-                    props.project.commentObjects.map((item) => {
-
-                      return (
-                        <CommentCard item={item} key={item.id} reply={item.replyingTo} />
-                      )
-                    })) : <div />
-                }
-              </div>
-              <div className="discussionFooter">
-                <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange}></input>
-                <button className="yellow-button" onClick={() => {
+              <div className="comments"> 
+              {
+                props.user.commentObjects ? (
+                props.project.commentObjects.map((item) => {
+                  
+                  return (
+                      <CommentCard item={item} key={item.id} reply={item.replyingTo} />
+                  )
+                })) : <div />
+              }
+            </div>
+            <div className="discussionFooter">
+            <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange}></input>
+            <button className="yellow-button" onClick={() => {
                   props.comment(props.project.id, userComment, props.project.replyingTo);
                   setComment("");
                   props.setReplyingTo("", "");

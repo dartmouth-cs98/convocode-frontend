@@ -19,6 +19,8 @@ const LandingPage = (props) => {
   useEffect(() => {
     props.loadProjects();
   }, []);
+  const trending = [...props.projects];
+  const t = trending.slice(0, 6);
 
 
   return (
@@ -34,19 +36,19 @@ const LandingPage = (props) => {
       </div>
       <div className="floating-text">
         <div>
-          <p id="floating-cf">"create function"</p>
+          <p id="floating-cf">"create website"</p>
         </div>
         <div>
-          <p id="floating-bc">"build class"</p>
+          <p id="floating-bc">"style site"</p>
         </div>
         <div>
-          <p id="floating-dc">"debug code"</p>
+          <p id="floating-dc">"share project"</p>
         </div>
         <div>
-          <p id="floating-ar">"analyze runtime"</p>
+          <p id="floating-ar">"discuss prompts"</p>
         </div>
         <div>
-          <p id="floating-sa">"stackoverflow analysis"</p>
+          <p id="floating-sa">"generate code"</p>
         </div>
       </div>
       
@@ -59,7 +61,7 @@ const LandingPage = (props) => {
         <h1>🔥 Trending Post</h1>
         <div className="landing-post-content">
             {
-              props.projects.map((item) => {
+              t.map((item) => {
                 return (
                   <PostCard item={item} key={item.id} />
                 )
