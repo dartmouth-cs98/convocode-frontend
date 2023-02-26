@@ -59,6 +59,15 @@ const WebEditors = (props) => {
   const cssRef = useRef(null);
   const htmlRef = useRef(null);
 
+  const handleInputKeypress = e => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      setLoading(!loading);
+      handleSubmitCode();
+    }
+};
+
   function getHistory(codeType) {
     var history;
     if (codeType === "javascript") {
@@ -515,7 +524,7 @@ const WebEditors = (props) => {
       <HeaderBar />
       <Tour />
       <div className='commandBar'>
-        <textarea className="stop2 commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></textarea>
+        <textarea className="stop2 commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
         <form className='languageSelect'>
           <select onChange={handleLangSwitch}>
             <option value="html" > HTML
