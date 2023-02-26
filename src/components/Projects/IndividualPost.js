@@ -117,16 +117,50 @@ const IndividualPost = (props) => {
               <div className="flex-row" style={{ "width": "100%", "justify-content": "left", "alignItems": "center" }}>
 
                 <button className="likes" style={{ width: '70px' }} onClick={like}>
-                  {hasLiked ? <img src={likeFilled} /> : <img src={likeUnfilled} />}
+                  {hasLiked ? <img src={likeFilled} alt="Filled Like Button" /> : <img src={likeUnfilled} alt="Unfilled Like Button" />}
                   <span style={{ padding: '3px' }}>{props.project.likes}</span>
                 </button>
 
                 <button className="pink-button" id="right" onClick={openInIDE} style={{ "margin-right": "10px" }}>Open in IDE</button>
 
                 <CopyToClipboard text={url}>
-                  <button className="sage-button" id="right" style={{ 'margin-right': '10px' }}><img src={copy} /></button>
+                  <button className="sage-button" id="right" style={{ 'margin-right': '10px' }}><img src={copy} alt="Copy Icon" /></button>
                 </CopyToClipboard>
-                <button className="sage-button" id="right" style={{ "margin-right": "10px" }} onClick={handleOpen}>Share <img src={down} /></button>
+                <div className="share-button">
+                  <button className="sage-button" id="right" style={{ "margin-right": "10px" }} onClick={handleOpen}>Share <img src={down} alt="Down Arrow" /></button>
+                  {
+                    open ?
+                      <div className="dropdown">
+                        <span>
+                          <FacebookShareButton url={url} quote="Convocode. Pushing the boundaries of how we engage with AI." hashtags={["convocode"]}>
+                            <FacebookIcon size={32} round={true} />Facebook
+                          </FacebookShareButton>
+                        </span>
+                        <span>
+                          <TwitterShareButton url={url} title={props.project.title} hashtags={["convocode"]}>
+                            <TwitterIcon size={32} round={true} />Twitter
+                          </TwitterShareButton>
+                        </span>
+                        <span>
+                          <RedditShareButton url={url} title={props.project.title}>
+                            <RedditIcon size={32} round={true} />Reddit
+                          </RedditShareButton>
+                        </span>
+                        <span>
+                          <LinkedinShareButton url={url} title={props.project.title}>
+                            <LinkedinIcon size={32} round={true} />LinkedIn
+                          </LinkedinShareButton>
+                        </span>
+                        <span>
+                          <EmailShareButton url={url} title={props.project.title}>
+                            <EmailIcon size={32} round={true} />Email
+                          </EmailShareButton>
+                        </span>
+                      </div>
+                      :
+                      <></>
+                  }
+                </div>
 
 
 
@@ -139,60 +173,27 @@ const IndividualPost = (props) => {
                     })
                   ) : ""}
                 </div>
-
-
               </div>
-              {
-                open ?
-                  <div className="dropdown">
-                    <span>
-                      <FacebookShareButton url={url} quote="Convocode. Pushing the boundaries of how we engage with AI." hashtags={["convocode"]}>
-                        <FacebookIcon size={32} round={true} />Facebook
-                      </FacebookShareButton>
-                    </span>
-                    <span>
-                      <TwitterShareButton url={url} title={props.project.title} hashtags={["convocode"]}>
-                        <TwitterIcon size={32} round={true} />Twitter
-                      </TwitterShareButton>
-                    </span>
-                    <span>
-                      <RedditShareButton url={url} title={props.project.title}>
-                        <RedditIcon size={32} round={true} />Reddit
-                      </RedditShareButton>
-                    </span>
-                    <span>
-                      <LinkedinShareButton url={url} title={props.project.title}>
-                        <LinkedinIcon size={32} round={true} />LinkedIn
-                      </LinkedinShareButton>
-                    </span>
-                    <span>
-                      <EmailShareButton url={url} title={props.project.title}>
-                        <EmailIcon size={32} round={true} />Email
-                      </EmailShareButton>
-                    </span>
-                  </div>
-                  :
-                  <></>
-              }
+
 
             </div>
             <div className="commentcontainer">
               <div className="discussion-header">Discussion</div>
-           
-              <div className="comments"> 
-              {
-                props.user.commentObjects ? (
-                props.project.commentObjects.map((item) => {
-              
-                  return (
-                      <CommentCard item={item} key={item.id} reply={item.replyingTo} />
-                  )
-                })) : <div />
-              }
-            </div>
-            <div className="discussionFooter">
-            <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange}></input>
-            <button className="yellow-button" onClick={() => {
+
+              <div className="comments">
+                {
+                  props.user.commentObjects ? (
+                    props.project.commentObjects.map((item) => {
+
+                      return (
+                        <CommentCard item={item} key={item.id} reply={item.replyingTo} />
+                      )
+                    })) : <div />
+                }
+              </div>
+              <div className="discussionFooter">
+                <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange}></input>
+                <button className="yellow-button" onClick={() => {
                   props.comment(props.project.id, userComment, props.project.replyingTo);
                   setComment("");
                   props.setReplyingTo("", "");
