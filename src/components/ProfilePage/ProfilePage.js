@@ -9,7 +9,7 @@ import PostCard from "../CommunityPage/PostCard.js"
 
 // import settings from '../../resources/settings.png'
 import HeaderBar from "../HeaderBar/HeaderBar";
-// import ProfileSettingsModal from "./profile-settings-modal";
+import ProfileSettings from "./profileSettings.js";
 
 import 'react-tabs/style/react-tabs.css';
 import './profile.css'
@@ -32,18 +32,18 @@ const ProfilePage = (props) => {
         <div>
           <div className="user-header">
             <div id="col" style={{ justifyContent: "space-between" }}>
-              <h1>Welcome, {props.user.username}</h1>
-              {/* <ProfileSettingsModal modalShow={modalShow} handleModalToggle={handleModalToggle}/>  */}
+              <h1>👋🏼 Welcome, {props.user.username}</h1>
+              <ProfileSettings modalShow={modalShow} handleModalToggle={handleModalToggle}/> 
             </div>
             <div id="col">
-              <div className="user-info" id="bus-border">
+              {/* <div className="user-info" id="bus-border">
                 {props.user.status}
-              </div>
+              </div> */}
               <div className="user-info" id="grape-border">
-                {props.user.projectCount} Projects
+                {props.user.projectCount} Projects 💻
               </div>
               <div className="user-info" id="easy-a-border">
-                {props.user.likeCount} Liked
+                {props.user.likeCount} Liked Post ♥️
               </div>
             </div>
           </div>

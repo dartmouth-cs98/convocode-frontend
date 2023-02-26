@@ -112,6 +112,8 @@
   position: absolute;
   top: 100vh;
   width: 100vw;
+  overflow-y:scroll;
+  height:75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
