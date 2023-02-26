@@ -183,7 +183,7 @@ const IndividualPost = (props) => {
               {
                 props.user.commentObjects ? (
                 props.project.commentObjects.map((item) => {
-              
+                  
                   return (
                       <CommentCard item={item} key={item.id} reply={item.replyingTo} />
                   )
