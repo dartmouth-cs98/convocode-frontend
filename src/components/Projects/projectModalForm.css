@@ -56,4 +56,119 @@
 .tag-button {
     background-color: var(--bus);
 }
+.modal-container{
+    display: flex;
+    flex-direction: row;
+}
+.right-container{
+    width: 100%;
+    height: 100%;
+}
+.tab-editors{
+    padding-top: 30px;
+    padding-right: 30px;
+}
+.left-container{
+    height:100%;
+    display: flex;
+    flex-direction: column;
+}
+.project-details{
+    margin: 30px;
+}
+.project-detail{
+    margin-bottom: 20px;
+}
+.edit-modal{
+    height: 80vh;
+    width: 80vw;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--boring);
+    color: var(--text-primary);
+    border-radius: 15px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.project-buttons{
+    display: flex;
+    flex-direction: row;
+    float: right;
+    margin-right: 40px;
+    margin-top: 25px;
+    gap: 20px;
+}
+.light-pink{
+    background-color: #F499E0;
+    color: var(--white);
+}
+.label-header{
+    background-color: var(--black);
+    color: var(--boring);
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.tags {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 5px;
+    background: var(--white);
+    padding-bottom: 10px;
+}
+input[type="radio"] {
+    display: none;
+    position: absolute;
+    width: 100%;
+    appearance: none;
+}
+.tag-btn label{
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+.tab-editor {
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    filter: drop-shadow(16px 16px 10px rgba(0, 0, 0, 0.197));
+ }
+.tag-item{
+    background-color: rgb(218, 216, 216);
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-top: 8px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    /* margin: 8px 5px 8px 0px */
+}
+.tag-item .close{
+    height: 20px;
+    width: 20px;
+    background-color: var(--darkGrey);
+    color: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 8px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.tags-input{
+    flex-grow: 1;
+    padding: 8px 8px;
+    border: none;
+    outline: none;
+}
+.tags-input-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    background: var(--white);
+}
 
