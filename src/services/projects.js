@@ -212,7 +212,10 @@ export const likeServiceProject = async (id) => {
 export const createNewProject = async (projectInfo) => {
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}`;
   const userToken = getAuthTokenFromStorage();
-  console.log("axois post project", userToken)
+  console.log("axois post project", userToken);
+
+  console.log("project info");
+  console.log(projectInfo);
 
   try {
     const { data } = await axios.post(url, projectInfo, {

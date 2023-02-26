@@ -71,6 +71,9 @@ const ProjectModalForm = (props) => {
                     htmlCode: props.htmlCode,
                     cssCode: props.cssCode,
                     cleanedCode: props.cleanedCode,
+                    javaCodeHistory: props.javaCodeHistory,
+                    htmlCodeHistory: props.htmlCodeHistory,
+                    cssCodeHistory: props.cssCodeHistory,
                     status: status,
                     id: props.id,
                 }
@@ -81,6 +84,9 @@ const ProjectModalForm = (props) => {
                     javaCode: props.javaCode,
                     htmlCode: props.htmlCode,
                     cssCode: props.cssCode,
+                    javaCodeHistory: props.javaCodeHistory,
+                    htmlCodeHistory: props.htmlCodeHistory,
+                    cssCodeHistory: props.cssCodeHistory,
                     tags: projectTags,
                     status: status,
                   }
@@ -107,6 +113,9 @@ const ProjectModalForm = (props) => {
                 htmlCode: props.htmlCode,
                 cssCode: props.cssCode,
                 cleanedCode: props.cleanedCode,
+                javaCodeHistory: props.javaCodeHistory,
+                htmlCodeHistory: props.htmlCodeHistory,
+                cssCodeHistory: props.cssCodeHistory,
                 status: status,
                 id: props.id
               }
@@ -117,6 +126,10 @@ const ProjectModalForm = (props) => {
                     javaCode: props.javaCode,
                     htmlCode: props.htmlCode,
                     cssCode: props.cssCode,
+                    javaCodeHistory: props.javaCodeHistory,
+                    htmlCodeHistory: props.htmlCodeHistory,
+                    cssCodeHistory: props.cssCodeHistory,
+                    description: values.description,
                     tags: projectTags,
                     status: status,
                   }
@@ -239,6 +252,9 @@ const mapStateToProps = (reduxstate) => {
         status: reduxstate.project.status,
         cleanedCode: reduxstate.project.cleanedCode,
         user: reduxstate.user,
+        javaCodeHistory: reduxstate.project.javaCodeHistory,
+        htmlCodeHistory: reduxstate.project.htmlCodeHistory,
+        cssCodeHistory: reduxstate.project.cssCodeHistory
     };
 };
 
