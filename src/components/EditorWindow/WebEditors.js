@@ -25,6 +25,7 @@ import StdinWindow from './StdinWindow';
 import settings from '../../resources/settings.png';
 import './index.css';
 import './webEditor.css';
+import { decorationDict } from '../../utils/decorationDict';
 
 
 // loads in .env file if needed
@@ -48,15 +49,6 @@ const WebEditors = (props) => {
   const [jsDecorations, setJsDecorations] = useState([]);
   const [cssDecorations, setCssDecorations] = useState([]);
   const [htmlDecorations, setHtmlDecorations] = useState([]);
-  const [decorationDict, setDecorationDict] = useState({
-    1: "unicornDecorator",
-    2: "easyADecorator",
-    3: "grapeDecorator",
-    4: "skyDecorator",
-    5: "sageDecorator",
-    6: "busDecorator",
-    7: "pumpkinSpiceDecorator"
-  });
 
   const jsRef = useRef(null);
   const monacoRef = useRef(null);

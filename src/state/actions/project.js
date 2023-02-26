@@ -38,6 +38,8 @@ export const loadProject = (id) => {
     try {
 
       const data = await getProject(id);
+      console.log(`backend data:`)
+      console.log(data);
 
       // get comments on project too
       const commentObjects = await getComments(id);

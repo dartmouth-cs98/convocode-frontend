@@ -174,6 +174,7 @@ export const updateUser = async (id, fields) => {
  * @returns {Promise<Object>} API response
  */
 export const getAllUsers = async () => {
+  console.log('in get all users')
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}`;
   const token = getAuthTokenFromStorage();
 

@@ -18,6 +18,10 @@ const TOUR_STEPS = [
        },
        {
         target:".stop4",
+        content:"👀 Feel free to toggle on search history to view AI v. human generated code. Hover over each appropriate section to view the commands that generated that code."
+       },
+       {
+        target:".stop5",
         content:"🌐 Ready to share with other developers or save to your projects? Press the Post button and fill out the necessary information",
        }
 
@@ -27,8 +31,10 @@ const Tour = (props) => {
 
   // Call back function to stop onboarding
   const  printCallback = (prop) => {
+    console.log("CallBack:")
     console.log(prop)
-    if (prop.index == 3){ 
+    if (prop.lifecycle == "complete" && prop.index >=4 ){ 
+      console.log("ended here in call complete")
       props.onboarding()
     }
     if (prop.action == "skip"){

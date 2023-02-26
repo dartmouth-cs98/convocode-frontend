@@ -115,69 +115,69 @@ export const commentOnComment = async (projectId, commentId, username, commentBo
 
 }
 
-/**
- * @description loads user authored projects from the db
- * @param id user id
- * @returns {Promise<Object>} API response
- */
-export const getUserProjects = async () => {
+// /**
+//  * @description loads user authored projects from the db
+//  * @param id user id
+//  * @returns {Promise<Object>} API response
+//  */
+// export const getUserProjects = async () => {
 
-  console.log("now in projects services")
-  const userToken = getAuthTokenFromStorage();
-  console.log("do we have auth token yet");
-  console.log(userToken)
+//   console.log("now in projects services")
+//   const userToken = getAuthTokenFromStorage();
+//   console.log("do we have auth token yet");
+//   console.log(userToken)
 
-  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/userprojects`;
+//   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/userprojects`;
 
-  try {
-    console.log('trying to get all user projects!');
+//   try {
+//     console.log('trying to get all user projects!');
 
-    const { data } = await axios.get(url, {
-      headers: {
-        authorization: userToken
-      },
-    });
+//     const { data } = await axios.get(url, {
+//       headers: {
+//         authorization: userToken
+//       },
+//     });
 
-    console.log("back from getUserProjects request")
-    console.log(data);
+//     console.log("back from getUserProjects request")
+//     console.log(data);
 
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
+//     return data;
+//   } catch (error) {
+//     console.log(error);
+//     throw error;
+//   }
+// };
 
-/**
- * @description loads user authored projects from the db
- * @returns {Promise<Object>} API response
- */
-export const getLikedProjects = async () => {
+// /**
+//  * @description loads user authored projects from the db
+//  * @returns {Promise<Object>} API response
+//  */
+// export const getLikedProjects = async () => {
 
-  console.log("now in projects services")
-  const userToken = getAuthTokenFromStorage();
-  console.log(userToken)
+//   console.log("now in projects services")
+//   const userToken = getAuthTokenFromStorage();
+//   console.log(userToken)
 
-  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/likedprojects`;
+//   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/likedprojects`;
 
-  try {
-    console.log('trying to get all liked projects!');
+//   try {
+//     console.log('trying to get all liked projects!');
 
-    const { data } = await axios.get(url, {
-      headers: {
-        authorization: userToken
-      },
-    });
+//     const { data } = await axios.get(url, {
+//       headers: {
+//         authorization: userToken
+//       },
+//     });
 
-    console.log("back from getLikedProjects request")
-    console.log(data);
+//     console.log("back from getLikedProjects request")
+//     console.log(data);
 
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
+//     return data;
+//   } catch (error) {
+//     console.log(error);
+//     throw error;
+//   }
+// };
 
 /**
  * @description increments like count of a project
@@ -212,7 +212,10 @@ export const likeServiceProject = async (id) => {
 export const createNewProject = async (projectInfo) => {
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}`;
   const userToken = getAuthTokenFromStorage();
-  console.log("axois post project", userToken)
+  console.log("axois post project", userToken);
+
+  console.log("project info");
+  console.log(projectInfo);
 
   try {
     const { data } = await axios.post(url, projectInfo, {
