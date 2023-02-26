@@ -3,7 +3,8 @@ import StdinWindow from "./StdinWindow";
 
 import Run from '../../resources/play.png'
 
-import './index.css'
+import './index.css';
+import './webEditor.css';
 
 
 const Output = ({ output, theme, handleRunClick, stdin, setStdin }) => {
@@ -17,19 +18,12 @@ const Output = ({ output, theme, handleRunClick, stdin, setStdin }) => {
 
 
   return (
-    <div>
-      <div className="console-window" data-theme={theme}>
-        <div className="output-header">
-          <button onClick={handleRunClick} className="transparent">
-            Run
-            <img src={Run} alt="run" />
-          </button>
+    <div className="console-window" data-theme={theme}>
+        <StdinWindow rows="1" stdin={stdin} setStdin={setStdin} />
+        <div className="console-window-button">
+          <button onClick={handleRunClick} className="console-run-button">Run</button>
         </div>
-        <div className="out-text">
-          {newText}
-        </div>
-      </div>
-      <StdinWindow stdin={stdin} setStdin={setStdin} />
+        <div className="output-text">{newText}</div>
     </div>
   );
 };

@@ -54,10 +54,10 @@ const CodeEditor = (props) => {
   
     <div className="overlay rounded-md w-full h-full shadow-4xl">
        {console.log("code editor", props)}
-      <div className="html-header">
-      <div>{props.language}</div>
+      <div className="lang-header" id={props.language}>
+        <div className="lang-header-name">{props.language}</div>
       {/* <button onClick={() => props.toggleDisplay(props.language)}>{tagState ? 'Back to Editing' : 'Command History'}</button> */}
-      <button type="button" onClick={() => props.toggleDisplay(props.language)} onKeyDown={(e)=>{e.which === 13 && e.preventDefault()}}>{tagState ? 'Back to Editing' : 'Command History'}</button>
+        <button className="command-history-button" type="button" onClick={() => props.toggleDisplay(props.language)} onKeyDown={(e)=>{e.which === 13 && e.preventDefault()}}>{tagState ? 'Back to Editing' : 'Command History'}</button>
       </div>
       <Editor
         className="bottom-rounded"
