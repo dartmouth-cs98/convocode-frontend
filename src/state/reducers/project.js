@@ -80,6 +80,8 @@ const ProjectReducer = (state = initialState, action) => {
       return { ...state, description: action.payload };
     case ActionTypes.ADD_PROJECT_TAG:
       return { ...state, tags: action.payload };
+    case ActionTypes.DELETE_PROJECT_TAG:
+      return { ...state, tags: action.payload };
     case ActionTypes.ADD_CLEANED_CODE:
       return { ...state, cleanedCode: action.payload };
     case ActionTypes.ADD_PROJECT_STATUS:

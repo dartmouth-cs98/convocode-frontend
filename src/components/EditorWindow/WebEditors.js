@@ -23,12 +23,13 @@ import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import './index.css';
 import Tour from '../EditorWindow/Onboarding/Tour.js';
 import OutputWindow from './OutputWindow';
+import { decorationDict } from '../../utils/decorationDict';
 
 // import { lazy } from 'react';
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
-import ProjectModal from '../Projects/ProjectModal';
+import ProjectModalForm from '../Projects/ProjectModalForm';
 import { getOpenAICode } from '../../services/getCode';
 import { setUserIdInStorage } from '../../services/utils';
 dotenv.config({ silent: true });
@@ -54,15 +55,6 @@ const WebEditors = (props) => {
   const [jsDecorations, setJsDecorations] = useState([]);
   const [cssDecorations, setCssDecorations] = useState([]);
   const [htmlDecorations, setHtmlDecorations] = useState([]);
-  const [decorationDict, setDecorationDict] = useState({
-    1: "unicornDecorator",
-    2: "easyADecorator",
-    3: "grapeDecorator",
-    4: "skyDecorator",
-    5: "sageDecorator",
-    6: "busDecorator",
-    7: "pumpkinSpiceDecorator"
-  });
 
   const jsRef = useRef(null);
   const monacoRef = useRef(null);
@@ -299,10 +291,12 @@ const WebEditors = (props) => {
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
     monacoRef.current = monaco;
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+    console.log("hello?");
+    /* editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+      console.log("huh.......")
       jsUndo.current = true;
       editor.getModel().undo();
-    });
+    }); */
     
   }
 
@@ -408,39 +402,6 @@ const WebEditors = (props) => {
     setQuery("");
   }, [props.htmlCode]);
 
-  /* function handleUndo(event) {
-    console.log(event);
-    if (event.metaKey && event.key === 'z') {
-      // Handle undo logic here
-      console.log("undoing");
-      setUndo(true);
-      //event.preventDefault(); // Prevent the default behavior of the undo command
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleUndo);
-    return () => document.removeEventListener('keydown', handleUndo);
-  }, []); */
-
-
-  /* if (jsRef.current) {
-    console.log(monacoRef.KeyMod);
-    jsRef.current.addCommand(monacoRef.current.KeyMod.CtrlCmd | monacoRef.current.KeyCode.KEY_Z, function() {
-      console.log("HELLO");
-      setUndo(true);
-   });
-
-  } */
-
-    
-
-  
-  
-  
-
-
-  
 
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
@@ -610,14 +571,13 @@ const WebEditors = (props) => {
         {/* <button className="pink" onClick={() => { 
                 saveCode();
                 }}>Save</button> */}
-        {/* <ProjectModal></ProjectModal> */}
+
         <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
         {/* {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> : 
           // <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> */}
-        <ProjectModal></ProjectModal>
+         <ProjectModalForm toggleDisplay={toggleDisplay}></ProjectModalForm>
       </div>
 
-       
         <div className="web-editor-container">
           <div className="stop3 editor">
             <CodeEditor
