@@ -236,3 +236,12 @@ button#right {
   justify-content: space-between;
 
 }
+.react-tabs__tab-panel{
+  height: 80vh
+}
+.profile-editor{
+  height: 80vh;
+}
+.editor-wrapper{
+  height: 80vh;
+}

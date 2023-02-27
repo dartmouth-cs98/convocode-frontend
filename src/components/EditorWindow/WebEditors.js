@@ -21,7 +21,7 @@ import Tour from '../EditorWindow/Onboarding/Tour.js'
 import OutputWindow from './OutputWindow';
 import ProjectModalForm from '../Projects/ProjectModalForm';
 import CodeEditor from './CodeEditor';
-import StdinWindow from './StdinWindow';
+import ErrorModal from '../Error/ErrorModal';
 import settings from '../../resources/settings.png';
 import './index.css';
 import './webEditor.css';
@@ -38,7 +38,7 @@ const WebEditors = (props) => {
   const [theme] = useState("light");
   const [stdin, setStdin] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
-  const [_modalShow, setModalShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
   const [_title, setTitle] = useState("");
   const [query, setQuery] = useState("");
   const [remoteAdd, setRemoteAdd] = useState(false);
@@ -49,6 +49,7 @@ const WebEditors = (props) => {
   const [jsDecorations, setJsDecorations] = useState([]);
   const [cssDecorations, setCssDecorations] = useState([]);
   const [htmlDecorations, setHtmlDecorations] = useState([]);
+  const [error, setError] = useState(null);
 
   const jsRef = useRef(null);
   const monacoRef = useRef(null);
@@ -62,7 +63,12 @@ const WebEditors = (props) => {
       setLoading(!loading);
       handleSubmitCode();
     }
-};
+  };
+
+  useEffect(() => {
+    console.log("current state of ", error, modalShow)
+    setModalShow(error !== null)
+  }, [error]);
 
   function getHistory(codeType) {
     var history;
@@ -121,7 +127,9 @@ const WebEditors = (props) => {
   }
 
   function getNewTags(q, newCode, codeType) {
+    console.log(newCode);
     var history = getHistory(codeType);
+
     var tags = []
     if (history.length === 0) {
       for (var i = 0; i < newCode.length; i++) {
@@ -159,22 +167,31 @@ const WebEditors = (props) => {
             }
           }
         } else {
-          while (oP < oldCode.length || nP < newCode.length) {
-            if (oldCode[oP] === newCode[nP]) {
-              tags.push(oldTags[oP]);
-              nP++;
-              oP++;
-            }
-            else {
-              oP++;
+          const editor = getEditor(codeType);
+          const pos = editor.getPosition().lineNumber;
+          while (oP < oldCode.length && nP < newCode.length) {
+              if (nP === pos - 1) {
+                tags.push(-1);
+                nP++;
               }
-            }
+
+              else if (oldCode[oP] === newCode[nP]) {
+                tags.push(oldTags[oP]);
+                nP++;
+                oP++;
+              }
+              else {
+                oP++;
+              }
+
           }
+
+        }
       }       
     }
     console.log(tags);
     return tags;
-  }  
+  }
 
   function checkInsertion(tag) {
     return tag !== -1;
@@ -193,7 +210,7 @@ const WebEditors = (props) => {
         adding = false;
         range.push(currRange);
         currRange = [];
-      } 
+      }
       if (arr[i] === tag) {
         if (range.length === 0) {
           adding = true
@@ -221,7 +238,7 @@ const WebEditors = (props) => {
         var end = r[j][r[j].length - 1];
         ranges.push([start, end]);
       }
-      
+
     }
     return ranges;
   }
@@ -233,20 +250,20 @@ const WebEditors = (props) => {
     var dList = [];
     var currTags = history.slice(-1)[0].tags;
     for (var i = 0; i < ranges.length; i++) {
-      var decId = (i + 1)%7;
+      var decId = (i + 1) % 7;
       const start = ranges[i][0];
       const end = ranges[i][1];
       console.log(currTags[start]);
       dList.push({
-        range: new monacoRef.current.Range(start + 1,1,end + 1,1),
+        range: new monacoRef.current.Range(start + 1, 1, end + 1, 1),
         options: {
           isWholeLine: true,
           className: decorationDict[decId],
-          hoverMessage: {value: currTags[start]}
+          hoverMessage: { value: currTags[start] }
         }
       });
     }
-    editor.updateOptions({readOnly: true});
+    editor.updateOptions({ readOnly: true });
     var d = editor.deltaDecorations([], dList);
     setDecorations(codeType, d);
     setDisplay(codeType, true);
@@ -255,7 +272,7 @@ const WebEditors = (props) => {
   function endTagView(codeType) {
     var editorRef = getEditor(codeType);
     editorRef.deltaDecorations(getDecorations(codeType), []);
-    editorRef.updateOptions({readOnly: false});
+    editorRef.updateOptions({ readOnly: false });
     setDisplay(codeType, false);
     setDecorations([], codeType);
   }
@@ -280,6 +297,9 @@ const WebEditors = (props) => {
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
     monacoRef.current = monaco;
+    editor.onDidChangeCursorSelection((e) => {
+      console.log(JSON.stringify(e));
+  });
   }
 
   function handleCSSDidMount(editor, monaco) {
@@ -288,26 +308,29 @@ const WebEditors = (props) => {
 
   function handleHTMLDidMount(editor, monaco) {
     htmlRef.current = editor;
+    editor.onDidChangeCursorSelection((e) => {
+      console.log(JSON.stringify(e));
+  });
   }
-  
+
   useEffect(() => {
     try {
-        // rewrite the user's JavaScript to protect loops
-        var processed = transform(props.javaCode);
-        console.log(processed);
-        props.addCleanedJavascript(processed.code);
+      // rewrite the user's JavaScript to protect loops
+      var processed = transform(props.javaCode);
+      console.log(processed);
+      props.addCleanedJavascript(processed.code);
     } catch {
-        console.log("code incomplete, can't transform");
+      console.log("code incomplete, can't transform");
     } try {
       console.log(remoteAdd);
       if (remoteAdd) {
         const newTags = getNewTags(query, props.javaCode.split(/\r\n|\r|\n/), "javascript");
-        props.addJavaCodeHistory({query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
+        props.addJavaCodeHistory({ query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags });
         setRemoteAdd(false);
 
       } else {
         const newTags = getNewTags(-1, props.javaCode.split(/\r\n|\r|\n/), "javascript");
-        props.addJavaCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
+        props.addJavaCodeHistory({ query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags });
 
       }
 
@@ -324,12 +347,12 @@ const WebEditors = (props) => {
       console.log(remoteAdd);
       if (remoteAdd) {
         const newTags = getNewTags(query, props.cssCode.split(/\r\n|\r|\n/), "css");
-        props.addCSSCodeHistory({query: query, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: newTags});
+        props.addCSSCodeHistory({ query: query, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: newTags });
         setRemoteAdd(false);
 
       } else {
         const newTags = getNewTags(-1, props.cssCode.split(/\r\n|\r|\n/), "css");
-        props.addCSSCodeHistory({query: -1, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: newTags});
+        props.addCSSCodeHistory({ query: -1, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: newTags });
       }
     } catch {
       console.log("couldn't add code history");
@@ -340,16 +363,17 @@ const WebEditors = (props) => {
 
   useEffect(() => {
     try {
-      console.log(remoteAdd);
+
+      console.log(props.htmlCode);
       if (remoteAdd) {
         const newTags = getNewTags(query, props.htmlCode.split(/\r\n|\r|\n/), "html");
-        props.addHTMLCodeHistory({query: query, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags});
+        props.addHTMLCodeHistory({ query: query, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags });
         setRemoteAdd(false);
         console.log(newTags);
 
       } else {
         const newTags = getNewTags(-1, props.htmlCode.split(/\r\n|\r|\n/), "html");
-        props.addHTMLCodeHistory({query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags});
+        props.addHTMLCodeHistory({ query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags });
         console.log(newTags);
       }
     } catch {
@@ -363,10 +387,10 @@ const WebEditors = (props) => {
     // send user input to get code from openai
     setRemoteAdd(true);
     console.log(remoteAdd);
-    
+
     getOpenAICode(query, currentLanguage).then((res) => {
       setLoading(false);
-      
+
       console.log(res);
 
 
@@ -374,8 +398,8 @@ const WebEditors = (props) => {
         if (props.javaCode.length === 0) {
           props.addJavascriptCode(res.code);
         } else {
-            props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: res.code});
-        }    
+          props.insertJavascriptCode({ index: jsRef.current.getPosition().lineNumber, code: res.code });
+        }
       } else if (currentLanguage === "html") {
         if (props.htmlCode.length === 0) {
           props.addHTMLCode(res.code);
@@ -390,6 +414,14 @@ const WebEditors = (props) => {
           props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: res.code });
         }
       }
+    }).catch((error) => {
+      console.log(error)
+      const e = {
+        location: "OpenAI Codex",
+        data: "Cannot Access OpenAI Codex Model at this time.",
+        status: 452,
+      }
+      setError(e);
     });
   }
 
@@ -419,10 +451,15 @@ const WebEditors = (props) => {
       console.log(res);
       console.log(`id of compiling: ${res.data.token}`);
       checkStatus(res.data);
-    }).catch((err) => {
-      let error = err.response ? err.response.data : err;
-      console.log(error);
-    })
+    }).catch((error) => {
+      console.log(error)
+      const e = {
+        location: "Compiler",
+        data: "Cannot Access Compiler at this time.",
+        status: 451,
+      }
+      setError(e);
+    });
   }
 
   const checkStatus = async (id) => {
@@ -472,17 +509,22 @@ const WebEditors = (props) => {
     <div className='stop1 WebEditorApp'>
       <HeaderBar />
       <Tour />
-      <div className='commandBar'>
-        <div className='command-text-container'>
-          <textarea className="stop2 commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
-          <form className='languageSelect'>
+      {modalShow ?
+        <ErrorModal isOpen={modalShow} handleModalToggle={() => setModalShow(!modalShow)} title={error.location} error={error.data} status={error.status} onClose={() => setError(null)} /> :
+        <></>
+      }
+      <div className='ide-page'>
+        <div className='commandBar'>
+          <div className='command-text-container'>
+            <form className='languageSelect'>
               <select onChange={handleLangSwitch}>
                 <option value="html" >HTML</option>
                 <option value="css" >CSS</option>
                 <option value="javascript">JavaScript</option>
               </select>
-          </form>
-        </div>
+            </form>
+            <textarea className="stop2 commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
+          </div>
           <div className="ide-buttons-1">
             <button className="pink" onClick={() => {
               setLoading(!loading);
@@ -493,51 +535,55 @@ const WebEditors = (props) => {
           <div className="ide-buttons-2">
             <ProjectModalForm className="web-editor-modal"></ProjectModalForm>
           </div>
-      </div>
+        </div>
         <div className="web-editor-container">
           <div className="stop3 editor">
             <CodeEditor
-                language={"javascript"}
-                theme={theme}
-                width="100%"
-                toggleDisplay={toggleDisplay}
-                mount={handleJSDidMount}
+              language={"javascript"}
+              theme={theme}
+              height="45vh"
+              width="100%"
+              toggleDisplay={toggleDisplay}
+              mount={handleJSDidMount}
             />
           </div>
           <div className="editor">
             <CodeEditor
-                language={"html"}
-                theme={theme}
-                width="100%"
-                toggleDisplay={toggleDisplay}
-                mount={handleHTMLDidMount}
+              language={"html"}
+              theme={theme}
+              height="45vh"
+              width="100%"
+              toggleDisplay={toggleDisplay}
+              mount={handleHTMLDidMount}
             />
           </div>
           <div className="editor">
             <CodeEditor
-                language={"css"}
-                theme={theme}
-                width="100%"
-                toggleDisplay={toggleDisplay}
-                mount={handleCSSDidMount}
-            />    
+              language={"css"}
+              theme={theme}
+              height="45vh"
+              width="100%"
+              toggleDisplay={toggleDisplay}
+              mount={handleCSSDidMount}
+            />
           </div>
         </div>
         <div className="web-editors-tabs">
           <Tabs id="output-console-tabs">
             <TabList>
-              <Tab id="output">output</Tab>
-              <Tab id="console">console</Tab>
+              <Tab id="ide-output">output</Tab>
+              <Tab id="ide-console">console</Tab>
             </TabList>
             <TabPanel>
-              <WebOutput theme={theme}/>
+              <WebOutput theme={theme} />
             </TabPanel>
             <TabPanel>
-              <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdin={setStdin}/>
+              <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdin={setStdin} />
             </TabPanel>
           </Tabs>
         </div>
       </div>
+    </div>
   );
 };
 
@@ -556,7 +602,7 @@ const mapStateToProps = (reduxstate) => {
     javaDisplay: reduxstate.tagDisplay.javaDisplay,
     cssDisplay: reduxstate.tagDisplay.cssDisplay,
     htmlDisplay: reduxstate.tagDisplay.htmlDisplay,
- };
+  };
 };
 
 export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setJavaDisplay, setCSSDisplay, setHTMLDisplay })(WebEditors);

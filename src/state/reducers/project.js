@@ -42,10 +42,14 @@ const ProjectReducer = (state = initialState, action) => {
         javaCode: action.payload.javaCode,
         htmlCode: action.payload.htmlCode,
         cssCode: action.payload.cssCode,
+        cssCodeHistory: action.payload.cssCodeHistory,
+        htmlCodeHistory: action.payload.htmlCodeHistory,
+        javaCodeHistory: action.payload.javaCodeHistory,
         id: action.payload._id,
         title: action.payload.title,
         description: action.payload.description,
         tags: action.payload.tags,
+        cleanedCode: action.payload.cleanedCode,
         ...action.payload,
       };
     case ActionTypes.CREATE_PROJECT:
@@ -53,9 +57,26 @@ const ProjectReducer = (state = initialState, action) => {
         javaCode: action.payload.javaCode,
         htmlCode: action.payload.htmlCode,
         cssCode: action.payload.cssCode,
+        cssCodeHistory: action.payload.cssCodeHistory,
+        htmlCodeHistory: action.payload.htmlCodeHistory,
+        javaCodeHistory: action.payload.javaCodeHistory,
         id: action.payload._id,
         title: action.payload.title,
         tags: action.payload.tags,
+        cleanedCode: action.payload.cleanedCode,
+      };
+    case ActionTypes.UPDATE_PROJECT:
+      return {
+        javaCode: action.payload.javaCode,
+        htmlCode: action.payload.htmlCode,
+        cssCode: action.payload.cssCode,
+        cssCodeHistory: action.payload.cssCodeHistory,
+        htmlCodeHistory: action.payload.htmlCodeHistory,
+        javaCodeHistory: action.payload.javaCodeHistory,
+        id: action.payload._id,
+        title: action.payload.title,
+        tags: action.payload.tags,
+        cleanedCode: action.payload.cleanedCode,
       };
     case ActionTypes.ADD_JAVASCRIPT_CODE:
       return { ...state, javaCode: action.payload };

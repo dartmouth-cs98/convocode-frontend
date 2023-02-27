@@ -20,10 +20,14 @@ const AlgoliaSearch = (props) => {
   };
 
   return (
-    <div className="agolia-search">
-      <input type="text" id="AlgoliaInput" placeholder="Search @usernames, #tags, or key words" onChange={onContentChange} value={searchPath} />
-      <button onClick={handleSearchClick} className="pink">Search</button>
-    </div >
+    <div className="algolia-container">
+      <div className="agolia-search">
+        <input type="text" id="AlgoliaInput" placeholder="Search @usernames, #tags, or key words" onChange={onContentChange} value={searchPath} />
+        <div className="algolia-button">
+          <button onClick={handleSearchClick} className="pink">Search</button>
+        </div>
+      </div >
+    </div>
   );
 
 }

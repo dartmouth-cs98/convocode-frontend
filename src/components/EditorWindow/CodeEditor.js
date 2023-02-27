@@ -61,7 +61,7 @@ const CodeEditor = (props) => {
       </div>
       <Editor
         className="bottom-rounded"
-        height="45vh"
+        height={props.height}
         width={props.width}
         language={props.language || "python"}
         value={editor_state}
