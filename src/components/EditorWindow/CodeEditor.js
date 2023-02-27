@@ -53,7 +53,6 @@ const CodeEditor = (props) => {
   return (
   
     <div className="overlay rounded-md w-full h-full shadow-4xl">
-       {console.log("code editor", props)}
       <div className="lang-header" id={props.language}>
         <div className="lang-header-name">{props.language}</div>
       {/* <button onClick={() => props.toggleDisplay(props.language)}>{tagState ? 'Back to Editing' : 'Command History'}</button> */}

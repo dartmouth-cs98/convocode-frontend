@@ -120,19 +120,49 @@ const ProjectModalForm = (props) => {
     }
   }
 
-  function getHistoryPost(codeType) {
-    var history;
-    if (codeType === "javascript") {
-      history = props.javaCodeHistory;
-    } else if (codeType === "css") {
-      history = props.cssCodeHistory;
-    } else {
-      history = props.htmlCodeHistory;
-    }
-    console.log(props.htmlCodeHistory);
-    return history;
 
-  }
+    function setDisplayPost(codeType, bool) {
+        if (codeType === "javascript") {
+          props.setJavaDisplay(bool);
+        } else if (codeType === "css") {
+          props.setCSSDisplay(bool);
+        } else {
+          props.setHTMLDisplay(bool);
+        }
+      }
+    
+      function setDecorationsPost(codeType, d) {
+        if (codeType === "javascript") {
+          setJsDecorations(d);
+        } else if (codeType === "css") {
+          setCssDecorations(d);
+        } else {
+          setHtmlDecorations(d);
+        }
+      }
+    
+    
+      function getDecorationsPost(codeType) {
+        if (codeType === "javascript") {
+          return jsDecorations;
+        } else if (codeType === "css") {
+          return cssDecorations;
+        } else {
+          return htmlDecorations;
+        }
+      }
+    
+      function getHistoryPost(codeType) {
+        var history;
+        if (codeType === "javascript") {
+          history = props.javaCodeHistory;
+        } else if (codeType === "css") {
+          history = props.cssCodeHistory;
+        } else {
+          history = props.htmlCodeHistory;
+        }
+        return history;
+  
 
   function getEditorPost(codeType) {
     var editorRef;
@@ -200,25 +230,70 @@ const ProjectModalForm = (props) => {
 
 
   }
-
-  function displayTagsPost(codeType) {
-    var history = getHistoryPost(codeType);
-    var editor = getEditorPost(codeType);
-    var ranges = getRangesPost(codeType);
-    var dList = [];
-    var currTags = history.slice(-1)[0].tags;
-    for (var i = 0; i < ranges.length; i++) {
-      var decId = (i + 1) % 7;
-      const start = ranges[i][0];
-      const end = ranges[i][1];
-      console.log(currTags[start]);
-      dList.push({
-        range: new monacoRef.current.Range(start + 1, 1, end + 1, 1),
-        options: {
-          isWholeLine: true,
-          className: decorationDict[decId],
-          hoverMessage: { value: currTags[start] }
+    
+      
+      function getRangesPost(codeType) {
+        var history = getHistoryPost(codeType);
+        var currTags = history.slice(-1)[0].tags;
+        var insertionTags = currTags.filter(checkInsertion);
+        var unique = insertionTags.filter(onlyUnique);
+        var ranges = []
+        for (var i = 0; i < unique.length; i++) {
+          var r = findTagRange(unique[i], currTags);
+          for (var j = 0; j < r.length; j++) {
+            var start = r[j][0];
+            var end = r[j][r[j].length - 1];
+            ranges.push([start, end]);
+          }
+          
         }
+        return ranges;
+    
+        
+      }
+    
+      function displayTagsPost(codeType) {
+        var history = getHistoryPost(codeType);
+        var editor = getEditorPost(codeType);
+        var ranges = getRangesPost(codeType);
+        var dList = [];
+        var currTags = history.slice(-1)[0].tags;
+        for (var i = 0; i < ranges.length; i++) {
+          var decId = (i + 1)%7;
+          const start = ranges[i][0];
+          const end = ranges[i][1];
+          dList.push({
+            range: new monacoRef.current.Range(start + 1,1,end + 1,1),
+            options: {
+              isWholeLine: true,
+              className: decorationDict[decId],
+              hoverMessage: {value: currTags[start]}
+            }
+          });
+        }
+        editor.updateOptions({readOnly: true});
+        var d = editor.deltaDecorations([], dList);
+        setDecorationsPost(codeType, d);
+        setDisplayPost(codeType, true);
+           
+      }
+   
+    
+      function toggleDisplay(codeType) {
+        var display;
+        if (codeType === "javascript") {
+          display = props.javaDisplay;
+        } else if (codeType === "css") {
+          display = props.cssDisplay;
+        } else {
+          display = props.htmlDisplay;
+        }
+        if (display) {
+          endTagViewPost(codeType);
+    
+        } else {
+          displayTagsPost(codeType);
+
       });
     }
     editor.updateOptions({ readOnly: true });
@@ -236,23 +311,6 @@ const ProjectModalForm = (props) => {
     setDecorationsPost([], codeType);
   }
 
-  function toggleDisplay(codeType) {
-    var display;
-    if (codeType === "javascript") {
-      display = props.javaDisplay;
-    } else if (codeType === "css") {
-      display = props.cssDisplay;
-    } else {
-      display = props.htmlDisplay;
-    }
-    if (display) {
-      endTagViewPost(codeType);
-
-    } else {
-      console.log("displaying");
-      displayTagsPost(codeType);
-    }
-  }
 
   const handleTagChange = (event) => {
     setNewTag(event.target.value);
@@ -313,6 +371,7 @@ const ProjectModalForm = (props) => {
 
           console.log("new project to create", projectInfo);
           props.createProject(projectInfo);
+
         }
       } catch (error) {
         console.log("Unable to save post at this time:", error)
@@ -380,6 +439,48 @@ const ProjectModalForm = (props) => {
           }
           console.log("new project to create", projectInfo);
           props.createProject(projectInfo);
+
+    const handleRemoveTags = (index) => {
+        setProjectTags([...projectTags.filter(tag => projectTags.indexOf(tag) !== index)]);
+    };
+
+    const save = (values) => {
+        try {
+            const status = false;
+
+            if (props.id) {
+                const projectInfo = {
+                    tags: projectTags,
+                    title: values.title,
+                    description: values.description,
+                    javaCode: props.javaCode,
+                    htmlCode: props.htmlCode,
+                    cssCode: props.cssCode,
+                    cleanedCode: props.cleanedCode,
+                    javaCodeHistory: props.javaCodeHistory,
+                    htmlCodeHistory: props.htmlCodeHistory,
+                    cssCodeHistory: props.cssCodeHistory,
+                    status: status,
+                    id: props.id,
+                }
+                props.updateProject(projectInfo);
+            } else {
+                const projectInfo = {
+                    title: values.title,
+                    javaCode: props.javaCode,
+                    htmlCode: props.htmlCode,
+                    cssCode: props.cssCode,
+                    javaCodeHistory: props.javaCodeHistory,
+                    htmlCodeHistory: props.htmlCodeHistory,
+                    cssCodeHistory: props.cssCodeHistory,
+                    tags: projectTags,
+                    status: status,
+                  }
+          
+                props.createProject(projectInfo);
+            }
+        } catch (error) {
+            console.log("Unable to save post at this time:", error)
 
         }
       } catch (error) {

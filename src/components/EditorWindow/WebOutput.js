@@ -17,7 +17,6 @@ const WebOutput = (props) => {
     
     const cssURL = getBlobURL(css, 'text/css')
     const jsURL = getBlobURL(js, 'text/javascript')
-    console.log(css);
     const source = `
     <html>
       <head>
@@ -29,7 +28,6 @@ const WebOutput = (props) => {
       </body>
     </html>`;
 
-    console.log(source);
 
     return getBlobURL(source, 'text/html');
   }

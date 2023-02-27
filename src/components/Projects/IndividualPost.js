@@ -79,7 +79,7 @@ const IndividualPost = (props) => {
     } else {
       history = props.htmlCodeHistory;
     }
-    console.log(props.htmlCodeHistory);
+
     return history;
 
   }
@@ -126,7 +126,7 @@ const IndividualPost = (props) => {
     if (currRange.length !== 0) {
       range.push(currRange);
     }
-    console.log(range);
+
     return range;
   }
 
@@ -161,7 +161,7 @@ const IndividualPost = (props) => {
       var decId = (i + 1) % 7;
       const start = ranges[i][0];
       const end = ranges[i][1];
-      console.log(currTags[start]);
+   
       dList.push({
         range: new monacoRef.current.Range(start + 1, 1, end + 1, 1),
         options: {
@@ -199,7 +199,7 @@ const IndividualPost = (props) => {
       endTagViewPost(codeType);
 
     } else {
-      console.log("displaying");
+    
       displayTagsPost(codeType);
     }
   }
@@ -238,12 +238,9 @@ const IndividualPost = (props) => {
   };
 
 
-
   let { id } = useParams();
-  console.log(id);
 
   const location = useLocation();
-  console.log(location.pathname);
 
   const url = `www.convocode.org${location.pathname}`
 
@@ -269,13 +266,11 @@ const IndividualPost = (props) => {
   // handles input text changes
   const handleCommentChange = (event) => {
     setComment(event.target.value);
-    console.log(userComment)
   }
 
   useEffect(() => {
     props.refreshUser()
   }, [props.project.likes]);
-
 
   useEffect(() => {
     if (props.user.likedProjects.some(proj => proj.id === props.project.id)) {
@@ -286,6 +281,17 @@ const IndividualPost = (props) => {
     console.log("has liked ", hasLiked)
 
   }, [props.user.likedProjects]);
+
+  const handleInputKeypress = e => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      props.comment(props.project.id, userComment, props.project.replyingTo);
+      setComment("");
+      props.setReplyingTo("", "");
+      props.loadProject(id);
+    }
+};
 
   const openClick = () => {
     if (props.user.username === '') {
@@ -306,18 +312,14 @@ const IndividualPost = (props) => {
         tags: props.project.tags,
       }
 
-      console.log("new project to create", projectInfo);
-
       const project = props.createProject(projectInfo);
       navigate('/profile');
 
     }
   }
 
-
-
   useEffect(() => {
-    console.log(props.user.username === props.project.username);
+
     if (props.user.username === props.project.username) {
       setIsMine(true);
     } else {
@@ -329,7 +331,6 @@ const IndividualPost = (props) => {
 
   let tag = "undefined"
 
-  console.log(props.project)
   return (
     <div className="project-page" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />
@@ -408,20 +409,20 @@ const IndividualPost = (props) => {
             </div>
             <div className="commentcontainer">
               <div className="discussion-header">Discussion</div>
-              <div className="comments">
-                {
-                  props.user.commentObjects ? (
-                    props.project.commentObjects.map((item) => {
-
-                      return (
-                        <CommentCard item={item} key={item.id} reply={item.replyingTo} />
-                      )
-                    })) : <div />
-                }
-              </div>
-              <div className="discussionFooter">
-                <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange}></input>
-                <button className="yellow-button" onClick={() => {
+              <div className="comments"> 
+              {
+                props.project.commentObjects ? (
+                props.project.commentObjects.map((item) => {
+                  
+                  return (
+                      <CommentCard item={item} key={item.id} reply={item.replyingTo} />
+                  )
+                })) : <div />
+              }
+            </div>
+            <div className="discussionFooter">
+            <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange} onKeyDown={handleInputKeypress}></input>
+            <button className="yellow-button" onClick={() => {
                   props.comment(props.project.id, userComment, props.project.replyingTo);
                   setComment("");
                   props.setReplyingTo("", "");
