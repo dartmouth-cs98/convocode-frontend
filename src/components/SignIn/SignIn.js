@@ -26,7 +26,7 @@ const SignIn = (props) => {
   }
 
   useEffect(() => {
-    console.log("current state of ", props.error)
+
     setModalShow(props.error !== {})
   }, [props.error]);
 

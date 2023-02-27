@@ -138,7 +138,6 @@ const WebEditors = (props) => {
     }
     else {
       const oldCode = history.slice(-1)[0].code;
-      console.log(oldCode);
       if (oldCode.length === 1) {
         for (var i = 0; i < newCode.length; i++) {
           tags.push(q);
@@ -189,7 +188,7 @@ const WebEditors = (props) => {
         }
       }       
     }
-    console.log(tags);
+
     return tags;
   }
 
@@ -221,7 +220,6 @@ const WebEditors = (props) => {
     if (currRange.length !== 0) {
       range.push(currRange);
     }
-    console.log(range);
     return range;
   }
 
@@ -253,7 +251,7 @@ const WebEditors = (props) => {
       var decId = (i + 1) % 7;
       const start = ranges[i][0];
       const end = ranges[i][1];
-      console.log(currTags[start]);
+
       dList.push({
         range: new monacoRef.current.Range(start + 1, 1, end + 1, 1),
         options: {
@@ -315,14 +313,14 @@ const WebEditors = (props) => {
 
   useEffect(() => {
     try {
-      // rewrite the user's JavaScript to protect loops
-      var processed = transform(props.javaCode);
-      console.log(processed);
-      props.addCleanedJavascript(processed.code);
+
+        // rewrite the user's JavaScript to protect loops
+        var processed = transform(props.javaCode);
+        props.addCleanedJavascript(processed.code);
+
     } catch {
       console.log("code incomplete, can't transform");
     } try {
-      console.log(remoteAdd);
       if (remoteAdd) {
         const newTags = getNewTags(query, props.javaCode.split(/\r\n|\r|\n/), "javascript");
         props.addJavaCodeHistory({ query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags });
@@ -344,7 +342,7 @@ const WebEditors = (props) => {
 
   useEffect(() => {
     try {
-      console.log(remoteAdd);
+
       if (remoteAdd) {
         const newTags = getNewTags(query, props.cssCode.split(/\r\n|\r|\n/), "css");
         props.addCSSCodeHistory({ query: query, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: newTags });
@@ -364,17 +362,14 @@ const WebEditors = (props) => {
   useEffect(() => {
     try {
 
-      console.log(props.htmlCode);
       if (remoteAdd) {
         const newTags = getNewTags(query, props.htmlCode.split(/\r\n|\r|\n/), "html");
         props.addHTMLCodeHistory({ query: query, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags });
         setRemoteAdd(false);
-        console.log(newTags);
 
       } else {
         const newTags = getNewTags(-1, props.htmlCode.split(/\r\n|\r|\n/), "html");
-        props.addHTMLCodeHistory({ query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags });
-        console.log(newTags);
+        props.addHTMLCodeHistory({query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags});
       }
     } catch {
       console.log("couldn't add code history");
@@ -386,14 +381,10 @@ const WebEditors = (props) => {
   function handleSubmitCode() {
     // send user input to get code from openai
     setRemoteAdd(true);
-    console.log(remoteAdd);
-
+    
     getOpenAICode(query, currentLanguage).then((res) => {
       setLoading(false);
-
-      console.log(res);
-
-
+     
       if (currentLanguage === "javascript") {
         if (props.javaCode.length === 0) {
           props.addJavascriptCode(res.code);
@@ -404,7 +395,6 @@ const WebEditors = (props) => {
         if (props.htmlCode.length === 0) {
           props.addHTMLCode(res.code);
         } else {
-          console.log(htmlRef.current.getPosition().lineNumber);
           props.insertHTMLCode({ index: htmlRef.current.getPosition().lineNumber, code: res.code });
         }
       } else {
@@ -447,9 +437,7 @@ const WebEditors = (props) => {
       source_code: props.javaCode,
       customInput: stdin
     }).then((res) => {
-      console.log("here");
-      console.log(res);
-      console.log(`id of compiling: ${res.data.token}`);
+
       checkStatus(res.data);
     }).catch((error) => {
       console.log(error)
@@ -464,24 +452,19 @@ const WebEditors = (props) => {
 
   const checkStatus = async (id) => {
     // Get request to compile endpoint
-    console.log(id);
+
     try {
       let response = await axios.request(`${process.env.REACT_APP_ROOT_URL}/compiler/${id.token}`);
-      console.log(response.data);
       let status = response.status;
-      console.log(status)
       // Processed - we have a result
       if (status === 201) {
         // still processing
-        console.log('still processing');
         setTimeout(() => {
           checkStatus(id)
         }, 2000)
         return
       } else {
-        console.log(response);
         if (response.data.status === 3) {
-          console.log(response.data.description);
           setOutputDetails(response.data.stdout);
           setStdin("");
         } else {

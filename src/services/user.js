@@ -48,9 +48,7 @@ export const UserServicesLogin = async (email, password) => {
  */
 export const UserServicesSignUp = async (email, password, username) => {
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/signup`;
-  // const token = getAuthTokenFromStorage();
 
-  console.log("user services sign up")
   try {
     const { data } = await axios.post(url, {
       email,
@@ -92,20 +90,18 @@ export const getUser = async (id) => {
 
   // get user token
   const userToken = getAuthTokenFromStorage();
-  console.log(userToken);
+
 
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/refresh`;
 
   try {
-    console.log('trying to refresh user')
+
     const { data } = await axios.get(url, {
       headers: {
         authorization: userToken
       },
     });
 
-    console.log("back from axios request")
-    console.log(data);
 
     return data;
   } catch (error) {
@@ -174,7 +170,7 @@ export const updateUser = async (id, fields) => {
  * @returns {Promise<Object>} API response
  */
 export const getAllUsers = async () => {
-  console.log('in get all users')
+
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}`;
   const token = getAuthTokenFromStorage();
 

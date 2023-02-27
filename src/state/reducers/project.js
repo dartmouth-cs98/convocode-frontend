@@ -109,8 +109,6 @@ const ProjectReducer = (state = initialState, action) => {
       return { ...state, status: action.payload };
     case ActionTypes.ADD_COMMENTS:
       return { ...state, commentObjects: action.payload };
-    case ActionTypes.ADD_NEW_COMMENT:
-      return { ...state, commentObjects: [...state.commentObjects, action.payload] };
     case ActionTypes.SET_REPLYING_TO:
       return { ...state, replyingTo: action.payload };
     case ActionTypes.SET_REPLYING_USER:

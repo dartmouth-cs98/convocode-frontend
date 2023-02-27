@@ -38,41 +38,9 @@ export const loadProject = (id) => {
     try {
 
       const data = await getProject(id);
-      console.log(`backend data:`)
-      console.log(data);
-
-      // get comments on project too
-      const commentObjects = await getComments(id);
-      console.log("unsorted comment data")
-      console.log(commentObjects);
-
-      // build new array in comment-reply order
-      // they should already be sorted by date as returned by mongoose
-      var sortedComments = [];
-
-      for (const comment of commentObjects) {
-
-        // check if base comment or reply
-        if (!(comment.replyingTo)) {  // is base comment
-
-          // push base comment
-          sortedComments.push(comment);
-          // get its id
-          const currentCommentId = comment.id;
-          // find its replies
-          const replies = commentObjects.filter(comment => comment.replyingTo == currentCommentId);
-          // push its replies
-          for (const reply of replies) {
-            sortedComments.push(reply);
-          }
-        }
-        // skip if reply 
-      }
-      console.log("sorted comments")
-      console.log(sortedComments)
 
       dispatch({ type: ActionTypes.LOAD_PROJECT, payload: data });
-      dispatch({ type: ActionTypes.ADD_COMMENTS, payload: sortedComments });
+      //dispatch({ type: ActionTypes.ADD_COMMENTS, payload: sortedComments });
 
     } catch (error) {
       console.log(error)
@@ -88,9 +56,7 @@ export const createProject = (newProject) => {
   return async (dispatch) => {
     try {
       const data = await createNewProject(newProject);
-      if (data) {
-        console.log("created", data)
-      }
+
       dispatch({ type: ActionTypes.CREATE_PROJECT, payload: data });
     } catch (error) {
       console.log(error)
@@ -270,9 +236,9 @@ export const addHTMLCodeHistory = (input) => {
 export const likeProject = (projectId) => {
   return async (dispatch) => {
     try {
-      console.log("in try to like ")
+    
       const data = await likeServiceProject(projectId)
-      console.log(data)
+  
       dispatch({ type: ActionTypes.LIKE_PROJECT, payload: data });
     } catch (error) {
       console.log(error)
@@ -292,9 +258,6 @@ export const comment = (projectId, commentBody, replyingTo) => {
       // add comment to db
       const data = await commentOnProject(projectId, commentBody, replyingTo);
 
-      // dispatch new comment
-      dispatch({ type: ActionTypes.ADD_NEW_COMMENT, payload: data });
-
     } catch (error) {
       console.log(error)
     }
@@ -306,9 +269,7 @@ export const comment = (projectId, commentBody, replyingTo) => {
 */
 export const setReplyingTo = (replyingTo, username) => {
   return (dispatch) => {
-    console.log("SET REPLYING TO")
-    console.log(replyingTo)
-    console.log(username)
+
     dispatch({ type: ActionTypes.SET_REPLYING_TO, payload: replyingTo });
     dispatch({ type: ActionTypes.SET_REPLYING_USER, payload: username });
   };
