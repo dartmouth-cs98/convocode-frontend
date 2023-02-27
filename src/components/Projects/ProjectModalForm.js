@@ -1,13 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import CodeEditor from '../EditorWindow/CodeEditor';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, deleteProjectTag, addProjectStatus, createProject } from '../../state/actions';
+import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, deleteProjectTag, addProjectStatus, createProject, updateExistingProject } from '../../state/actions';
 import { addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory } from '../../state/actions';
 import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from '../../state/actions';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, useFormikContext } from 'formik';
 import { decorationDict } from "../../utils/decorationDict";
 import * as Yup from 'yup';
 import 'react-tabs/style/react-tabs.css';
@@ -22,6 +22,11 @@ const ProjectModalForm = (props) => {
     const [jsDecorations, setJsDecorations] = useState([]);
     const [cssDecorations, setCssDecorations] = useState([]);
     const [htmlDecorations, setHtmlDecorations] = useState([]);
+    const [initialValues, setInitialValues] = useState({
+      title: '',
+      description: '',
+    });
+    const [doesExist, setDoesExist] = useState(false);
     const navigate = useNavigate();
 
     const jsRef = useRef(null);
@@ -35,6 +40,11 @@ const ProjectModalForm = (props) => {
         description: Yup.string()
             .required('Required'),
     });
+
+    useEffect(() => {
+      populateModal();
+    }, [props.id])
+    
     
     const handleModalToggle = () => {
         setModalShow(!modalShow);
@@ -262,11 +272,13 @@ const ProjectModalForm = (props) => {
         setProjectTags([...projectTags.filter(tag => projectTags.indexOf(tag) !== index)]);
     };
 
+
+
     const save = (values) => {
         try {
             const status = false;
 
-            if (props.id) {
+            if (props.id !== "") {
                 const projectInfo = {
                     tags: projectTags,
                     title: values.title,
@@ -281,7 +293,7 @@ const ProjectModalForm = (props) => {
                     status: status,
                     id: props.id,
                 }
-                props.updateProject(projectInfo);
+                props.updateExistingProject(projectInfo);
             } else {
                 const projectInfo = {
                     title: values.title,
@@ -304,11 +316,29 @@ const ProjectModalForm = (props) => {
         navigate('/profile')
     }
 
+    function populateModal() {
+      if (props.id !== "") {
+        setDoesExist(true);
+        setInitialValues({
+          title: props.title,
+          description: props.description,
+        });
+        console.log(props.tags);
+        for (var i = 0; i < props.tags.length; i++) {
+          if (projectTags.length === 4){
+            return;
+          }
+          setProjectTags([...projectTags, props.tags[i]]);
+        }
+      }
+    }
+
     const submit = (values) => {
         try {
             const status = true;
 
-            if (props.id) {
+            if (props.id !== "") {
+              console.log('updating');
             const projectInfo = {
                 tags: projectTags,
                 title: values.title,
@@ -323,7 +353,7 @@ const ProjectModalForm = (props) => {
                 status: status,
                 id: props.id
               }
-                props.updateProject(projectInfo);
+                props.updateExistingProject(projectInfo);
             } else {
                 const projectInfo = {
                     title: values.title,
@@ -350,14 +380,11 @@ const ProjectModalForm = (props) => {
 
     return (
         <div>
-            <button onClick={handleModalToggle} className="stop4 green">Post</button>
+            <button onClick={handleModalToggle} className="stop4 green">{doesExist ? "Update Post" : "Post"}</button>
             <div className="form-modal">
                 <ReactModal className="project-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
                     <Formik 
-                        initialValues={{
-                            title: '',
-                            description: '',
-                        }}
+                        initialValues={initialValues}
                         validationSchema={ProjectSchema}
                         onSubmit={(values) =>
                             submit(values)
@@ -428,7 +455,7 @@ const ProjectModalForm = (props) => {
                                             </div>
                                             <div className="project-buttons">
                                                 <button className="light-pink" type="button" onClick={()=>save(values)}>Save For Later</button>
-                                                <button className="pink" type="submit">Post</button>
+                                                <button className="pink" type="submit">{doesExist ? "Update" : "Post"}</button>
                                             </div>
                                         </div>
                                 </Form>
@@ -464,4 +491,4 @@ const mapStateToProps = (reduxstate) => {
     };
 };
 
-export default connect(mapStateToProps, {addProjectId, addProjectTitle, addProjectDescription, addProjectTag, deleteProjectTag, addProjectStatus, createProject, setJavaDisplay, setCSSDisplay, setHTMLDisplay})(ProjectModalForm);
+export default connect(mapStateToProps, {addProjectId, addProjectTitle, addProjectDescription, addProjectTag, deleteProjectTag, addProjectStatus, createProject, setJavaDisplay, setCSSDisplay, setHTMLDisplay, updateExistingProject })(ProjectModalForm);

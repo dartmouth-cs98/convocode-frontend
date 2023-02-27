@@ -72,6 +72,7 @@ import {
   setReplyingTo,
   likeProject,
   loadProject,
+  updateExistingProject,
 } from './project';
 
 const ActionTypes = {
@@ -125,4 +126,5 @@ export {
   refreshUser,
   loadProject,
   clearUserError,
+  updateExistingProject,
 }
