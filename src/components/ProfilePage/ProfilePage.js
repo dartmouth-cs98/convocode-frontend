@@ -24,14 +24,14 @@ const ProfilePage = (props) => {
     setModalShow(!modalShow);
   }
 
-  useEffect(() => {
+ /*  useEffect(() => {
     window.onbeforeunload = props.refreshUser();
     // props.refreshProjects();
 
     return () => {
         window.onbeforeunload = null;
     };
-}, []);
+}, []); */
 
   return (
     <div className="profile-page" data-theme={props.lightMode ? 'light' : 'dark'}>
