@@ -127,7 +127,9 @@ const WebEditors = (props) => {
   }
 
   function getNewTags(q, newCode, codeType) {
+    console.log(newCode);
     var history = getHistory(codeType);
+
     var tags = []
     if (history.length === 0) {
       for (var i = 0; i < newCode.length; i++) {
@@ -164,18 +166,27 @@ const WebEditors = (props) => {
             }
           }
         } else {
-          while (oP < oldCode.length || nP < newCode.length) {
-            if (oldCode[oP] === newCode[nP]) {
-              tags.push(oldTags[oP]);
-              nP++;
-              oP++;
-            }
-            else {
-              oP++;
-            }
+          const editor = getEditor(codeType);
+          const pos = editor.getPosition().lineNumber;
+          while (oP < oldCode.length && nP < newCode.length) {
+              if (nP === pos - 1) {
+                tags.push(-1);
+                nP++;
+              }
+
+              else if (oldCode[oP] === newCode[nP]) {
+                tags.push(oldTags[oP]);
+                nP++;
+                oP++;
+              }
+              else {
+                oP++;
+              }
+
           }
+
         }
-      }
+      }       
     }
 
     return tags;
@@ -284,6 +295,9 @@ const WebEditors = (props) => {
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
     monacoRef.current = monaco;
+    editor.onDidChangeCursorSelection((e) => {
+      console.log(JSON.stringify(e));
+  });
   }
 
   function handleCSSDidMount(editor, monaco) {
@@ -292,6 +306,9 @@ const WebEditors = (props) => {
 
   function handleHTMLDidMount(editor, monaco) {
     htmlRef.current = editor;
+    editor.onDidChangeCursorSelection((e) => {
+      console.log(JSON.stringify(e));
+  });
   }
 
   useEffect(() => {
