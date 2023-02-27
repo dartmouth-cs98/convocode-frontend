@@ -4,7 +4,6 @@ import HeaderBar from "../HeaderBar/HeaderBar";
 import PostCard from "./PostCard"
 import AlgoliaSearch from "./AlgoliaSearch"
 import { loadProjects } from "../../state/actions";
-import axios from 'axios';
 
 import './community.css'
 
@@ -24,7 +23,7 @@ const CommunityPage = (props) => {
           <h4>Pushing the boundaries of how we engage with AI</h4>
         </div>
         <div className="search">
-          <AlgoliaSearch />
+          <AlgoliaSearch/>
         </div>
         <div className="post-content">
           {
