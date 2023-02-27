@@ -1,17 +1,17 @@
 import axios from 'axios';
 
-const SUBROUTE = 'getCode';
+const SUBROUTE = 'openAI';
 
 /**
  * @description retrieves openAI code from convodex
  * @param queryType specifies the code and language of the query
  * @returns {Promise<Object>} API response
  */
-export const getOpenAICode = async (queryType) => {
+export const getOpenAICode = async (query, codeType) => {
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}`;
 
   try {
-    const { data } = await axios.post(url, { userInput: queryType });
+    const { data } = await axios.post(url, { userInput: query, codeType  });
     return data;
   } catch (error) {
     throw error;
