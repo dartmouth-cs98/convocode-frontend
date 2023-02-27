@@ -64,6 +64,8 @@ export const getProject = async (id) => {
   }
 };
 
+
+
 /**
  * @description loads the comments on a project from the backend
  * @param id project id
@@ -219,6 +221,34 @@ export const createNewProject = async (projectInfo) => {
 
   try {
     const { data } = await axios.post(url, projectInfo, {
+      headers: {
+        authorization: userToken
+      },
+    });
+
+    console.log("proj servce", data)
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * @description creates a project 
+ * @param projectInfo new project data fields
+ * @returns {Promise<Object>} API response
+ */
+ export const updateProject = async (projectInfo) => {
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/${projectInfo.id}`;
+  const userToken = getAuthTokenFromStorage();
+  console.log("axois put project", userToken);
+
+  console.log("project info");
+  console.log(projectInfo);
+
+  try {
+    const { data } = await axios.put(url, projectInfo, {
       headers: {
         authorization: userToken
       },
