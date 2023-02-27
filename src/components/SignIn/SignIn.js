@@ -8,7 +8,7 @@ import ErrorModal from "../Error/ErrorModal";
 import './signin.css'
 
 
-const SignUp = (props) => {
+const SignIn = (props) => {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState();
@@ -21,6 +21,7 @@ const SignUp = (props) => {
   }
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     props.login(event.target[0].value, event.target[1].value);
   }
 
@@ -72,4 +73,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { login, clearUserError })(SignUp);
+export default connect(mapStateToProps, { login, clearUserError })(SignIn);

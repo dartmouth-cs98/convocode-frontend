@@ -12,7 +12,7 @@ import { decorationDict } from "../../utils/decorationDict";
 import * as Yup from 'yup';
 import 'react-tabs/style/react-tabs.css';
 import './projectModalForm.css';
-import '../../index.css'
+import '../../index.css';
 
 const ProjectModalForm = (props) => {
     const [theme] = useState('light');
@@ -345,7 +345,7 @@ const ProjectModalForm = (props) => {
 
     return (
         <div>
-            <button onClick={handleModalToggle} className="stop5 pink">Post</button>
+            <button onClick={handleModalToggle} className="stop4 green">Post</button>
             <div className="form-modal">
                 <ReactModal className="project-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
                     <Formik 
@@ -373,7 +373,7 @@ const ProjectModalForm = (props) => {
                                                     })
                                                     }
                                                 {/* <input id="project-input" type="text" onKeyUp={handleAddTags} placeholder="Press enter to add tags" /> */}
-                                                <input id="project-input" type="text" onChange={handleTagChange} value={newTag}/>
+                                                <input id="project-input" type="text" placeholder="ex. react-app" onChange={handleTagChange} value={newTag}/>
                                                 <div className="tag-button-container">
                                                     <button className="tag-button" type="button" onClick={handleAddTags}>Add Tag</button>
                                                 </div>

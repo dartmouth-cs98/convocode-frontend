@@ -28,7 +28,6 @@
 
 button#community {
   background-color: var(--bus);
-  box-shadow: none;
   color: var(--text-primary)
 }
 

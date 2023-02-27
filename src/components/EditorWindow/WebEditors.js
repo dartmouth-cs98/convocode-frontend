@@ -3,8 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import protect from '@freecodecamp/loop-protect';
 import * as Babel from '@babel/standalone';
-import CodeEditor from './CodeEditor';
-import StdinWindow from './StdinWindow';
 import { connect } from 'react-redux';
 import { addCode } from '../../state/actions';
 import { addJavascriptCode, insertJavascriptCode } from '../../state/actions';
@@ -14,27 +12,25 @@ import { addProjectId, addProjectTitle } from '../../state/actions';
 import { addCleanedJavascript } from '../../state/actions';
 import { addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory } from '../../state/actions';
 import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from '../../state/actions';
-import WebOutput from './WebOutput';
-import settings from '../../resources/settings.png';
-import axios from 'axios';
-import './webEditor.css';
-import HeaderBar from '../HeaderBar/HeaderBar';
+import { getOpenAICode } from '../../services/getCode';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import './index.css'
+import axios from 'axios';
+import WebOutput from './WebOutput';
+import HeaderBar from '../HeaderBar/HeaderBar';
 import Tour from '../EditorWindow/Onboarding/Tour.js'
-import OutputWindow from './OutputWindow'
+import OutputWindow from './OutputWindow';
+import ProjectModalForm from '../Projects/ProjectModalForm';
+import CodeEditor from './CodeEditor';
+import StdinWindow from './StdinWindow';
+import settings from '../../resources/settings.png';
+import './index.css';
+import './webEditor.css';
 import { decorationDict } from '../../utils/decorationDict';
 
-// import { lazy } from 'react';
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
-import ProjectModalForm from '../Projects/ProjectModalForm';
-import { getOpenAICode } from '../../services/getCode';
 dotenv.config({ silent: true });
-
-
-
 
 const WebEditors = (props) => {
 
@@ -58,6 +54,15 @@ const WebEditors = (props) => {
   const monacoRef = useRef(null);
   const cssRef = useRef(null);
   const htmlRef = useRef(null);
+
+  const handleInputKeypress = e => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      setLoading(!loading);
+      handleSubmitCode();
+    }
+};
 
   function getHistory(codeType) {
     var history;
@@ -85,7 +90,6 @@ const WebEditors = (props) => {
 
   }
 
-
   function setDisplay(codeType, bool) {
     if (codeType === "javascript") {
       props.setJavaDisplay(bool);
@@ -106,7 +110,6 @@ const WebEditors = (props) => {
     }
   }
 
-
   function getDecorations(codeType) {
     if (codeType === "javascript") {
       return jsDecorations;
@@ -117,7 +120,7 @@ const WebEditors = (props) => {
     }
   }
 
- function getNewTags(q, newCode, codeType) {
+  function getNewTags(q, newCode, codeType) {
     var history = getHistory(codeType);
     var tags = []
     if (history.length === 0) {
@@ -172,11 +175,9 @@ const WebEditors = (props) => {
     return tags;
   }  
 
-
   function checkInsertion(tag) {
     return tag !== -1;
   }
-
 
   function onlyUnique(value, index, arr) {
     return arr.indexOf(value) === index;
@@ -205,7 +206,6 @@ const WebEditors = (props) => {
     return range;
   }
 
-  
   function getRanges(codeType) {
     var history = getHistory(codeType);
     var currTags = history.slice(-1)[0].tags;
@@ -222,8 +222,6 @@ const WebEditors = (props) => {
       
     }
     return ranges;
-
-    
   }
 
   function displayTags(codeType) {
@@ -250,7 +248,6 @@ const WebEditors = (props) => {
     var d = editor.deltaDecorations([], dList);
     setDecorations(codeType, d);
     setDisplay(codeType, true);
-       
   }
 
   function endTagView(codeType) {
@@ -290,7 +287,6 @@ const WebEditors = (props) => {
   function handleHTMLDidMount(editor, monaco) {
     htmlRef.current = editor;
   }
-  // const Tour = lazy(() => import('/Users/williamperez/Documents/GitHub/convocode-frontend/src/components/EditorWindow/Onboarding/Tour.js'));
   
   useEffect(() => {
     try {
@@ -356,23 +352,12 @@ const WebEditors = (props) => {
     setQuery("");
   }, [props.htmlCode]);
 
-
-  
-
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
     // send user input to get code from openai
     setRemoteAdd(true);
-    var queryType = null;
-    // language check 
-    if (currentLanguage === "javascript") {
-      queryType = "// Language: javascript \n//" + query;
-    } else if (currentLanguage === "html") {
-      queryType = "<!-- " + query + " -->\n + <!DOCTYPE html>";
-    } else {
-      queryType = "/* Langauage: CSS */\n/* " + query + "*/";
-    }
-    getOpenAICode(queryType).then((res) => {
+    
+    getOpenAICode(query, currentLanguage).then((res) => {
       setLoading(false);
       
       if (currentLanguage === "javascript") {
@@ -397,7 +382,6 @@ const WebEditors = (props) => {
     });
   }
 
-
   const callback = line => {
     alert(`Possible infinite loop near line ${line}`);
   }
@@ -408,24 +392,13 @@ const WebEditors = (props) => {
     plugins: ['loopProtection'],
   });
 
-
-  //const transform = source => Babel.transform(source, {plugins: ['loopProtection'], }).code;
-
-
-  const toggleModal = () => {
-    setModalShow(modalShow => !modalShow);
-  };
-
   // Function to call the compile endpoint
   // this is for python: keep in case we want to add back in
   function submitCode() {
-    
     // reset output if it exists
     if (outputDetails) {
       setOutputDetails(null)
     }
-
-
     // Post request to compile endpoint
     axios.post(`${process.env.REACT_APP_ROOT_URL}/compiler`, {
       source_code: props.javaCode,
@@ -438,7 +411,7 @@ const WebEditors = (props) => {
       console.log(error);
     })
   }
-  // 
+
   const checkStatus = async (id) => {
     // Get request to compile endpoint
 
@@ -467,14 +440,6 @@ const WebEditors = (props) => {
     }
   }
 
-  const handleTitleChange = (event) => {
-    // get new title from event
-    const newTitle = event.target.value;
-    // set new title
-    setTitle(newTitle);
-    props.addProjectTitle(newTitle);
-  };
-
   // handles input text changes
   const handleQueryChange = (event) => {
     setQuery(event.target.value);
@@ -490,31 +455,27 @@ const WebEditors = (props) => {
       <HeaderBar />
       <Tour />
       <div className='commandBar'>
-        <textarea className="stop2 commandInput" placeholder="Type a command" value={query} onChange={handleQueryChange}></textarea>
-        <form className='languageSelect'>
-          <select onChange={handleLangSwitch}>
-            <option value="html" > HTML
-            </option>
-            <option value="css" > CSS
-            </option>
-            <option value="javascript"> JavaScript
-            </option>
-          </select>
-        </form>
-        <button className="pink" onClick={() => {
-          setLoading(!loading);
-          handleSubmitCode();
-        }} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</button>
-        {/* <button className="pink" onClick={() => { 
-                saveCode();
-                }}>Save</button> */}
-
-        <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
-        {/* {view === "multi" ?  <button className="heather-grey"><img src={multiTab} alt="settings icon" /></button> : 
-          // <button className="heather-grey"><img src={singleTab} alt="settings icon" /></button> */}
-         <ProjectModalForm></ProjectModalForm>
+        <div className='command-text-container'>
+          <textarea className="stop2 commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
+          <form className='languageSelect'>
+              <select onChange={handleLangSwitch}>
+                <option value="html" >HTML</option>
+                <option value="css" >CSS</option>
+                <option value="javascript">JavaScript</option>
+              </select>
+          </form>
+        </div>
+          <div className="ide-buttons-1">
+            <button className="pink" onClick={() => {
+              setLoading(!loading);
+              handleSubmitCode();
+            }} disabled={loading}>{loading ? 'Loading...' : 'Ask ConvoCode'}</button>
+            <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
+          </div>
+          <div className="ide-buttons-2">
+            <ProjectModalForm className="web-editor-modal"></ProjectModalForm>
+          </div>
       </div>
-
         <div className="web-editor-container">
           <div className="stop3 editor">
             <CodeEditor
@@ -533,7 +494,6 @@ const WebEditors = (props) => {
                 toggleDisplay={toggleDisplay}
                 mount={handleHTMLDidMount}
             />
-          
           </div>
           <div className="editor">
             <CodeEditor
@@ -544,23 +504,18 @@ const WebEditors = (props) => {
                 mount={handleCSSDidMount}
             />    
           </div>
-          
         </div>
-        <div>
-          <Tabs id="tabs">
+        <div className="web-editors-tabs">
+          <Tabs id="output-console-tabs">
             <TabList>
               <Tab id="output">output</Tab>
               <Tab id="console">console</Tab>
             </TabList>
             <TabPanel>
-              <div className='tab-output'>
               <WebOutput theme={theme}/>
-              </div>
             </TabPanel>
             <TabPanel>
-              <div className='tab-output'>
               <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdin={setStdin}/>
-              </div>
             </TabPanel>
           </Tabs>
         </div>

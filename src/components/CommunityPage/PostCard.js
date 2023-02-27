@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import like from "../../resources/lightning-bold.png"
+import like from "../../resources/likes-empty.svg"
 import './community.css'
 
 const Post = (props) => {
@@ -16,7 +16,7 @@ const Post = (props) => {
   return (
     <div key={props.key} id={tag} className={postClass} onClick={() => navigate(`/project/${props.item.id}`)}>
       <div className="titles">
-        <h3>{props.item.title}</h3>
+        <h3 className="post-title">{props.item.title}</h3>
         <span className="username">@{props.item.username}</span>
       </div>
       <div className="footer">

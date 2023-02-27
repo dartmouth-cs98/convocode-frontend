@@ -215,7 +215,6 @@ input.submit {
 
 /* Output Window */
 .output-window {
-  margin-top: 15px;
   width: 100%;
   height: 100%;
   background-color: white;
@@ -223,16 +222,20 @@ input.submit {
 
 /* Console Window */
 .console-window {
-  margin-top: 15px;
   width: 100%;
   height: 100%;
-  background-color: var(--boring);
+  background-color: white;
 }
 
 .stdin-window {
   width: 100%;
   height: 25%;
   padding: 10px;
+  border-radius: 4px;
+  background-color: var(--boring);
+  font-size: 16px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: solid 0.5px var(--darkGrey);
 }
 
 .output-header {
@@ -247,8 +250,7 @@ input.submit {
   padding: 10px;
 }
 
-.out-text {
-  /* height: 100px; */
+.output-text {
   background: var(--boring)
 }
 
