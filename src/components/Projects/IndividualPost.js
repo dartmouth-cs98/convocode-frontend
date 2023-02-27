@@ -31,9 +31,12 @@ const IndividualPost = (props) => {
   const [jsDecorations, setJsDecorations] = useState([]);
   const [cssDecorations, setCssDecorations] = useState([]);
   const [htmlDecorations, setHtmlDecorations] = useState([]);
+  const [isMine, setIsMine] = useState(false);
 
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+
+  
   
 
   function setDisplayPost(codeType, bool) {
@@ -234,33 +237,43 @@ const IndividualPost = (props) => {
     setOpen(!open);
   };
 
-  const openInIDE = () => {
+  async function openInIDE() {
     console.log("open in ide")
     //check if signed in 
     if (props.user.username === '') {
       alert("Please sign in before opening a new project.")
     } else {
-
-      if (props.user.projects.includes(props.project._id) !== 1) {
+  
+      if (!props.user.authoredProjects.includes(props.project._id)) {
         console.log("not my project")
-
+  
         const projectInfo = {
           title: `Copy of ${props.project.title}`,
           javaCode: props.project.javaCode,
           htmlCode: props.project.htmlCode,
           cssCode: props.project.cssCode,
-
+          javaCodeHistory: props.project.javaCodeHistory, 
+          cssCodeHistory: props.project.cssCodeHistory,
+          htmlCodeHistory: props.project.htmlCodeHistory,
           tags: props.project.tags,
         }
-
-        console.log("new project to create", projectInfo)
-
-        props.createProject(projectInfo)
-
+  
+        console.log("new project to create", projectInfo);
+  
+        const project = await props.createProject(projectInfo);
+        console.log(project);
+        await openMyProject();
+      } else {
+        await openMyProject();
       }
-      navigate('/editor')
     }
   }
+  
+  const openMyProject = async () => {
+    await props.loadProject(props.project._id);
+    navigate('/editor');
+  }
+   
 
   let { id } = useParams();
   console.log(id);
@@ -304,6 +317,44 @@ const IndividualPost = (props) => {
 
   }, [props.user.likedProjects]);
 
+  const openClick = () => {
+    if (props.user.username === '') {
+      alert("Please sign in before opening a new project.")
+    } else if (isMine) {
+      props.loadProject(props.project._id);
+      navigate('/editor');
+    } else {
+      const projectInfo = {
+        title: `Copy of ${props.project.title}`,
+        javaCode: props.project.javaCode,
+        htmlCode: props.project.htmlCode,
+        cssCode: props.project.cssCode,
+        javaCodeHistory: props.project.javaCodeHistory, 
+        cssCodeHistory: props.project.cssCodeHistory,
+        htmlCodeHistory: props.project.htmlCodeHistory,
+        tags: props.project.tags,
+      }
+
+      console.log("new project to create", projectInfo);
+
+      const project = props.createProject(projectInfo);
+      navigate('/profile');
+
+    }
+  }
+
+  
+
+  useEffect(() => {
+    console.log(props.user.username === props.project.username);
+    if (props.user.username === props.project.username) {
+      setIsMine(true);
+    } else {
+      setIsMine(false);
+    }
+
+  }, [props.project]);
+
 
   let tag = "undefined"
 
@@ -328,7 +379,7 @@ const IndividualPost = (props) => {
                   <span style={{ padding: '3px' }}>{props.project.likes}</span>
                 </button>
 
-                <button className="pink-button" id="right" onClick={openInIDE} style={{ "margin-right": "10px" }}>Open in IDE</button>
+                <button className="pink-button" id="right" onClick={openClick} style={{ "margin-right": "10px" }}>{isMine ? 'Open in IDE' : 'Make a Copy'}</button>
 
                 <CopyToClipboard text={url}>
                   <button className="sage-button" id="right" style={{ 'margin-right': '10px' }}><img src={copy} alt="Copy Icon" /></button>
