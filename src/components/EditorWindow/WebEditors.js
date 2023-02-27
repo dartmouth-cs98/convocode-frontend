@@ -363,19 +363,8 @@ const WebEditors = (props) => {
     // send user input to get code from openai
     setRemoteAdd(true);
     console.log(remoteAdd);
-    var queryType = null;
-    // language check 
-    if (currentLanguage === "javascript") {
-      queryType = "// Language: javascript \n//" + query;
-      console.log(queryType)
-    } else if (currentLanguage === "html") {
-      queryType = "<!-- " + query + " -->\n + <!DOCTYPE html>";
-      console.log(queryType)
-    } else {
-      queryType = "/* Langauage: CSS */\n/* " + query + "*/";
-      console.log(queryType)
-    }
-    getOpenAICode(queryType).then((res) => {
+    
+    getOpenAICode(query, currentLanguage).then((res) => {
       setLoading(false);
       
       console.log(res);
