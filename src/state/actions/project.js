@@ -1,5 +1,4 @@
 import { getProject, createNewProject, getComments, commentOnProject, commentOnComment, likeServiceProject } from "../../services/projects";
-import { refreshUser } from "./user";
 
 export const ActionTypes = {
   LOAD_PROJECT: 'LOAD_PROJECT',
@@ -202,7 +201,7 @@ export const deleteProjectTag = (input) => {
 
 export const addCleanedJavascript = (input) => {
   return (dispatch) => {
-      dispatch({ type: ActionTypes.ADD_CLEANED_CODE, payload: input});
+    dispatch({ type: ActionTypes.ADD_CLEANED_CODE, payload: input });
   };
 };
 
@@ -225,23 +224,23 @@ export const clearProject = () => {
   };
 };
 
-  export const addJavaCodeHistory = (input) => {
-    return (dispatch) => {
-      dispatch({ type: ActionTypes.ADD_JAVA_CODE_HISTORY, payload: input });
-    };
+export const addJavaCodeHistory = (input) => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.ADD_JAVA_CODE_HISTORY, payload: input });
   };
+};
 
-  export const addCSSCodeHistory = (input) => {
-    return (dispatch) => {
-      dispatch({ type: ActionTypes.ADD_CSS_CODE_HISTORY, payload: input });
-    };
+export const addCSSCodeHistory = (input) => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.ADD_CSS_CODE_HISTORY, payload: input });
   };
+};
 
-  export const addHTMLCodeHistory = (input) => {
-    return (dispatch) => {
-      dispatch({ type: ActionTypes.ADD_HTML_CODE_HISTORY, payload: input });
-    };
+export const addHTMLCodeHistory = (input) => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.ADD_HTML_CODE_HISTORY, payload: input });
   };
+};
 
 
 
@@ -267,7 +266,7 @@ export const likeProject = (projectId) => {
  * @param id project id to load
  */
 export const comment = (projectId, commentBody, replyingTo) => {
- 
+
   return async (dispatch) => {
     try {
 
