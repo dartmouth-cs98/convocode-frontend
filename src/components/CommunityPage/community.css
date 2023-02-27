@@ -16,7 +16,7 @@
 }
 
 .comm-title h4 {
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 .search {
@@ -29,6 +29,7 @@
 }
 
 .post-content {
+  margin-top: 5vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -44,7 +45,7 @@
 }
 
 .postUnicorn .titles {
-  width: 25%;
+  width: 100%;
   height: 15vh;
   color: var(--white);
   display: flex;
@@ -73,7 +74,7 @@
 }
 
 .postEasyA .titles {
-  width: 25%;
+  width: 100%;
   height: 15vh;
   color: var(--white);
   display: flex;
@@ -102,7 +103,7 @@
 }
 
 .postGrape .titles {
-  width: 25%;
+  width: 100%;
   height: 15vh;
   color: var(--white);
   display: flex;
@@ -131,7 +132,7 @@
 }
 
 .postSky .titles {
-  width: 25%;
+  width: 100%;
   height: 15vh;
   color: var(--white);
   display: flex;
@@ -160,7 +161,7 @@
 }
 
 .postSage .titles {
-  width: 25%;
+  width: 100%;
   height: 15vh;
   color: var(--white);
   display: flex;
@@ -189,7 +190,7 @@
 }
 
 .postBus .titles {
-  width: 25%;
+  width: 100%;
   height: 15vh;
   color: var(--white);
   display: flex;
@@ -218,7 +219,7 @@
 }
 
 .postPumpkin .titles {
-  width: 25%;
+  width: 100%;
   height: 15vh;
   color: var(--white);
   display: flex;
@@ -226,7 +227,6 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
-  /* opacity: 1; */
 }
 
 .postPumpkin .footer {
@@ -258,6 +258,9 @@
 .likes {
   margin: 20px;
   background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
   box-shadow: none;
 }
 
