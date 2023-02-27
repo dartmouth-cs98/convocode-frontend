@@ -1,8 +1,6 @@
 import React from "react";
 import StdinWindow from "./StdinWindow";
-
 import Run from '../../resources/play.png'
-
 import './index.css';
 import './webEditor.css';
 
