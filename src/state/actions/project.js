@@ -1,4 +1,4 @@
-import { getProject, createNewProject, getComments, commentOnProject, commentOnComment, likeServiceProject } from "../../services/projects";
+import { getProject, createNewProject, getComments, commentOnProject, commentOnComment, likeServiceProject, updateProject } from "../../services/projects";
 
 export const ActionTypes = {
   LOAD_PROJECT: 'LOAD_PROJECT',
@@ -26,6 +26,7 @@ export const ActionTypes = {
   SET_REPLYING_TO: 'SET_REPLYING_TO',
   SET_REPLYING_USER: 'SET_REPLYING_USER',
   LIKE_PROJECT: 'LIKE_PROJECT',
+  UPDATE_PROJECT: 'UPDATE_PROJECT',
 };
 
 /**
@@ -57,6 +58,24 @@ export const createProject = (newProject) => {
       const data = await createNewProject(newProject);
 
       dispatch({ type: ActionTypes.CREATE_PROJECT, payload: data });
+    } catch (error) {
+      console.log(error)
+    }
+  };
+};
+
+/**
+ * @description updates a new project
+ * @param newProject the data 
+ */
+ export const updateExistingProject = (projectInfo) => {
+  return async (dispatch) => {
+    try {
+      const data = await updateProject(projectInfo);
+      if (data) {
+        console.log("updated", data);
+      }
+      dispatch({ type: ActionTypes.UPDATE_PROJECT, payload: data });
     } catch (error) {
       console.log(error)
     }
