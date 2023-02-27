@@ -472,9 +472,9 @@ const WebEditors = (props) => {
     <div className='stop1 WebEditorApp'>
       <HeaderBar />
       <Tour />
+      <div className='ide-page'>
       <div className='commandBar'>
         <div className='command-text-container'>
-          <textarea className="stop2 commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
           <form className='languageSelect'>
               <select onChange={handleLangSwitch}>
                 <option value="html" >HTML</option>
@@ -482,6 +482,7 @@ const WebEditors = (props) => {
                 <option value="javascript">JavaScript</option>
               </select>
           </form>
+          <textarea className="stop2 commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
         </div>
           <div className="ide-buttons-1">
             <button className="pink" onClick={() => {
@@ -526,8 +527,8 @@ const WebEditors = (props) => {
         <div className="web-editors-tabs">
           <Tabs id="output-console-tabs">
             <TabList>
-              <Tab id="output">output</Tab>
-              <Tab id="console">console</Tab>
+              <Tab id="ide-output">output</Tab>
+              <Tab id="ide-console">console</Tab>
             </TabList>
             <TabPanel>
               <WebOutput theme={theme}/>
@@ -536,6 +537,7 @@ const WebEditors = (props) => {
               <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdin={setStdin}/>
             </TabPanel>
           </Tabs>
+        </div>
         </div>
       </div>
   );
