@@ -36,8 +36,8 @@ const IndividualPost = (props) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  
-  
+
+
 
   function setDisplayPost(codeType, bool) {
     if (codeType === "javascript") {
@@ -115,7 +115,7 @@ const IndividualPost = (props) => {
         adding = false;
         range.push(currRange);
         currRange = [];
-      } 
+      }
       if (arr[i] === tag) {
         if (range.length === 0) {
           adding = true
@@ -130,7 +130,7 @@ const IndividualPost = (props) => {
     return range;
   }
 
-  
+
   function getRangesPost(codeType) {
     var history = getHistoryPost(codeType);
     var currTags = history.slice(-1)[0].tags;
@@ -144,11 +144,11 @@ const IndividualPost = (props) => {
         var end = r[j][r[j].length - 1];
         ranges.push([start, end]);
       }
-      
+
     }
     return ranges;
 
-    
+
   }
 
   function displayTagsPost(codeType) {
@@ -158,30 +158,30 @@ const IndividualPost = (props) => {
     var dList = [];
     var currTags = history.slice(-1)[0].tags;
     for (var i = 0; i < ranges.length; i++) {
-      var decId = (i + 1)%7;
+      var decId = (i + 1) % 7;
       const start = ranges[i][0];
       const end = ranges[i][1];
       console.log(currTags[start]);
       dList.push({
-        range: new monacoRef.current.Range(start + 1,1,end + 1,1),
+        range: new monacoRef.current.Range(start + 1, 1, end + 1, 1),
         options: {
           isWholeLine: true,
           className: decorationDict[decId],
-          hoverMessage: {value: currTags[start]}
+          hoverMessage: { value: currTags[start] }
         }
       });
     }
-    editor.updateOptions({readOnly: true});
+    editor.updateOptions({ readOnly: true });
     var d = editor.deltaDecorations([], dList);
     setDecorationsPost(codeType, d);
     setDisplayPost(codeType, true);
-       
+
   }
 
   function endTagViewPost(codeType) {
     var editorRef = getEditorPost(codeType);
     editorRef.deltaDecorations(getDecorationsPost(codeType), []);
-    editorRef.updateOptions({readOnly: false});
+    editorRef.updateOptions({ readOnly: false });
     setDisplayPost(codeType, false);
     setDecorationsPost([], codeType);
   }
@@ -207,7 +207,7 @@ const IndividualPost = (props) => {
   function handleDidJSMount(editor, monaco) {
     jsRef.current = editor;
     monacoRef.current = monaco;
-    jsRef.current.updateOptions({readOnly: true});
+    jsRef.current.updateOptions({ readOnly: true });
     const messageContribution = jsRef.current.getContribution('editor.contrib.messageController');
     const diposable = jsRef.current.onDidAttemptReadOnlyEdit(() => {
       messageContribution.showMessage("Open in IDE to edit code.", jsRef.current.getPosition());
@@ -216,7 +216,7 @@ const IndividualPost = (props) => {
 
   function handleDidCSSMount(editor, monaco) {
     cssRef.current = editor;
-    cssRef.current.updateOptions({readOnly: true});
+    cssRef.current.updateOptions({ readOnly: true });
     const messageContribution = cssRef.current.getContribution('editor.contrib.messageController');
     const diposable = cssRef.current.onDidAttemptReadOnlyEdit(() => {
       messageContribution.showMessage("Open in IDE to edit code.", cssRef.current.getPosition());
@@ -225,7 +225,7 @@ const IndividualPost = (props) => {
 
   function handleDidHTMLMount(editor, monaco) {
     htmlRef.current = editor;
-    htmlRef.current.updateOptions({readOnly: true});
+    htmlRef.current.updateOptions({ readOnly: true });
     const messageContribution = htmlRef.current.getContribution('editor.contrib.messageController');
     const diposable = htmlRef.current.onDidAttemptReadOnlyEdit(() => {
       messageContribution.showMessage("Open in IDE to edit code.", htmlRef.current.getPosition());
@@ -237,43 +237,11 @@ const IndividualPost = (props) => {
     setOpen(!open);
   };
 
-  async function openInIDE() {
-    console.log("open in ide")
-    //check if signed in 
-    if (props.user.username === '') {
-      alert("Please sign in before opening a new project.")
-    } else {
-  
-      if (!props.user.authoredProjects.includes(props.project._id)) {
-        console.log("not my project")
-  
-        const projectInfo = {
-          title: `Copy of ${props.project.title}`,
-          javaCode: props.project.javaCode,
-          htmlCode: props.project.htmlCode,
-          cssCode: props.project.cssCode,
-          javaCodeHistory: props.project.javaCodeHistory, 
-          cssCodeHistory: props.project.cssCodeHistory,
-          htmlCodeHistory: props.project.htmlCodeHistory,
-          tags: props.project.tags,
-        }
-  
-        console.log("new project to create", projectInfo);
-  
-        const project = await props.createProject(projectInfo);
-        console.log(project);
-        await openMyProject();
-      } else {
-        await openMyProject();
-      }
-    }
-  }
-  
   const openMyProject = async () => {
     await props.loadProject(props.project._id);
     navigate('/editor');
   }
-   
+
 
   let { id } = useParams();
   console.log(id);
@@ -320,6 +288,7 @@ const IndividualPost = (props) => {
   const openClick = () => {
     if (props.user.username === '') {
       alert("Please sign in before opening a new project.")
+      navigate("/signin")
     } else if (isMine) {
       props.loadProject(props.project._id);
       navigate('/editor');
@@ -329,7 +298,7 @@ const IndividualPost = (props) => {
         javaCode: props.project.javaCode,
         htmlCode: props.project.htmlCode,
         cssCode: props.project.cssCode,
-        javaCodeHistory: props.project.javaCodeHistory, 
+        javaCodeHistory: props.project.javaCodeHistory,
         cssCodeHistory: props.project.cssCodeHistory,
         htmlCodeHistory: props.project.htmlCodeHistory,
         tags: props.project.tags,
@@ -343,7 +312,7 @@ const IndividualPost = (props) => {
     }
   }
 
-  
+
 
   useEffect(() => {
     console.log(props.user.username === props.project.username);
@@ -437,20 +406,20 @@ const IndividualPost = (props) => {
             </div>
             <div className="commentcontainer">
               <div className="discussion-header">Discussion</div>
-              <div className="comments"> 
-              {
-                props.user.commentObjects ? (
-                props.project.commentObjects.map((item) => {
-                  
-                  return (
-                      <CommentCard item={item} key={item.id} reply={item.replyingTo} />
-                  )
-                })) : <div />
-              }
-            </div>
-            <div className="discussionFooter">
-            <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange}></input>
-            <button className="yellow-button" onClick={() => {
+              <div className="comments">
+                {
+                  props.user.commentObjects ? (
+                    props.project.commentObjects.map((item) => {
+
+                      return (
+                        <CommentCard item={item} key={item.id} reply={item.replyingTo} />
+                      )
+                    })) : <div />
+                }
+              </div>
+              <div className="discussionFooter">
+                <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange}></input>
+                <button className="yellow-button" onClick={() => {
                   props.comment(props.project.id, userComment, props.project.replyingTo);
                   setComment("");
                   props.setReplyingTo("", "");
