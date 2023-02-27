@@ -97,7 +97,7 @@ const ProfilePage = (props) => {
             { t ? (
                t.map((item) => {
                     return (
-                      <div className="profile-explore-card-container">
+                      <div className="profile-post-container">
                         <PostCard item={item} key={item.id} />
                       </div>
                     )

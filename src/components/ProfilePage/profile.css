@@ -136,6 +136,14 @@ button#settings {
   width: 100%;
   display: flex; 
   justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.profile-explore-card-container{
+  margin-top: 10px;
+  width: 100%;
+  display: flex; 
+  justify-content: center;
 }
 .profile-explore-card-container .post{
   width: 75%
@@ -154,8 +162,43 @@ button#settings {
 .profile-post-container .post{
   width: 22vw;
   margin-top: 25px;
-
 }
 .profile-post-container .post .titles{
   width: 70%
 }
+
+.profile-post-container .postPumpkin{
+  width: 22vw;
+  margin-top: 25px;
+}
+
+.profile-post-container .postSage{
+  width: 22vw;
+  margin-top: 25px;
+}
+
+.profile-post-container .postBus{
+  width: 22vw;
+  margin-top: 25px;
+}
+
+.profile-post-container .postGrape{
+  width: 22vw;
+  margin-top: 25px;
+}
+
+.profile-post-container .postUnicorn{
+  width: 22vw;
+  margin-top: 25px;
+}
+
+.profile-post-container .postSky{
+  width: 22vw;
+  margin-top: 25px;
+}
+
+.profile-post-container .postEasyA{
+  width: 22vw;
+  margin-top: 25px;
+}
+
