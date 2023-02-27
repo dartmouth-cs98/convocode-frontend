@@ -119,7 +119,6 @@ const ProjectModalForm = (props) => {
         } else {
           history = props.htmlCodeHistory;
         }
-        console.log(props.htmlCodeHistory);
         return history;
     
       }
@@ -166,7 +165,6 @@ const ProjectModalForm = (props) => {
         if (currRange.length !== 0) {
           range.push(currRange);
         }
-        console.log(range);
         return range;
       }
     
@@ -201,7 +199,6 @@ const ProjectModalForm = (props) => {
           var decId = (i + 1)%7;
           const start = ranges[i][0];
           const end = ranges[i][1];
-          console.log(currTags[start]);
           dList.push({
             range: new monacoRef.current.Range(start + 1,1,end + 1,1),
             options: {
@@ -239,7 +236,6 @@ const ProjectModalForm = (props) => {
           endTagViewPost(codeType);
     
         } else {
-          console.log("displaying");
           displayTagsPost(codeType);
         }
       }
@@ -295,7 +291,6 @@ const ProjectModalForm = (props) => {
                     status: status,
                   }
           
-                console.log("new project to create", projectInfo);
                 props.createProject(projectInfo);
             }
         } catch (error) {
@@ -337,7 +332,7 @@ const ProjectModalForm = (props) => {
                     tags: projectTags,
                     status: status,
                   }
-                console.log("new project to create", projectInfo);
+           
                 props.createProject(projectInfo);
 
             }

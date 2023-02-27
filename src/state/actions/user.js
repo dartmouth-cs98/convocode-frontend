@@ -18,31 +18,15 @@ export const ActionTypes = {
 export const login = (email, password) => {
   return async (dispatch) => {
     try {
-      console.log('in login on frontend')
+
       const data = await UserServicesLogin(email, password);
-      console.log("got user data!")
-      console.log(data);
+
       if (data) {
         dispatch({ type: ActionTypes.SET_USER_DATA, payload: data });
       }
-      
-      // // get authored projects from backend
-      // const authoredProjects = await getUserProjects();
-
-      // if (authoredProjects) {
-      //   dispatch({ type: ActionTypes.SET_AUTHORED_PROJECTS, payload: authoredProjects });
-      // }
-
-      // // get authored projects from backend
-      // const likedProjects = await getLikedProjects();
-      // console.log(likedProjects)
-
-      // if (likedProjects) {
-      //   dispatch({ type: ActionTypes.SET_LIKED_PROJECTS, payload: likedProjects });
-      // }
 
     } catch (error) {
-      console.log("error in actions", error)
+
       const e = {
         location: "Sign In",
         data: error.response.data,
@@ -64,12 +48,9 @@ export const signup = (email, password, username) => {
     try {
       const data = await UserServicesSignUp(email, password, username);
       if (data) {
-        console.log("user data on signup")
-        console.log(data)
         dispatch({ type: ActionTypes.SET_USER_DATA, payload: data });
       }
     } catch (error) {
-      console.log("error in actions", error)
       const e = {
         location: "Sign Up",
         data: error.response.data,
@@ -86,7 +67,6 @@ export const signup = (email, password, username) => {
 export const getUserFromStorage = () => {
   return async (dispatch) => {
     try {
-      console.log("getting from storage")
       const response = await getUSUserFromStorage();
       dispatch({ type: ActionTypes.SET_USER_DATA, payload: response });
     } catch (error) {

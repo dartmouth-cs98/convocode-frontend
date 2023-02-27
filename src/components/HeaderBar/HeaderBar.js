@@ -9,7 +9,6 @@ import "./header.css"
 const HeaderBar = (props) => {
   let location = useLocation();
 
-  console.log("im at ", location.pathname)
 
   return (
     <div className='header-bar' data-theme={props.lightMode ? 'light' : 'dark'}>

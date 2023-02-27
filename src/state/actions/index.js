@@ -36,12 +36,6 @@ import {
   loadProjects
 } from './community';
 
-// import {
-//   ActionTypes as profileActionTypes,
-//   loadUserProjects,
-//   loadLikedProjects
-// } from './profile';
-
 import {
   ActionTypes as tagDisplayActionTypes,
   setJavaDisplay,

@@ -31,10 +31,8 @@ const Tour = (props) => {
 
   // Call back function to stop onboarding
   const  printCallback = (prop) => {
-    console.log("CallBack:")
-    console.log(prop)
+
     if (prop.lifecycle == "complete" && prop.index >=4 ){ 
-      console.log("ended here in call complete")
       props.onboarding()
     }
     if (prop.action == "skip"){
