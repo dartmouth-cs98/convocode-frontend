@@ -237,10 +237,6 @@ const IndividualPost = (props) => {
     setOpen(!open);
   };
 
-  const openMyProject = async () => {
-    await props.loadProject(props.project._id);
-    navigate('/editor');
-  }
 
 
   let { id } = useParams();
@@ -252,7 +248,12 @@ const IndividualPost = (props) => {
   const url = `www.convocode.org${location.pathname}`
 
   const like = () => {
-    props.likeProject(props.project.id)
+    if (props.user.username === '') {
+      alert("Please sign in before opening a new project.")
+      navigate("/signin")
+    } else {
+      props.likeProject(props.project.id)
+    }
   }
 
   useEffect(() => {
@@ -277,11 +278,12 @@ const IndividualPost = (props) => {
 
 
   useEffect(() => {
-    if (props.user.likedProjects.includes(props.project.id)) {
+    if (props.user.likedProjects.some(proj => proj.id === props.project.id)) {
       setHasLiked(true);
     } else {
       setHasLiked(false);
     }
+    console.log("has liked ", hasLiked)
 
   }, [props.user.likedProjects]);
 
