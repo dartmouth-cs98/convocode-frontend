@@ -18,6 +18,7 @@ import { comment } from "../../state/actions/project.js"
 import { decorationDict } from "../../utils/decorationDict";
 import WebOutput from "../EditorWindow/WebOutput";
 import './individualPost.css';
+import CodeEditor from "../EditorWindow/CodeEditor";
 
 const IndividualPost = (props) => {
 
@@ -463,15 +464,15 @@ const IndividualPost = (props) => {
             <Tabs>
               <TabList>
                 <Tab>Output</Tab>
+                <Tab>JS</Tab>
                 <Tab>HTML</Tab>
                 <Tab>CSS</Tab>
-                <Tab>JS</Tab>
               </TabList>
               <TabPanel>
                 <WebOutput theme={theme}/>
               </TabPanel>
 
-              <TabPanel>
+              {/* <TabPanel>
                 <div className="editor-wrapper">
                   <CodePreview
                     height="78vh"
@@ -496,7 +497,22 @@ const IndividualPost = (props) => {
                   handleDidMount={handleDidJSMount}
                   toggleDisplay={toggleDisplay}
                 />
-              </TabPanel>
+              </TabPanel> */}
+                                    <TabPanel>
+                        <div className="tab-editor">
+                          <CodeEditor language={"javascript"} theme={theme} width="100%" height="68vh" toggleDisplay={toggleDisplay} mount={handleDidJSMount} />
+                        </div>
+                      </TabPanel>
+                      <TabPanel>
+                        <div className="tab-editor">
+                          <CodeEditor language={"html"} theme={theme} width="100%" height="68vh" toggleDisplay={toggleDisplay} mount={handleDidCSSMount} />
+                        </div>
+                      </TabPanel>
+                      <TabPanel>
+                        <div className="tab-editor">
+                          <CodeEditor language={"css"} theme={theme} width="100%" height="68vh" toggleDisplay={toggleDisplay} mount={handleDidCSSMount} />
+                        </div>
+                      </TabPanel>
             </Tabs>
           </div>
         </div>

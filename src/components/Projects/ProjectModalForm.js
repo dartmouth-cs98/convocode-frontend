@@ -496,17 +496,17 @@ const ProjectModalForm = (props) => {
                       </TabList>
                       <TabPanel>
                         <div className="tab-editor">
-                          <CodeEditor language={"javascript"} theme={theme} width="100%" height="50vh" toggleDisplay={toggleDisplay} mount={handleJSDidMount} />
+                          <CodeEditor language={"javascript"} theme={theme} width="100%" height="47vh" toggleDisplay={toggleDisplay} mount={handleJSDidMount} />
                         </div>
                       </TabPanel>
                       <TabPanel>
                         <div className="tab-editor">
-                          <CodeEditor language={"html"} theme={theme} width="100%" height="50vh" toggleDisplay={toggleDisplay} mount={handleHTMLDidMount} />
+                          <CodeEditor language={"html"} theme={theme} width="100%" height="47vh" toggleDisplay={toggleDisplay} mount={handleHTMLDidMount} />
                         </div>
                       </TabPanel>
                       <TabPanel>
                         <div className="tab-editor">
-                          <CodeEditor language={"css"} theme={theme} width="100%" height="50vh" toggleDisplay={toggleDisplay} mount={handleCSSDidMount} />
+                          <CodeEditor language={"css"} theme={theme} width="100%" height="47vh" toggleDisplay={toggleDisplay} mount={handleCSSDidMount} />
                         </div>
                       </TabPanel>
                     </Tabs>
