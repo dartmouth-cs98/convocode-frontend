@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { connect } from 'react-redux';
 import StdinWindow from "./StdinWindow";
+import ErrorModal from '../Error/ErrorModal';
 import Run from '../../resources/play.png'
 import './index.css';
 import './webEditor.css';
 import axios from 'axios';
 
 
-const Output = (props, { theme, stdin, setStdin }) => {
+const Output = (props, { theme }) => {
 
   const [loading, setLoading] = useState(false);
   const [outputDetails, setOutputDetails] = useState(null);
   const [error, setError] = useState(null);
-
+  const [stdin, setStdin] = useState("");
+  const [modalShow, setModalShow] = useState(false);
 
   var newText;
   if (outputDetails != null) {
@@ -21,6 +23,11 @@ const Output = (props, { theme, stdin, setStdin }) => {
   } else {
     newText = null;
   }
+
+  useEffect(() => {
+    console.log("current state of ", error, modalShow)
+    setModalShow(error !== null)
+  }, [error]);
 
     // Function to call the compile endpoint
   // this is for python: keep in case we want to add back in
@@ -81,13 +88,19 @@ const Output = (props, { theme, stdin, setStdin }) => {
 
   return (
     <div className="console-window" data-theme={theme}>
-        <StdinWindow rows="1" stdin={stdin} setStdin={setStdin} />
-        <div className="console-window-button">
-        <button className="console-run-button" onClick={() => {
+        {modalShow ?
+        <ErrorModal isOpen={modalShow} handleModalToggle={() => setModalShow(!modalShow)} title={error.location} error={error.data} status={error.status} onClose={() => setError(null)} /> :
+        <></>
+        }
+        <div className="console-window-container">
+          <StdinWindow rows="1" stdin={stdin} setStdin={setStdin} />
+          <div className="console-window-button">
+            <button className="console-run-button" onClick={() => {
               setLoading(!loading);
               submitCode();
-            }} disabled={loading}>{loading ? 'Loading...' : 'Run'}</button>
+            }} disabled={loading}>{loading ? 'Loading...' : 'Run JavaScript Code'}</button>
           {/* <button onClick={handleRunClick} className="console-run-button">Run</button> */}
+          </div>
         </div>
         <div className="output-text">{newText}</div>
     </div>

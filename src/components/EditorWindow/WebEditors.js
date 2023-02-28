@@ -36,8 +36,8 @@ const WebEditors = (props) => {
 
   // getting code from nav link props
   const [theme] = useState("light");
-  const [stdin, setStdin] = useState("");
-  const [outputDetails, setOutputDetails] = useState(null);
+  // const [stdin, setStdin] = useState("");
+  // const [outputDetails, setOutputDetails] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const [_title, setTitle] = useState("");
   const [query, setQuery] = useState("");
@@ -408,58 +408,58 @@ const WebEditors = (props) => {
     plugins: ['loopProtection'],
   });
 
-  // Function to call the compile endpoint
-  // this is for python: keep in case we want to add back in
-  function submitCode() {
-    // reset output if it exists
-    if (outputDetails) {
-      setOutputDetails(null)
-    }
-    // Post request to compile endpoint
-    axios.post(`${process.env.REACT_APP_ROOT_URL}/compiler`, {
-      source_code: props.javaCode,
-      customInput: stdin
-    }).then((res) => {
+  // // Function to call the compile endpoint
+  // // this is for python: keep in case we want to add back in
+  // function submitCode() {
+  //   // reset output if it exists
+  //   if (outputDetails) {
+  //     setOutputDetails(null)
+  //   }
+  //   // Post request to compile endpoint
+  //   axios.post(`${process.env.REACT_APP_ROOT_URL}/compiler`, {
+  //     source_code: props.javaCode,
+  //     customInput: stdin
+  //   }).then((res) => {
 
-      checkStatus(res.data);
-    }).catch((error) => {
-      console.log(error)
-      const e = {
-        location: "Compiler",
-        data: "Cannot Access Compiler at this time.",
-        status: 451,
-      }
-      setError(e);
-    });
-  }
+  //     checkStatus(res.data);
+  //   }).catch((error) => {
+  //     console.log(error)
+  //     const e = {
+  //       location: "Compiler",
+  //       data: "Cannot Access Compiler at this time.",
+  //       status: 451,
+  //     }
+  //     setError(e);
+  //   });
+  // }
 
-  const checkStatus = async (id) => {
-    // Get request to compile endpoint
+  // const checkStatus = async (id) => {
+  //   // Get request to compile endpoint
 
-    try {
-      let response = await axios.request(`${process.env.REACT_APP_ROOT_URL}/compiler/${id.token}`);
-      let status = response.status;
-      // Processed - we have a result
-      if (status === 201) {
-        // still processing
-        setTimeout(() => {
-          checkStatus(id)
-        }, 2000)
-        return
-      } else {
-        if (response.data.status === 3) {
-          setOutputDetails(response.data.stdout);
-          setStdin("");
-        } else {
-          setOutputDetails(response.data.description + ":" + response.data.stderr);
-          setStdin("");
-        }
-        return
-      }
-    } catch (err) {
-      console.log("err", err);
-    }
-  }
+  //   try {
+  //     let response = await axios.request(`${process.env.REACT_APP_ROOT_URL}/compiler/${id.token}`);
+  //     let status = response.status;
+  //     // Processed - we have a result
+  //     if (status === 201) {
+  //       // still processing
+  //       setTimeout(() => {
+  //         checkStatus(id)
+  //       }, 2000)
+  //       return
+  //     } else {
+  //       if (response.data.status === 3) {
+  //         setOutputDetails(response.data.stdout);
+  //         setStdin("");
+  //       } else {
+  //         setOutputDetails(response.data.description + ":" + response.data.stderr);
+  //         setStdin("");
+  //       }
+  //       return
+  //     }
+  //   } catch (err) {
+  //     console.log("err", err);
+  //   }
+  // }
 
   // handles input text changes
   const handleQueryChange = (event) => {
@@ -546,7 +546,7 @@ const WebEditors = (props) => {
             </TabPanel>
             <TabPanel>
               {/* <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdin={setStdin} /> */}
-              <OutputWindow theme={theme} stdin={stdin} setStdin={setStdin}/>
+              <OutputWindow theme={theme}/>
             </TabPanel>
           </Tabs>
         </div>
