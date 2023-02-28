@@ -115,20 +115,32 @@ select{
 }
 
 .lang-header#html{
-    background-color: var(--sky) ;
+    background-color: var(--sky);
 }
 
 .lang-header#css{
-    background-color: var(--pumpkinSpice) ;
+    background-color: var(--pumpkinSpice);
 }
 
 .lang-header#javascript{
-    background-color: var(--bus) ;
+    background-color: var(--bus);
 }
 
 .command-history-button{
     font-size: 16px;
     padding: 7px 10px;
+}
+
+.command-history-button#html{
+    background-color: var(--sky);
+}
+
+.command-history-button#css{
+    background-color: var(--pumpkinSpice);
+}
+
+.command-history-button#javascript{
+    background-color: var(--bus);
 }
 
 .web-editors-tabs{
