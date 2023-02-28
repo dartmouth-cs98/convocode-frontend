@@ -228,14 +228,15 @@ input.submit {
 }
 
 .stdin-window {
-  width: 100%;
-  height: 25%;
+  width: 84%;
+  /* height: 25%; */
   padding: 10px;
   background-color: var(--boring);
   font-size: 16px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border: none;
   outline: none;
+  border-radius: 4px;
 }
 
 .output-header {

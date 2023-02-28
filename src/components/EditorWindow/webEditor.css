@@ -140,10 +140,18 @@ select{
 }
 
 .console-window-button{
+    align-self: center;
+}
+
+.console-window-container {
     display: flex;
     flex-direction: row;
-    justify-content: right;
-    padding: 10px;
+    justify-content: space-between;
+    padding: 15px 15px;
+}
+
+.console-run-button{
+    background-color: var(--bus);
 }
 
 input {
