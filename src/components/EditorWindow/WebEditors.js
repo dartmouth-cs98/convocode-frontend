@@ -545,7 +545,8 @@ const WebEditors = (props) => {
               <WebOutput theme={theme} />
             </TabPanel>
             <TabPanel>
-              <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdin={setStdin} />
+              {/* <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdin={setStdin} /> */}
+              <OutputWindow theme={theme} stdin={stdin} setStdin={setStdin}/>
             </TabPanel>
           </Tabs>
         </div>

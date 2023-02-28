@@ -146,6 +146,10 @@ select{
     padding: 10px;
 }
 
+.console-run-button{
+    background-color: var(--bus);
+}
+
 input {
     padding-left: 10px;
 }
