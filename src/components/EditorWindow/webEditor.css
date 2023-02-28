@@ -64,9 +64,9 @@ select{
     gap: 10px;
 }
 
-.ide-buttons-2{
-    margin-left: 60px;
-}
+/* .ide-buttons-2{
+    margin-left: 65px;
+} */
 
 .web-editor-container {
     display: flex;
@@ -204,4 +204,9 @@ input {
     background: var(--easyA);
     opacity: 0.5;
     cursor: pointer;
+}
+
+.ide-project-title{
+    padding-left: 25px;
+    margin-top: 15px;
 }

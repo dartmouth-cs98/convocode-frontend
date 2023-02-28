@@ -171,4 +171,6 @@ input[type="radio"] {
     gap: 5px;
     background: var(--white);
 }
-
+/* .react-tabs__tab-panel{
+    height: 50vh;;
+} */

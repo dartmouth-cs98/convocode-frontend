@@ -480,6 +480,7 @@ const WebEditors = (props) => {
         <></>
       }
       <div className='ide-page'>
+      <h4 className="ide-project-title">{props.id === "" ? "" : props.title}</h4>
         <div className='commandBar'>
           <div className='command-text-container'>
             <form className='languageSelect'>
@@ -502,7 +503,6 @@ const WebEditors = (props) => {
             <ProjectModalForm className="web-editor-modal"></ProjectModalForm>
           </div>
         </div>
-        <div>{props.id === "" ? "Untitled Project" : props.title}</div>
         <div className="web-editor-container">
           <div className="stop3 editor">
             <CodeEditor
