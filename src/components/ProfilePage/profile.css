@@ -102,7 +102,7 @@ button#settings {
 }
 
 .react-tabs__tab--selected {
-  background-color: var(--unicorn);
+  background-color: var(--easyA);
   border: none;
 }
 .profile-explore{
