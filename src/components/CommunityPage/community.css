@@ -13,6 +13,8 @@
   align-items: center;
   flex-direction: column;
   margin-top: 10vh;
+  padding-left: 5vh;
+  padding-right: 5vh;
 }
 
 .comm-title h4 {
@@ -53,12 +55,15 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
+  overflow: auto;
 }
 
 .postUnicorn .footer {
   height: 5vh;
   background-color: var(--boring);
   display: flex;
+  flex-direction: row;
+  overflow: auto;
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
@@ -82,6 +87,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
+  overflow: auto;
 }
 
 .postEasyA .footer {
@@ -91,6 +97,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
+  overflow: auto;
 }
 
 .postGrape {
@@ -111,6 +118,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
+  overflow: auto;
 }
 
 .postGrape .footer {
@@ -120,6 +128,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
+  overflow: auto;
 }
 
 .postSky {
@@ -140,6 +149,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
+  overflow: auto;
 }
 
 .postSky .footer {
@@ -149,6 +159,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
+  overflow: auto;
 }
 
 .postSage {
@@ -169,6 +180,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
+  overflow: auto;
 }
 
 .postSage .footer {
@@ -178,6 +190,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
+  overflow: auto;
 }
 
 .postBus {
@@ -198,6 +211,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
+  overflow: auto;
 }
 
 .postBus .footer {
@@ -207,6 +221,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
+  overflow: auto;
 }
 
 .postPumpkin {
@@ -227,6 +242,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
+  overflow: auto;
 }
 
 .postPumpkin .footer {
@@ -236,6 +252,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
+  overflow: auto;
 }
 
 .titles h3 {
