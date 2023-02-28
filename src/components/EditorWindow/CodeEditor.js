@@ -56,8 +56,7 @@ const CodeEditor = (props) => {
       <div className="lang-header" id={props.language}>
         <div className="lang-header-name">{props.language}</div>
       {/* <button onClick={() => props.toggleDisplay(props.language)}>{tagState ? 'Back to Editing' : 'Command History'}</button> */}
-        <button className="command-history-button" type="button" onClick={() => props.toggleDisplay(props.language)} onKeyDown={(e)=>{e.which === 13 && e.preventDefault()}}>{tagState ? 'Back to Editing' : 'Command History'}</button>
-      </div>
+          <button className="command-history-button" id={props.language} type="button" onClick={() => props.toggleDisplay(props.language)} onKeyDown={(e)=>{e.which === 13 && e.preventDefault()}}>{tagState ? 'Back to Editing' : 'Command History'}</button>      </div>
       <Editor
         className="bottom-rounded"
         height={props.height}
