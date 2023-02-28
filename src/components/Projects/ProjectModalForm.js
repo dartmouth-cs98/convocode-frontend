@@ -43,23 +43,14 @@ const ProjectModalForm = (props) => {
 
   useEffect(() => {
     populateModal();
-  }, [props.id])
+  }, [props.id]);
 
 
   const handleModalToggle = () => {
     setModalShow(!modalShow);
   };
 
-  // const handleAddTags = (event) => {
-  //     if (projectTags.length === 4){
-  //         return;
-  //     }
-  //     if (event.key == "Enter" && event.target.value !== ""){
-  //         const newTag = event.target.value;
-  //         setProjectTags([...projectTags, newTag]);
-  //         event.target.value = "";
-  //     }
-  // }
+  
 
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
@@ -142,26 +133,27 @@ const ProjectModalForm = (props) => {
       }
     
     
-      function getDecorationsPost(codeType) {
-        if (codeType === "javascript") {
-          return jsDecorations;
-        } else if (codeType === "css") {
-          return cssDecorations;
-        } else {
-          return htmlDecorations;
-        }
+    function getDecorationsPost(codeType) {
+      if (codeType === "javascript") {
+        return jsDecorations;
+      } else if (codeType === "css") {
+        return cssDecorations;
+      } else {
+        return htmlDecorations;
       }
+    }
     
-      function getHistoryPost(codeType) {
-        var history;
-        if (codeType === "javascript") {
-          history = props.javaCodeHistory;
-        } else if (codeType === "css") {
-          history = props.cssCodeHistory;
-        } else {
-          history = props.htmlCodeHistory;
-        }
-        return history;
+    function getHistoryPost(codeType) {
+      var history;
+      if (codeType === "javascript") {
+        history = props.javaCodeHistory;
+      } else if (codeType === "css") {
+        history = props.cssCodeHistory;
+      } else {
+        history = props.htmlCodeHistory;
+      }
+      return history;
+    }
   
 
   function getEditorPost(codeType) {
@@ -279,29 +271,24 @@ const ProjectModalForm = (props) => {
       }
    
     
-      function toggleDisplay(codeType) {
-        var display;
-        if (codeType === "javascript") {
-          display = props.javaDisplay;
-        } else if (codeType === "css") {
-          display = props.cssDisplay;
-        } else {
-          display = props.htmlDisplay;
-        }
-        if (display) {
-          endTagViewPost(codeType);
-    
-        } else {
-          displayTagsPost(codeType);
+    function toggleDisplay(codeType) {
+      var display;
+      if (codeType === "javascript") {
+        display = props.javaDisplay;
+      } else if (codeType === "css") {
+        display = props.cssDisplay;
+      } else {
+        display = props.htmlDisplay;
+      }
+      if (display) {
+        endTagViewPost(codeType);
+  
+      } else {
+        displayTagsPost(codeType);
 
-      });
+      }
+
     }
-    editor.updateOptions({ readOnly: true });
-    var d = editor.deltaDecorations([], dList);
-    setDecorationsPost(codeType, d);
-    setDisplayPost(codeType, true);
-
-  }
 
   function endTagViewPost(codeType) {
     var editorRef = getEditorPost(codeType);
@@ -439,54 +426,12 @@ const ProjectModalForm = (props) => {
           }
           console.log("new project to create", projectInfo);
           props.createProject(projectInfo);
-
-    const handleRemoveTags = (index) => {
-        setProjectTags([...projectTags.filter(tag => projectTags.indexOf(tag) !== index)]);
-    };
-
-    const save = (values) => {
-        try {
-            const status = false;
-
-            if (props.id) {
-                const projectInfo = {
-                    tags: projectTags,
-                    title: values.title,
-                    description: values.description,
-                    javaCode: props.javaCode,
-                    htmlCode: props.htmlCode,
-                    cssCode: props.cssCode,
-                    cleanedCode: props.cleanedCode,
-                    javaCodeHistory: props.javaCodeHistory,
-                    htmlCodeHistory: props.htmlCodeHistory,
-                    cssCodeHistory: props.cssCodeHistory,
-                    status: status,
-                    id: props.id,
-                }
-                props.updateProject(projectInfo);
-            } else {
-                const projectInfo = {
-                    title: values.title,
-                    javaCode: props.javaCode,
-                    htmlCode: props.htmlCode,
-                    cssCode: props.cssCode,
-                    javaCodeHistory: props.javaCodeHistory,
-                    htmlCodeHistory: props.htmlCodeHistory,
-                    cssCodeHistory: props.cssCodeHistory,
-                    tags: projectTags,
-                    status: status,
-                  }
-          
-                props.createProject(projectInfo);
-            }
-        } catch (error) {
-            console.log("Unable to save post at this time:", error)
-
         }
-      } catch (error) {
-        console.log("Unable to submit post at this time:", error)
+        } catch (error) {
+          console.log("Unable to save post at this time:", error)
+
       }
-      navigate('/profile')
+      navigate('/profile');
     }
   }
 

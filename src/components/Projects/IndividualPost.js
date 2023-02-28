@@ -262,6 +262,7 @@ const IndividualPost = (props) => {
       }
       navigate('/editor')
     }
+  }
 
   const openMyProject = async () => {
     await props.loadProject(props.project._id);
