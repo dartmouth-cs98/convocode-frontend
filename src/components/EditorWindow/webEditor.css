@@ -218,3 +218,15 @@ input {
     padding-left: 25px;
     margin-top: 15px;
 }
+
+.command-history-button#html{
+    background-color: var(--sky);
+}
+
+.command-history-button#css{
+    background-color: var(--pumpkinSpice);
+}
+
+.command-history-button#javascript{
+    background-color: var(--bus);
+}
