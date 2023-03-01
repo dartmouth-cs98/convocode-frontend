@@ -495,7 +495,7 @@ const ProjectModalForm = (props) => {
                       </TabList>
                       <TabPanel>
                         <div className="tab-editor">
-                          <WebOutput theme={theme} width="100%" height="440px"></WebOutput>
+                          <WebOutput theme={theme} width="100%" height="440vh"></WebOutput>
                         </div>
                       </TabPanel>
                       <TabPanel>

@@ -440,7 +440,7 @@ const IndividualPost = (props) => {
                 <Tab>CSS</Tab>
               </TabList>
               <TabPanel>
-                <WebOutput theme={theme} width="100%" height="618px"/>
+                <WebOutput theme={theme} width="100%" height="618vh"/>
               </TabPanel>
               <TabPanel>
                 {/* <div className="editor-wrapper"> */}
