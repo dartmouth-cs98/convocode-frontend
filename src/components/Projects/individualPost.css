@@ -113,6 +113,14 @@ button#right {
   flex-direction: column;
   width: 35vw;
 }
+.comments{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  height: 31vh;
+  overflow-y: scroll;
+}
 
 .comment {
   margin-left: 10px;
@@ -241,6 +249,7 @@ button#right {
 .discussionInput{
   border: none;
   border-radius: 5px;
+  width: 30vw;
 }
 /* .react-tabs__tab-panel{
   height: 80vh
