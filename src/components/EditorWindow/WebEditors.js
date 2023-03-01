@@ -509,7 +509,7 @@ const WebEditors = (props) => {
               language={"javascript"}
               theme={theme}
               height="45vh"
-              width="100%"
+              width="53vh"
               toggleDisplay={toggleDisplay}
               mount={handleJSDidMount}
             />
@@ -519,7 +519,7 @@ const WebEditors = (props) => {
               language={"html"}
               theme={theme}
               height="45vh"
-              width="100%"
+              width="53vh"
               toggleDisplay={toggleDisplay}
               mount={handleHTMLDidMount}
             />
@@ -529,7 +529,7 @@ const WebEditors = (props) => {
               language={"css"}
               theme={theme}
               height="45vh"
-              width="100%"
+              width="53vh"
               toggleDisplay={toggleDisplay}
               mount={handleCSSDidMount}
             />

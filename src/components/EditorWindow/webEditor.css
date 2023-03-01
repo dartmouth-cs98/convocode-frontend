@@ -81,8 +81,8 @@ select{
 .editor {
    display: flex;
    flex-direction: column;
-   width: 100%;
-   height: 20%;
+   /* width: 100%;
+   height: 100%; */
    padding: 0px 10px; 
    border-bottom-left-radius: 25px;
    border-bottom-right-radius: 25px;
@@ -217,16 +217,4 @@ input {
 .ide-project-title{
     padding-left: 25px;
     margin-top: 15px;
-}
-
-.command-history-button#html{
-    background-color: var(--sky);
-}
-
-.command-history-button#css{
-    background-color: var(--pumpkinSpice);
-}
-
-.command-history-button#javascript{
-    background-color: var(--bus);
 }
