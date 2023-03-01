@@ -1,7 +1,7 @@
 @import "../../index.css";
 
 .algolia-container {
-  width: 100%;
+  width: 100vw;
   display: flex;
   justify-content: center;
 }
@@ -22,6 +22,6 @@
   width: 60vw;
   height: 6vh;    
   font-size: 18px;
-  outline: none;
+  border: none;
   background-color: var(--boring);
 }

@@ -482,6 +482,7 @@ const WebEditors = (props) => {
       <div className='ide-page'>
         <h4 className="ide-project-title">{props.id === "" ? "" : props.title}</h4>
         <div className='commandBar'>
+          <div>
           <div className='command-text-container'>
             <form className='languageSelect'>
               <select onChange={handleLangSwitch}>
@@ -492,12 +493,15 @@ const WebEditors = (props) => {
             </form>
             <textarea className="stop2 commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
           </div>
+          </div>
+          <div>
           <div className="ide-buttons-1">
-            <button className="pink" onClick={() => {
+            <button className="pink" id="ask-cc-button" onClick={() => {
               setLoading(!loading);
               handleSubmitCode();
             }} disabled={loading}>{loading ? 'Loading...' : 'Ask ConvoCode'}</button>
             <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
+          </div>
           </div>
           <div className="ide-buttons-2">
             <ProjectModalForm className="web-editor-modal"></ProjectModalForm>
@@ -509,7 +513,7 @@ const WebEditors = (props) => {
               language={"javascript"}
               theme={theme}
               height="45vh"
-              width="100%"
+              width="53vh"
               toggleDisplay={toggleDisplay}
               mount={handleJSDidMount}
             />
@@ -519,7 +523,7 @@ const WebEditors = (props) => {
               language={"html"}
               theme={theme}
               height="45vh"
-              width="100%"
+              width="53vh"
               toggleDisplay={toggleDisplay}
               mount={handleHTMLDidMount}
             />
@@ -529,7 +533,7 @@ const WebEditors = (props) => {
               language={"css"}
               theme={theme}
               height="45vh"
-              width="100%"
+              width="53vh"
               toggleDisplay={toggleDisplay}
               mount={handleCSSDidMount}
             />
@@ -542,7 +546,7 @@ const WebEditors = (props) => {
               <Tab id="ide-console">console</Tab>
             </TabList>
             <TabPanel>
-              <WebOutput theme={theme} />
+              <WebOutput theme={theme}/>
             </TabPanel>
             <TabPanel>
               {/* <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdin={setStdin} /> */}

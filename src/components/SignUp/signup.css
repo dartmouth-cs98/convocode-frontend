@@ -4,32 +4,50 @@
   margin-top: 20px;
 }
 
-input {
+/* input {
   border: none;
   border-radius: 5px;
   line-height: 40px;
-}
+} */
 
 #one {
+  border: none;
+  border-radius: 5px;
+  line-height: 40px;
   background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #2FBE87;
 }
 
 #two {
+  border: none;
+  border-radius: 5px;
+  line-height: 40px;
   background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #62CCEE;
 }
 
 #three {
+  border: none;
+  border-radius: 5px;
+  line-height: 40px;
   background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #F79266;
 }
 
 #four {
+  border: none;
+  border-radius: 5px;
+  line-height: 40px;
   background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #F7CE66;
 }
 
 #five {
+  border: none;
+  border-radius: 5px;
+  line-height: 40px;
   background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #EF6ED3;
 }
 
 #six {
+  border: none;
+  border-radius: 5px;
+  line-height: 40px;
   background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), #8733DA;
 }

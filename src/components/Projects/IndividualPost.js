@@ -435,37 +435,36 @@ const IndividualPost = (props) => {
             <Tabs>
               <TabList>
                 <Tab>Output</Tab>
+                <Tab>JS</Tab>
                 <Tab>HTML</Tab>
                 <Tab>CSS</Tab>
-                <Tab>JS</Tab>
               </TabList>
               <TabPanel>
                 <WebOutput theme={theme}/>
               </TabPanel>
-
               <TabPanel>
-                <div className="editor-wrapper">
+                {/* <div className="editor-wrapper"> */}
                   <CodePreview
-                    height="78vh"
-                    language={"html"}
-                    handleDidMount={handleDidHTMLMount}
+                    height="68vh"
+                    language={"javascript"}
+                    handleDidMount={handleDidJSMount}
                     toggleDisplay={toggleDisplay}
                   />
-                </div>
+                {/* </div> */}
               </TabPanel>
               <TabPanel>
                 <CodePreview
-                    height="78vh"
-                    language={"css"}
-                  handleDidMount={handleDidCSSMount}
+                  height="68vh"
+                  language={"html"}
+                  handleDidMount={handleDidHTMLMount}
                   toggleDisplay={toggleDisplay}
                 />
               </TabPanel>
               <TabPanel>
                 <CodePreview
-                    height="78vh"
-                    language={"javascript"}
-                  handleDidMount={handleDidJSMount}
+                  height="68vh"
+                  language={"css"}
+                  handleDidMount={handleDidCSSMount}
                   toggleDisplay={toggleDisplay}
                 />
               </TabPanel>

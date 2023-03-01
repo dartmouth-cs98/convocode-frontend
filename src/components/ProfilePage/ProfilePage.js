@@ -59,7 +59,7 @@ const ProfilePage = (props) => {
                 <Tab>Projects</Tab>
                 <Tab>Liked</Tab>
               </TabList>
-              <TabPanel >
+              <TabPanel>
       
                 <div className="profile-post-container">
                   {

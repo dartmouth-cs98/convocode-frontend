@@ -86,9 +86,9 @@ button#settings {
 }
 
 .react-tabs__tab-panel {
-  background-color: var(--grey);
+  /* background-color: var(--grey); */
   width: 100%;
-  height: 55vh;
+  /* height: 55vh; */
   border-radius: 0px 10px 10px 10px;
   overflow: auto;
 }
@@ -157,6 +157,8 @@ button#settings {
   flex-wrap: wrap;
   justify-content: center;
   align-items: left;
+  height: 55vh;
+  background-color: var(--grey);
 
 }
 .profile-post-container .post{
