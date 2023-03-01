@@ -21,10 +21,10 @@ const WebOutput = (props) => {
     <html>
       <head>
         ${css && `<link rel="stylesheet" type="text/css" href="${cssURL}" />`}
-        ${js && `<script src="${jsURL}"></script>`}
       </head>
       <body>
         ${html || ''}
+        ${js && `<script src="${jsURL}"></script>`}
       </body>
     </html>`;
 
