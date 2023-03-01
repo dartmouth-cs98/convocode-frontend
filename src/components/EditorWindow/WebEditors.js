@@ -166,15 +166,22 @@ const WebEditors = (props) => {
             }
           }
         } else {
-          while (oP < oldCode.length || nP < newCode.length) {
-            if (oldCode[oP] === newCode[nP]) {
-              tags.push(oldTags[oP]);
-              nP++;
-              oP++;
-            }
-            else {
-              oP++;
-            }
+          const editor = getEditor(codeType);
+          const pos = editor.getPosition().lineNumber;
+          while (oP < oldCode.length && nP < newCode.length) {
+              if (nP === pos - 1) {
+                tags.push(-1);
+                nP++;
+              }
+
+              else if (oldCode[oP] === newCode[nP]) {
+                tags.push(oldTags[oP]);
+                nP++;
+                oP++;
+              }
+              else {
+                oP++;
+              }
           }
         }
       }
