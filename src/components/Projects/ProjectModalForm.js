@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import CodeEditor from '../EditorWindow/CodeEditor';
+import WebOutput from '../EditorWindow/WebOutput';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, deleteProjectTag, addProjectStatus, createProject, updateExistingProject } from '../../state/actions';
 import { addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory } from '../../state/actions';
@@ -487,10 +488,16 @@ const ProjectModalForm = (props) => {
                     <h3 className="input-header">Code Preview</h3>
                     <Tabs id="tabs">
                       <TabList>
+                        <Tab id="tab">Output</Tab>
                         <Tab id="tab">JS</Tab>
                         <Tab id="tab">HTML</Tab>
                         <Tab id="tab">CSS</Tab>
                       </TabList>
+                      <TabPanel>
+                        <div className="tab-editor">
+                          <WebOutput theme={theme} width="100%" height="440vh"></WebOutput>
+                        </div>
+                      </TabPanel>
                       <TabPanel>
                         <div className="tab-editor">
                           <CodeEditor language={"javascript"} theme={theme} width="100%" height="47vh" toggleDisplay={toggleDisplay} mount={handleJSDidMount} />

@@ -339,15 +339,15 @@ const IndividualPost = (props) => {
             <div className="post-modal-info">
               <h2 style={{ "margin": "0" }}>{props.project.title}</h2>
               <div className="flex-col">
-                <span className="username" style={{ "font-weight": "600", "font-size": "16px" }}>@{props.project.username}</span>
+                <span className="username" style={{ "font-weight": "600","margin-top": "5px"}}>@{props.project.username}</span>
 
               </div>
-              <span>{props.project.description}</span>
-              <div className="flex-row" style={{ "width": "100%", "justify-content": "left", "alignItems": "center" }}>
+              <span style={{"margin-top": "5px"}} >{props.project.description}</span>
+              <div className="flex-row clickables" style={{ "width": "100%", "justify-content": "left", "alignItems": "center", "font-size": "1em"}}>
 
-                <button className="likes" style={{ width: '70px' }} onClick={like}>
+                <button className="likes2"  onClick={like}>
                   {hasLiked ? <img src={likeFilled} alt="Filled Like Button" /> : <img src={likeUnfilled} alt="Unfilled Like Button" />}
-                  <span style={{ padding: '3px' }}>{props.project.likes}</span>
+                  <p style={{ "padding-right": '3px' }}>{props.project.likes}</p>
                 </button>
 
                 <button className="pink-button" id="right" onClick={openClick} style={{ "margin-right": "10px" }}>{isMine ? 'Open in IDE' : 'Make a Copy'}</button>
@@ -356,7 +356,7 @@ const IndividualPost = (props) => {
                   <button className="sage-button" id="right" style={{ 'margin-right': '10px' }}><img src={copy} alt="Copy Icon" /></button>
                 </CopyToClipboard>
                 <div className="share-button">
-                  <button className="sage-button" id="right" style={{ "margin-right": "10px" }} onClick={handleOpen}>Share <img src={down} alt="Down Arrow" /></button>
+                  <button className="sage-button" id="right" style={{ "margin-right": "10px", "text-size": "2vw"}} onClick={handleOpen}>Share<img src={down} alt="Down Arrow" /></button>
                   {
                     open ?
                       <div className="dropdown">
@@ -395,7 +395,7 @@ const IndividualPost = (props) => {
 
               </div>
               <div className="flex-row" style={{ "justify-content": "space-between" }}>
-                <div className="" id={tag} style={{ "margin": "10px 5px" }}>
+                <div className="" id={tag} style={{ "margin": "10px 5px", "font-size":"18px" }}>
                   {props.project.tags ? (
                     props.project.tags.map((e, idx) => {
                       return (<span className="tag">#{e.toLowerCase()}</span>)
@@ -405,29 +405,31 @@ const IndividualPost = (props) => {
               </div>
 
 
-            </div>
-            <div className="commentcontainer">
+            <div className="commentcontainer" >
               <div className="discussion-header">Discussion</div>
-              <div className="comments"> 
-              {
-                props.project.commentObjects ? (
-                props.project.commentObjects.map((item) => {
-                  
-                  return (
-                      <CommentCard item={item} key={item.id} reply={item.replyingTo} />
-                  )
-                })) : <div />
-              }
-            </div>
-            <div className="discussionFooter">
-            <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange} onKeyDown={handleInputKeypress}></input>
-            <button className="yellow-button" onClick={() => {
-                  props.comment(props.project.id, userComment, props.project.replyingTo);
-                  setComment("");
-                  props.setReplyingTo("", "");
-                  props.loadProject(id);
-                }} >Submit</button>
+              <div className="comments" > 
+                {
+                  props.project.commentObjects.length > 0 ? (
+                  props.project.commentObjects.map((item) => {
+                    
+                    return (
+                        <CommentCard item={item} key={item.id} reply={item.replyingTo} />
+                    )
+                  })) : <div className="emptyComments"> <h3>Start the conversation! Be the first to comment</h3> </div>
+                }
               </div>
+              <div className="discussionFooter">
+                <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange} onKeyDown={handleInputKeypress}></input>
+                  <button className="yellow-button" onClick={() => {
+                      props.comment(props.project.id, userComment, props.project.replyingTo);
+                      setComment("");
+                      props.setReplyingTo("", "");
+                      props.loadProject(id);
+                    }} >Submit
+                  </button>
+              </div>
+            </div>
+
             </div>
           </div>
           <div className="post-modal-code" style={{ "flex-grow": "4" }}>
@@ -440,12 +442,12 @@ const IndividualPost = (props) => {
                 <Tab>CSS</Tab>
               </TabList>
               <TabPanel>
-                <WebOutput theme={theme} height="625vh"/>
+                <WebOutput theme={theme} width="100%" height="618vh"/>
               </TabPanel>
               <TabPanel>
                 {/* <div className="editor-wrapper"> */}
                   <CodePreview
-                    height="68vh"
+                    height="68.5vh"
                     language={"javascript"}
                     handleDidMount={handleDidJSMount}
                     toggleDisplay={toggleDisplay}
@@ -454,7 +456,7 @@ const IndividualPost = (props) => {
               </TabPanel>
               <TabPanel>
                 <CodePreview
-                  height="68vh"
+                  height="68.5vh"
                   language={"html"}
                   handleDidMount={handleDidHTMLMount}
                   toggleDisplay={toggleDisplay}
@@ -462,7 +464,7 @@ const IndividualPost = (props) => {
               </TabPanel>
               <TabPanel>
                 <CodePreview
-                  height="68vh"
+                  height="68.5vh"
                   language={"css"}
                   handleDidMount={handleDidCSSMount}
                   toggleDisplay={toggleDisplay}
