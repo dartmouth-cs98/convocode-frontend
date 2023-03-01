@@ -15,7 +15,7 @@
 }
 
 .commandInput{
-    width: 60vw;
+    width: 63vw;
     padding: 10px;
     border-radius: 5px;
     border-style: none;
@@ -42,11 +42,15 @@ select{
 
 .commandBar{
     padding-left: 25px;
+    padding-right: 25px;
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    gap: 5px;
     margin-top: 15px;
-    gap: 10px;
+    /* gap: 10px; */
+    width: 100%;
 }
 
 .languageSelect{
@@ -64,8 +68,14 @@ select{
     gap: 10px;
 }
 
-.ide-buttons-2{
-    margin-left: 60px;
+/* .ide-buttons-2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+} */
+
+#ask-cc-button {
+    width: 12vw;
 }
 
 .web-editor-container {
@@ -129,6 +139,18 @@ select{
 .command-history-button{
     font-size: 16px;
     padding: 7px 10px;
+}
+
+.command-history-button#html{
+    background-color: var(--sky);
+}
+
+.command-history-button#css{
+    background-color: var(--pumpkinSpice);
+}
+
+.command-history-button#javascript{
+    background-color: var(--bus);
 }
 
 .web-editors-tabs{

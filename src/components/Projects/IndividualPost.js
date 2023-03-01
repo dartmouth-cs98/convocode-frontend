@@ -468,16 +468,14 @@ const IndividualPost = (props) => {
                 <Tab>CSS</Tab>
               </TabList>
               <TabPanel>
-                <WebOutput 
-                  theme={theme}
-                  />
+                <WebOutput theme={theme}/>
               </TabPanel>
               <TabPanel>
                 {/* <div className="editor-wrapper"> */}
                   <CodePreview
                     height="68vh"
-                    language={"html"}
-                    handleDidMount={handleDidHTMLMount}
+                    language={"javascript"}
+                    handleDidMount={handleDidJSMount}
                     toggleDisplay={toggleDisplay}
                   />
                 {/* </div> */}
@@ -485,16 +483,16 @@ const IndividualPost = (props) => {
               <TabPanel>
                 <CodePreview
                   height="68vh"
-                  language={"css"}
-                  handleDidMount={handleDidCSSMount}
+                  language={"html"}
+                  handleDidMount={handleDidHTMLMount}
                   toggleDisplay={toggleDisplay}
                 />
               </TabPanel>
               <TabPanel>
                 <CodePreview
                   height="68vh"
-                  language={"javascript"}
-                  handleDidMount={handleDidJSMount}
+                  language={"css"}
+                  handleDidMount={handleDidCSSMount}
                   toggleDisplay={toggleDisplay}
                 />
               </TabPanel>

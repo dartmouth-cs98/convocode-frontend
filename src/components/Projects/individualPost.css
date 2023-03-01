@@ -237,6 +237,11 @@ button#right {
   justify-content: space-between;
 
 }
+
+.discussionInput{
+  border: none;
+  border-radius: 5px;
+}
 /* .react-tabs__tab-panel{
   height: 80vh
 } */
