@@ -149,7 +149,7 @@ const WebEditors = (props) => {
         var nP = 0;
         const oldTags = history.slice(-1)[0].tags;
         if (oldCode.length <= newCode.length) {
-          while (oP < oldCode.length || nP < newCode.length) {
+          while (oP < oldCode.length && nP < newCode.length) {
             if (oldCode[oP] === newCode[nP]) {
               tags.push(oldTags[oP]);
               nP++;
@@ -164,15 +164,22 @@ const WebEditors = (props) => {
             }
           }
         } else {
-          while (oP < oldCode.length || nP < newCode.length) {
-            if (oldCode[oP] === newCode[nP]) {
-              tags.push(oldTags[oP]);
-              nP++;
-              oP++;
-            }
-            else {
-              oP++;
-            }
+          const editor = getEditor(codeType);
+          const pos = editor.getPosition().lineNumber;
+          while (oP < oldCode.length && nP < newCode.length) {
+              if (nP === pos - 1) {
+                tags.push(-1);
+                nP++;
+              }
+
+              else if (oldCode[oP] === newCode[nP]) {
+                tags.push(oldTags[oP]);
+                nP++;
+                oP++;
+              }
+              else {
+                oP++;
+              }
           }
         }
       }
@@ -284,6 +291,9 @@ const WebEditors = (props) => {
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
     monacoRef.current = monaco;
+    editor.onDidChangeModelContent(e => {
+      console.log(e);
+    })
   }
 
   function handleCSSDidMount(editor, monaco) {
@@ -304,6 +314,7 @@ const WebEditors = (props) => {
     } catch {
       console.log("code incomplete, can't transform");
     } try {
+      console.log(`java code: ${props.javaCode}`);
       if (remoteAdd) {
         const newTags = getNewTags(query, props.javaCode.split(/\r\n|\r|\n/), "javascript");
         props.addJavaCodeHistory({ query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags });
