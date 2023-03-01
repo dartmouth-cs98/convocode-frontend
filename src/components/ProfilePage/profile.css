@@ -8,17 +8,21 @@
 .page-content {
   height: 93vh;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-evenly;
 }
 
-.user-header {
+/* .user-header {
   display: flex;
   height: 30vh;
   width: 60vw;
   justify-content: center;
   flex-direction: column;
-  /* padding-left: 40px; */
+  padding-left: 40px;
+} */
+
+.user-header{
+  padding-left: 6vw;
 }
 
 button#settings {
@@ -28,12 +32,17 @@ button#settings {
   height: 45px;
 }
 
-#col {
+/* #col {
   width: 60vw;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+} */
+
+.profile-total-projects{
+  display: flex;
+  flex-direction: row;
 }
 
 .user-info {
@@ -47,23 +56,30 @@ button#settings {
 }
 
 #grape-border {
-  border: 5px solid var(--grape);
-  border-radius: 20px;
+  /* border: 5px solid var(--grape);
+  border-radius: 20px; */
+  border: 3px solid var(--grape);
+  border-radius: 5px;
   padding: 5px 10px;
 }
 
 #easy-a-border {
-  border: 5px solid var(--easyA);
-  border-radius: 20px;
+  /* border: 5px solid var(--easyA);
+  border-radius: 20px; */  
+  border: 3px solid var(--grape);
+  border-radius: 5px;
   padding: 5px 10px;
 }
 
 .projects {
   height: 60vh;
-  width: 60vw;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
-.popular {
+/* .popular {
   background-color: var(--grey);
   height: 84vh;
   width: 30vw;
@@ -71,7 +87,7 @@ button#settings {
   display: flex;
   align-self: center;
   flex-direction: column;
-}
+} */
 
 .pop-header {
   background-color: var(--black);
@@ -105,14 +121,14 @@ button#settings {
   background-color: var(--easyA);
   border: none;
 }
-.profile-explore{
+/* .profile-explore{
   display: flex;
   flex-direction: column;
   margin-top: 35px;
-  /* align-items: center; */
+  align-items: center;
   width: 30vw;
-}
-.profile-explore-header{
+} */
+/* .profile-explore-header{
   background-color: var(--black);
   border-radius: 15px 15px 0px 0px;
   font-weight: 400;
@@ -153,7 +169,7 @@ button#settings {
 }
 .profile-explore-card-container .post .titles{
   width: 70%
-}
+} */
 .profile-post-container{
   display:flex;
   flex-direction: row;

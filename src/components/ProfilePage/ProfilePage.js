@@ -41,30 +41,33 @@ const ProfilePage = (props) => {
     <div className="profile-page" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />
       <div className="page-content">
-        <div>
-          <div className="user-header">
-            <div id="col" style={{ justifyContent: "space-between" }}>
-              <h1>👋🏼 Welcome, {props.user.username}</h1>
+        {/* <div> */}
+          {/* <div className="user-header"> */}
+            {/* <div id="col" style={{ justifyContent: "space-between" }}> */}
+            <div className="user-header">
+            <div className="user-name-header">
+              <h1>Welcome, {props.user.username}!</h1>
               {/* <ProfileSettings modalShow={modalShow} handleModalToggle={handleModalToggle}/>  */}
             </div>
-            <div id="col" className="spacingUnder">
+            {/* <div id="col" className="spacingUnder"> */}
+            <div className="profile-total-projects">
               <div className="user-info" id="grape-border">
-                {props.user.projectCount} Projects 💻
+                {props.user.projectCount} Projects
               </div>
               <div className="user-info" id="easy-a-border">
-                {props.user.likeCount} Liked Post ♥️
+                {props.user.likeCount} Liked Posts
               </div>
             </div>
-          </div>
+            </div>
+          {/* </div> */}
           <div className="projects">
-
+            <div>
             <Tabs>
               <TabList>
                 <Tab>Projects</Tab>
                 <Tab>Liked</Tab>
               </TabList>
               <TabPanel>
-      
                 <div className="profile-post-container">
                   {
                     props.user.authoredProjects ? (
@@ -91,9 +94,10 @@ const ProfilePage = (props) => {
                       </div>
               </TabPanel>
             </Tabs>
+            </div>
           </div>
         </div>
-        <div className="profile-explore"> 
+        {/* <div className="profile-explore"> 
           <div className="profile-explore-header">
             <h3>Popular Now</h3>
           </div> 
@@ -109,9 +113,8 @@ const ProfilePage = (props) => {
                 ) : <div />
               }
           </div>
-        </div>
-      
-      </div>
+        </div> */}
+      {/* </div> */}
     </div >
   );
 };
