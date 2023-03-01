@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { refreshUser } from "../../state/actions";
+import { loadProjects } from "../../state/actions";
 import axios from 'axios';
 import { getUser } from '../../services/user.js';
 import PostCard from "../CommunityPage/PostCard.js"
@@ -24,6 +24,10 @@ const ProfilePage = (props) => {
     setModalShow(!modalShow);
   }
 
+  useEffect(() => {
+    props.loadProjects();
+  }, []);
+
  /*  useEffect(() => {
     window.onbeforeunload = props.refreshUser();
     // props.refreshProjects();
@@ -43,7 +47,7 @@ const ProfilePage = (props) => {
               <h1>👋🏼 Welcome, {props.user.username}</h1>
               {/* <ProfileSettings modalShow={modalShow} handleModalToggle={handleModalToggle}/>  */}
             </div>
-            <div id="col">
+            <div id="col" className="spacingUnder">
               <div className="user-info" id="grape-border">
                 {props.user.projectCount} Projects 💻
               </div>
@@ -119,4 +123,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { refreshUser })(ProfilePage);
+export default connect(mapStateToProps, { loadProjects })(ProfilePage);
