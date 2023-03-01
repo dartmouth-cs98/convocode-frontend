@@ -55,7 +55,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .postUnicorn .footer {
@@ -67,6 +67,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
+  overflow: hidden;
 }
 
 .postEasyA {
@@ -87,7 +88,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .postEasyA .footer {
@@ -97,7 +98,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .postGrape {
@@ -118,7 +119,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .postGrape .footer {
@@ -128,7 +129,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .postSky {
@@ -149,7 +150,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .postSky .footer {
@@ -159,7 +160,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .postSage {
@@ -180,7 +181,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .postSage .footer {
@@ -190,7 +191,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .postBus {
@@ -211,7 +212,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .postBus .footer {
@@ -221,7 +222,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .postPumpkin {
@@ -242,7 +243,7 @@
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .postPumpkin .footer {
@@ -252,7 +253,7 @@
   border-radius: 5px;
   align-items: center;
   justify-content: space-between;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .titles h3 {

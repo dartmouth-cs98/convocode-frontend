@@ -243,6 +243,11 @@ button#right {
   border: none;
   border-radius: 5px;
 }
+
+.dropdown span:hover{
+  background-color: var(--grey);
+  border-radius: 4px;
+}
 /* .react-tabs__tab-panel{
   height: 80vh
 } */

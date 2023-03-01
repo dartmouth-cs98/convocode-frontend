@@ -362,27 +362,27 @@ const IndividualPost = (props) => {
                       <div className="dropdown">
                         <span>
                           <FacebookShareButton url={url} quote="Convocode. Pushing the boundaries of how we engage with AI." hashtags={["convocode"]}>
-                            <FacebookIcon size={32} round={true} />Facebook
+                            <FacebookIcon size={32} round={true} /> Facebook
                           </FacebookShareButton>
                         </span>
                         <span>
                           <TwitterShareButton url={url} title={props.project.title} hashtags={["convocode"]}>
-                            <TwitterIcon size={32} round={true} />Twitter
+                            <TwitterIcon size={32} round={true} /> Twitter
                           </TwitterShareButton>
                         </span>
                         <span>
                           <RedditShareButton url={url} title={props.project.title}>
-                            <RedditIcon size={32} round={true} />Reddit
+                            <RedditIcon size={32} round={true} /> Reddit
                           </RedditShareButton>
                         </span>
                         <span>
                           <LinkedinShareButton url={url} title={props.project.title}>
-                            <LinkedinIcon size={32} round={true} />LinkedIn
+                            <LinkedinIcon size={32} round={true} /> LinkedIn
                           </LinkedinShareButton>
                         </span>
                         <span>
                           <EmailShareButton url={url} title={props.project.title}>
-                            <EmailIcon size={32} round={true} />Email
+                            <EmailIcon size={32} round={true} /> Email
                           </EmailShareButton>
                         </span>
                       </div>
