@@ -34,7 +34,7 @@ const CodePreview = (props) => {
     <div className="overlay rounded-md w-full h-full shadow-4xl">
       <CodeEditor
         className="bottom-rounded"
-        height="70vh"
+        height={props.height}
         width="100%"
         language={props.language || "python"}
         value={editor_state}

@@ -140,10 +140,18 @@ select{
 }
 
 .console-window-button{
+    align-self: center;
+}
+
+.console-window-container {
     display: flex;
     flex-direction: row;
-    justify-content: right;
-    padding: 10px;
+    justify-content: space-between;
+    padding: 15px 15px;
+}
+
+.console-run-button{
+    background-color: var(--bus);
 }
 
 input {
@@ -204,4 +212,21 @@ input {
     background: var(--easyA);
     opacity: 0.5;
     cursor: pointer;
+}
+
+.ide-project-title{
+    padding-left: 25px;
+    margin-top: 15px;
+}
+
+.command-history-button#html{
+    background-color: var(--sky);
+}
+
+.command-history-button#css{
+    background-color: var(--pumpkinSpice);
+}
+
+.command-history-button#javascript{
+    background-color: var(--bus);
 }

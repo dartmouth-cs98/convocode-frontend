@@ -16,8 +16,8 @@ import copy from "../../resources/copy.png"
 import CommentCard from "./CommentCard"
 import { comment } from "../../state/actions/project.js"
 import { decorationDict } from "../../utils/decorationDict";
-
-import './individualPost.css'
+import WebOutput from "../EditorWindow/WebOutput";
+import './individualPost.css';
 
 const IndividualPost = (props) => {
 
@@ -25,7 +25,7 @@ const IndividualPost = (props) => {
   const htmlRef = useRef(null);
   const cssRef = useRef(null);
   const monacoRef = useRef(null);
-
+  const [theme] = useState("light");
   const [userComment, setComment] = useState("");
   const [hasLiked, setHasLiked] = useState(false);
   const [jsDecorations, setJsDecorations] = useState([]);
@@ -237,7 +237,6 @@ const IndividualPost = (props) => {
     setOpen(!open);
   };
 
-
   let { id } = useParams();
 
   const location = useLocation();
@@ -396,7 +395,7 @@ const IndividualPost = (props) => {
 
               </div>
               <div className="flex-row" style={{ "justify-content": "space-between" }}>
-                <div className="tag" id={tag} style={{ "margin": "10px 5px" }}>
+                <div className="" id={tag} style={{ "margin": "10px 5px" }}>
                   {props.project.tags ? (
                     props.project.tags.map((e, idx) => {
                       return (<span className="tag">#{e.toLowerCase()}</span>)
@@ -435,28 +434,37 @@ const IndividualPost = (props) => {
             <div className="code-header">Code Preview</div>
             <Tabs>
               <TabList>
+                <Tab>Output</Tab>
                 <Tab>HTML</Tab>
                 <Tab>CSS</Tab>
                 <Tab>JS</Tab>
               </TabList>
+              <TabPanel>
+                <WebOutput theme={theme}/>
+              </TabPanel>
 
               <TabPanel>
-                <CodePreview
-                  language={"html"}
-                  handleDidMount={handleDidHTMLMount}
-                  toggleDisplay={toggleDisplay}
-                />
+                <div className="editor-wrapper">
+                  <CodePreview
+                    height="78vh"
+                    language={"html"}
+                    handleDidMount={handleDidHTMLMount}
+                    toggleDisplay={toggleDisplay}
+                  />
+                </div>
               </TabPanel>
               <TabPanel>
                 <CodePreview
-                  language={"css"}
+                    height="78vh"
+                    language={"css"}
                   handleDidMount={handleDidCSSMount}
                   toggleDisplay={toggleDisplay}
                 />
               </TabPanel>
               <TabPanel>
                 <CodePreview
-                  language={"javascript"}
+                    height="78vh"
+                    language={"javascript"}
                   handleDidMount={handleDidJSMount}
                   toggleDisplay={toggleDisplay}
                 />
