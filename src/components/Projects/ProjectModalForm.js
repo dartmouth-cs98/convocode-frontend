@@ -462,24 +462,21 @@ const ProjectModalForm = (props) => {
                       )
                     })
                     }
-                    {/* <input id="project-input" type="text" onKeyUp={handleAddTags} placeholder="Press enter to add tags" /> */}
-                    <input id="project-input" type="text" placeholder="ex. react-app" onChange={handleTagChange} value={newTag} />
+                    <input id="project-input-tags" type="text" placeholder="ex. react-app" onChange={handleTagChange} value={newTag} />
                     <div className="tag-button-container">
                       <button className="tag-button" type="button" onClick={handleAddTags}>Add Tag</button>
                     </div>
                   </div>
                   <div className="input-info">
                     <h3 className="input-header">Project Title</h3>
-                    {/* <Field name="title" id="project-input" onKeyPress={e => { e.which === 13 && e.preventDefault()}}/> */}
-                    <Field name="title" id="project-input" />
+                    <Field name="title" id="project-input" component="textarea" rows="3" />
                     {errors.title && touched.title ? (
                       <div>{errors.title}</div>
                     ) : null}
                   </div>
                   <div className="input-info">
                     <h3 className="input-header">Project Description</h3>
-                    {/* <Field name="description" id="project-input" onKeyPress={e => { e.which === 13 && e.preventDefault()}}/> */}
-                    <Field name="description" id="project-input" />
+                    <Field name="description" id="project-input" component="textarea" rows="6" />
                     {errors.description && touched.description ? (
                       <div>{errors.description}</div>
                     ) : null}

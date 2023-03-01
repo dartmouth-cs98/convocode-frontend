@@ -18,7 +18,6 @@ import { comment } from "../../state/actions/project.js"
 import { decorationDict } from "../../utils/decorationDict";
 import WebOutput from "../EditorWindow/WebOutput";
 import './individualPost.css';
-import CodeEditor from "../EditorWindow/CodeEditor";
 
 const IndividualPost = (props) => {
 
@@ -469,50 +468,36 @@ const IndividualPost = (props) => {
                 <Tab>CSS</Tab>
               </TabList>
               <TabPanel>
-                <WebOutput theme={theme}/>
+                <WebOutput 
+                  theme={theme}
+                  />
               </TabPanel>
-
-              {/* <TabPanel>
-                <div className="editor-wrapper">
+              <TabPanel>
+                {/* <div className="editor-wrapper"> */}
                   <CodePreview
-                    height="78vh"
+                    height="68vh"
                     language={"html"}
                     handleDidMount={handleDidHTMLMount}
                     toggleDisplay={toggleDisplay}
                   />
-                </div>
+                {/* </div> */}
               </TabPanel>
               <TabPanel>
                 <CodePreview
-                    height="78vh"
-                    language={"css"}
+                  height="68vh"
+                  language={"css"}
                   handleDidMount={handleDidCSSMount}
                   toggleDisplay={toggleDisplay}
                 />
               </TabPanel>
               <TabPanel>
                 <CodePreview
-                    height="78vh"
-                    language={"javascript"}
+                  height="68vh"
+                  language={"javascript"}
                   handleDidMount={handleDidJSMount}
                   toggleDisplay={toggleDisplay}
                 />
-              </TabPanel> */}
-                                    <TabPanel>
-                        <div className="tab-editor">
-                          <CodeEditor language={"javascript"} theme={theme} width="100%" height="68vh" toggleDisplay={toggleDisplay} mount={handleDidJSMount} />
-                        </div>
-                      </TabPanel>
-                      <TabPanel>
-                        <div className="tab-editor">
-                          <CodeEditor language={"html"} theme={theme} width="100%" height="68vh" toggleDisplay={toggleDisplay} mount={handleDidCSSMount} />
-                        </div>
-                      </TabPanel>
-                      <TabPanel>
-                        <div className="tab-editor">
-                          <CodeEditor language={"css"} theme={theme} width="100%" height="68vh" toggleDisplay={toggleDisplay} mount={handleDidCSSMount} />
-                        </div>
-                      </TabPanel>
+              </TabPanel>
             </Tabs>
           </div>
         </div>

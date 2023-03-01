@@ -207,6 +207,7 @@ button#right {
   flex-grow: 1;
   border-radius: 15px;
   background-color: var(--grey);
+  height: 85vh;
 }
 
 .dropdown {
@@ -239,9 +240,9 @@ button#right {
 /* .react-tabs__tab-panel{
   height: 80vh
 } */
-.profile-editor{
+/* .profile-editor{
   height: 80vh;
-}
-.editor-wrapper{
+} */
+/* .editor-wrapper{
   height: 80vh;
-}
+} */

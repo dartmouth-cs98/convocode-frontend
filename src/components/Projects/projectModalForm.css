@@ -1,6 +1,6 @@
 .project-modal {
-    position: absolute;
-    top: 10vh;
+    position: relative;
+    top: 5vh;
     left: 15vw;
     right: 15vw;
     bottom: 5vh;
@@ -8,11 +8,11 @@
 .edit-modal-form {
     display: flex;
     flex-direction: row;
-    height: 100%;
-    width: 100%;
-    padding: 5%;
+    height: 85vh;
+    width: 130vh;
+    padding: 4%;
     justify-content: space-evenly;
-    gap: 20px;
+    gap: 40px;
     background-color: var(--boring);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
@@ -21,10 +21,14 @@
     display: flex;
     flex-direction: column;
     width: 22vw;
+    height: 47vh;
 }
 .edit-modal-code{
     display: flex;
     flex-direction: column;
+    height: 47vh;
+    width: 50vw;
+    background-color: var(--grey);
 }
 .input-info{
     margin-bottom: 25px;
@@ -37,9 +41,21 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
+#project-input-tags{
+    width: 100%;
+    /* height: 40px; */
+    border: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
 #project-input{
     width: 100%;
-    height: 40px;
+    /* height: 40px; */
+    border: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    resize: vertical;
+    padding: 8px;
 }
 .project-buttons{
     display: flex;
@@ -64,10 +80,6 @@
     width: 100%;
     height: 100%;
 }
-.tab-editors{
-    padding-top: 30px;
-    padding-right: 30px;
-}
 .left-container{
     height:100%;
     display: flex;
@@ -79,25 +91,12 @@
 .project-detail{
     margin-bottom: 20px;
 }
-.edit-modal{
-    height: 80vh;
-    width: 80vw;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: var(--boring);
-    color: var(--text-primary);
-    border-radius: 15px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
 .project-buttons{
     display: flex;
     flex-direction: row;
     float: right;
-    margin-right: 40px;
-    margin-top: 25px;
-    gap: 20px;
+    gap: 1vw;
+    padding-top: 5%;
 }
 .light-pink{
     background-color: #F499E0;
@@ -130,11 +129,6 @@ input[type="radio"] {
     border-radius: 10px;
     margin-bottom: 5px;
 }
-.tab-editor {
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
-    filter: drop-shadow(16px 16px 10px rgba(0, 0, 0, 0.197));
- }
 .tag-item{
     background-color: rgb(218, 216, 216);
     display: inline-block;
