@@ -208,6 +208,7 @@ button#right {
   border-radius: 15px;
   background-color: var(--grey);
   height: 85vh;
+  width: 50vw;
 }
 
 .dropdown {
