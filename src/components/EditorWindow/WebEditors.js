@@ -365,7 +365,7 @@ const WebEditors = (props) => {
     // send user input to get code from openai
     setRemoteAdd(true);
     
-    getOpenAICode(query, currentLanguage).then((res) => {
+    getOpenAICode(query, currentLanguage, props.cssCode, props.javaCode, props.htmlCode).then((res) => {
       setLoading(false);
      
       if (currentLanguage === "javascript") {
