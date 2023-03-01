@@ -237,40 +237,6 @@ const IndividualPost = (props) => {
     setOpen(!open);
   };
 
-  const openInIDE = () => {
-
-    //check if signed in 
-    if (props.user.username === '') {
-      alert("Please sign in before opening a new project.")
-    } else {
-
-      if (props.user.projects.includes(props.project._id) !== 1) {
-
-
-        const projectInfo = {
-          title: `Copy of ${props.project.title}`,
-          javaCode: props.project.javaCode,
-          htmlCode: props.project.htmlCode,
-          cssCode: props.project.cssCode,
-
-          tags: props.project.tags,
-        }
-
-
-        props.createProject(projectInfo)
-
-      }
-      navigate('/editor')
-    }
-  }
-
-  const openMyProject = async () => {
-    await props.loadProject(props.project._id);
-    navigate('/editor');
-
-  }
-
-
   let { id } = useParams();
 
   const location = useLocation();
@@ -278,7 +244,12 @@ const IndividualPost = (props) => {
   const url = `www.convocode.org${location.pathname}`
 
   const like = () => {
-    props.likeProject(props.project.id)
+    if (props.user.username === '') {
+      alert("Please sign in before opening a new project.")
+      navigate("/signin")
+    } else {
+      props.likeProject(props.project.id)
+    }
   }
 
   useEffect(() => {
@@ -301,11 +272,12 @@ const IndividualPost = (props) => {
   }, [props.project.likes]);
 
   useEffect(() => {
-    if (props.user.likedProjects.includes(props.project.id)) {
+    if (props.user.likedProjects.some(proj => proj.id === props.project.id)) {
       setHasLiked(true);
     } else {
       setHasLiked(false);
     }
+    console.log("has liked ", hasLiked)
 
   }, [props.user.likedProjects]);
 
