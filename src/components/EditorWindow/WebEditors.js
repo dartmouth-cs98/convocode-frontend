@@ -150,8 +150,6 @@ const WebEditors = (props) => {
         const oldTags = history.slice(-1)[0].tags;
         if (oldCode.length <= newCode.length) {
           while (oP < oldCode.length && nP < newCode.length) {
-            console.log(oP);
-            console.log(nP);
             if (oldCode[oP] === newCode[nP]) {
               tags.push(oldTags[oP]);
               nP++;
