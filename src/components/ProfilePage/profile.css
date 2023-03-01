@@ -120,7 +120,10 @@ button#settings {
   line-height: 24px;
   letter-spacing: 0.1px;
   color: var(--white);
-  padding: 10px;
+  padding-left: 2vw; 
+  padding-top: 1.5vh;
+  padding-bottom:1vh;
+
 }
 .trending{
   display: flex;
@@ -200,5 +203,8 @@ button#settings {
 .profile-post-container .postEasyA{
   width: 22vw;
   margin-top: 25px;
+}
+.spacingUnder{
+  padding-left: 3.5vw;
 }
 
