@@ -444,7 +444,7 @@ const ProjectModalForm = (props) => {
       <button onClick={handleModalToggle} className="stop6 green">{doesExist ? "Update Post" : "Post"}</button>
       <div className="form-modal">
         <ReactModal className="project-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
-          <div>
+          {/* <div> */}
           <Formik
             initialValues={initialValues}
             validationSchema={ProjectSchema}
@@ -485,11 +485,14 @@ const ProjectModalForm = (props) => {
                       <div>{errors.description}</div>
                     ) : null}
                   </div>
+                  <div className="cancel-button-container">
+                      <button className="cancel-project" type="reset" onClick={handleModalToggle}>Cancel</button>
+                  </div>
                 </div>
                 <div className="edit-modal-code" style={{ "flex-grow": "4" }}>
                   <div className="edit-modal-editor">
                     <h3 className="input-header">Code Preview</h3>
-                    <Tabs id="tabs">
+                    <Tabs id="pmf-tabs">
                       <TabList>
                         <Tab id="tab">Output</Tab>
                         <Tab id="tab">JS</Tab>
@@ -517,21 +520,25 @@ const ProjectModalForm = (props) => {
                         </div>
                       </TabPanel>
                     </Tabs>
-                  </div>
-                  <div className="project-buttons">
-                    <div className="left-pb">
-                      <button className="cancel-project" type="reset" onClick={handleModalToggle}>Cancel</button>
-                    </div>
-                    <div className="right-pb">
+                    <div className="submit-buttons-container">
                       <button className="light-pink" type="button" onClick={() => save(values)}>Save For Later</button>
                       <button className="pink" type="submit">{doesExist ? "Update" : "Post"}</button>
                     </div>
                   </div>
+                  {/* <div className="project-buttons"> */}
+                    {/* <div className="left-pb">
+                      <button className="cancel-project" type="reset" onClick={handleModalToggle}>Cancel</button>
+                    </div> */}
+                    {/* <div className="right-pb">
+                      <button className="light-pink" type="button" onClick={() => save(values)}>Save For Later</button>
+                      <button className="pink" type="submit">{doesExist ? "Update" : "Post"}</button>
+                    </div> */}
+                  {/* </div> */}
                 </div>
               </Form>
             )}
           </Formik>
-          </div>
+          {/* </div> */}
         </ReactModal>
       </div>
     </div>
