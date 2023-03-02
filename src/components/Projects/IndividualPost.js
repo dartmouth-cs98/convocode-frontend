@@ -415,7 +415,7 @@ const IndividualPost = (props) => {
                     return (
                         <CommentCard item={item} key={item.id} reply={item.replyingTo} />
                     )
-                  })) : <div className="emptyComments"> <h3>Start the conversation! Be the first to comment</h3> </div>
+                  })) : <div className="emptyComments"> <h3>Start the conversation! Be the first to comment.</h3> </div>
                 }
               </div>
               <div className="discussionFooter">
