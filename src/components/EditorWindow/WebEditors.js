@@ -494,7 +494,7 @@ const WebEditors = (props) => {
         <h4 className="ide-project-title">{props.id === "" ? "" : props.title}</h4>
         <div className='commandBar'>
           <div>
-          <div className='command-text-container'>
+          <div className='stop2 command-text-container'>
             <form className='languageSelect'>
               <select onChange={handleLangSwitch}>
                 <option value="html" >HTML</option>
@@ -502,12 +502,12 @@ const WebEditors = (props) => {
                 <option value="javascript">JavaScript</option>
               </select>
             </form>
-            <textarea className="stop2 commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
+            <textarea className="commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
           </div>
           </div>
           <div>
           <div className="ide-buttons-1">
-            <button className="pink" id="ask-cc-button" onClick={() => {
+            <button className="stop3 pink" id="ask-cc-button" onClick={() => {
               setLoading(!loading);
               handleSubmitCode();
             }} disabled={loading}>{loading ? 'Loading...' : 'Ask ConvoCode'}</button>
@@ -519,7 +519,7 @@ const WebEditors = (props) => {
           </div>
         </div>
         <div className="web-editor-container">
-          <div className="stop3 editor">
+          <div className="stop4 editor">
             <CodeEditor
               language={"javascript"}
               theme={theme}

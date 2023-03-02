@@ -13,15 +13,19 @@ const TOUR_STEPS = [
         content:"🗣 Prompt our Open AI with anything you may wish to create, but keep in mind you are being language specific with each prompt."
        },
        {
-        target:".stop3",
-        content: "💻 Once submitted, the AI generated code will populate the appropriate editor and compile in the output box below. "
+        target: ".stop3",
+        content: "🚨 When you are ready to submit your prompt, click the ‘Ask ConvoCode’ button or press the enter key to submit."
        },
        {
         target:".stop4",
-        content:"👀 Feel free to toggle on search history to view AI v. human generated code. Hover over each appropriate section to view the commands that generated that code."
+        content: "💻 Once submitted, the AI generated code will populate the appropriate editor and compile in the output or console tab below. "
        },
        {
         target:".stop5",
+        content:"👀 Feel free to toggle on search history to view AI v. human generated code. Hover over each appropriate section to view the commands that generated that code."
+       },
+       {
+        target:".stop6",
         content:"🌐 Ready to share with other developers or save to your projects? Press the Post button and fill out the necessary information",
        }
 
@@ -31,8 +35,8 @@ const Tour = (props) => {
 
   // Call back function to stop onboarding
   const  printCallback = (prop) => {
-
-    if (prop.lifecycle == "complete" && prop.index >=4 ){ 
+    console.log("callback prop: ", prop)
+    if (prop.lifecycle == "complete" && prop.index >=5 ){ 
       props.onboarding()
     }
     if (prop.action == "skip"){
