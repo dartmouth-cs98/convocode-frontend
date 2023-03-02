@@ -51,7 +51,7 @@ const ProjectModalForm = (props) => {
     setModalShow(!modalShow);
   };
 
-  
+
 
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
@@ -113,49 +113,49 @@ const ProjectModalForm = (props) => {
   }
 
 
-    function setDisplayPost(codeType, bool) {
-        if (codeType === "javascript") {
-          props.setJavaDisplay(bool);
-        } else if (codeType === "css") {
-          props.setCSSDisplay(bool);
-        } else {
-          props.setHTMLDisplay(bool);
-        }
-      }
-    
-      function setDecorationsPost(codeType, d) {
-        if (codeType === "javascript") {
-          setJsDecorations(d);
-        } else if (codeType === "css") {
-          setCssDecorations(d);
-        } else {
-          setHtmlDecorations(d);
-        }
-      }
-    
-    
-    function getDecorationsPost(codeType) {
-      if (codeType === "javascript") {
-        return jsDecorations;
-      } else if (codeType === "css") {
-        return cssDecorations;
-      } else {
-        return htmlDecorations;
-      }
+  function setDisplayPost(codeType, bool) {
+    if (codeType === "javascript") {
+      props.setJavaDisplay(bool);
+    } else if (codeType === "css") {
+      props.setCSSDisplay(bool);
+    } else {
+      props.setHTMLDisplay(bool);
     }
-    
-    function getHistoryPost(codeType) {
-      var history;
-      if (codeType === "javascript") {
-        history = props.javaCodeHistory;
-      } else if (codeType === "css") {
-        history = props.cssCodeHistory;
-      } else {
-        history = props.htmlCodeHistory;
-      }
-      return history;
+  }
+
+  function setDecorationsPost(codeType, d) {
+    if (codeType === "javascript") {
+      setJsDecorations(d);
+    } else if (codeType === "css") {
+      setCssDecorations(d);
+    } else {
+      setHtmlDecorations(d);
     }
-  
+  }
+
+
+  function getDecorationsPost(codeType) {
+    if (codeType === "javascript") {
+      return jsDecorations;
+    } else if (codeType === "css") {
+      return cssDecorations;
+    } else {
+      return htmlDecorations;
+    }
+  }
+
+  function getHistoryPost(codeType) {
+    var history;
+    if (codeType === "javascript") {
+      history = props.javaCodeHistory;
+    } else if (codeType === "css") {
+      history = props.cssCodeHistory;
+    } else {
+      history = props.htmlCodeHistory;
+    }
+    return history;
+  }
+
 
   function getEditorPost(codeType) {
     var editorRef;
@@ -223,73 +223,73 @@ const ProjectModalForm = (props) => {
 
 
   }
-    
-      
-      function getRangesPost(codeType) {
-        var history = getHistoryPost(codeType);
-        var currTags = history.slice(-1)[0].tags;
-        var insertionTags = currTags.filter(checkInsertion);
-        var unique = insertionTags.filter(onlyUnique);
-        var ranges = []
-        for (var i = 0; i < unique.length; i++) {
-          var r = findTagRange(unique[i], currTags);
-          for (var j = 0; j < r.length; j++) {
-            var start = r[j][0];
-            var end = r[j][r[j].length - 1];
-            ranges.push([start, end]);
-          }
-          
-        }
-        return ranges;
-    
-        
-      }
-    
-      function displayTagsPost(codeType) {
-        var history = getHistoryPost(codeType);
-        var editor = getEditorPost(codeType);
-        var ranges = getRangesPost(codeType);
-        var dList = [];
-        var currTags = history.slice(-1)[0].tags;
-        for (var i = 0; i < ranges.length; i++) {
-          var decId = (i + 1)%7;
-          const start = ranges[i][0];
-          const end = ranges[i][1];
-          dList.push({
-            range: new monacoRef.current.Range(start + 1,1,end + 1,1),
-            options: {
-              isWholeLine: true,
-              className: decorationDict[decId],
-              hoverMessage: {value: currTags[start]}
-            }
-          });
-        }
-        editor.updateOptions({readOnly: true});
-        var d = editor.deltaDecorations([], dList);
-        setDecorationsPost(codeType, d);
-        setDisplayPost(codeType, true);
-           
-      }
-   
-    
-    function toggleDisplay(codeType) {
-      var display;
-      if (codeType === "javascript") {
-        display = props.javaDisplay;
-      } else if (codeType === "css") {
-        display = props.cssDisplay;
-      } else {
-        display = props.htmlDisplay;
-      }
-      if (display) {
-        endTagViewPost(codeType);
-  
-      } else {
-        displayTagsPost(codeType);
 
+
+  function getRangesPost(codeType) {
+    var history = getHistoryPost(codeType);
+    var currTags = history.slice(-1)[0].tags;
+    var insertionTags = currTags.filter(checkInsertion);
+    var unique = insertionTags.filter(onlyUnique);
+    var ranges = []
+    for (var i = 0; i < unique.length; i++) {
+      var r = findTagRange(unique[i], currTags);
+      for (var j = 0; j < r.length; j++) {
+        var start = r[j][0];
+        var end = r[j][r[j].length - 1];
+        ranges.push([start, end]);
       }
 
     }
+    return ranges;
+
+
+  }
+
+  function displayTagsPost(codeType) {
+    var history = getHistoryPost(codeType);
+    var editor = getEditorPost(codeType);
+    var ranges = getRangesPost(codeType);
+    var dList = [];
+    var currTags = history.slice(-1)[0].tags;
+    for (var i = 0; i < ranges.length; i++) {
+      var decId = (i + 1) % 7;
+      const start = ranges[i][0];
+      const end = ranges[i][1];
+      dList.push({
+        range: new monacoRef.current.Range(start + 1, 1, end + 1, 1),
+        options: {
+          isWholeLine: true,
+          className: decorationDict[decId],
+          hoverMessage: { value: currTags[start] }
+        }
+      });
+    }
+    editor.updateOptions({ readOnly: true });
+    var d = editor.deltaDecorations([], dList);
+    setDecorationsPost(codeType, d);
+    setDisplayPost(codeType, true);
+
+  }
+
+
+  function toggleDisplay(codeType) {
+    var display;
+    if (codeType === "javascript") {
+      display = props.javaDisplay;
+    } else if (codeType === "css") {
+      display = props.cssDisplay;
+    } else {
+      display = props.htmlDisplay;
+    }
+    if (display) {
+      endTagViewPost(codeType);
+
+    } else {
+      displayTagsPost(codeType);
+
+    }
+
+  }
 
   function endTagViewPost(codeType) {
     var editorRef = getEditorPost(codeType);
@@ -364,6 +364,7 @@ const ProjectModalForm = (props) => {
       } catch (error) {
         console.log("Unable to save post at this time:", error)
       }
+      alert("Your projected has been saved!")
       navigate('/profile')
     }
   }
@@ -428,10 +429,11 @@ const ProjectModalForm = (props) => {
           console.log("new project to create", projectInfo);
           props.createProject(projectInfo);
         }
-        } catch (error) {
-          console.log("Unable to save post at this time:", error)
+      } catch (error) {
+        console.log("Unable to save post at this time:", error)
 
       }
+      alert("Your project has been posted!")
       navigate('/profile');
     }
   }
