@@ -378,7 +378,7 @@ const WebEditors = (props) => {
         var html = res.code;
         var js = "";
         var css = "";
-        if (res.code.indexOf('<style>') !== -1) {
+        while (html.indexOf('<style>') !== -1) {
           var openTag = html.indexOf('<style>');
           var closeTag = html.indexOf('</style>');
 
