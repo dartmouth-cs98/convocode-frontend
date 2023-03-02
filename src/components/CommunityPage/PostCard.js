@@ -80,7 +80,7 @@ const Post = (props) => {
     <div key={props.key} className={classname} onClick={() => navigate(`/project/${props.item.id}`)}>
       {isIframe ?
         <>
-          <Iframe url={src} className="iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
+          <Iframe url={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
           <div className="body">
             <div>
               <h3 className="if-post-title">{props.item.title}</h3>
