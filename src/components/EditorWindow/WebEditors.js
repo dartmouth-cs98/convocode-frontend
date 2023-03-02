@@ -382,23 +382,14 @@ const WebEditors = (props) => {
           var openTag = html.indexOf('<style>');
           var closeTag = html.indexOf('</style>');
 
-          console.log(res.code.indexOf('<style>'));
-          console.log(res.code.indexOf('</style>'));
           css = html.substring(openTag + "<style>".length, closeTag);
           html = html.substring(0, openTag) + html.substring(closeTag + '</style>'.length)
-         
-
-          console.log(css);
-          console.log(html);
 
         } 
         while (html.indexOf('<script>') !== -1) {
           var openTag = html.indexOf('<script>');
             var closeTag = html.indexOf('</script>');
             
-            console.log(html.indexOf('<script '));
-            console.log(html.indexOf('</script>'));
-
             js = html.substring(openTag + "<script>".length, closeTag);
             html = html.substring(0, openTag) + html.substring(closeTag + '</script>'.length);
 
