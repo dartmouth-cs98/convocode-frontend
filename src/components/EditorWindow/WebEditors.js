@@ -375,11 +375,48 @@ const WebEditors = (props) => {
           props.insertJavascriptCode({ index: jsRef.current.getPosition().lineNumber, code: res.code });
         }
       } else if (currentLanguage === "html") {
-        if (props.htmlCode.length === 0) {
-          props.addHTMLCode(res.code);
-        } else {
-          props.insertHTMLCode({ index: htmlRef.current.getPosition().lineNumber, code: res.code });
+        var html = res.code;
+        var js = "";
+        var css = "";
+        if (res.code.indexOf('<style>') !== -1) {
+          var openTag = html.indexOf('<style>');
+          var closeTag = html.indexOf('</style>');
+
+          console.log(res.code.indexOf('<style>'));
+          console.log(res.code.indexOf('</style>'));
+          css = html.substring(openTag + "<style>".length, closeTag);
+          html = html.substring(0, openTag) + html.substring(closeTag + '</style>'.length)
+         
+
+          console.log(css);
+          console.log(html);
+
+        } 
+        while (html.indexOf('<script>') !== -1) {
+          var openTag = html.indexOf('<script>');
+            var closeTag = html.indexOf('</script>');
+            /* var regex = new RegExp("<script.*>");
+            var res = regex.exec(html);
+            console.log(res[0]); */
+            
+            console.log(html.indexOf('<script '));
+            console.log(html.indexOf('</script>'));
+
+            js = html.substring(openTag + "<script>".length, closeTag);
+            html = html.substring(0, openTag) + html.substring(closeTag + '</script>'.length);
+
         }
+        if (props.htmlCode.length === 0) {
+          props.addHTMLCode(html);
+        } else {
+          props.insertHTMLCode({ index: htmlRef.current.getPosition().lineNumber, code: html });
+        }
+        if (css !== "") {
+          props.insertCSSCode({index: cssRef.current.getPosition().lineNumber, code: css })
+        } if (js !== "") {
+          props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: js })
+        }
+
       } else {
         if (props.cssCode.length === 0) {
           props.addCSSCode(res.code);
