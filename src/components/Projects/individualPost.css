@@ -23,12 +23,21 @@
   background-color: var(--sky);
 }
 
+.flex-row.clickables{
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
+}
 .tag#undefined {
   background-color: var(--darkGrey);
 }
 
-.likes {
-  margin: 20px;
+.likes2 {
+  margin-top: 5px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  box-shadow: none;
 }
 
 
@@ -55,7 +64,7 @@
 .post-modal-info {
   display: flex;
   flex-direction: column;
-  height: 50%;
+
   width: 100%;
   justify-content: space-evenly;
 }
@@ -106,12 +115,20 @@ button#right {
 }
 
 .commentcontainer {
-  flex-grow: 2;
+  flex-grow: 4;
   border-radius: 15px;
   background-color: var(--grey);
   display: flex;
   flex-direction: column;
   width: 35vw;
+  margin-top:10px;
+}
+.comments{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  height: 45vh;
+  overflow-y: scroll;
 }
 
 .comment {
@@ -125,18 +142,18 @@ button#right {
 .comment .username {
   color: var(--black);
   font-size: 15px;
-  padding-bottom: 10px;
+
 }
 
 .comment .timestamp {
 
 
   color: var(--black);
-  font-size: 10px;
-  align-items: baseline;
+  font-size: 12px;
+  align-items: center;
   justify-content: flex-end;
   padding-left: 20px;
-  padding-bottom: 10px;
+
 }
 
 .comment .commentbody {
@@ -177,6 +194,11 @@ button#right {
   padding: 10px;
 }
 
+#right.white-button{
+  font-size: 14px;
+  height: auto;
+  padding: 6px 10px
+}
 .commentLine1 {
   display: flex;
   flex-direction: row;
@@ -188,6 +210,7 @@ button#right {
   display: flex;
   flex-direction: row;
   margin-right: 15px;
+  align-items: center;
 
 }
 
@@ -209,6 +232,7 @@ button#right {
   background-color: var(--grey);
   height: 85vh;
   width: 50vw;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .dropdown {
@@ -236,12 +260,14 @@ button#right {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 10px;
 
 }
 
 .discussionInput{
   border: none;
   border-radius: 5px;
+  width: 30vw;
 }
 
 .dropdown span:hover{
@@ -257,3 +283,12 @@ button#right {
 /* .editor-wrapper{
   height: 80vh;
 } */
+
+.emptyComments{
+display: flex;
+flex-direction: column;
+justify-content: center;
+padding: 20px;
+text-align: center;
+width: 100%
+}

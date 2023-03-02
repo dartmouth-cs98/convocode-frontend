@@ -14,6 +14,7 @@ const Comment = (props) => {
   } else {
     boxClass = "CommentBox"     // is a comment box
   }
+  const updated = props.item.createdAt.slice(0,10);
 
   return (
     <div className={boxClass}>
@@ -25,7 +26,8 @@ const Comment = (props) => {
                         <span>{indentedUser}</span>
                     </div>
                     <div className="timestamp">
-                        <span>{props.item.createdAt}</span>
+        
+                        <span>{updated}</span>
                     </div>
                 </div>
                 <button className="white-button"id="right" onClick= {() => props.setReplyingTo(props.item.id, props.item.username)}>Reply</button>
