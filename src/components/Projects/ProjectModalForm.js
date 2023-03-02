@@ -439,7 +439,7 @@ const ProjectModalForm = (props) => {
 
   return (
     <div>
-      <button onClick={handleModalToggle} className="stop4 green">{doesExist ? "Update Post" : "Post"}</button>
+      <button onClick={handleModalToggle} className="stop6 green">{doesExist ? "Update Post" : "Post"}</button>
       <div className="form-modal">
         <ReactModal className="project-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
           <Formik
