@@ -90,26 +90,34 @@ const ProfilePage = (props) => {
               <TabPanel>
                 <div className="profile-post-container">
                   {
-                    props.user.authoredProjects ? (
+                    props.user.authoredProjects.length > 0 ? (
                       props.user.authoredProjects.map((item) => {
                         return (
                           <PostCard item={item} key={item.id} />
                         )
                       })
-                    ) : <div />
+                    ) : 
+                    <div className="empty-projects"> 
+                        <h3>Start creating projects!</h3>
+                        <NavLink to="/editor"><button id="IDE">Open IDE</button></NavLink>
+                    </div>
                   }
                 </div>
               </TabPanel>
               <TabPanel>
                 <div className="profile-post-container">
                   {
-                    props.user.likedProjects ? (
+                    props.user.likedProjects.length > 0 ? (
                       props.user.likedProjects.map((item) => {
                         return (
                           <PostCard item={item} key={item.id} />
                         )
                       })
-                    ) : <div />
+                    ) :
+                    <div className="empty-likes"> 
+                      <h3>Find projects you like in the ConvoDex Community!</h3>
+                      <NavLink to="/community"><button id="community">View Community</button></NavLink>
+                    </div>
                   } 
                       </div>
               </TabPanel>

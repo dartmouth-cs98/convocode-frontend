@@ -242,3 +242,22 @@ button#settings {
   padding-left: 3.5vw;
 }
 
+.empty-projects{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.empty-likes{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+}
