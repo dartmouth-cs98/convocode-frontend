@@ -40,7 +40,7 @@
 .postRegular {
   height: 20vh;
   width: 25%;
-  margin: 0% 2% 2% 2%;
+  margin: 2% 2% 0% 2%;
   border-radius: 5px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
@@ -71,7 +71,7 @@
 .postUnicorn {
   height: 20vh;
   width: 25%;
-  margin: 0% 2% 2% 2%;
+  margin: 2% 2% 0% 2%;
   background-color: var(--unicornLight);
   border-radius: 5px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -104,7 +104,7 @@
 .postEasyA {
   height: 20vh;
   width: 25%;
-  margin: 0% 2% 2% 2%;
+  margin: 2% 2% 0% 2%;
   background-color: var(--easyALight);
   border-radius: 5px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -135,7 +135,7 @@
 .postGrape {
   height: 20vh;
   width: 25%;
-  margin: 0% 2% 2% 2%;
+  margin: 2% 2% 0% 2%;
   background-color: var(--grapeLight);
   border-radius: 5px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -166,7 +166,7 @@
 .postSky {
   height: 20vh;
   width: 25%;
-  margin: 0% 2% 2% 2%;
+  margin: 2% 2% 0% 2%;
   background-color: var(--skyLight);
   border-radius: 5px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -197,7 +197,7 @@
 .postSage {
   height: 20vh;
   width: 25%;
-  margin: 0% 2% 2% 2%;
+  margin: 2% 2% 0% 2%;
   background-color: var(--sageLight);
   border-radius: 5px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -228,7 +228,7 @@
 .postBus {
   height: 20vh;
   width: 25%;
-  margin: 0% 2% 2% 2%;
+  margin: 2% 2% 0% 2%;
   background-color: var(--busLight);
   border-radius: 5px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -259,7 +259,7 @@
 .postPumpkin {
   height: 20vh;
   width: 25%;
-  margin: 0% 2% 2% 2%;
+  margin: 2% 2% 0% 2%;
   background-color: var(--pumpkinSpice);
   border-radius: 5px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -287,12 +287,48 @@
   overflow: hidden;
 }
 
+.iFramePost {
+  height: 20vh;
+  width: 25%;
+  margin: 2% 2% 0% 2%;
+  border-radius: 5px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.iFramePost .body {
+  top: -5px;
+  height: 5vh;
+  background-color: var(--boring);
+  display: flex;
+  border-radius: 5px;
+
+  justify-content: space-between;
+  overflow: hidden;
+
+}
+
+.iframe {
+  height: 15vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
 .titles h3 {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
   line-height: 22px;
+}
+
+.if-post-title {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  margin-bottom: 0px;
 }
 
 .tag {
@@ -313,11 +349,26 @@
   box-shadow: none;
 }
 
+.if-likes {
+  margin: 5px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  box-shadow: none;
+  align-items: center;
+}
+
+.if-likes img {
+  height: 24px;
+  width: 24px;
+}
+
 button.likes:active {
   box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
   transform: translateY(4px);
 }
 
-section{
+section {
   height: 100%;
 }
