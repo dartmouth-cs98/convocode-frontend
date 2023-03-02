@@ -18,7 +18,7 @@ const TOUR_STEPS = [
        },
        {
         target:".stop4",
-        content: "💻 Once submitted, the AI generated code will populate the appropriate editor and compile in the output box below. "
+        content: "💻 Once submitted, the AI generated code will populate the appropriate editor and compile in the output or console tab below. "
        },
        {
         target:".stop5",
