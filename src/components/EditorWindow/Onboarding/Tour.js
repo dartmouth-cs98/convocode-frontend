@@ -14,7 +14,7 @@ const TOUR_STEPS = [
        },
        {
         target: ".stop3",
-        content: "🚨 When you have your prompt ready ensure that you click on the button Ask ConvoCode to submit your query "
+        content: "🚨 When you are ready to submit your prompt, click the ‘Ask ConvoCode’ button or press the enter key to submit."
        },
        {
         target:".stop4",
