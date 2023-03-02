@@ -16,7 +16,7 @@ const Post = (props) => {
   const colorInt = Math.floor(Math.random() * 7);
   const postClass = colors[colorInt];
 
-  const backgroundcolors = ["var(--unicorn)", "var(--easyA)", "var(--grape)", "var(--sky)", "var(--sage)", "var(--bus)", "var(--pumpkin)"];
+  const backgroundcolors = ["var(--unicornLight)", "var(--easyALight)", "var(--grapeLight)", "var(--skyLight)", "var(--sageLight)", "var(--busLight)", "var(--pumpkinLight)"];
   const iFrameClass = backgroundcolors[colorInt];
 
   const getGeneratedPageURL = ({ html, css, js }) => {
