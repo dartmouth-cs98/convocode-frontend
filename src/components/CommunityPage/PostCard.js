@@ -77,7 +77,7 @@ const Post = (props) => {
   let tag = props.item.tags.length > 0 ? props.item.tags[0].toString().toLowerCase() : "undefined"
 
   return (
-    <div key={props.key} className={classname} onClick={() => navigate(`/project/${props.item.id}`)}>
+    <div id="post-card-container" key={props.key} className={classname} onClick={() => navigate(`/project/${props.item.id}`)}>
       {isIframe ?
         <>
           <Iframe url={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />

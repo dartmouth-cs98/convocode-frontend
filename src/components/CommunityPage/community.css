@@ -372,3 +372,7 @@ button.likes:active {
 section {
   height: 100%;
 }
+
+#post-card-container{
+  cursor: pointer;
+}
