@@ -79,8 +79,8 @@ const Post = (props) => {
   return (
     <div key={props.key} className={classname} onClick={() => navigate(`/project/${props.item.id}`)}>
       {isIframe ?
-        <div>
-          <Iframe url={src} className="iframe" />
+        <>
+          <Iframe url={src} className="iframe" styles={{ borderWidth: 0, margin: 0 }} />
           <div className="body">
             <div>
               <h3 className="if-post-title">{props.item.title}</h3>
@@ -91,7 +91,7 @@ const Post = (props) => {
               <span>{props.item.likes}</span>
             </div>
           </div>
-        </div>
+        </>
         :
         <div>
           <div className="titles">

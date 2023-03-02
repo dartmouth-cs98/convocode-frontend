@@ -301,7 +301,7 @@
   background-color: var(--boring);
   display: flex;
   border-radius: 5px;
-
+  padding-left: 2px;
   justify-content: space-between;
   overflow: hidden;
 
