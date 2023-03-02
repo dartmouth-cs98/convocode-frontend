@@ -444,6 +444,7 @@ const ProjectModalForm = (props) => {
       <button onClick={handleModalToggle} className="stop6 green">{doesExist ? "Update Post" : "Post"}</button>
       <div className="form-modal">
         <ReactModal className="project-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
+          <div>
           <Formik
             initialValues={initialValues}
             validationSchema={ProjectSchema}
@@ -518,13 +519,19 @@ const ProjectModalForm = (props) => {
                     </Tabs>
                   </div>
                   <div className="project-buttons">
-                    <button className="light-pink" type="button" onClick={() => save(values)}>Save For Later</button>
-                    <button className="pink" type="submit">{doesExist ? "Update" : "Post"}</button>
+                    <div className="left-pb">
+                      <button className="cancel-project" type="reset" onClick={handleModalToggle}>Cancel</button>
+                    </div>
+                    <div className="right-pb">
+                      <button className="light-pink" type="button" onClick={() => save(values)}>Save For Later</button>
+                      <button className="pink" type="submit">{doesExist ? "Update" : "Post"}</button>
+                    </div>
                   </div>
                 </div>
               </Form>
             )}
           </Formik>
+          </div>
         </ReactModal>
       </div>
     </div>

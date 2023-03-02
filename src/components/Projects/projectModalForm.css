@@ -166,3 +166,8 @@ input[type="radio"] {
     background: var(--white);
 }
 
+.cancel-project{
+    background-color: var(--easyA);
+    color: white;
+}
+
