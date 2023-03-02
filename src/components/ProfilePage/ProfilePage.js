@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { loadProjects } from "../../state/actions";
+import { refreshUser } from "../../state/actions";
+
 import axios from 'axios';
 import { getUser } from '../../services/user.js';
 import PostCard from "../CommunityPage/PostCard.js"
@@ -39,6 +41,7 @@ const ProfilePage = (props) => {
 
   useEffect(() => {
     props.loadProjects();
+    props.refreshUser();
   }, []);
 
  /*  useEffect(() => {
@@ -154,4 +157,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { loadProjects })(ProfilePage);
+export default connect(mapStateToProps, { loadProjects, refreshUser })(ProfilePage);
