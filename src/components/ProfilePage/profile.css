@@ -136,6 +136,10 @@ button#settings {
   border: none;
 }
 
+.react-tabs__tab:focus:after {
+  background: none;
+}
+
 /* .profile-explore{
   display: flex;
   flex-direction: column;
