@@ -511,7 +511,7 @@ const WebEditors = (props) => {
               setLoading(!loading);
               handleSubmitCode();
             }} disabled={loading}>{loading ? 'Loading...' : 'Ask ConvoCode'}</button>
-            <button className="heather-grey"><img src={settings} alt="settings icon" /></button>
+            {/* <button className="heather-grey"><img src={settings} alt="settings icon" /></button> */}
           </div>
           </div>
           <div className="ide-buttons-2">

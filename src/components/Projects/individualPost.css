@@ -270,6 +270,19 @@ button#right {
   width: 30vw;
 }
 
+.dropdown span:hover{
+  background-color: var(--grey);
+  border-radius: 4px;
+}
+/* .react-tabs__tab-panel{
+  height: 80vh
+} */
+/* .profile-editor{
+  height: 80vh;
+} */
+/* .editor-wrapper{
+  height: 80vh;
+} */
 
 .emptyComments{
 display: flex;
