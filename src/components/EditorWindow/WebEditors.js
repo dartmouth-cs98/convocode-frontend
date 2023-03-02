@@ -50,11 +50,18 @@ const WebEditors = (props) => {
   const [cssDecorations, setCssDecorations] = useState([]);
   const [htmlDecorations, setHtmlDecorations] = useState([]);
   const [error, setError] = useState(null);
+  const [javaStackLocation, setJavaStackLocation] = useState(props.javaCodeHistory[props.javaCodeHistory.length - 1]);
+  const [cssStackLocation, setCssStackLocation] = useState(props.cssCodeHistory[props.cssCodeHistory.length - 1]);
+  const [htmlStackLocation, setHtmlStackLocation] = useState(props.htmlCodeHistory[props.htmlCodeHistory.length - 1]);
 
   const jsRef = useRef(null);
   const monacoRef = useRef(null);
   const cssRef = useRef(null);
   const htmlRef = useRef(null);
+
+  const jsUndo = useRef(false);
+  const cssUndo = useRef(false);
+  const htmlUndo = useRef(false);
 
   const handleInputKeypress = e => {
     //it triggers by pressing the enter key
@@ -291,17 +298,27 @@ const WebEditors = (props) => {
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
     monacoRef.current = monaco;
-    editor.onDidChangeModelContent(e => {
-      console.log(e);
-    })
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+      jsUndo.current = true;
+      editor.getModel().undo();
+    }); 
+    
   }
 
   function handleCSSDidMount(editor, monaco) {
     cssRef.current = editor;
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+      cssUndo.current = true;
+      editor.getModel().undo();
+    }); 
   }
 
   function handleHTMLDidMount(editor, monaco) {
     htmlRef.current = editor;
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+      htmlUndo.current = true;
+      editor.getModel().undo();
+    }); 
   }
 
   useEffect(() => {
@@ -314,17 +331,29 @@ const WebEditors = (props) => {
     } catch {
       console.log("code incomplete, can't transform");
     } try {
-      console.log(`java code: ${props.javaCode}`);
-      if (remoteAdd) {
+      if (jsUndo.current) {
+        const newTags = props.javaCodeHistory[javaStackLocation - 1].tags;
+        console.log(`undo: ${newTags}`);
+        props.addJavaCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
+        setJavaStackLocation(javaStackLocation - 1);
+        jsUndo.current = false;
+      }
+      else if (remoteAdd) {
         const newTags = getNewTags(query, props.javaCode.split(/\r\n|\r|\n/), "javascript");
-        props.addJavaCodeHistory({ query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags });
+        props.addJavaCodeHistory({query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
         setRemoteAdd(false);
+        setJavaStackLocation(props.javaCodeHistory.length - 1);
+        jsUndo.current = false;
 
       } else {
         const newTags = getNewTags(-1, props.javaCode.split(/\r\n|\r|\n/), "javascript");
-        props.addJavaCodeHistory({ query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags });
+        props.addJavaCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
+        setJavaStackLocation(props.javaCodeHistory.length - 1);
+        jsUndo.current = false;
 
       }
+      console.log(` stack location: ${javaStackLocation}`);
+      console.log(`stack length: ${props.javaCodeHistory.length - 1}`);
 
     } catch {
       console.log("couldn't add code history");
@@ -336,15 +365,26 @@ const WebEditors = (props) => {
 
   useEffect(() => {
     try {
+      if (cssUndo.current) {
+        const newTags = props.cssCodeHistory[cssStackLocation - 1].tags;
+        console.log(`undo: ${newTags}`);
+        props.addCSSCodeHistory({query: -1, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: newTags});
+        setCssStackLocation(javaStackLocation - 1);
+        cssUndo.current = false;
+      }
 
-      if (remoteAdd) {
+      else if (remoteAdd) {
         const newTags = getNewTags(query, props.cssCode.split(/\r\n|\r|\n/), "css");
         props.addCSSCodeHistory({ query: query, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: newTags });
         setRemoteAdd(false);
+        setCssStackLocation(props.cssCodeHistory.length - 1);
+        cssUndo.current = false;
 
       } else {
         const newTags = getNewTags(-1, props.cssCode.split(/\r\n|\r|\n/), "css");
         props.addCSSCodeHistory({ query: -1, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: newTags });
+        setCssStackLocation(props.cssCodeHistory.length - 1);
+        cssUndo.current = false;
       }
     } catch {
       console.log("couldn't add code history");
@@ -355,15 +395,25 @@ const WebEditors = (props) => {
 
   useEffect(() => {
     try {
-
-      if (remoteAdd) {
+      if (htmlUndo.current) {
+        const newTags = props.htmlCodeHistory[htmlStackLocation - 1].tags;
+        console.log(`undo: ${newTags}`);
+        props.addHTMLCodeHistory({query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags});
+        setHtmlStackLocation(htmlStackLocation - 1);
+        htmlUndo.current = false;
+      }
+      else if (remoteAdd) {
         const newTags = getNewTags(query, props.htmlCode.split(/\r\n|\r|\n/), "html");
         props.addHTMLCodeHistory({ query: query, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags });
         setRemoteAdd(false);
+        setHtmlStackLocation(props.htmlCodeHistory.length - 1);
+        htmlUndo.current = false;
 
       } else {
         const newTags = getNewTags(-1, props.htmlCode.split(/\r\n|\r|\n/), "html");
         props.addHTMLCodeHistory({query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags});
+        setHtmlStackLocation(props.htmlCodeHistory.length - 1);
+        htmlUndo.current = false;
       }
     } catch {
       console.log("couldn't add code history");
