@@ -16,12 +16,25 @@ import './profile.css'
 
 const ProfilePage = (props) => {
   const [modalShow, setModalShow] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const trending = [...props.projects];
   const t = trending.slice(0, 6);
 
   const handleModalToggle = () => {
     setModalShow(!modalShow);
+  }
+
+  const handleSelect = (index) => {
+    setSelectedIndex(index);
+  }
+
+  const handleProjectsClick = () => {
+    setSelectedIndex(0);
+  }
+
+  const handleLikedClick = () => {
+    setSelectedIndex(1);
   }
 
   useEffect(() => {
@@ -51,18 +64,25 @@ const ProfilePage = (props) => {
             </div>
             {/* <div id="col" className="spacingUnder"> */}
             <div className="profile-total-projects">
-              <div className="user-info" id="grape-border">
+              {/* <div className="user-info" id="grape-border">
                 {props.user.projectCount} Projects
               </div>
               <div className="user-info" id="easy-a-border">
                 {props.user.likeCount} Liked Posts
-              </div>
+              </div> */}
+              <button classname="user-info" onClick={handleProjectsClick} id="grape-border">
+                {props.user.projectCount} Projects</button>
+              <button classname="user-info" onClick={handleLikedClick} id="easy-a-border">
+                {props.user.likeCount} Liked Posts</button>
             </div>
             </div>
           {/* </div> */}
           <div className="projects">
             <div>
-            <Tabs>
+            <Tabs
+              selectedIndex={selectedIndex}
+              onSelect={handleSelect}
+              >
               <TabList>
                 <Tab>Projects</Tab>
                 <Tab>Liked</Tab>
