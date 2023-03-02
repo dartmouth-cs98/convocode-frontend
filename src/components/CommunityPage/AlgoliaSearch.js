@@ -10,6 +10,14 @@ import './search.css'
 const AlgoliaSearch = (props) => {
   const [searchPath, setSearchPath] = useState("")
 
+  const handleInputKeypress = e => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      handleSearchClick();
+    }
+  };
+
   const onContentChange = (event) => {
     setSearchPath(event.target.value);
   };
@@ -22,7 +30,7 @@ const AlgoliaSearch = (props) => {
   return (
     <div className="algolia-container">
       <div className="agolia-search">
-        <input type="text" id="AlgoliaInput" placeholder="Search @usernames, #tags, or key words" onChange={onContentChange} value={searchPath} />
+        <input type="text" id="AlgoliaInput" placeholder="Search @usernames, #tags, or key words" onChange={onContentChange} value={searchPath} onKeyDown={handleInputKeypress} />
         <div className="algolia-button">
           <button onClick={handleSearchClick} className="pink">Search</button>
         </div>
