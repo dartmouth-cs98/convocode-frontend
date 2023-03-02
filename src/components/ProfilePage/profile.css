@@ -23,7 +23,7 @@
 
 .user-header{
   padding-left: 5vw;
-  padding-top: 5vh;
+  padding-top: 3vh;
 }
 
 button#settings {
@@ -44,12 +44,13 @@ button#settings {
 .profile-total-projects{
   display: flex;
   flex-direction: row;
+  gap: 15px;
+  padding-top: 1vh;
 }
 
 .user-info {
   border-radius: 5px;
-  margin: 10px;
-  padding: 2px;
+  padding: 5px;
 }
 
 #bus-border {
@@ -59,17 +60,29 @@ button#settings {
 #grape-border {
   /* border: 5px solid var(--grape);
   border-radius: 20px; */
-  border: 3px solid var(--grape);
+  border: 2px solid var(--grape);
   border-radius: 5px;
   padding: 5px 10px;
+  box-shadow: none;
+  background-color: white;
+}
+
+#grape-border:hover{
+  background-color: var(--grapeLight);
+}
+
+#easy-a-border:hover{
+  background-color: var(--easyALight);
 }
 
 #easy-a-border {
   /* border: 5px solid var(--easyA);
   border-radius: 20px; */  
-  border: 3px solid var(--grape);
+  border: 2px solid var(--easyA);
   border-radius: 5px;
   padding: 5px 10px;
+  box-shadow: none;
+  background-color: white;
 }
 
 .projects {
