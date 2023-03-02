@@ -161,7 +161,7 @@ const IndividualPost = (props) => {
       var decId = (i + 1) % 7;
       const start = ranges[i][0];
       const end = ranges[i][1];
-   
+
       dList.push({
         range: new monacoRef.current.Range(start + 1, 1, end + 1, 1),
         options: {
@@ -199,7 +199,7 @@ const IndividualPost = (props) => {
       endTagViewPost(codeType);
 
     } else {
-    
+
       displayTagsPost(codeType);
     }
   }
@@ -290,7 +290,7 @@ const IndividualPost = (props) => {
       props.setReplyingTo("", "");
       props.loadProject(id);
     }
-};
+  };
 
   const openClick = () => {
     if (props.user.username === '') {
@@ -339,13 +339,13 @@ const IndividualPost = (props) => {
             <div className="post-modal-info">
               <h2 style={{ "margin": "0" }}>{props.project.title}</h2>
               <div className="flex-col">
-                <span className="username" style={{ "font-weight": "600","margin-top": "5px"}}>@{props.project.username}</span>
+                <span className="username" style={{ "font-weight": "600", "margin-top": "5px" }}>@{props.project.username}</span>
 
               </div>
-              <span style={{"margin-top": "5px"}} >{props.project.description}</span>
-              <div className="flex-row clickables" style={{ "width": "100%", "justify-content": "left", "alignItems": "center", "font-size": "1em"}}>
+              <span style={{ "margin-top": "5px" }} >{props.project.description}</span>
+              <div className="flex-row clickables" style={{ "width": "100%", "justify-content": "left", "alignItems": "center", "font-size": "1em" }}>
 
-                <button className="likes2"  onClick={like}>
+                <button className="likes2" onClick={like}>
                   {hasLiked ? <img src={likeFilled} alt="Filled Like Button" /> : <img src={likeUnfilled} alt="Unfilled Like Button" />}
                   <p style={{ "padding-right": '3px' }}>{props.project.likes}</p>
                 </button>
@@ -353,10 +353,10 @@ const IndividualPost = (props) => {
                 <button className="pink-button" id="right" onClick={openClick} style={{ "margin-right": "10px" }}>{isMine ? 'Open in IDE' : 'Make a Copy'}</button>
 
                 <CopyToClipboard text={url}>
-                  <button className="sage-button" id="right" style={{ 'margin-right': '10px' }}><img src={copy} alt="Copy Icon" /></button>
+                  <button className="sage-button" id="right" style={{ 'margin-right': '10px' }} onClick={() => alert("The project link has been copied to your clipboard.")}><img src={copy} alt="Copy Icon" /></button>
                 </CopyToClipboard>
                 <div className="share-button">
-                  <button className="sage-button" id="right" style={{ "margin-right": "10px", "text-size": "2vw"}} onClick={handleOpen}>Share<img src={down} alt="Down Arrow" /></button>
+                  <button className="sage-button" id="right" style={{ "margin-right": "10px", "text-size": "2vw" }} onClick={handleOpen}>Share<img src={down} alt="Down Arrow" /></button>
                   {
                     open ?
                       <div className="dropdown">
@@ -395,7 +395,7 @@ const IndividualPost = (props) => {
 
               </div>
               <div className="flex-row" style={{ "justify-content": "space-between" }}>
-                <div className="" id={tag} style={{ "margin": "10px 5px", "font-size":"18px" }}>
+                <div className="" id={tag} style={{ "margin": "10px 5px", "font-size": "18px" }}>
                   {props.project.tags ? (
                     props.project.tags.map((e, idx) => {
                       return (<span className="tag">#{e.toLowerCase()}</span>)
@@ -405,30 +405,30 @@ const IndividualPost = (props) => {
               </div>
 
 
-            <div className="commentcontainer" >
-              <div className="discussion-header">Discussion</div>
-              <div className="comments" > 
-                {
-                  props.project.commentObjects.length > 0 ? (
-                  props.project.commentObjects.map((item) => {
-                    
-                    return (
-                        <CommentCard item={item} key={item.id} reply={item.replyingTo} />
-                    )
-                  })) : <div className="emptyComments"> <h3>Start the conversation! Be the first to comment.</h3> </div>
-                }
-              </div>
-              <div className="discussionFooter">
-                <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange} onKeyDown={handleInputKeypress}></input>
+              <div className="commentcontainer" >
+                <div className="discussion-header">Discussion</div>
+                <div className="comments" >
+                  {
+                    props.project.commentObjects.length > 0 ? (
+                      props.project.commentObjects.map((item) => {
+
+                        return (
+                          <CommentCard item={item} key={item.id} reply={item.replyingTo} />
+                        )
+                      })) : <div className="emptyComments"> <h3>Start the conversation! Be the first to comment.</h3> </div>
+                  }
+                </div>
+                <div className="discussionFooter">
+                  <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange} onKeyDown={handleInputKeypress}></input>
                   <button className="yellow-button" onClick={() => {
-                      props.comment(props.project.id, userComment, props.project.replyingTo);
-                      setComment("");
-                      props.setReplyingTo("", "");
-                      props.loadProject(id);
-                    }} >Submit
+                    props.comment(props.project.id, userComment, props.project.replyingTo);
+                    setComment("");
+                    props.setReplyingTo("", "");
+                    props.loadProject(id);
+                  }} >Submit
                   </button>
+                </div>
               </div>
-            </div>
 
             </div>
           </div>
@@ -442,16 +442,16 @@ const IndividualPost = (props) => {
                 <Tab>CSS</Tab>
               </TabList>
               <TabPanel>
-                <WebOutput theme={theme} width="100%" height="618vh"/>
+                <WebOutput theme={theme} width="100%" height="618vh" />
               </TabPanel>
               <TabPanel>
                 {/* <div className="editor-wrapper"> */}
-                  <CodePreview
-                    height="68.5vh"
-                    language={"javascript"}
-                    handleDidMount={handleDidJSMount}
-                    toggleDisplay={toggleDisplay}
-                  />
+                <CodePreview
+                  height="68.5vh"
+                  language={"javascript"}
+                  handleDidMount={handleDidJSMount}
+                  toggleDisplay={toggleDisplay}
+                />
                 {/* </div> */}
               </TabPanel>
               <TabPanel>
