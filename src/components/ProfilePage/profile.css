@@ -22,7 +22,8 @@
 } */
 
 .user-header{
-  padding-left: 6vw;
+  padding-left: 5vw;
+  padding-top: 5vh;
 }
 
 button#settings {
@@ -72,8 +73,8 @@ button#settings {
 }
 
 .projects {
-  height: 60vh;
-  width: 100vw;
+  /* height: 60vh; */
+  /* width: 100vw; */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -121,6 +122,7 @@ button#settings {
   background-color: var(--easyA);
   border: none;
 }
+
 /* .profile-explore{
   display: flex;
   flex-direction: column;
@@ -174,9 +176,10 @@ button#settings {
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: left;
-  height: 55vh;
+  /* justify-content: center;
+  align-items: left; */
+  height: 60vh;
+  width: 90vw;
   background-color: var(--grey);
 
 }
