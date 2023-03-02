@@ -582,7 +582,7 @@ const WebEditors = (props) => {
               <Tab id="ide-console">console</Tab>
             </TabList>
             <TabPanel>
-              <WebOutput theme={theme} height="auto"/>
+              <WebOutput theme={theme} height="500vh" width="100%"/>
             </TabPanel>
             <TabPanel>
               {/* <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdin={setStdin} /> */}

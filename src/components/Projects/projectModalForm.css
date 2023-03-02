@@ -1,18 +1,20 @@
 .project-modal {
     position: relative;
     top: 5vh;
-    left: 15vw;
-    right: 15vw;
+    left: 5vw;
+    right: 5vw;
     bottom: 5vh;
 }
 .edit-modal-form {
     display: flex;
     flex-direction: row;
-    height: 85vh;
-    width: 130vh;
-    padding: 4%;
+    /* height: 85vh; */
+    height: 100%;
+    width: 90%;
+    /* padding: 4%; */
+    padding: 5vh 5vh 5vh 5vh;
     justify-content: space-evenly;
-    gap: 40px;
+    gap: 30px;
     background-color: var(--boring);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
@@ -21,17 +23,24 @@
     display: flex;
     flex-direction: column;
     width: 22vw;
-    height: 47vh;
+    /* height: 47vh; */
 }
 .edit-modal-code{
     display: flex;
     flex-direction: column;
-    height: 13vh;
+    height: 15vw;;
     width: 50vw;
     background-color: var(--grey);
 }
+.edit-modal-editor{
+    display: flex;
+    flex-direction: column;
+}
+#pmf-tabs{
+    margin-bottom: 3vh;
+}
 .input-info{
-    margin-bottom: 25px;
+    margin-bottom: 3vh;
 }
 .input-header{
     margin-bottom: 0;
@@ -57,11 +66,11 @@
     resize: vertical;
     padding: 8px;
 }
-.project-buttons{
+.submit-buttons-container{
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    padding-bottom: 10px;
+    gap: 10px;
 }
 .tag-button-container {
     display: flex;
@@ -90,13 +99,6 @@
 }
 .project-detail{
     margin-bottom: 20px;
-}
-.project-buttons{
-    display: flex;
-    flex-direction: row;
-    float: right;
-    gap: 1vw;
-    padding-top: 5%;
 }
 .light-pink{
     background-color: #F499E0;
@@ -164,5 +166,10 @@ input[type="radio"] {
     align-items: center;
     gap: 5px;
     background: var(--white);
+}
+
+.cancel-project{
+    background-color: var(--easyA);
+    color: white;
 }
 
