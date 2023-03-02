@@ -395,9 +395,6 @@ const WebEditors = (props) => {
         while (html.indexOf('<script>') !== -1) {
           var openTag = html.indexOf('<script>');
             var closeTag = html.indexOf('</script>');
-            /* var regex = new RegExp("<script.*>");
-            var res = regex.exec(html);
-            console.log(res[0]); */
             
             console.log(html.indexOf('<script '));
             console.log(html.indexOf('</script>'));
