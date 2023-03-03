@@ -96,7 +96,7 @@
   background-color: var(--boring);
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  /* overflow: auto; */
   /* align-items: center; */
   justify-content: space-between;
   overflow: hidden;
@@ -198,6 +198,7 @@
   /* height: 7vh; */
   background-color: var(--boring);
   display: flex;
+  flex-direction: column;
   /* align-items: center; */
   justify-content: space-between;
   overflow: hidden;
