@@ -258,6 +258,9 @@ export const comment = (projectId, commentBody, replyingTo) => {
       // add comment to db
       const data = await commentOnProject(projectId, commentBody, replyingTo);
 
+      // update project in redux
+      dispatch({ type: ActionTypes.ADD_COMMENTS, payload: data });
+
     } catch (error) {
       console.log(error)
     }

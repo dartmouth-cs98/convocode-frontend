@@ -294,7 +294,6 @@ const IndividualPost = (props) => {
       props.comment(props.project.id, userComment, props.project.replyingTo);
       setComment("");
       props.setReplyingTo("", "");
-      props.loadProject(id);
     }
   };
 
@@ -333,7 +332,6 @@ const IndividualPost = (props) => {
     }
 
   }, [props.project]);
-
 
   let tag = "undefined"
 
@@ -430,7 +428,6 @@ const IndividualPost = (props) => {
                     props.comment(props.project.id, userComment, props.project.replyingTo);
                     setComment("");
                     props.setReplyingTo("", "");
-                    props.loadProject(id);
                   }} >Submit
                   </button>
                 </div>
