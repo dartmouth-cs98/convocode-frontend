@@ -57,51 +57,25 @@ button#settings {
   border: 5px solid var(--bus);
 }
 
-#grape-border {
-  /* border: 5px solid var(--grape);
-  border-radius: 20px; */
-  border: 2px solid var(--grape);
-  border-radius: 5px;
+#bus-button {
   padding: 5px 10px;
   box-shadow: none;
-  background-color: white;
-}
-
-#grape-border:hover{
-  background-color: var(--grapeLight);
-}
-
-#easy-a-border:hover{
-  background-color: var(--easyALight);
+  background-color: var(--bus);
 }
 
 #easy-a-border {
-  /* border: 5px solid var(--easyA);
-  border-radius: 20px; */  
   border: 2px solid var(--easyA);
   border-radius: 5px;
   padding: 5px 10px;
   box-shadow: none;
-  background-color: white;
+  background-color: var(--easyA);
 }
 
 .projects {
-  /* height: 60vh; */
-  /* width: 100vw; */
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
-
-/* .popular {
-  background-color: var(--grey);
-  height: 84vh;
-  width: 30vw;
-  border-radius: 10px;
-  display: flex;
-  align-self: center;
-  flex-direction: column;
-} */
 
 .pop-header {
   background-color: var(--black);
@@ -118,13 +92,13 @@ button#settings {
 .react-tabs__tab-panel {
   /* background-color: var(--grey); */
   width: 100%;
-  /* height: 55vh; */
+  height: 100%;
   border-radius: 0px 10px 10px 10px;
   overflow: auto;
 }
 
 .react-tabs__tab {
-  background-color: var(--boring);
+  background-color: var(--darkGrey);
   border: none;
   bottom: 0px;
   border-radius: 5px 5px 0 0;

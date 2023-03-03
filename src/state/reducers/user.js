@@ -3,7 +3,8 @@ import { ActionTypes } from '../actions';
 const initialState = {
   username: "",
   email: "",
-  authoredProjects: [],
+  authoredProjectsPublic: [],
+  authoredProjectsPrivate: [],
   likedProjects: [],
   lightMode: true,
   projectCount: 0,
