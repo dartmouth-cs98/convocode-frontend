@@ -39,8 +39,6 @@ const IndividualPost = (props) => {
   const navigate = useNavigate();
 
 
-
-
   function setDisplayPost(codeType, bool) {
     if (codeType === "javascript") {
       props.setJavaDisplay(bool);
@@ -496,6 +494,7 @@ const mapStateToProps = (reduxstate) => {
     javaDisplay: reduxstate.tagDisplay.javaDisplay,
     cssDisplay: reduxstate.tagDisplay.cssDisplay,
     htmlDisplay: reduxstate.tagDisplay.htmlDisplay,
+    commentObjects: reduxstate.project.commentObjects,
   };
 };
 
