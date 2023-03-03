@@ -73,10 +73,10 @@ const ProfilePage = (props) => {
               <div className="user-info" id="easy-a-border">
                 {props.user.likeCount} Liked Posts
               </div> */}
-              <button classname="user-info" onClick={handleProjectsClick} id="grape-border">
+              <button classname="user-info" id="bus-button">
                 {props.user.projectCount} Projects</button>
-              <button classname="user-info" onClick={handleLikedClick} id="easy-a-border">
-                {props.user.likeCount} Liked Posts</button>
+              <button classname="user-info" id="bus-button">
+                {props.user.likeCount} Liked </button>
             </div>
             </div>
           {/* </div> */}
@@ -87,14 +87,32 @@ const ProfilePage = (props) => {
               onSelect={handleSelect}
               >
               <TabList>
-                <Tab>Projects</Tab>
-                <Tab>Liked</Tab>
+                <Tab style={{ "color": "white", "height":"40px" }}>Published Projects</Tab>
+                <Tab style={{ "color": "white", "height":"40px" }}>Saved Projects</Tab>
+                <Tab style={{ "color": "white", "height":"40px" }}>Liked</Tab>
               </TabList>
               <TabPanel>
                 <div className="profile-post-container">
                   {
-                    props.user.authoredProjects.length > 0 ? (
-                      props.user.authoredProjects.map((item) => {
+                    props.user.authoredProjectsPublic.length > 0 ? (
+                      props.user.authoredProjectsPublic.map((item) => {
+                        return (
+                          <PostCard item={item} key={item.id} />
+                        )
+                      })
+                    ) : 
+                    <div className="empty-projects"> 
+                        <h3>Start creating projects!</h3>
+                        <NavLink to="/editor"><button id="IDE">Open IDE</button></NavLink>
+                    </div>
+                  }
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="profile-post-container">
+                  {
+                    props.user.authoredProjectsPrivate.length > 0 ? (
+                      props.user.authoredProjectsPrivate.map((item) => {
                         return (
                           <PostCard item={item} key={item.id} />
                         )
