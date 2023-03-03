@@ -295,7 +295,6 @@ const IndividualPost = (props) => {
       props.comment(props.project.id, userComment, props.project.replyingTo);
       setComment("");
       props.setReplyingTo("", "");
-      props.loadProject(id);
     }
   };
 
@@ -369,7 +368,6 @@ const IndividualPost = (props) => {
     setIframeSrc(url);
 
   }, [props.htmlCode, props.cssCode, props.javascriptCode, props.cleanedCode]);
-
 
   let tag = "undefined"
 
@@ -466,7 +464,6 @@ const IndividualPost = (props) => {
                     props.comment(props.project.id, userComment, props.project.replyingTo);
                     setComment("");
                     props.setReplyingTo("", "");
-                    props.loadProject(id);
                   }} >Submit
                   </button>
                 </div>

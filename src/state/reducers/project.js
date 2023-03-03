@@ -50,6 +50,7 @@ const ProjectReducer = (state = initialState, action) => {
         description: action.payload.description,
         tags: action.payload.tags,
         cleanedCode: action.payload.cleanedCode,
+        commentObjects: action.payload.commentObjects,
         ...action.payload,
       };
     case ActionTypes.CREATE_PROJECT:
