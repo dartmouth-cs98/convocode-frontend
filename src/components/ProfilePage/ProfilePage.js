@@ -87,9 +87,9 @@ const ProfilePage = (props) => {
               onSelect={handleSelect}
               >
               <TabList>
-                <Tab style={{ "color": "white", "height":"40px" }}>Published Projects</Tab>
-                <Tab style={{ "color": "white", "height":"40px" }}>Saved Projects</Tab>
-                <Tab style={{ "color": "white", "height":"40px" }}>Liked</Tab>
+                <Tab style={{ "height":"40px" }}>Published Projects</Tab>
+                <Tab style={{ "height":"40px" }}>Saved Projects</Tab>
+                <Tab style={{ "height":"40px" }}>Liked</Tab>
               </TabList>
               <TabPanel>
                 <div className="profile-post-container">
