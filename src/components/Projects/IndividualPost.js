@@ -38,7 +38,7 @@ const IndividualPost = (props) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-
+  console.log(hasComments)
 
 
   function setDisplayPost(codeType, bool) {
@@ -259,6 +259,7 @@ const IndividualPost = (props) => {
   }, []);
 
   useEffect(() => {
+    console.log("in use effect", props.commentObjects, props.commentObjects)
     if (props.commentObjects && props.commentObjects.length > 0) {
       setHasComments(true)
     }
@@ -496,6 +497,7 @@ const mapStateToProps = (reduxstate) => {
     javaDisplay: reduxstate.tagDisplay.javaDisplay,
     cssDisplay: reduxstate.tagDisplay.cssDisplay,
     htmlDisplay: reduxstate.tagDisplay.htmlDisplay,
+    commentObjects: reduxstate.project.commentObjects,
   };
 };
 
