@@ -16,6 +16,9 @@ const Post = (props) => {
   const colorInt = Math.floor(Math.random() * 7);
   const postClass = colors[colorInt];
 
+  const backgroundcolors = ["var(--unicornLight)", "var(--easyALight)", "var(--grapeLight)", "var(--skyLight)", "var(--sageLight)", "var(--busLight)", "var(--pumpkinLight)"];
+  const iFrameClass = backgroundcolors[colorInt];
+
   const getGeneratedPageURL = ({ html, css, js }) => {
     const getBlobURL = (code, type) => {
       const blob = new Blob([code], { type });
@@ -74,14 +77,17 @@ const Post = (props) => {
 
 
   const navigate = useNavigate();
-  let tag = props.item.tags.length > 0 ? props.item.tags[0].toString().toLowerCase() : "undefined"
+  // let tag = props.item.tags.length > 0 ? props.item.tags[0].toString().toLowerCase() : "undefined"
+  let tag = props.item.tags.length > 0 ? props.item.tags[0].toString().toLowerCase() : ""
 
   return (
     <div id="post-card-container" key={props.key} className={classname} onClick={() => navigate(`/project/${props.item.id}`)}>
       {isIframe ?
         <>
-          <Iframe url={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
-          <div className="body">
+          <div className="pc-iframe-container" style={{ "background-color": iFrameClass }}>
+            <Iframe url={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
+          </div>
+          {/* <div className="body">
             <div>
               <h3 className="if-post-title">{props.item.title}</h3>
               <span className="username">@{props.item.username}</span>
@@ -90,21 +96,42 @@ const Post = (props) => {
               <img src={like} />
               <span>{props.item.likes}</span>
             </div>
+          </div> */}
+          <div className="body">
+            <div className="body-title">
+              <h3 className="if-post-title">{props.item.title}</h3>
+              <span className="username">@{props.item.username}</span>
+            </div>
+            <div className="body-footer">
+              <div className="tag" id={tag}>
+                <span>#{tag}</span>
+              </div>
+              <div className="if-likes">
+                <img src={like} />
+                <span>{props.item.likes}</span>
+              </div>
+            </div>
           </div>
         </>
         :
         <div>
           <div className="titles">
-            <h3 className="post-title">{props.item.title}</h3>
-            <span className="username">@{props.item.username}</span>
+            {/* <h3 className="post-title">{props.item.title}</h3>
+            <span className="username">@{props.item.username}</span> */}
           </div>
           <div className="footer">
+            <div className="post-footer-1">
+              <h3 className="post-title">{props.item.title}</h3>
+              <span className="username">@{props.item.username}</span>
+            </div>
+            <div className="post-footer-2">
             <div className="tag" id={tag}>
               <span>#{tag}</span>
             </div>
             <div className="likes">
               <img src={like} />
               <span>{props.item.likes}</span>
+            </div>
             </div>
           </div>
         </div>
