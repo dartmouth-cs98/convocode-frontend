@@ -58,14 +58,14 @@
 }
 
 .postRegular .footer {
-  height: 7vh;
+  height: 12vh;
   background-color: var(--boring);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   overflow: auto;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-between;
   padding: 5px 8px 5px 8px;
 }
@@ -92,12 +92,12 @@
 }
 
 .postUnicorn .footer {
-  height: 7vh;
+  height: 12vh;
   background-color: var(--boring);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   overflow: auto;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-between;
   overflow: hidden;
   border-bottom-left-radius: 5px;
@@ -127,15 +127,16 @@
 }
 
 .postEasyA .footer {
-  height: 7vh;
+  height: 12vh;
   background-color: var(--boring);
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-between;
   overflow: hidden;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 5px 8px 5px 8px;
+  flex-direction: column;
 }
 
 .postGrape {
@@ -160,15 +161,16 @@
 }
 
 .postGrape .footer {
-  height: 7vh;
+  height: 12vh;
   background-color: var(--boring);
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-between;
   overflow: hidden;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 5px 8px 5px 8px;
+  flex-direction: column;
 }
 
 .postSky {
@@ -196,7 +198,7 @@
   height: 7vh;
   background-color: var(--boring);
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-between;
   overflow: hidden;
   border-bottom-left-radius: 5px;
@@ -226,15 +228,16 @@
 }
 
 .postSage .footer {
-  height: 7vh;
+  height: 12vh;
   background-color: var(--boring);
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-between;
   overflow: hidden;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 5px 8px 5px 8px;
+  flex-direction: column;
 }
 
 .postBus {
@@ -259,15 +262,16 @@
 }
 
 .postBus .footer {
-  height: 7vh;
+  height: 12vh;
   background-color: var(--boring);
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-between;
   overflow: hidden;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 5px 8px 5px 8px;
+  flex-direction: column;
 }
 
 .postPumpkin {
@@ -292,37 +296,63 @@
 }
 
 .postPumpkin .footer {
-  height: 7vh;
+  height: 12vh;
   background-color: var(--boring);
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-between;
   overflow: hidden;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 5px 8px 5px 8px;
+  flex-direction: column;
 }
 
 .iFramePost {
-  height: 20vh;
+  height: 15vh;
   width: 25%;
   margin: 2% 2% 0% 2%;
   border-radius: 5px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
-.iFramePost .body {
+/* .iFramePost .body {
   top: -5px;
   height:7vh;
   background-color: var(--boring);
   display: flex;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  /* padding-left: 2px; */
   padding: 5px 8px 5px 8px;
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
+} */
+
+.iFramePost .body {
+  top: -5px;
+  height: 12vh;
+  background-color: var(--boring);
+  display: flex;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 5px 8px 5px 8px;
+  justify-content: space-between;
+  /* align-items: center; */
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.iFramePost .body-footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.post-footer-2{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .post-card-iframe {
@@ -356,10 +386,10 @@
 }
 
 .tag {
-  padding: 2px 6px;
+  padding: 3px 6px;
   gap: 10px;
   border-radius: 20px;
-  margin: 10px;
+  margin: 7px;
   color: var(--white);
   background-color: var(--darkGrey);
 }
@@ -371,6 +401,7 @@
   flex-direction: row;
   gap: 5px;
   box-shadow: none;
+  align-items: center;
 }
 
 .if-likes {
@@ -399,11 +430,10 @@ section {
 
 #post-card-container{
   cursor: pointer;
-  margin-bottom: 5vh;
+  padding-bottom: 15%;
 }
 
 .pc-iframe-container{
-  /* background-color: var(--bus); */
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }

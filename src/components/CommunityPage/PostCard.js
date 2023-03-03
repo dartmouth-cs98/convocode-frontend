@@ -77,7 +77,8 @@ const Post = (props) => {
 
 
   const navigate = useNavigate();
-  let tag = props.item.tags.length > 0 ? props.item.tags[0].toString().toLowerCase() : "undefined"
+  // let tag = props.item.tags.length > 0 ? props.item.tags[0].toString().toLowerCase() : "undefined"
+  let tag = props.item.tags.length > 0 ? props.item.tags[0].toString().toLowerCase() : ""
 
   return (
     <div id="post-card-container" key={props.key} className={classname} onClick={() => navigate(`/project/${props.item.id}`)}>
@@ -86,7 +87,7 @@ const Post = (props) => {
           <div className="pc-iframe-container" style={{ "background-color": iFrameClass }}>
             <Iframe url={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
           </div>
-          <div className="body">
+          {/* <div className="body">
             <div>
               <h3 className="if-post-title">{props.item.title}</h3>
               <span className="username">@{props.item.username}</span>
@@ -94,6 +95,21 @@ const Post = (props) => {
             <div className="if-likes">
               <img src={like} />
               <span>{props.item.likes}</span>
+            </div>
+          </div> */}
+          <div className="body">
+            <div className="body-title">
+              <h3 className="if-post-title">{props.item.title}</h3>
+              <span className="username">@{props.item.username}</span>
+            </div>
+            <div className="body-footer">
+              <div className="tag" id={tag}>
+                <span>#{tag}</span>
+              </div>
+              <div className="if-likes">
+                <img src={like} />
+                <span>{props.item.likes}</span>
+              </div>
             </div>
           </div>
         </>
@@ -104,16 +120,18 @@ const Post = (props) => {
             <span className="username">@{props.item.username}</span> */}
           </div>
           <div className="footer">
-            <div>
+            <div className="post-footer-1">
               <h3 className="post-title">{props.item.title}</h3>
               <span className="username">@{props.item.username}</span>
             </div>
-            {/* <div className="tag" id={tag}>
+            <div className="post-footer-2">
+            <div className="tag" id={tag}>
               <span>#{tag}</span>
-            </div> */}
+            </div>
             <div className="likes">
               <img src={like} />
               <span>{props.item.likes}</span>
+            </div>
             </div>
           </div>
         </div>
