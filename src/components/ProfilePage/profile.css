@@ -98,7 +98,7 @@ button#settings {
 }
 
 .react-tabs__tab {
-  background-color: var(--darkGrey);
+  background-color: var(--boring);
   border: none;
   bottom: 0px;
   border-radius: 5px 5px 0 0;
@@ -107,6 +107,7 @@ button#settings {
 
 .react-tabs__tab--selected {
   background-color: var(--easyA);
+  color: white;
   border: none;
 }
 
@@ -172,7 +173,9 @@ button#settings {
   height: 60vh;
   width: 90vw;
   background-color: var(--grey);
-
+  overflow: auto;
+  padding-bottom: 25px;
+  border-radius: 0px 0px 5px 5px;
 }
 .profile-post-container .post{
   width: 22vw;
