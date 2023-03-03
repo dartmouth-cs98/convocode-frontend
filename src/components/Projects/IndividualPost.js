@@ -14,6 +14,7 @@ import likeFilled from "../../resources/likes-filled.svg"
 import down from "../../resources/down.png"
 import copy from "../../resources/copy.png"
 import CommentCard from "./CommentCard"
+import Iframe from 'react-iframe';
 import { comment } from "../../state/actions/project.js"
 import { decorationDict } from "../../utils/decorationDict";
 import WebOutput from "../EditorWindow/WebOutput";
@@ -332,6 +333,41 @@ const IndividualPost = (props) => {
     }
 
   }, [props.project]);
+
+  const [iframeSrc, setIframeSrc] = useState(null);
+
+  const getGeneratedPageURL = ({ html, css, js }) => {
+    const getBlobURL = (code, type) => {
+      const blob = new Blob([code], { type });
+      return URL.createObjectURL(blob);
+    };
+
+    const cssURL = getBlobURL(css, 'text/css')
+    const jsURL = getBlobURL(js, 'text/javascript')
+    const source = `
+    <html>
+      <head>
+        ${css && `<link rel="stylesheet" type="text/css" href="${cssURL}" />`}
+      </head>
+      <body>
+        ${html || ''}
+        ${js && `<script src="${jsURL}"></script>`}
+      </body>
+    </html>`;
+
+
+    return getBlobURL(source, 'text/html');
+  }
+
+  useEffect(() => {
+    const url = getGeneratedPageURL({
+      html: props.htmlCode,
+      css: props.cssCode,
+      js: props.cleanedCode,
+    });
+    setIframeSrc(url);
+
+  }, [props.htmlCode, props.cssCode, props.javascriptCode, props.cleanedCode]);
 
   let tag = "undefined"
 

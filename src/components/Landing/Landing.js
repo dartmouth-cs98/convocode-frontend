@@ -1,4 +1,4 @@
-import React, {useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import { loadProjects } from "../../state/actions";
@@ -16,41 +16,50 @@ import output from '../../resources/output.png'
 import './landing.css'
 
 const Landing = (props) => {
+  const [sunLeft, setSunLeft] = useState(true);
 
 
-    useEffect(() => {
-        props.loadProjects();
-      }, []);
-      const trending = [...props.projects];
-      const t = trending.slice(0, 6);
+  useEffect(() => {
+    props.loadProjects();
+  }, []);
+  const trending = [...props.projects];
+  const t = trending.slice(0, 6);
 
-        function animateSun() {
+  function animateSun() {
+    console.log(sunLeft)
     let sun = document.getElementById("sun");
-    sun.style.left = "90%";
+    if (sunLeft) {
+      sun.style.left = "90%";
+      setSunLeft(false)
+    } else {
+      sun.style.left = "";
+      setSunLeft(true)
+    }
+
   }
 
 
 
-    return (
-        <div className="landing">
-            <HeaderBar /> 
-            <div className="landing-title-content">
-                <div className="landing-title-container">
-                    <h1 className="landing-title">Convo</h1>
-                    <h1 className="code-gradient">Code</h1>
-                </div>
-                <h2>Building Community Around Exploring AI.</h2>
-                <div className="landing-file-buttons">
-                    <button className="yellow-btn"><NavLink to="/editor">Start Coding</NavLink></button>
-                    <button className="yellow-btn"><NavLink to="/community">Get Inspired</NavLink></button>
-                </div>
-                <div className="landing-learn-more">
-                    <h4>Learn More</h4>
-                    <img className="downArrow" src={down} alt="arrow pointing down"/>
-                </div>
-            </div>
-  
-                {/* <div className="slideshow">
+  return (
+    <div className="landing">
+      <HeaderBar />
+      <div className="landing-title-content">
+        <div className="landing-title-container">
+          <h1 className="landing-title">Convo</h1>
+          <h1 className="code-gradient">Code</h1>
+        </div>
+        <h2>Building Community Around Exploring AI.</h2>
+        <div className="landing-file-buttons">
+          <button className="yellow-btn"><NavLink to="/editor">Start Coding</NavLink></button>
+          <button className="yellow-btn"><NavLink to="/community">Get Inspired</NavLink></button>
+        </div>
+        <div className="landing-learn-more">
+          <h4>Learn More</h4>
+          <img className="downArrow" src={down} alt="arrow pointing down" />
+        </div>
+      </div>
+
+      {/* <div className="slideshow">
                     <div className="slideshowSlider"
                 >
                     { t.map((item) => {
@@ -62,60 +71,60 @@ const Landing = (props) => {
                     </div>
                 </div> */}
 
-            <div className="landing-info">
-                <div className="landing-breakdown">
-                    <div className="action-info">
-                        <h1  className="thick" id="sage">Generate.</h1>
-                        <p>Our platform generates code for html, css, and javascript projects with simple everyday language. </p>
-                    </div>
-                    <div className="action-info">
-                        <h1 className="thick"  id="sky">Share.</h1>
-                        <p>Once a project is complete, share to start the conversation about your AI generated code.</p>
-                    </div>
-                    <div className="action-info">
-                        <h1 className="thick" id="grape">Discuss.</h1>
-                        <p>Once a project is complete, share to start the conversation about your code. </p>
-                    </div>
+      <div className="landing-info">
+        <div className="landing-breakdown">
+          <div className="action-info">
+            <h1 className="thick" id="sage">Generate.</h1>
+            <p>Our platform generates code for html, css, and javascript projects with simple everyday language. </p>
+          </div>
+          <div className="action-info">
+            <h1 className="thick" id="sky">Share.</h1>
+            <p>Once a project is complete, share to start the conversation about your AI generated code.</p>
+          </div>
+          <div className="action-info">
+            <h1 className="thick" id="grape">Discuss.</h1>
+            <p>Once a project is complete, share to start the conversation about your code. </p>
+          </div>
 
+        </div>
+
+        <div className="landing-tutoial">
+          <div className="landing-tab">
+            <div className="landing-input-header">Input</div>
+            <Tabs id="landing-tabs">
+              <TabList>
+                <Tab id="tab">JS</Tab>
+                <Tab id="tab">HTML</Tab>
+                <Tab id="tab">CSS</Tab>
+              </TabList>
+
+
+              <TabPanel>
+                <div className="tab-landing">
+                  <p>Command: Draw the sun and the sky and animate the sun on click</p>
                 </div>
-            
-                <div className="landing-tutoial">
-                    <div className="landing-tab">
-                        <div className="landing-input-header">Input</div>
-                        <Tabs id="landing-tabs">
-                            <TabList>
-                                <Tab id="tab">JS</Tab>
-                                <Tab id="tab">HTML</Tab>
-                                <Tab id="tab">CSS</Tab>
-                            </TabList>
-                     
-                  
-                        <TabPanel>
-                            <div className="tab-landing">
-                            <p>Command: Draw the sun and the sky and animate the sun on click</p>
-                            </div>
-                        </TabPanel>
-                        <TabPanel>
-                            <div className="tab-landing">
-                            <p>Command: Draw the sun and the sky and animate the sun on click</p>
-                            </div>
-                        </TabPanel>
-                        <TabPanel>
-                            <div className="tab-landing">
-                            <p>Command: Draw the sun and the sky and animate the sun on click</p>
-                            </div>
-                        </TabPanel>
-                      </Tabs>
-                    </div>
-                    <div className="landing-tab2">
-                        <div className="landing-input-header2">Output</div>
-                        <div id="sky-render">
-                            <div id="sun" onclick="animateSun()"></div>
-                        </div>
-                    </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="tab-landing">
+                  <p>Command: Draw the sun and the sky and animate the sun on click</p>
                 </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="tab-landing">
+                  <p>Command: Draw the sun and the sky and animate the sun on click</p>
+                </div>
+              </TabPanel>
+            </Tabs>
+          </div>
+          <div className="landing-tab2">
+            <div className="landing-input-header2">Output</div>
+            <div id="sky-render" style={{ cursor: 'pointer' }}>
+              <div id="sun" onClick={() => animateSun()}></div>
             </div>
-            <div className="team-content">
+          </div>
+        </div>
+      </div>
+      <div className="team-content">
         <h1>Meet Our Team</h1>
         <div className="member-content">
           <div className="team-member">
@@ -169,11 +178,11 @@ const Landing = (props) => {
         </div>
       </div>
     </div>
-    )
+  )
 };
 const mapStateToProps = (reduxstate) => {
-    return { 
-      projects: reduxstate.community.projects,
-    };
+  return {
+    projects: reduxstate.community.projects,
   };
-export default connect(mapStateToProps, {loadProjects})(Landing);
+};
+export default connect(mapStateToProps, { loadProjects })(Landing);

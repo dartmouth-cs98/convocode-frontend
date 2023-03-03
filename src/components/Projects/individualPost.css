@@ -23,10 +23,11 @@
   background-color: var(--sky);
 }
 
-.flex-row.clickables{
+.flex-row.clickables {
   margin-top: 7.5px;
   margin-bottom: 7.5px;
 }
+
 .tag#undefined {
   background-color: var(--darkGrey);
 }
@@ -121,9 +122,10 @@ button#right {
   display: flex;
   flex-direction: column;
   width: 35vw;
-  margin-top:10px;
+  margin-top: 10px;
 }
-.comments{
+
+.comments {
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -194,11 +196,16 @@ button#right {
   padding: 10px;
 }
 
-#right.white-button{
+#right.white-button {
   font-size: 14px;
   height: auto;
   padding: 6px 10px
 }
+
+.iframe {
+  cursor: pointer;
+}
+
 .commentLine1 {
   display: flex;
   flex-direction: row;
@@ -264,16 +271,17 @@ button#right {
 
 }
 
-.discussionInput{
+.discussionInput {
   border: none;
   border-radius: 5px;
   width: 30vw;
 }
 
-.dropdown span:hover{
+.dropdown span:hover {
   background-color: var(--grey);
   border-radius: 4px;
 }
+
 /* .react-tabs__tab-panel{
   height: 80vh
 } */
@@ -284,11 +292,11 @@ button#right {
   height: 80vh;
 } */
 
-.emptyComments{
-display: flex;
-flex-direction: column;
-justify-content: center;
-padding: 20px;
-text-align: center;
-width: 100%
+.emptyComments {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  width: 100%
 }

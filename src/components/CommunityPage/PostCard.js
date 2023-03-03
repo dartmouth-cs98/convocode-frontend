@@ -7,7 +7,6 @@ import { getProject } from "../../services/projects";
 
 const Post = (props) => {
 
-  console.log(props.width, props.height)
   const [src, setSrc] = useState(null);
   const [isIframe, setIsIframe] = useState(false);
   const [classname, setClassname] = useState("");
@@ -48,14 +47,10 @@ const Post = (props) => {
     const fetchData = async () => {
       // get the data from the api
       const data = await getProject(props.item._id);
-      console.log(data);
-      console.log(data.htmlCode);
       // convert the data to json
       if (data.htmlCode === '') {
-        console.log("no HTML");
         setIsIframe(false);
         setClassname(postClass);
-        console.log(classname);
       } else {
         // set state with the result
         const url = getGeneratedPageURL({
