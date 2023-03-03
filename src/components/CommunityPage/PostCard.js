@@ -87,16 +87,6 @@ const Post = (props) => {
           <div className="pc-iframe-container" style={{ "background-color": iFrameClass }}>
             <Iframe url={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
           </div>
-          {/* <div className="body">
-            <div>
-              <h3 className="if-post-title">{props.item.title}</h3>
-              <span className="username">@{props.item.username}</span>
-            </div>
-            <div className="if-likes">
-              <img src={like} />
-              <span>{props.item.likes}</span>
-            </div>
-          </div> */}
           <div className="body">
             <div className="body-title">
               <h3 className="if-post-title">{props.item.title}</h3>
@@ -115,23 +105,20 @@ const Post = (props) => {
         </>
         :
         <div>
-          <div className="titles">
-            {/* <h3 className="post-title">{props.item.title}</h3>
-            <span className="username">@{props.item.username}</span> */}
-          </div>
+          <div className="titles"></div>
           <div className="footer">
             <div className="post-footer-1">
               <h3 className="post-title">{props.item.title}</h3>
               <span className="username">@{props.item.username}</span>
             </div>
             <div className="post-footer-2">
-            <div className="tag" id={tag}>
-              <span>#{tag}</span>
-            </div>
-            <div className="likes">
-              <img src={like} />
-              <span>{props.item.likes}</span>
-            </div>
+              <div className="tag" id={tag}>
+                <span>#{tag}</span>
+              </div>
+              <div className="likes">
+                <img src={like} />
+                <span>{props.item.likes}</span>
+              </div>
             </div>
           </div>
         </div>
