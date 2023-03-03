@@ -9,15 +9,13 @@ import Run from '../../resources/play.png'
 const WebOutput = (props) => {
   const [iframeSrc, setIframeSrc] = useState(null);
 
-  console.log(iframeSrc)
 
   const getGeneratedPageURL = ({ html, css, js }) => {
     const getBlobURL = (code, type) => {
       const blob = new Blob([code], { type });
       return URL.createObjectURL(blob);
     };
-    console.log(js)
-    console.log(html)
+
     const cssURL = getBlobURL(css, 'text/css')
     const jsURL = getBlobURL(js, 'text/javascript')
     const source = `
