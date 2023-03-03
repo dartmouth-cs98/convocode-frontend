@@ -32,6 +32,8 @@ const IndividualPost = (props) => {
   const [cssDecorations, setCssDecorations] = useState([]);
   const [htmlDecorations, setHtmlDecorations] = useState([]);
   const [isMine, setIsMine] = useState(false);
+  const [hasComments, setHasComments] = useState(false);
+
 
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -257,6 +259,12 @@ const IndividualPost = (props) => {
   }, []);
 
   useEffect(() => {
+    if (props.commentObjects && props.commentObjects.length > 0) {
+      setHasComments(true)
+    }
+  }, [props.commentObjects]);
+
+  useEffect(() => {
     if (props.project.replyingUser) {
       setComment(`@${props.project.replyingUser} `);
     }
@@ -409,9 +417,8 @@ const IndividualPost = (props) => {
                 <div className="discussion-header">Discussion</div>
                 <div className="comments" >
                   {
-                    props.project.commentObjects.length > 0 ? (
+                    hasComments ? (
                       props.project.commentObjects.map((item) => {
-
                         return (
                           <CommentCard item={item} key={item.id} reply={item.replyingTo} />
                         )
