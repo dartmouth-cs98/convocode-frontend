@@ -58,7 +58,7 @@
 }
 
 .postRegular .footer {
-  height: 12vh;
+  /* height: 12vh; */
   background-color: var(--boring);
   display: flex;
   flex-direction: column;
@@ -82,17 +82,17 @@
 .postUnicorn .titles {
   width: 100%;
   height: 15vh;
-  color: var(--white);
+  /* color: var(--white);
   display: flex;
   align-items: baseline;
   justify-content: flex-end;
   flex-direction: column;
   padding: 10px;
-  overflow: hidden;
+  overflow: hidden; */
 }
 
 .postUnicorn .footer {
-  height: 12vh;
+  /* height: 12vh; */
   background-color: var(--boring);
   display: flex;
   flex-direction: column;
@@ -127,7 +127,7 @@
 }
 
 .postEasyA .footer {
-  height: 12vh;
+  /* height: 12vh; */
   background-color: var(--boring);
   display: flex;
   /* align-items: center; */
@@ -161,7 +161,7 @@
 }
 
 .postGrape .footer {
-  height: 12vh;
+  /* height: 12vh; */
   background-color: var(--boring);
   display: flex;
   /* align-items: center; */
@@ -195,7 +195,7 @@
 }
 
 .postSky .footer {
-  height: 7vh;
+  /* height: 7vh; */
   background-color: var(--boring);
   display: flex;
   /* align-items: center; */
@@ -228,7 +228,7 @@
 }
 
 .postSage .footer {
-  height: 12vh;
+  /* height: 12vh; */
   background-color: var(--boring);
   display: flex;
   /* align-items: center; */
@@ -262,7 +262,7 @@
 }
 
 .postBus .footer {
-  height: 12vh;
+  /* height: 12vh; */
   background-color: var(--boring);
   display: flex;
   /* align-items: center; */
@@ -296,7 +296,7 @@
 }
 
 .postPumpkin .footer {
-  height: 12vh;
+  /* height: 12vh; */
   background-color: var(--boring);
   display: flex;
   /* align-items: center; */
@@ -331,7 +331,7 @@
 
 .iFramePost .body {
   top: -5px;
-  height: 12vh;
+  /* height: 12vh; */
   background-color: var(--boring);
   display: flex;
   border-bottom-left-radius: 5px;
@@ -430,7 +430,7 @@ section {
 
 #post-card-container{
   cursor: pointer;
-  padding-bottom: 15%;
+  margin-bottom: 10%;
 }
 
 .pc-iframe-container{
