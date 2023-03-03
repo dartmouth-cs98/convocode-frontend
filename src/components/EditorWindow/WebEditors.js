@@ -30,6 +30,7 @@ import { decorationDict } from '../../utils/decorationDict';
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
+import { ArraySchema } from 'yup';
 dotenv.config({ silent: true });
 
 const WebEditors = (props) => {
@@ -50,7 +51,7 @@ const WebEditors = (props) => {
   const [cssDecorations, setCssDecorations] = useState([]);
   const [htmlDecorations, setHtmlDecorations] = useState([]);
   const [error, setError] = useState(null);
-  const [javaStackLocation, setJavaStackLocation] = useState(props.javaCodeHistory[props.javaCodeHistory.length - 1]);
+  const [javaStackLocation, setJavaStackLocation] = useState(props.javaCodeHistory.length - 1);
   const [cssStackLocation, setCssStackLocation] = useState(props.cssCodeHistory[props.cssCodeHistory.length - 1]);
   const [htmlStackLocation, setHtmlStackLocation] = useState(props.htmlCodeHistory[props.htmlCodeHistory.length - 1]);
 
@@ -71,6 +72,34 @@ const WebEditors = (props) => {
       handleSubmitCode();
     }
   };
+
+  function arraysEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length !== b.length) return false;
+  
+    // If you don't care about the order of the elements inside
+    // the array, you should sort both arrays here.
+    // Please note that calling sort on an array will modify that array.
+    // you might want to clone your array first.
+  
+    for (var i = 0; i < a.length; ++i) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
+  }
+
+  function findPreviousState(history, stackLoc, code) {
+    var prevCode = [];
+    var location = stackLoc;
+    console.log(location);
+    while (!arraysEqual(prevCode, code)) {
+      location -= 1;
+      prevCode = history[location].code;
+    }
+
+    return [location, history[location].tags];
+  }
 
   useEffect(() => {
     console.log("current state of ", error, modalShow)
@@ -300,25 +329,48 @@ const WebEditors = (props) => {
     monacoRef.current = monaco;
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
       jsUndo.current = true;
-      editor.getModel().undo();
+      jsRef.current.getModel().undo();
     }); 
+    
+    editor.onDidFocusEditorText(() => {
+      jsRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+        jsUndo.current = true;
+        jsRef.current.getModel().undo();
+      }); 
+
+    });
     
   }
 
   function handleCSSDidMount(editor, monaco) {
     cssRef.current = editor;
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+    cssRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
       cssUndo.current = true;
-      editor.getModel().undo();
+      cssRef.current.getModel().undo();
     }); 
-  }
+    editor.onDidFocusEditorText(() => {
+      cssRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+        cssUndo.current = true;
+        cssRef.current.getModel().undo();
+      }); 
+    });
+}
 
   function handleHTMLDidMount(editor, monaco) {
     htmlRef.current = editor;
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
       htmlUndo.current = true;
       editor.getModel().undo();
-    }); 
+    });  
+
+    editor.onDidFocusEditorText(() => {
+      console.log("readding");
+      htmlRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+        console.log("hello");
+        htmlUndo.current = true;
+        htmlRef.current.getModel().undo();
+      }); 
+    });
   }
 
   useEffect(() => {
@@ -332,10 +384,10 @@ const WebEditors = (props) => {
       console.log("code incomplete, can't transform");
     } try {
       if (jsUndo.current) {
-        const newTags = props.javaCodeHistory[javaStackLocation - 1].tags;
-        console.log(`undo: ${newTags}`);
-        props.addJavaCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
-        setJavaStackLocation(javaStackLocation - 1);
+        var res = findPreviousState(props.javaCodeHistory, javaStackLocation, props.javaCode.split(/\r\n|\r|\n/));
+        console.log(res);
+        props.addJavaCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: res[1]});
+        setJavaStackLocation(res[0]);
         jsUndo.current = false;
       }
       else if (remoteAdd) {
@@ -366,10 +418,10 @@ const WebEditors = (props) => {
   useEffect(() => {
     try {
       if (cssUndo.current) {
-        const newTags = props.cssCodeHistory[cssStackLocation - 1].tags;
-        console.log(`undo: ${newTags}`);
-        props.addCSSCodeHistory({query: -1, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: newTags});
-        setCssStackLocation(javaStackLocation - 1);
+        var res = findPreviousState(props.cssCodeHistory, cssStackLocation, props.cssCode.split(/\r\n|\r|\n/));
+        console.log(res);
+        props.addCSSCodeHistory({query: -1, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: res[1]});
+        setCssStackLocation(res[0]);
         cssUndo.current = false;
       }
 
@@ -396,10 +448,10 @@ const WebEditors = (props) => {
   useEffect(() => {
     try {
       if (htmlUndo.current) {
-        const newTags = props.htmlCodeHistory[htmlStackLocation - 1].tags;
-        console.log(`undo: ${newTags}`);
-        props.addHTMLCodeHistory({query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags});
-        setHtmlStackLocation(htmlStackLocation - 1);
+        var res = findPreviousState(props.htmlCodeHistory, htmlStackLocation, props.htmlCode.split(/\r\n|\r|\n/));
+        console.log(res);
+        props.addHTMLCodeHistory({query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: res[1]});
+        setHtmlStackLocation(res[0]);
         htmlUndo.current = false;
       }
       else if (remoteAdd) {
@@ -494,58 +546,6 @@ const WebEditors = (props) => {
     plugins: ['loopProtection'],
   });
 
-  // // Function to call the compile endpoint
-  // // this is for python: keep in case we want to add back in
-  // function submitCode() {
-  //   // reset output if it exists
-  //   if (outputDetails) {
-  //     setOutputDetails(null)
-  //   }
-  //   // Post request to compile endpoint
-  //   axios.post(`${process.env.REACT_APP_ROOT_URL}/compiler`, {
-  //     source_code: props.javaCode,
-  //     customInput: stdin
-  //   }).then((res) => {
-
-  //     checkStatus(res.data);
-  //   }).catch((error) => {
-  //     console.log(error)
-  //     const e = {
-  //       location: "Compiler",
-  //       data: "Cannot Access Compiler at this time.",
-  //       status: 451,
-  //     }
-  //     setError(e);
-  //   });
-  // }
-
-  // const checkStatus = async (id) => {
-  //   // Get request to compile endpoint
-
-  //   try {
-  //     let response = await axios.request(`${process.env.REACT_APP_ROOT_URL}/compiler/${id.token}`);
-  //     let status = response.status;
-  //     // Processed - we have a result
-  //     if (status === 201) {
-  //       // still processing
-  //       setTimeout(() => {
-  //         checkStatus(id)
-  //       }, 2000)
-  //       return
-  //     } else {
-  //       if (response.data.status === 3) {
-  //         setOutputDetails(response.data.stdout);
-  //         setStdin("");
-  //       } else {
-  //         setOutputDetails(response.data.description + ":" + response.data.stderr);
-  //         setStdin("");
-  //       }
-  //       return
-  //     }
-  //   } catch (err) {
-  //     console.log("err", err);
-  //   }
-  // }
 
   // handles input text changes
   const handleQueryChange = (event) => {
