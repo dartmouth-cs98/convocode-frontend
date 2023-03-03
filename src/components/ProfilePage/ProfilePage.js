@@ -120,7 +120,7 @@ const ProfilePage = (props) => {
                     ) : 
                     <div className="empty-projects"> 
                         <h3>Start creating projects!</h3>
-                        <NavLink to="/editor"><button id="IDE">Open IDE</button></NavLink>
+                        <NavLink to="/editor"><button id="IDE" onClick={props.clearProject}>Open IDE</button></NavLink>
                     </div>
                   }
                 </div>
