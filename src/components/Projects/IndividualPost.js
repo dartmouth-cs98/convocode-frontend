@@ -311,6 +311,7 @@ const IndividualPost = (props) => {
       const projectInfo = {
         title: `Copy of ${props.project.title}`,
         javaCode: props.project.javaCode,
+        description: `Copy of ${props.project.title} created by ${props.project.username}`,
         htmlCode: props.project.htmlCode,
         cssCode: props.project.cssCode,
         javaCodeHistory: props.project.javaCodeHistory,
