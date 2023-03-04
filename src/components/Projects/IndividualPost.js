@@ -324,6 +324,10 @@ const IndividualPost = (props) => {
     }
   }
 
+  const deleteProject = () => {
+
+  }
+
   useEffect(() => {
 
     if (props.user.username === props.project.username) {
@@ -392,7 +396,14 @@ const IndividualPost = (props) => {
                 </button>
 
                 <button className="pink-button" id="right" onClick={openClick} style={{ "margin-right": "10px" }}>{isMine ? 'Open in IDE' : 'Make a Copy'}</button>
-
+                
+                  {
+                    props.user.username == props.project.username ? (
+                      <button className="pink-button" id="right" style={{ "margin-right": "10px" }}>Delete</button>
+                    ) : <></>
+                    
+                  }
+                
                 <CopyToClipboard text={url}>
                   <button className="sage-button" id="right" style={{ 'margin-right': '10px' }} onClick={() => alert("The project link has been copied to your clipboard.")}><img src={copy} alt="Copy Icon" /></button>
                 </CopyToClipboard>
