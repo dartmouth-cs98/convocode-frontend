@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import { loadProjects } from "../../state/actions";
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
+import { clearProject } from "../../state/actions/project";
 import HeaderBar from "../HeaderBar/HeaderBar";
 import lily from '../../resources/headshots/LilyHeadshot.png';
 import dylan from '../../resources/headshots/DylanHeadshot.png';
@@ -50,7 +51,7 @@ const Landing = (props) => {
         </div>
         <h2>Building Community Around Exploring AI.</h2>
         <div className="landing-file-buttons">
-          <button className="yellow-btn"><NavLink to="/editor">Start Coding</NavLink></button>
+          <button className="yellow-btn" onClick={props.clearProject}><NavLink to="/editor">Start Coding</NavLink></button>
           <button className="yellow-btn"><NavLink to="/community">Get Inspired</NavLink></button>
         </div>
         <div className="landing-learn-more">
@@ -185,4 +186,4 @@ const mapStateToProps = (reduxstate) => {
     projects: reduxstate.community.projects,
   };
 };
-export default connect(mapStateToProps, { loadProjects })(Landing);
+export default connect(mapStateToProps, { loadProjects, clearProject })(Landing);
