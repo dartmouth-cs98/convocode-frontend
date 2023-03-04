@@ -4,15 +4,9 @@ import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { loadProjects } from "../../state/actions";
 import { refreshUser } from "../../state/actions";
-
-import axios from 'axios';
-import { getUser } from '../../services/user.js';
+import { clearProject } from '../../state/actions/project';
 import PostCard from "../CommunityPage/PostCard.js"
-
-// import settings from '../../resources/settings.png'
 import HeaderBar from "../HeaderBar/HeaderBar";
-import ProfileSettings from "./profileSettings.js";
-
 import 'react-tabs/style/react-tabs.css';
 import './profile.css'
 
@@ -178,4 +172,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { loadProjects, refreshUser })(ProfilePage);
+export default connect(mapStateToProps, { loadProjects, refreshUser, clearProject })(ProfilePage);
