@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, RedditShareButton, RedditIcon, EmailShareButton, EmailIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
-import { createProject, loadProject, setReplyingTo, likeProject, refreshUser } from "../../state/actions";
+import { createProject, deleteProject, loadProject, setReplyingTo, likeProject, refreshUser } from "../../state/actions";
 import { addCSSCodeHistory, addJavaCodeHistory, addHTMLCodeHistory } from "../../state/actions/project.js";
 import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from '../../state/actions';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -325,7 +325,7 @@ const IndividualPost = (props) => {
   }
 
   const deleteProject = () => {
-
+      props.deleteProject(props.project.id);
   }
 
   useEffect(() => {
@@ -399,7 +399,7 @@ const IndividualPost = (props) => {
                 
                   {
                     props.user.username == props.project.username ? (
-                      <button className="pink-button" id="right" style={{ "margin-right": "10px" }}>Delete</button>
+                      <button className="pink-button" id="right" onClick={deleteProject} style={{ "margin-right": "10px" }}>Delete</button>
                     ) : <></>
                     
                   }
@@ -542,4 +542,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { loadProject, createProject, comment, setReplyingTo, likeProject, refreshUser, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setCSSDisplay, setJavaDisplay, setHTMLDisplay })(IndividualPost);
+export default connect(mapStateToProps, { loadProject, createProject, deleteProject, comment, setReplyingTo, likeProject, refreshUser, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setCSSDisplay, setJavaDisplay, setHTMLDisplay })(IndividualPost);

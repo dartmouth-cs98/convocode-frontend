@@ -277,3 +277,21 @@ export const setReplyingTo = (replyingTo, username) => {
     dispatch({ type: ActionTypes.SET_REPLYING_USER, payload: username });
   };
 };
+
+/**
+ * @description like a project
+ * @param id project id to like
+ */
+export const deleteProject = (projectId) => {
+  return async (dispatch) => {
+    try {
+    
+      const data = await deleteProject(projectId);
+  
+
+      dispatch({ type: ActionTypes.LIKE_PROJECT, payload: data });
+    } catch (error) {
+      console.log(error)
+    }
+  };
+};
