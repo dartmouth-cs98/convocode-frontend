@@ -4,15 +4,9 @@ import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { loadProjects } from "../../state/actions";
 import { refreshUser } from "../../state/actions";
-
-import axios from 'axios';
-import { getUser } from '../../services/user.js';
+import { clearProject } from '../../state/actions/project';
 import PostCard from "../CommunityPage/PostCard.js"
-
-// import settings from '../../resources/settings.png'
 import HeaderBar from "../HeaderBar/HeaderBar";
-import ProfileSettings from "./profileSettings.js";
-
 import 'react-tabs/style/react-tabs.css';
 import './profile.css'
 
@@ -93,54 +87,57 @@ const ProfilePage = (props) => {
               </TabList>
               <TabPanel>
                 <div className="profile-post-container">
-                  {
-                    props.user.authoredProjectsPublic.length > 0 ? (
-                      props.user.authoredProjectsPublic.map((item) => {
-                        return (
-                          <PostCard item={item} key={item.id} />
-                        )
-                      })
-                    ) : 
-                    <div className="empty-projects"> 
-                        <h3>Start creating projects!</h3>
-                        <NavLink to="/editor"><button id="IDE">Open IDE</button></NavLink>
-                    </div>
-                  }
-                </div>
-              </TabPanel>
-              <TabPanel>
-                <div className="profile-post-container">
-                  {
-                    props.user.authoredProjectsPrivate.length > 0 ? (
-                      props.user.authoredProjectsPrivate.map((item) => {
-                        return (
-                          <PostCard item={item} key={item.id} />
-                        )
-                      })
-                    ) : 
-                    <div className="empty-projects"> 
+                {
+                    props.user.authoredProjectsPublic === undefined || props.user.authoredProjectsPublic.length == 0 ? (
+                      <div className="empty-projects"> 
                         <h3>Start creating projects!</h3>
                         <NavLink to="/editor"><button id="IDE" onClick={props.clearProject}>Open IDE</button></NavLink>
-                    </div>
+                       </div>
+                      
+                    ) : 
+                    props.user.authoredProjectsPublic.map((item) => {
+                      return (
+                        <PostCard item={item} key={item.id} />
+                      )
+                    })
                   }
                 </div>
               </TabPanel>
               <TabPanel>
                 <div className="profile-post-container">
                   {
-                    props.user.likedProjects.length > 0 ? (
+                    props.user.authoredProjectsPrivate === undefined || props.user.authoredProjectsPrivate.length == 0 ? (
+                      <div className="empty-projects"> 
+                        <h3>Start creating projects!</h3>
+                        <NavLink to="/editor"><button id="IDE" onClick={props.clearProject}>Open IDE</button></NavLink>
+                       </div>
+                      
+                    ) : 
+                    props.user.authoredProjectsPrivate.map((item) => {
+                      return (
+                        <PostCard item={item} key={item.id} />
+                      )
+                    })
+                  }
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="profile-post-container">
+                  {
+                    props.user.likedProjects === undefined || props.user.likedProjects.length == 0 ? (
+                      <div className="empty-likes"> 
+                      <h3>Find projects you like in the ConvoDex Community!</h3>
+                      <NavLink to="/community"><button id="community" onClick={props.clearProject}>View Community</button></NavLink>
+                    </div>
+                      
+                    ) :
                       props.user.likedProjects.map((item) => {
                         return (
                           <PostCard item={item} key={item.id} />
                         )
                       })
-                    ) :
-                    <div className="empty-likes"> 
-                      <h3>Find projects you like in the ConvoDex Community!</h3>
-                      <NavLink to="/community"><button id="community">View Community</button></NavLink>
-                    </div>
                   } 
-                      </div>
+                  </div>
               </TabPanel>
             </Tabs>
             </div>
@@ -175,4 +172,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { loadProjects, refreshUser })(ProfilePage);
+export default connect(mapStateToProps, { loadProjects, refreshUser, clearProject })(ProfilePage);
