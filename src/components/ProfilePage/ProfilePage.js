@@ -87,9 +87,9 @@ const ProfilePage = (props) => {
               onSelect={handleSelect}
               >
               <TabList>
-                <Tab style={{ "color": "white", "height":"40px" }}>Published Projects</Tab>
-                <Tab style={{ "color": "white", "height":"40px" }}>Saved Projects</Tab>
-                <Tab style={{ "color": "white", "height":"40px" }}>Liked</Tab>
+                <Tab style={{ "height":"40px" }}>Published Projects</Tab>
+                <Tab style={{ "height":"40px" }}>Saved Projects</Tab>
+                <Tab style={{ "height":"40px" }}>Liked</Tab>
               </TabList>
               <TabPanel>
                 <div className="profile-post-container">
@@ -97,7 +97,7 @@ const ProfilePage = (props) => {
                     props.user.authoredProjectsPublic === undefined || props.user.authoredProjectsPublic.length == 0 ? (
                       <div className="empty-projects"> 
                         <h3>Start creating projects!</h3>
-                        <NavLink to="/editor"><button id="IDE">Open IDE</button></NavLink>
+                        <NavLink to="/editor"><button id="IDE" onClick={props.clearProject}>Open IDE</button></NavLink>
                        </div>
                       
                     ) : 
@@ -115,7 +115,7 @@ const ProfilePage = (props) => {
                     props.user.authoredProjectsPrivate === undefined || props.user.authoredProjectsPrivate.length == 0 ? (
                       <div className="empty-projects"> 
                         <h3>Start creating projects!</h3>
-                        <NavLink to="/editor"><button id="IDE">Open IDE</button></NavLink>
+                        <NavLink to="/editor"><button id="IDE" onClick={props.clearProject}>Open IDE</button></NavLink>
                        </div>
                       
                     ) : 
@@ -133,7 +133,7 @@ const ProfilePage = (props) => {
                     props.user.likedProjects === undefined || props.user.likedProjects.length == 0 ? (
                       <div className="empty-likes"> 
                       <h3>Find projects you like in the ConvoDex Community!</h3>
-                      <NavLink to="/community"><button id="community">View Community</button></NavLink>
+                      <NavLink to="/community"><button id="community" onClick={props.clearProject}>View Community</button></NavLink>
                     </div>
                       
                     ) :
