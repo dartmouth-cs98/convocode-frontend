@@ -1,4 +1,4 @@
-import { getProject, createNewProject, getComments, commentOnProject, commentOnComment, likeServiceProject, updateProject } from "../../services/projects";
+import { getProject, createNewProject, commentOnProject, deleteProject, likeServiceProject, updateProject } from "../../services/projects";
 
 export const ActionTypes = {
   LOAD_PROJECT: 'LOAD_PROJECT',
@@ -275,5 +275,19 @@ export const setReplyingTo = (replyingTo, username) => {
 
     dispatch({ type: ActionTypes.SET_REPLYING_TO, payload: replyingTo });
     dispatch({ type: ActionTypes.SET_REPLYING_USER, payload: username });
+  };
+};
+
+/**
+ * @description updates a new project
+ * @param newProject the data 
+ */
+export const deleteUserProject = (projectId) => {
+  return async (dispatch) => {
+    try {
+      deleteProject(projectId);
+    } catch (error) {
+      console.log(error)
+    }
   };
 };

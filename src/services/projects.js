@@ -169,10 +169,6 @@ export const createNewProject = async (projectInfo) => {
  export const updateProject = async (projectInfo) => {
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/${projectInfo.id}`;
   const userToken = getAuthTokenFromStorage();
-  console.log("axois put project", userToken);
-
-  console.log("project info");
-  console.log(projectInfo);
 
   try {
     const { data } = await axios.put(url, projectInfo, {
@@ -181,9 +177,28 @@ export const createNewProject = async (projectInfo) => {
       },
     });
 
-    console.log("proj servce", data)
-
     return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * @description like a project
+ * @param id project id to like
+ */
+export const deleteProject = async (projectId) => {
+
+  const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/${projectId}`;
+  const userToken = getAuthTokenFromStorage();
+
+  try {
+    const { data } = await axios.delete(url, {
+      headers: {
+        authorization: userToken
+      },
+    });
+
   } catch (error) {
     throw error;
   }
