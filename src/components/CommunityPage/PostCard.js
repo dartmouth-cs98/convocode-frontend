@@ -10,6 +10,7 @@ const Post = (props) => {
   const [src, setSrc] = useState(null);
   const [isIframe, setIsIframe] = useState(false);
   const [classname, setClassname] = useState("");
+  const [show, setShow] = useState(false)
 
   const colors = ["postUnicorn", "postEasyA", "postGrape", "postSky", "postSage", "postBus", "postPumpkin"];
   const colorInt = Math.floor(Math.random() * 7);
@@ -68,58 +69,67 @@ const Post = (props) => {
   }, []);
 
 
-
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShow(true)
+    }, 750)
+    return () => clearTimeout(timeout)
+  }, [show])
 
 
   const navigate = useNavigate();
   // let tag = props.item.tags.length > 0 ? props.item.tags[0].toString().toLowerCase() : "undefined"
   let tag = props.item.tags.length > 0 ? props.item.tags[0].toString().toLowerCase() : ""
 
-  return (
-    <div id="post-card-container" key={props.key} className={classname} onClick={() => navigate(`/project/${props.item.id}`)}>
-      {isIframe ?
-        <>
-          <div className="pc-iframe-container" style={{ "background-color": iFrameClass }}>
-            <Iframe url={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
+  if (show) {
+    return (
+      <div id="post-card-container" key={props.key} className={classname} onClick={() => navigate(`/project/${props.item.id}`)}>
+        {isIframe ?
+          <>
+            <div className="pc-iframe-container" style={{ "background-color": iFrameClass }}>
+              <Iframe url={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
+            </div>
+            <div className="body">
+              <div className="body-title">
+                <h3 className="if-post-title">{props.item.title}</h3>
+                <span className="username">@{props.item.username}</span>
+              </div>
+              <div className="body-footer">
+                <div className="tag" id={tag}>
+                  <span>#{tag}</span>
+                </div>
+                <div className="if-likes">
+                  <img src={like} />
+                  <span>{props.item.likes}</span>
+                </div>
+              </div>
+            </div>
+          </>
+          :
+          <div>
+            <div className="titles"></div>
+            <div className="footer">
+              <div className="post-footer-1">
+                <h3 className="post-title">{props.item.title}</h3>
+                <span className="username">@{props.item.username}</span>
+              </div>
+              <div className="post-footer-2">
+                <div className="tag" id={tag}>
+                  <span>#{tag}</span>
+                </div>
+                <div className="likes">
+                  <img src={like} />
+                  <span>{props.item.likes}</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="body">
-            <div className="body-title">
-              <h3 className="if-post-title">{props.item.title}</h3>
-              <span className="username">@{props.item.username}</span>
-            </div>
-            <div className="body-footer">
-              <div className="tag" id={tag}>
-                <span>#{tag}</span>
-              </div>
-              <div className="if-likes">
-                <img src={like} />
-                <span>{props.item.likes}</span>
-              </div>
-            </div>
-          </div>
-        </>
-        :
-        <div>
-          <div className="titles"></div>
-          <div className="footer">
-            <div className="post-footer-1">
-              <h3 className="post-title">{props.item.title}</h3>
-              <span className="username">@{props.item.username}</span>
-            </div>
-            <div className="post-footer-2">
-              <div className="tag" id={tag}>
-                <span>#{tag}</span>
-              </div>
-              <div className="likes">
-                <img src={like} />
-                <span>{props.item.likes}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      }
-    </div >
-  );
+        }
+      </div >
+    );
+  } else {
+    return (<></>);
+  }
 };
 
 export default Post;

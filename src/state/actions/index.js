@@ -70,6 +70,7 @@ import {
   likeProject,
   loadProject,
   updateExistingProject,
+  deleteUserProject,
 } from './project';
 
 const ActionTypes = {
@@ -127,4 +128,5 @@ export {
   loadProject,
   clearUserError,
   updateExistingProject,
+  deleteUserProject,
 }
