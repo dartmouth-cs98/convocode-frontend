@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect } from 'react-redux';
+import { NavLink } from "react-router-dom";
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, RedditShareButton, RedditIcon, EmailShareButton, EmailIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
-import { createProject, deleteProject, loadProject, setReplyingTo, likeProject, refreshUser } from "../../state/actions";
+import { createProject, deleteUserProject, loadProject, setReplyingTo, likeProject, refreshUser } from "../../state/actions";
 import { addCSSCodeHistory, addJavaCodeHistory, addHTMLCodeHistory } from "../../state/actions/project.js";
 import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from '../../state/actions';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -14,7 +15,6 @@ import likeFilled from "../../resources/likes-filled.svg"
 import down from "../../resources/down.png"
 import copy from "../../resources/copy.png"
 import CommentCard from "./CommentCard"
-import Iframe from 'react-iframe';
 import { comment } from "../../state/actions/project.js"
 import { decorationDict } from "../../utils/decorationDict";
 import WebOutput from "../EditorWindow/WebOutput";
@@ -325,7 +325,7 @@ const IndividualPost = (props) => {
   }
 
   const deleteProject = () => {
-      props.deleteProject(props.project.id);
+      props.deleteUserProject(props.project.id);
   }
 
   useEffect(() => {
@@ -399,7 +399,7 @@ const IndividualPost = (props) => {
                 
                   {
                     props.user.username == props.project.username ? (
-                      <button className="pink-button" id="right" onClick={deleteProject} style={{ "margin-right": "10px" }}>Delete</button>
+                      <NavLink to="/profile"><button className="pink-button" id="right" onClick={deleteProject} style={{ "margin-right": "10px" }}>Delete</button></NavLink>
                     ) : <></>
                     
                   }
@@ -542,4 +542,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { loadProject, createProject, deleteProject, comment, setReplyingTo, likeProject, refreshUser, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setCSSDisplay, setJavaDisplay, setHTMLDisplay })(IndividualPost);
+export default connect(mapStateToProps, { loadProject, createProject, deleteUserProject, comment, setReplyingTo, likeProject, refreshUser, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setCSSDisplay, setJavaDisplay, setHTMLDisplay })(IndividualPost);

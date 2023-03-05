@@ -1,4 +1,4 @@
-import { getProject, createNewProject, getComments, commentOnProject, commentOnComment, likeServiceProject, updateProject } from "../../services/projects";
+import { getProject, createNewProject, commentOnProject, deleteProject, likeServiceProject, updateProject } from "../../services/projects";
 
 export const ActionTypes = {
   LOAD_PROJECT: 'LOAD_PROJECT',
@@ -279,17 +279,13 @@ export const setReplyingTo = (replyingTo, username) => {
 };
 
 /**
- * @description like a project
- * @param id project id to like
+ * @description updates a new project
+ * @param newProject the data 
  */
-export const deleteProject = (projectId) => {
+export const deleteUserProject = (projectId) => {
   return async (dispatch) => {
     try {
-    
-      const data = await deleteProject(projectId);
-  
-
-      dispatch({ type: ActionTypes.LIKE_PROJECT, payload: data });
+      deleteProject(projectId);
     } catch (error) {
       console.log(error)
     }
