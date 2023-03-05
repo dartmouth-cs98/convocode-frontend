@@ -1,8 +1,7 @@
 // BASED OFF OF: https://www.freecodecamp.org/news/how-to-build-react-based-code-editor/
 // monaco-editor package for Editor component
 
-import React, {useRef} from "react";
-import Editor from "@monaco-editor/react";
+import React from "react";
 import CodeEditor from "../EditorWindow/CodeEditor";
 import { connect } from 'react-redux';
 import { addCode } from "../../state/actions";
@@ -20,9 +19,9 @@ const CodePreview = (props) => {
   };
 
   var editor_state = null;
-  if (props.language == "javascript") {
+  if (props.language === "javascript") {
     editor_state = props.javaCode;
-  } else if (props.language == "html") {
+  } else if (props.language === "html") {
     editor_state = props.htmlCode;
   } else {
     editor_state = props.cssCode;

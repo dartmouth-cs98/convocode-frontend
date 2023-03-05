@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
 import { loadProjects, updateSearchString, updateCurrentPage, updateTotalPages } from "../../state/actions";
 
@@ -47,5 +46,6 @@ const mapStateToProps = (reduxstate) => {
     searchString: reduxstate.community.searchString,
   };
 };
+
 
 export default connect(mapStateToProps, { loadProjects, updateSearchString, updateCurrentPage, updateTotalPages })(AlgoliaSearch);

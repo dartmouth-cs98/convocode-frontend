@@ -2,7 +2,6 @@ import React, { useState, useEffect} from "react";
 import { connect } from 'react-redux';
 import StdinWindow from "./StdinWindow";
 import ErrorModal from '../Error/ErrorModal';
-import Run from '../../resources/play.png'
 import './index.css';
 import './webEditor.css';
 import axios from 'axios';
