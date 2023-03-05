@@ -8,11 +8,16 @@ const SUBROUTE_COMMENT = 'comment';
  * @description loads projects from backend
  * @returns {Promise<Object>} API response
  */
-export const getAllProjects = async () => {
+export const getAllProjects = async (currentPage) => {
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}`;
 
   try {
-    const { data } = await axios.get(url);
+    const config = {
+      params: {
+        currentPage: currentPage
+      }
+    };
+    const { data } = await axios.get(url, config);
     return data;
   } catch (error) {
     throw error;
@@ -24,12 +29,13 @@ export const getAllProjects = async () => {
  * @description loads searched projects from backend
  * @returns {Promise<Object>} API response
  */
-export const searchProjects = async (searchString) => {
+export const searchProjects = async (searchString, currentPage) => {
 
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/search`;
   try {
     const config = {
       params: {
+        currentPage: currentPage,
         searchString: searchString
       }
     };
@@ -188,3 +194,27 @@ export const createNewProject = async (projectInfo) => {
     throw error;
   }
 };
+
+
+export const getProjectSize = async () => {
+
+  const requestUrl = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/projectSize`;
+
+  const { data } = await axios.get(requestUrl);
+  return data;
+
+}
+
+export const getSearchedProjectSize = async (searchString) => {
+
+  const requestUrl = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/projectSize`;
+
+  const config = {
+    params: {
+      searchString: searchString
+    }
+  };
+  const { data } = await axios.get(requestUrl, config);
+  return data;
+
+}
