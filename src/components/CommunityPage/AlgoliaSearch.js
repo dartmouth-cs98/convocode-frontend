@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
 import { loadProjects } from "../../state/actions";
 
@@ -47,5 +46,3 @@ const mapStateToProps = (reduxstate) => {
 };
 
 export default connect(mapStateToProps, { loadProjects })(AlgoliaSearch);
-
-//export default AlgoliaSearch;

@@ -36,13 +36,13 @@ const Tour = (props) => {
   // Call back function to stop onboarding
   const  printCallback = (prop) => {
     console.log("callback prop: ", prop)
-    if (prop.lifecycle == "complete" && prop.index >=5 ){ 
+    if (prop.lifecycle === "complete" && prop.index >=5 ){ 
       props.onboarding()
     }
-    if (prop.action == "skip"){
+    if (prop.action === "skip"){
       props.onboarding()
     }
-    if (prop.action == "close"){
+    if (prop.action === "close"){
       props.onboarding()
     }
   }

@@ -14,7 +14,6 @@ import { addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory } from '../..
 import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from '../../state/actions';
 import { getOpenAICode } from '../../services/getCode';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import axios from 'axios';
 import WebOutput from './WebOutput';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import Tour from '../EditorWindow/Onboarding/Tour.js'
@@ -22,7 +21,6 @@ import OutputWindow from './OutputWindow';
 import ProjectModalForm from '../Projects/ProjectModalForm';
 import CodeEditor from './CodeEditor';
 import ErrorModal from '../Error/ErrorModal';
-import settings from '../../resources/settings.png';
 import './index.css';
 import './webEditor.css';
 import { decorationDict } from '../../utils/decorationDict';
@@ -30,7 +28,6 @@ import { decorationDict } from '../../utils/decorationDict';
 
 // loads in .env file if needed
 import dotenv from 'dotenv';
-import { ArraySchema } from 'yup';
 dotenv.config({ silent: true });
 
 const WebEditors = (props) => {
@@ -40,12 +37,9 @@ const WebEditors = (props) => {
   // const [stdin, setStdin] = useState("");
   // const [outputDetails, setOutputDetails] = useState(null);
   const [modalShow, setModalShow] = useState(false);
-  const [_title, setTitle] = useState("");
   const [query, setQuery] = useState("");
   const [remoteAdd, setRemoteAdd] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("html");
-  const [changedLines, setChangedLines] = useState([])
-  const [view, setView] = useState("multi");
   const [loading, setLoading] = useState(false);
   const [jsDecorations, setJsDecorations] = useState([]);
   const [cssDecorations, setCssDecorations] = useState([]);
@@ -168,7 +162,7 @@ const WebEditors = (props) => {
     else {
       const oldCode = history.slice(-1)[0].code;
       if (oldCode.length === 1) {
-        for (var i = 0; i < newCode.length; i++) {
+        for (var myIndex = 0; myIndex < newCode.length; myIndex++) {
           tags.push(q);
         }
 
@@ -495,12 +489,11 @@ const WebEditors = (props) => {
 
         }
         while (html.indexOf('<script>') !== -1) {
-          var openTag = html.indexOf('<script>');
-          var closeTag = html.indexOf('</script>');
-
-          js = html.substring(openTag + "<script>".length, closeTag);
-          html = html.substring(0, openTag) + html.substring(closeTag + '</script>'.length);
-
+          var myOpenTag = html.indexOf('<script>');
+            var myCloseTag = html.indexOf('</script>');
+            
+            js = html.substring(myOpenTag + "<script>".length, myCloseTag);
+            html = html.substring(0, myOpenTag) + html.substring(myCloseTag + '</script>'.length);
         }
         if (props.htmlCode.length === 0) {
           props.addHTMLCode(html);

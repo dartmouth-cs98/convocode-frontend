@@ -7,9 +7,9 @@ const ErrorModal = (props) => {
   return (
     <ReactModal className="error-modal" isOpen={props.isOpen} onRequestClose={props.handleModalToggle} ariaHideApp={false} onAfterClose={props.onClose ? props.onClose : () => { }}>
       <div className='error-header'>
-        <span>🚨</span>
+        <span role="img" aria-label="siren">🚨</span>
         <span>{props.status}</span>
-        <span>🚨</span>
+        <span role="img" aria-label="siren">🚨</span>
       </div>
       <div className="error-content">
         <div className='error-text'>

@@ -99,7 +99,7 @@ const Post = (props) => {
                   <span>#{tag}</span>
                 </div>
                 <div className="if-likes">
-                  <img src={like} />
+                  <img src={like} alt="likes" />
                   <span>{props.item.likes}</span>
                 </div>
               </div>
@@ -118,7 +118,7 @@ const Post = (props) => {
                   <span>#{tag}</span>
                 </div>
                 <div className="likes">
-                  <img src={like} />
+                  <img src={like} alt="likes" />
                   <span>{props.item.likes}</span>
                 </div>
               </div>
