@@ -71,7 +71,7 @@ const WebEditors = (props) => {
     if (a === b) return true;
     if (a == null || b == null) return false;
     if (a.length !== b.length) return false;
-  
+
     for (var i = 0; i < a.length; ++i) {
       if (a[i] !== b[i]) return false;
     }
@@ -192,19 +192,19 @@ const WebEditors = (props) => {
           const editor = getEditor(codeType);
           const pos = editor.getPosition().lineNumber;
           while (oP < oldCode.length && nP < newCode.length) {
-              if (nP === pos - 1) {
-                tags.push(-1);
-                nP++;
-              }
+            if (nP === pos - 1) {
+              tags.push(-1);
+              nP++;
+            }
 
-              else if (oldCode[oP] === newCode[nP]) {
-                tags.push(oldTags[oP]);
-                nP++;
-                oP++;
-              }
-              else {
-                oP++;
-              }
+            else if (oldCode[oP] === newCode[nP]) {
+              tags.push(oldTags[oP]);
+              nP++;
+              oP++;
+            }
+            else {
+              oP++;
+            }
           }
         }
       }
@@ -316,58 +316,58 @@ const WebEditors = (props) => {
   function handleJSDidMount(editor, monaco) {
     jsRef.current = editor;
     monacoRef.current = monaco;
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function () {
       jsUndo.current = true;
       jsRef.current.getModel().undo();
-    }); 
-    
+    });
+
     editor.onDidFocusEditorText(() => {
-      jsRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+      jsRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function () {
         jsUndo.current = true;
         jsRef.current.getModel().undo();
-      }); 
+      });
 
     });
-    
+
   }
 
   function handleCSSDidMount(editor, monaco) {
     cssRef.current = editor;
-    cssRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+    cssRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function () {
       cssUndo.current = true;
       cssRef.current.getModel().undo();
-    }); 
+    });
     editor.onDidFocusEditorText(() => {
-      cssRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+      cssRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function () {
         cssUndo.current = true;
         cssRef.current.getModel().undo();
-      }); 
+      });
     });
-}
+  }
 
   function handleHTMLDidMount(editor, monaco) {
     htmlRef.current = editor;
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function () {
       htmlUndo.current = true;
       editor.getModel().undo();
-    });  
+    });
 
     editor.onDidFocusEditorText(() => {
       console.log("readding");
-      htmlRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function() {
+      htmlRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function () {
         console.log("hello");
         htmlUndo.current = true;
         htmlRef.current.getModel().undo();
-      }); 
+      });
     });
   }
 
   useEffect(() => {
     try {
 
-        // rewrite the user's JavaScript to protect loops
-        var processed = transform(props.javaCode);
-        props.addCleanedJavascript(processed.code);
+      // rewrite the user's JavaScript to protect loops
+      var processed = transform(props.javaCode);
+      props.addCleanedJavascript(processed.code);
 
     } catch {
       console.log("code incomplete, can't transform");
@@ -375,20 +375,20 @@ const WebEditors = (props) => {
       if (jsUndo.current) {
         var res = findPreviousState(props.javaCodeHistory, javaStackLocation, props.javaCode.split(/\r\n|\r|\n/));
         console.log(res);
-        props.addJavaCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: res[1]});
+        props.addJavaCodeHistory({ query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: res[1] });
         setJavaStackLocation(res[0]);
         jsUndo.current = false;
       }
       else if (remoteAdd) {
         const newTags = getNewTags(query, props.javaCode.split(/\r\n|\r|\n/), "javascript");
-        props.addJavaCodeHistory({query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
+        props.addJavaCodeHistory({ query: query, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags });
         setRemoteAdd(false);
         setJavaStackLocation(props.javaCodeHistory.length - 1);
         jsUndo.current = false;
 
       } else {
         const newTags = getNewTags(-1, props.javaCode.split(/\r\n|\r|\n/), "javascript");
-        props.addJavaCodeHistory({query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags});
+        props.addJavaCodeHistory({ query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: newTags });
         setJavaStackLocation(props.javaCodeHistory.length - 1);
         jsUndo.current = false;
 
@@ -409,7 +409,7 @@ const WebEditors = (props) => {
       if (cssUndo.current) {
         var res = findPreviousState(props.cssCodeHistory, cssStackLocation, props.cssCode.split(/\r\n|\r|\n/));
         console.log(res);
-        props.addCSSCodeHistory({query: -1, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: res[1]});
+        props.addCSSCodeHistory({ query: -1, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: res[1] });
         setCssStackLocation(res[0]);
         cssUndo.current = false;
       }
@@ -439,7 +439,7 @@ const WebEditors = (props) => {
       if (htmlUndo.current) {
         var res = findPreviousState(props.htmlCodeHistory, htmlStackLocation, props.htmlCode.split(/\r\n|\r|\n/));
         console.log(res);
-        props.addHTMLCodeHistory({query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: res[1]});
+        props.addHTMLCodeHistory({ query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: res[1] });
         setHtmlStackLocation(res[0]);
         htmlUndo.current = false;
       }
@@ -452,7 +452,7 @@ const WebEditors = (props) => {
 
       } else {
         const newTags = getNewTags(-1, props.htmlCode.split(/\r\n|\r|\n/), "html");
-        props.addHTMLCodeHistory({query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags});
+        props.addHTMLCodeHistory({ query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: newTags });
         setHtmlStackLocation(props.htmlCodeHistory.length - 1);
         htmlUndo.current = false;
       }
@@ -466,10 +466,10 @@ const WebEditors = (props) => {
   function handleSubmitCode() {
     // send user input to get code from openai
     setRemoteAdd(true);
-    
+
     getOpenAICode(query, currentLanguage, props.cssCode, props.javaCode, props.htmlCode).then((res) => {
       setLoading(false);
-     
+
       if (currentLanguage === "javascript") {
         if (props.javaCode.length === 0) {
           props.addJavascriptCode(res.code);
@@ -487,14 +487,13 @@ const WebEditors = (props) => {
           css = html.substring(openTag + "<style>".length, closeTag);
           html = html.substring(0, openTag) + html.substring(closeTag + '</style>'.length)
 
-        } 
+        }
         while (html.indexOf('<script>') !== -1) {
           var myOpenTag = html.indexOf('<script>');
             var myCloseTag = html.indexOf('</script>');
             
             js = html.substring(myOpenTag + "<script>".length, myCloseTag);
             html = html.substring(0, myOpenTag) + html.substring(myCloseTag + '</script>'.length);
-
         }
         if (props.htmlCode.length === 0) {
           props.addHTMLCode(html);
@@ -502,9 +501,9 @@ const WebEditors = (props) => {
           props.insertHTMLCode({ index: htmlRef.current.getPosition().lineNumber, code: html });
         }
         if (css !== "") {
-          props.insertCSSCode({index: cssRef.current.getPosition().lineNumber, code: css })
+          props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: css })
         } if (js !== "") {
-          props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: js })
+          props.insertJavascriptCode({ index: jsRef.current.getPosition().lineNumber, code: js })
         }
 
       } else {
@@ -515,6 +514,7 @@ const WebEditors = (props) => {
         }
       }
     }).catch((error) => {
+      setLoading(false);
       console.log(error)
       const e = {
         location: "OpenAI Codex",
@@ -558,25 +558,25 @@ const WebEditors = (props) => {
         <h4 className="ide-project-title">{props.id === "" ? "" : props.title}</h4>
         <div className='commandBar'>
           <div>
-          <div className='stop2 command-text-container'>
-            <form className='languageSelect'>
-              <select onChange={handleLangSwitch}>
-                <option value="html" >HTML</option>
-                <option value="css" >CSS</option>
-                <option value="javascript">JavaScript</option>
-              </select>
-            </form>
-            <textarea className="commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
-          </div>
+            <div className='stop2 command-text-container'>
+              <form className='languageSelect'>
+                <select onChange={handleLangSwitch}>
+                  <option value="html" >HTML</option>
+                  <option value="css" >CSS</option>
+                  <option value="javascript">JavaScript</option>
+                </select>
+              </form>
+              <textarea className="commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
+            </div>
           </div>
           <div>
-          <div className="ide-buttons-1">
-            <button className="stop3 pink" id="ask-cc-button" onClick={() => {
-              setLoading(!loading);
-              handleSubmitCode();
-            }} disabled={loading}>{loading ? 'Loading...' : 'Ask ConvoCode'}</button>
-            {/* <button className="heather-grey"><img src={settings} alt="settings icon" /></button> */}
-          </div>
+            <div className="ide-buttons-1">
+              <button className="stop3 pink" id="ask-cc-button" onClick={() => {
+                setLoading(!loading);
+                handleSubmitCode();
+              }} disabled={loading}>{loading ? 'Loading...' : 'Ask ConvoCode'}</button>
+              {/* <button className="heather-grey"><img src={settings} alt="settings icon" /></button> */}
+            </div>
           </div>
           <div className="ide-buttons-2">
             <ProjectModalForm className="web-editor-modal"></ProjectModalForm>
@@ -621,11 +621,11 @@ const WebEditors = (props) => {
               <Tab id="ide-console">console</Tab>
             </TabList>
             <TabPanel>
-              <WebOutput theme={theme} height="500vh" width="100%"/>
+              <WebOutput theme={theme} height="500vh" width="100%" />
             </TabPanel>
             <TabPanel>
               {/* <OutputWindow theme={theme} output={outputDetails} handleRunClick={submitCode} stdin={stdin} setStdin={setStdin} /> */}
-              <OutputWindow theme={theme}/>
+              <OutputWindow theme={theme} />
             </TabPanel>
           </Tabs>
         </div>
