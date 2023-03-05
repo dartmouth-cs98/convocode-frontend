@@ -11,41 +11,16 @@ import 'react-tabs/style/react-tabs.css';
 import './profile.css'
 
 const ProfilePage = (props) => {
-  const [modalShow, setModalShow] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const trending = [...props.projects];
-  const t = trending.slice(0, 6);
-
-  const handleModalToggle = () => {
-    setModalShow(!modalShow);
-  }
 
   const handleSelect = (index) => {
     setSelectedIndex(index);
-  }
-
-  const handleProjectsClick = () => {
-    setSelectedIndex(0);
-  }
-
-  const handleLikedClick = () => {
-    setSelectedIndex(1);
   }
 
   useEffect(() => {
     props.loadProjects();
     props.refreshUser();
   }, []);
-
- /*  useEffect(() => {
-    window.onbeforeunload = props.refreshUser();
-    // props.refreshProjects();
-
-    return () => {
-        window.onbeforeunload = null;
-    };
-}, []); */
 
   return (
     <div className="profile-page" data-theme={props.lightMode ? 'light' : 'dark'}>
@@ -88,7 +63,7 @@ const ProfilePage = (props) => {
               <TabPanel>
                 <div className="profile-post-container">
                 {
-                    props.user.authoredProjectsPublic === undefined || props.user.authoredProjectsPublic.length == 0 ? (
+                    props.user.authoredProjectsPublic === undefined || props.user.authoredProjectsPublic.length === 0 ? (
                       <div className="empty-projects"> 
                         <h3>Start creating projects!</h3>
                         <NavLink to="/editor"><button id="IDE" onClick={props.clearProject}>Open IDE</button></NavLink>
@@ -106,7 +81,7 @@ const ProfilePage = (props) => {
               <TabPanel>
                 <div className="profile-post-container">
                   {
-                    props.user.authoredProjectsPrivate === undefined || props.user.authoredProjectsPrivate.length == 0 ? (
+                    props.user.authoredProjectsPrivate === undefined || props.user.authoredProjectsPrivate.length === 0 ? (
                       <div className="empty-projects"> 
                         <h3>Start creating projects!</h3>
                         <NavLink to="/editor"><button id="IDE" onClick={props.clearProject}>Open IDE</button></NavLink>
@@ -124,7 +99,7 @@ const ProfilePage = (props) => {
               <TabPanel>
                 <div className="profile-post-container">
                   {
-                    props.user.likedProjects === undefined || props.user.likedProjects.length == 0 ? (
+                    props.user.likedProjects === undefined || props.user.likedProjects.length === 0 ? (
                       <div className="empty-likes"> 
                       <h3>Find projects you like in the ConvoDex Community!</h3>
                       <NavLink to="/community"><button id="community" onClick={props.clearProject}>View Community</button></NavLink>

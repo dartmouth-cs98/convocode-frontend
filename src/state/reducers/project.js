@@ -1,4 +1,3 @@
-import { useActionData } from 'react-router';
 import { ActionTypes } from '../actions';
 
 const initialState = {

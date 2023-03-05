@@ -19,9 +19,9 @@ const CodeEditor = (props) => {
   };
 
   var editor_state = null;
-  if (props.language == "javascript") {
+  if (props.language === "javascript") {
     editor_state = props.javaCode;
-  } else if (props.language == "html") {
+  } else if (props.language === "html") {
     editor_state = props.htmlCode;
   } else {
     editor_state = props.cssCode;
