@@ -11,20 +11,15 @@ import will from '../../resources/headshots/WillHeadshot.png';
 import melissa from '../../resources/headshots/MelissaHeadshot.png';
 import abby from '../../resources/headshots/AbbyHeadshot.png';
 import annie from '../../resources/headshots/AnnieHeadshot.png';
-import PostCard from "../../components/CommunityPage/PostCard"
 import down from '../../resources/down.svg';
-import output from '../../resources/output.png'
 import './landing.css'
 
 const Landing = (props) => {
   const [sunLeft, setSunLeft] = useState(true);
 
-
   useEffect(() => {
     props.loadProjects();
   }, []);
-  const trending = [...props.projects];
-  const t = trending.slice(0, 6);
 
   function animateSun() {
     console.log(sunLeft)

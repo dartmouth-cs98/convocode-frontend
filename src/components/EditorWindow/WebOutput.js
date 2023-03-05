@@ -3,8 +3,6 @@ import './index.css'
 import { connect } from 'react-redux';
 import { addJavascriptCode, addHTMLCode, addCSSCode, addCleanedJavascript } from "../../state/actions";
 import Iframe from 'react-iframe';
-import Run from '../../resources/play.png'
-
 
 const WebOutput = (props) => {
   const [iframeSrc, setIframeSrc] = useState(null);

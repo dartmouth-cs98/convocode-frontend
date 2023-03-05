@@ -97,22 +97,6 @@ export const commentOnProject = async (projectId, commentBody, replyingTo) => {
 
 }
 
-export const commentOnComment = async (projectId, commentId, username, commentBody) => {
-
-  const commentInfo = {
-    commentId: commentId,
-    username: username,
-    commentBody, commentBody
-  }
-
-  const requestUrl = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE_COMMENT}/${projectId}`;
-
-  const { data } = await axios.post(requestUrl, { commentInfo });
-
-  return data;
-
-}
-
 /**
  * @description increments like count of a project
  * @param id project id
@@ -193,7 +177,7 @@ export const deleteProject = async (projectId) => {
   const userToken = getAuthTokenFromStorage();
 
   try {
-    const { data } = await axios.delete(url, {
+    await axios.delete(url, {
       headers: {
         authorization: userToken
       },

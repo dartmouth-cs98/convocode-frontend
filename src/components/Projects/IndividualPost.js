@@ -210,7 +210,7 @@ const IndividualPost = (props) => {
     monacoRef.current = monaco;
     jsRef.current.updateOptions({ readOnly: true });
     const messageContribution = jsRef.current.getContribution('editor.contrib.messageController');
-    const diposable = jsRef.current.onDidAttemptReadOnlyEdit(() => {
+    jsRef.current.onDidAttemptReadOnlyEdit(() => {
       messageContribution.showMessage("Open in IDE to edit code.", jsRef.current.getPosition());
     });
   }
@@ -219,7 +219,7 @@ const IndividualPost = (props) => {
     cssRef.current = editor;
     cssRef.current.updateOptions({ readOnly: true });
     const messageContribution = cssRef.current.getContribution('editor.contrib.messageController');
-    const diposable = cssRef.current.onDidAttemptReadOnlyEdit(() => {
+    cssRef.current.onDidAttemptReadOnlyEdit(() => {
       messageContribution.showMessage("Open in IDE to edit code.", cssRef.current.getPosition());
     });
   }
@@ -228,7 +228,7 @@ const IndividualPost = (props) => {
     htmlRef.current = editor;
     htmlRef.current.updateOptions({ readOnly: true });
     const messageContribution = htmlRef.current.getContribution('editor.contrib.messageController');
-    const diposable = htmlRef.current.onDidAttemptReadOnlyEdit(() => {
+    htmlRef.current.onDidAttemptReadOnlyEdit(() => {
       messageContribution.showMessage("Open in IDE to edit code.", htmlRef.current.getPosition());
     });
   }
@@ -318,7 +318,7 @@ const IndividualPost = (props) => {
         tags: props.project.tags,
       }
 
-      const project = props.createProject(projectInfo);
+      props.createProject(projectInfo);
       navigate('/profile');
 
     }
@@ -398,7 +398,7 @@ const IndividualPost = (props) => {
                 <button className="pink-button" id="right" onClick={openClick} style={{ "margin-right": "10px" }}>{isMine ? 'Open in IDE' : 'Make a Copy'}</button>
                 
                   {
-                    props.user.username == props.project.username ? (
+                    props.user.username === props.project.username ? (
                       <NavLink to="/profile"><button className="pink-button" id="right" onClick={deleteProject} style={{ "margin-right": "10px" }}>Delete</button></NavLink>
                     ) : <></>
                     
