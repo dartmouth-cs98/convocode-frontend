@@ -31,6 +31,7 @@ import { decorationDict } from '../../utils/decorationDict';
 // loads in .env file if needed
 import dotenv from 'dotenv';
 import { ArraySchema } from 'yup';
+import { current } from '@reduxjs/toolkit';
 dotenv.config({ silent: true });
 
 const WebEditors = (props) => {
@@ -54,6 +55,7 @@ const WebEditors = (props) => {
   const [javaStackLocation, setJavaStackLocation] = useState(props.javaCodeHistory.length - 1);
   const [cssStackLocation, setCssStackLocation] = useState(props.cssCodeHistory[props.cssCodeHistory.length - 1]);
   const [htmlStackLocation, setHtmlStackLocation] = useState(props.htmlCodeHistory[props.htmlCodeHistory.length - 1]);
+  const [buttonText, setButtonText] = useState("");
 
   const jsRef = useRef(null);
   const monacoRef = useRef(null);
@@ -69,6 +71,7 @@ const WebEditors = (props) => {
     if (e.keyCode === 13) {
       e.preventDefault();
       setLoading(!loading);
+      setButtonText("Loading...");
       handleSubmitCode();
     }
   };
@@ -468,6 +471,27 @@ const WebEditors = (props) => {
     setQuery("");
   }, [props.htmlCode]);
 
+  function addCSS(result) {
+    setRemoteAdd(true);
+    setLoading(true);
+    setButtonText("Styling...");
+    console.log(result);
+    getOpenAICode("style the html", "css", props.cssCode, props.javaCode, result).then((res) => {
+      setLoading(false);
+      console.log(res.code);
+      if (props.cssCode.length === 0) {
+        props.addCSSCode(res.code);
+      } else {
+        props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: res.code });
+      }
+
+    })
+
+    
+
+  }
+
+
   // sends user input to backend and placed code in appropriate code section 
   function handleSubmitCode() {
     // send user input to get code from openai
@@ -486,6 +510,7 @@ const WebEditors = (props) => {
         var html = res.code;
         var js = "";
         var css = "";
+
         while (html.indexOf('<style>') !== -1) {
           var openTag = html.indexOf('<style>');
           var closeTag = html.indexOf('</style>');
@@ -509,7 +534,11 @@ const WebEditors = (props) => {
         }
         if (css !== "") {
           props.insertCSSCode({index: cssRef.current.getPosition().lineNumber, code: css })
-        } if (js !== "") {
+        } else {
+          addCSS(html);
+        }
+        
+        if (js !== "") {
           props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: js })
         }
 
@@ -579,8 +608,9 @@ const WebEditors = (props) => {
           <div className="ide-buttons-1">
             <button className="stop3 pink" id="ask-cc-button" onClick={() => {
               setLoading(!loading);
+              setButtonText("Loading...");
               handleSubmitCode();
-            }} disabled={loading}>{loading ? 'Loading...' : 'Ask ConvoCode'}</button>
+            }} disabled={loading}>{loading ? buttonText : 'Ask ConvoCode'}</button>
             {/* <button className="heather-grey"><img src={settings} alt="settings icon" /></button> */}
           </div>
           </div>
