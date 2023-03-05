@@ -387,22 +387,32 @@ const IndividualPost = (props) => {
                 <span className="username" style={{ "font-weight": "600", "margin-top": "5px" }}>@{props.project.username}</span>
 
               </div>
+              <div className="description-container">
               <span style={{ "margin-top": "5px" }} >{props.project.description}</span>
-              <div className="flex-row clickables" style={{ "width": "100%", "justify-content": "left", "alignItems": "center", "font-size": "1em" }}>
-
+              {/* <div> */}
+              {
+                props.user.username == props.project.username ? (
+                    <NavLink to="/profile"><button className="cancel-project" id="right" onClick={deleteProject} style={{ "margin-right": "10px" }}>Delete</button></NavLink>
+                ) : <></>
+                    
+              }
+              {/* </div> */}
+              </div>
+              {/* <div className="flex-row clickables" style={{ "width": "100%", "justify-content": "left", "alignItems": "center", "font-size": "1em" }}> */}
+              <div className="flex-row clickables">
                 <button className="likes2" onClick={like}>
                   {hasLiked ? <img src={likeFilled} alt="Filled Like Button" /> : <img src={likeUnfilled} alt="Unfilled Like Button" />}
                   <p style={{ "padding-right": '3px' }}>{props.project.likes}</p>
                 </button>
-
+                <div className="ip-button-container">
                 <button className="pink-button" id="right" onClick={openClick} style={{ "margin-right": "10px" }}>{isMine ? 'Open in IDE' : 'Make a Copy'}</button>
                 
-                  {
+                  {/* {
                     props.user.username == props.project.username ? (
-                      <NavLink to="/profile"><button className="pink-button" id="right" onClick={deleteProject} style={{ "margin-right": "10px" }}>Delete</button></NavLink>
+                      <NavLink to="/profile"><button className="cancel-project" id="right" onClick={deleteProject} style={{ "margin-right": "10px" }}>Delete</button></NavLink>
                     ) : <></>
                     
-                  }
+                  } */}
                 
                 <CopyToClipboard text={url}>
                   <button className="sage-button" id="right" style={{ 'margin-right': '10px' }} onClick={() => alert("The project link has been copied to your clipboard.")}><img src={copy} alt="Copy Icon" /></button>
@@ -441,6 +451,7 @@ const IndividualPost = (props) => {
                       :
                       <></>
                   }
+                  </div>
                 </div>
 
 
