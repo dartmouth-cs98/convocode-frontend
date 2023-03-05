@@ -191,11 +191,9 @@ export const deleteProject = async (projectId) => {
 
   const url = `${process.env.REACT_APP_ROOT_URL}/${SUBROUTE}/${projectId}`;
   const userToken = getAuthTokenFromStorage();
-  console.log("are we in projet services")
-  console.log(url)
-  console.log(userToken)
+
   try {
-    const { data } = await axios.delete(url, {}, {
+    const { data } = await axios.delete(url, {
       headers: {
         authorization: userToken
       },
