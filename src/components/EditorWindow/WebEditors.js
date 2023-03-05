@@ -606,6 +606,7 @@ const WebEditors = (props) => {
             }} disabled={loading}>{loading ? buttonText : 'Ask ConvoCode'}</button>
             {/* <button className="heather-grey"><img src={settings} alt="settings icon" /></button> */}
           </div>
+          </div>
           <div className="ide-buttons-2">
             <ProjectModalForm className="web-editor-modal"></ProjectModalForm>
           </div>
