@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import HeaderBar from "../HeaderBar/HeaderBar";
 import PostCard from "./PostCard"
 import AlgoliaSearch from "./AlgoliaSearch"
-import { loadProjects } from "../../state/actions";
+import Pagination from "./Pagination"
+import { loadProjects, updateSearchString  } from "../../state/actions";
 
 import './community.css'
 
 const CommunityPage = (props) => {
 
   useEffect(() => {
-    props.loadProjects();
+    props.updateSearchString();
+    props.loadProjects("", 1)
   }, []);
 
   return (
@@ -33,6 +35,7 @@ const CommunityPage = (props) => {
             })
           }
         </div>
+        <Pagination/>
       </div>
     </div>
   );
@@ -44,4 +47,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { loadProjects })(CommunityPage);
+export default connect(mapStateToProps, { loadProjects, updateSearchString })(CommunityPage);
