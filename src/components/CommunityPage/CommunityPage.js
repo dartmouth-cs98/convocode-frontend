@@ -13,7 +13,6 @@ const CommunityPage = (props) => {
     props.loadProjects();
   }, []);
 
-
   return (
     <div data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />

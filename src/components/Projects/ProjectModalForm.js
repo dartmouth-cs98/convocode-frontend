@@ -6,9 +6,8 @@ import CodeEditor from '../EditorWindow/CodeEditor';
 import WebOutput from '../EditorWindow/WebOutput';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import { addProjectId, addProjectTitle, addProjectDescription, addProjectTag, deleteProjectTag, addProjectStatus, createProject, updateExistingProject } from '../../state/actions';
-import { addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory } from '../../state/actions';
 import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from '../../state/actions';
-import { Formik, Form, Field, useFormikContext } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { decorationDict } from "../../utils/decorationDict";
 import * as Yup from 'yup';
 import 'react-tabs/style/react-tabs.css';
@@ -58,60 +57,28 @@ const ProjectModalForm = (props) => {
     monacoRef.current = monaco;
     editor.updateOptions({ readOnly: true });
     const messageContribution = jsRef.current.getContribution('editor.contrib.messageController');
-    const diposable = jsRef.current.onDidAttemptReadOnlyEdit(() => {
+    jsRef.current.onDidAttemptReadOnlyEdit(() => {
       messageContribution.showMessage("Go back to IDE to edit code.", jsRef.current.getPosition());
     });
   }
 
-  function handleCSSDidMount(editor, monaco) {
+  function handleCSSDidMount(editor) {
     cssRef.current = editor;
     editor.updateOptions({ readOnly: true });
     const messageContribution = cssRef.current.getContribution('editor.contrib.messageController');
-    const diposable = cssRef.current.onDidAttemptReadOnlyEdit(() => {
+    cssRef.current.onDidAttemptReadOnlyEdit(() => {
       messageContribution.showMessage("Go back to IDE to edit code.", cssRef.current.getPosition());
     });
   }
 
-  function handleHTMLDidMount(editor, monaco) {
+  function handleHTMLDidMount(editor) {
     htmlRef.current = editor;
     editor.updateOptions({ readOnly: true });
     const messageContribution = htmlRef.current.getContribution('editor.contrib.messageController');
-    const diposable = htmlRef.current.onDidAttemptReadOnlyEdit(() => {
+    htmlRef.current.onDidAttemptReadOnlyEdit(() => {
       messageContribution.showMessage("Go back to IDE to edit code.", htmlRef.current.getPosition());
     });
   }
-
-  function setDisplayPost(codeType, bool) {
-    if (codeType === "javascript") {
-      props.setJavaDisplay(bool);
-    } else if (codeType === "css") {
-      props.setCSSDisplay(bool);
-    } else {
-      props.setHTMLDisplay(bool);
-    }
-  }
-
-  function setDecorationsPost(codeType, d) {
-    if (codeType === "javascript") {
-      setJsDecorations(d);
-    } else if (codeType === "css") {
-      setCssDecorations(d);
-    } else {
-      setHtmlDecorations(d);
-    }
-  }
-
-
-  function getDecorationsPost(codeType) {
-    if (codeType === "javascript") {
-      return jsDecorations;
-    } else if (codeType === "css") {
-      return cssDecorations;
-    } else {
-      return htmlDecorations;
-    }
-  }
-
 
   function setDisplayPost(codeType, bool) {
     if (codeType === "javascript") {
@@ -217,32 +184,8 @@ const ProjectModalForm = (props) => {
         var end = r[j][r[j].length - 1];
         ranges.push([start, end]);
       }
-
     }
     return ranges;
-
-
-  }
-
-
-  function getRangesPost(codeType) {
-    var history = getHistoryPost(codeType);
-    var currTags = history.slice(-1)[0].tags;
-    var insertionTags = currTags.filter(checkInsertion);
-    var unique = insertionTags.filter(onlyUnique);
-    var ranges = []
-    for (var i = 0; i < unique.length; i++) {
-      var r = findTagRange(unique[i], currTags);
-      for (var j = 0; j < r.length; j++) {
-        var start = r[j][0];
-        var end = r[j][r[j].length - 1];
-        ranges.push([start, end]);
-      }
-
-    }
-    return ranges;
-
-
   }
 
   function displayTagsPost(codeType) {
@@ -321,7 +264,7 @@ const ProjectModalForm = (props) => {
 
 
   const save = (values) => {
-    if (props.user.username == '') {
+    if (props.user.username === '') {
       alert("Please sign in before opening a new project.")
       navigate("/signin")
     } else {
@@ -387,7 +330,7 @@ const ProjectModalForm = (props) => {
   }
 
   const submit = (values) => {
-    if (props.user.username == '') {
+    if (props.user.username === '') {
       console.log("not signed in")
       alert("Please sign in before opening a new project.")
       navigate("/signin")
