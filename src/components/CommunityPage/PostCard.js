@@ -72,10 +72,8 @@ const Post = (props) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShow(true)
-    }, 250)
-
+    }, 750)
     return () => clearTimeout(timeout)
-
   }, [show])
 
 
