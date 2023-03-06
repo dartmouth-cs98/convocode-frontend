@@ -285,7 +285,10 @@ export const setReplyingTo = (replyingTo, username) => {
 export const deleteUserProject = (projectId) => {
   return async (dispatch) => {
     try {
-      deleteProject(projectId);
+      const result = await deleteProject(projectId);
+      console.log("delete back from backend")
+      console.log(result)
+      dispatch({ type: ActionTypes.SET_USER_DATA, payload: result });
     } catch (error) {
       console.log(error)
     }
