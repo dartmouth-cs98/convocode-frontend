@@ -686,6 +686,7 @@ const mapStateToProps = (reduxstate) => {
     javaDisplay: reduxstate.tagDisplay.javaDisplay,
     cssDisplay: reduxstate.tagDisplay.cssDisplay,
     htmlDisplay: reduxstate.tagDisplay.htmlDisplay,
+    user: reduxstate.user,
   };
 };
 
