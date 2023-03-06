@@ -35,7 +35,7 @@ const WebOutput = (props) => {
     const url = getGeneratedPageURL({
       html: props.htmlCode,
       css: props.cssCode,
-      js: props.javaCode,
+      js: props.cleanedCode,
     });
     setIframeSrc(url);
 

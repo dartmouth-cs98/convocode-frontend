@@ -369,6 +369,7 @@ const WebEditors = (props) => {
 
       // rewrite the user's JavaScript to protect loops
       var processed = transform(props.javaCode);
+      console.log(processed);
       props.addCleanedJavascript(processed.code);
 
     } catch {
