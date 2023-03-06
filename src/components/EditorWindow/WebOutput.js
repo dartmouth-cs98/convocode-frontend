@@ -32,11 +32,15 @@ const WebOutput = (props) => {
   }
 
   useEffect(() => {
+    var code = props.cleanedCode;
+    if (code === "") {
+      code = props.javaCode;
+    }
     console.log(props.cleanedCode);
     const url = getGeneratedPageURL({
       html: props.htmlCode,
       css: props.cssCode,
-      js: props.javaCode,
+      js: code,
     });
     setIframeSrc(url);
 
