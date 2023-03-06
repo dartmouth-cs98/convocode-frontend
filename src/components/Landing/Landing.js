@@ -43,14 +43,14 @@ const Landing = (props) => {
           <h1 className="landing-title">Convo</h1>
           <h1 className="code-gradient">Code</h1>
         </div>
-        <h2>Building Community Around Exploring AI.</h2>
+        <h2 id="landing-desc">Building Community Around Exploring AI.</h2>
         <div className="landing-file-buttons">
           <button className="yellow-btn" onClick={props.clearProject}><NavLink to="/editor">Start Coding</NavLink></button>
           <button className="yellow-btn"><NavLink to="/community">Get Inspired</NavLink></button>
         </div>
         <div className="landing-learn-more">
-          <h4>Learn More</h4>
-          <img className="downArrow" src={down} alt="arrow pointing down" />
+          <h4 id="landing-desc">Learn More</h4>
+          <img id="landing-desc" className="downArrow" src={down} alt="arrow pointing down" />
         </div>
       </div>
 

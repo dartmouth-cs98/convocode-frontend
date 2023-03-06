@@ -20,6 +20,10 @@
 }
 .landing-file-buttons{
     margin-top: 20px;
+    margin-left: 10px;
+}
+#landing-desc{
+    margin-left: 10px;
 }
 .thick{
     font-weight: 600;
