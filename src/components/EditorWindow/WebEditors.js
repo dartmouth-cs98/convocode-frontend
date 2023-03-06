@@ -83,7 +83,6 @@ const WebEditors = (props) => {
   function findPreviousState(history, stackLoc, code) {
     var prevCode = [];
     var location = stackLoc;
-    console.log(location);
     while (!arraysEqual(prevCode, code)) {
       location -= 1;
       prevCode = history[location].code;
@@ -93,7 +92,6 @@ const WebEditors = (props) => {
   }
 
   useEffect(() => {
-    console.log("current state of ", error, modalShow)
     setModalShow(error !== null)
   }, [error]);
 
@@ -392,8 +390,6 @@ const WebEditors = (props) => {
         jsUndo.current = false;
 
       }
-      console.log(` stack location: ${javaStackLocation}`);
-      console.log(`stack length: ${props.javaCodeHistory.length - 1}`);
 
     } catch {
       console.log("couldn't add code history");
@@ -407,7 +403,6 @@ const WebEditors = (props) => {
     try {
       if (cssUndo.current) {
         var res = findPreviousState(props.cssCodeHistory, cssStackLocation, props.cssCode.split(/\r\n|\r|\n/));
-        console.log(res);
         props.addCSSCodeHistory({ query: -1, updatedCode: props.cssCode.split(/\r\n|\r|\n/), tags: res[1] });
         setCssStackLocation(res[0]);
         cssUndo.current = false;
@@ -437,7 +432,7 @@ const WebEditors = (props) => {
     try {
       if (htmlUndo.current) {
         var res = findPreviousState(props.htmlCodeHistory, htmlStackLocation, props.htmlCode.split(/\r\n|\r|\n/));
-        console.log(res);
+
         props.addHTMLCodeHistory({ query: -1, updatedCode: props.htmlCode.split(/\r\n|\r|\n/), tags: res[1] });
         setHtmlStackLocation(res[0]);
         htmlUndo.current = false;
@@ -465,7 +460,6 @@ const WebEditors = (props) => {
     setRemoteAdd(true);
     setLoading(true);
     setButtonText("Styling...");
-    console.log(result);
     
     getOpenAICode(`style the added html ${newestCode} in css`, "css", props.cssCode, props.javaCode, result).then((res) => {
       setLoading(false);
@@ -476,7 +470,6 @@ const WebEditors = (props) => {
       while (css.indexOf('</style>') !== -1) {
         var css = css.replace('</style>', '');
       }
-      console.log(res.code);
       if (props.cssCode.length === 0) {
         props.addCSSCode(css);
       } else {

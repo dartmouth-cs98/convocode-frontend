@@ -72,9 +72,7 @@ export const createProject = (newProject) => {
   return async (dispatch) => {
     try {
       const data = await updateProject(projectInfo);
-      if (data) {
-        console.log("updated", data);
-      }
+
       dispatch({ type: ActionTypes.UPDATE_PROJECT, payload: data });
     } catch (error) {
       console.log(error)
@@ -285,7 +283,8 @@ export const setReplyingTo = (replyingTo, username) => {
 export const deleteUserProject = (projectId) => {
   return async (dispatch) => {
     try {
-      deleteProject(projectId);
+      const result = await deleteProject(projectId);
+      dispatch({ type: ActionTypes.SET_USER_DATA, payload: result });
     } catch (error) {
       console.log(error)
     }

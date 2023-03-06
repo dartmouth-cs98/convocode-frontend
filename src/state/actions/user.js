@@ -90,6 +90,7 @@ export const refreshUser = () => {
     try {
 
       const response = await getUser();
+
       dispatch({ type: ActionTypes.SET_USER_DATA, payload: response });
 
     } catch (error) {
