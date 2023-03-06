@@ -26,6 +26,13 @@
 .flex-row.clickables {
   margin-top: 7.5px;
   margin-bottom: 7.5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  font-size: 1em;
+
 }
 
 .tag#undefined {
@@ -300,3 +307,16 @@ button#right {
   text-align: center;
   width: 100%
 }
+
+.description-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.ip-button-container{
+  display: flex;
+  flex-direction: row;
+}
+
