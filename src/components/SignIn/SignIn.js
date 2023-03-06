@@ -55,7 +55,7 @@ const SignIn = (props) => {
             <h3>Password:</h3>
             <input type="password" value={password} id="password" onChange={(e) => setPassword(e.target.data)} />
           </label>
-          <a href="/#" id="link">Forgot Password?</a>
+          <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" id="link">Forgot Password?</a>
           <div className="submit-buttons">
             <input type="submit" />
             <NavLink to="/signup" id="link">Create Account</NavLink>
