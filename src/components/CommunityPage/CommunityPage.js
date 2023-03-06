@@ -20,7 +20,7 @@ const CommunityPage = (props) => {
       <HeaderBar />
       <div className="community-page">
         <div className="comm-title">
-          <h1>Welcome to the ConvoDex Community</h1>
+          <h1>Welcome to the ConvoCode Community</h1>
           <h4>Pushing the boundaries of how we engage with AI</h4>
         </div>
         <div className="search">
