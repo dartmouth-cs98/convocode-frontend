@@ -62,6 +62,9 @@ const WebEditors = (props) => {
   const handleInputKeypress = e => {
     //it triggers by pressing the enter key
     if (e.keyCode === 13) {
+      if (props.user.username === '') {
+        alert("Your work will not be saved unless you sign in. Please navigate to Sign In before creating your project.")
+      }
       e.preventDefault();
       setLoading(!loading);
       setButtonText("Loading...");
@@ -466,7 +469,7 @@ const WebEditors = (props) => {
     setLoading(true);
     setButtonText("Styling...");
     console.log(result);
-    
+
     getOpenAICode(`style the added html ${newestCode} in css`, "css", props.cssCode, props.javaCode, result).then((res) => {
       setLoading(false);
       var css = res.code;
@@ -485,7 +488,7 @@ const WebEditors = (props) => {
 
     })
 
-    
+
 
   }
 
@@ -519,10 +522,10 @@ const WebEditors = (props) => {
         }
         while (html.indexOf('<script>') !== -1) {
           var myOpenTag = html.indexOf('<script>');
-            var myCloseTag = html.indexOf('</script>');
-            
-            js = html.substring(myOpenTag + "<script>".length, myCloseTag);
-            html = html.substring(0, myOpenTag) + html.substring(myCloseTag + '</script>'.length);
+          var myCloseTag = html.indexOf('</script>');
+
+          js = html.substring(myOpenTag + "<script>".length, myCloseTag);
+          html = html.substring(0, myOpenTag) + html.substring(myCloseTag + '</script>'.length);
         }
         if (props.htmlCode.length === 0) {
           props.addHTMLCode(html);
@@ -530,13 +533,13 @@ const WebEditors = (props) => {
           props.insertHTMLCode({ index: htmlRef.current.getPosition().lineNumber, code: html });
         }
         if (css !== "") {
-          props.insertCSSCode({index: cssRef.current.getPosition().lineNumber, code: css })
+          props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: css })
         } else {
           addCSS(html, html);
         }
-        
+
         if (js !== "") {
-          props.insertJavascriptCode({index: jsRef.current.getPosition().lineNumber, code: js })
+          props.insertJavascriptCode({ index: jsRef.current.getPosition().lineNumber, code: js })
         }
 
       } else {
@@ -607,12 +610,15 @@ const WebEditors = (props) => {
             </form>
             <textarea className="commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
             <button className="stop3 pink" id="ask-cc-button" onClick={() => {
+              if (props.user.username === '') {
+                alert("Your work will not be saved unless you sign in. Please navigate to Sign In before creating your project.")
+              }
               setLoading(!loading);
               setButtonText("Loading...");
               handleSubmitCode();
             }} disabled={loading}>{loading ? buttonText : 'Ask ConvoCode'}</button>
           </div>
-            <ProjectModalForm className="web-editor-modal"></ProjectModalForm>
+          <ProjectModalForm className="web-editor-modal"></ProjectModalForm>
         </div>
         <div className="web-editor-container">
           <div className="stop4 editor">
