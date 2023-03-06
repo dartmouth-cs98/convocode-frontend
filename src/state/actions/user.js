@@ -90,8 +90,7 @@ export const refreshUser = () => {
     try {
 
       const response = await getUser();
-      console.log("back from getuser backend")
-      console.log(response)
+
       dispatch({ type: ActionTypes.SET_USER_DATA, payload: response });
 
     } catch (error) {

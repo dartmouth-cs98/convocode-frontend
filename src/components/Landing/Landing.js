@@ -22,7 +22,6 @@ const Landing = (props) => {
   }, []);
 
   function animateSun() {
-    console.log(sunLeft)
     let sun = document.getElementById("sun");
     if (sunLeft) {
       sun.style.left = "90%";
