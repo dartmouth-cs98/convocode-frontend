@@ -45,7 +45,7 @@ const Post = (props) => {
 
   useEffect(() => {
     setClassname(postClass);
-    /* // declare the async data fetching function
+    // declare the async data fetching function
     const fetchData = async () => {
       // get the data from the api
       const data = await getProject(props.item._id);
@@ -53,19 +53,20 @@ const Post = (props) => {
       if (data.htmlCode === '') {
         setIsIframe(false);
         setClassname(postClass);
+  
       } else {
         // set state with the result
         const url = getGeneratedPageURL({
           html: data.htmlCode,
           css: data.cssCode,
         });
-        setSrc(url);
-        setIsIframe(true);
-        setClassname("iFramePost");
+          setSrc(url);
+          setIsIframe(true);
+          setClassname("iFramePost");   
 
       }
     }
-    fetchData().catch(console.error);; */
+    fetchData().catch(console.error);;
   }, []);
 
 
@@ -87,7 +88,7 @@ const Post = (props) => {
         {isIframe ?
           <>
             <div className="pc-iframe-container" style={{ "background-color": iFrameClass }}>
-              <iframe sandbox="allow-scripts" src={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
+              <Iframe sandbox={"allow-scripts allow-popups"} src={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
             </div>
             <div className="body">
               <div className="body-title">

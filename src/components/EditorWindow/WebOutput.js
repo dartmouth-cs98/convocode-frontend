@@ -32,10 +32,11 @@ const WebOutput = (props) => {
   }
 
   useEffect(() => {
+    console.log(props.cleanedCode);
     const url = getGeneratedPageURL({
       html: props.htmlCode,
       css: props.cssCode,
-      js: props.cleanedCode,
+      js: props.javaCode,
     });
     setIframeSrc(url);
 
@@ -46,15 +47,13 @@ const WebOutput = (props) => {
   return (
     <div className="output-window" >
       <iframe src={iframeSrc}
-        // width="640px"
-        // height="320px"
         width={props.width}
         height={props.height}
         id=""
         className="iframe"
         display="block"
         position="relative"
-        onClick={() => alert("in iframe")} />
+      />
     </div>
   );
 };
