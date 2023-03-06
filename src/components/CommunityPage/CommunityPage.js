@@ -35,7 +35,9 @@ const CommunityPage = (props) => {
             })
           }
         </div>
+        <div>
         <Pagination/>
+        </div>
       </div>
     </div>
   );

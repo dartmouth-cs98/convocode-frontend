@@ -429,8 +429,14 @@ section {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding-bottom: 40px;
+  padding-top: 10px;
 }
 
-.pagination-button{
-  margin: 5px;
+.pagination-symbol{
+  margin-left: 10vw;
+  margin-right: 10vw;
+  box-shadow: none;
+  padding: 0px;
+  background-color: white;
 }
