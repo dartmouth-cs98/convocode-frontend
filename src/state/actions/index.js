@@ -33,7 +33,10 @@ import {
 
 import {
   ActionTypes as communityActionTypes,
-  loadProjects
+  loadProjects,
+  updateCurrentPage,
+  updateTotalPages,
+  updateSearchString,
 } from './community';
 
 import {
@@ -108,6 +111,9 @@ export {
   onboarding,
   addCleanedJavascript,
   loadProjects,
+  updateCurrentPage,
+  updateTotalPages,
+  updateSearchString,
   createProject,
   addJavaCodeHistory,
   addCSSCodeHistory,
