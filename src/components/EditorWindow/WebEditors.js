@@ -355,9 +355,7 @@ const WebEditors = (props) => {
     });
 
     editor.onDidFocusEditorText(() => {
-      console.log("readding");
       htmlRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, function () {
-        console.log("hello");
         htmlUndo.current = true;
         htmlRef.current.getModel().undo();
       });
@@ -369,7 +367,6 @@ const WebEditors = (props) => {
 
       // rewrite the user's JavaScript to protect loops
       var processed = transform(props.javaCode);
-      console.log(processed);
       props.addCleanedJavascript(processed.code);
 
     } catch {
@@ -377,7 +374,6 @@ const WebEditors = (props) => {
     } try {
       if (jsUndo.current) {
         var res = findPreviousState(props.javaCodeHistory, javaStackLocation, props.javaCode.split(/\r\n|\r|\n/));
-        console.log(res);
         props.addJavaCodeHistory({ query: -1, updatedCode: props.javaCode.split(/\r\n|\r|\n/), tags: res[1] });
         setJavaStackLocation(res[0]);
         jsUndo.current = false;
