@@ -1,3 +1,7 @@
+.landing{
+  display: flex;
+  flex-direction: column;
+}
 .landing-title{
     font-weight: 600;
     font-size: 13em;
@@ -11,6 +15,7 @@
     flex-direction: row;
     align-items: center;
     padding-top: 25vh;
+    align-items: baseline;
 }
 .landing-title-content{
     margin-left: 5vw;
@@ -172,7 +177,7 @@
   }
   
   .footer-content {
-    position: absolute;
+
     display: flex;
     flex-direction: row;
     width: 100vw;

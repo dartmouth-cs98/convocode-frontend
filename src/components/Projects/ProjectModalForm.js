@@ -58,7 +58,7 @@ const ProjectModalForm = (props) => {
     editor.updateOptions({ readOnly: true });
     const messageContribution = jsRef.current.getContribution('editor.contrib.messageController');
     jsRef.current.onDidAttemptReadOnlyEdit(() => {
-      messageContribution.showMessage("Go back to IDE to edit code.", jsRef.current.getPosition());
+      messageContribution.showMessage("Return to IDE to edit code.", jsRef.current.getPosition());
     });
   }
 
@@ -67,7 +67,7 @@ const ProjectModalForm = (props) => {
     editor.updateOptions({ readOnly: true });
     const messageContribution = cssRef.current.getContribution('editor.contrib.messageController');
     cssRef.current.onDidAttemptReadOnlyEdit(() => {
-      messageContribution.showMessage("Go back to IDE to edit code.", cssRef.current.getPosition());
+      messageContribution.showMessage("Return to IDE to edit code.", cssRef.current.getPosition());
     });
   }
 
@@ -76,7 +76,7 @@ const ProjectModalForm = (props) => {
     editor.updateOptions({ readOnly: true });
     const messageContribution = htmlRef.current.getContribution('editor.contrib.messageController');
     htmlRef.current.onDidAttemptReadOnlyEdit(() => {
-      messageContribution.showMessage("Go back to IDE to edit code.", htmlRef.current.getPosition());
+      messageContribution.showMessage("Return to IDE to edit code.", htmlRef.current.getPosition());
     });
   }
 
@@ -166,7 +166,6 @@ const ProjectModalForm = (props) => {
     if (currRange.length !== 0) {
       range.push(currRange);
     }
-    console.log(range);
     return range;
   }
 
@@ -265,7 +264,7 @@ const ProjectModalForm = (props) => {
 
   const save = (values) => {
     if (props.user.username === '') {
-      alert("Please sign in before opening a new project.")
+      alert("Please sign in to save a project.")
       navigate("/signin")
     } else {
       try {
@@ -293,14 +292,14 @@ const ProjectModalForm = (props) => {
             javaCode: props.javaCode,
             htmlCode: props.htmlCode,
             cssCode: props.cssCode,
+            cleanedCode: props.cleanedCode,
+            description: values.description,
             javaCodeHistory: props.javaCodeHistory,
             htmlCodeHistory: props.htmlCodeHistory,
             cssCodeHistory: props.cssCodeHistory,
             tags: projectTags,
             status: status,
           }
-
-          console.log("new project to create", projectInfo);
           props.createProject(projectInfo);
 
         }
@@ -319,7 +318,6 @@ const ProjectModalForm = (props) => {
         title: props.title,
         description: props.description,
       });
-      console.log(props.tags);
       for (var i = 0; i < props.tags.length; i++) {
         if (projectTags.length === 4) {
           return;
@@ -331,8 +329,7 @@ const ProjectModalForm = (props) => {
 
   const submit = (values) => {
     if (props.user.username === '') {
-      console.log("not signed in")
-      alert("Please sign in before opening a new project.")
+      alert("Please sign in to save a project.")
       navigate("/signin")
       return;
     } else {
@@ -340,7 +337,6 @@ const ProjectModalForm = (props) => {
         const status = true;
 
         if (props.id !== "") {
-          console.log('updating');
           const projectInfo = {
             tags: projectTags,
             title: values.title,
@@ -362,6 +358,7 @@ const ProjectModalForm = (props) => {
             javaCode: props.javaCode,
             htmlCode: props.htmlCode,
             cssCode: props.cssCode,
+            cleanedCode: props.cleanedCode,
             javaCodeHistory: props.javaCodeHistory,
             htmlCodeHistory: props.htmlCodeHistory,
             cssCodeHistory: props.cssCodeHistory,
@@ -369,7 +366,6 @@ const ProjectModalForm = (props) => {
             tags: projectTags,
             status: status,
           }
-          console.log("new project to create", projectInfo);
           props.createProject(projectInfo);
         }
       } catch (error) {
@@ -381,10 +377,24 @@ const ProjectModalForm = (props) => {
     }
   }
 
+  const handleInputKeypress = e => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      handleAddTags();
+    }
+  };
+
+  function onKeyDown(keyEvent) {
+    if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+      keyEvent.preventDefault();
+    }
+  }
+
 
   return (
     <div>
-      <button onClick={handleModalToggle} className="stop6 green">{doesExist ? "Update Post" : "Post"}</button>
+      <button onClick={handleModalToggle} className="stop6 green">{doesExist ? "Update Project" : "Save Project"}</button>
       <div className="form-modal">
         <ReactModal className="project-modal" isOpen={modalShow} onRequestClose={handleModalToggle} contentLabel="ConvoCode" ariaHideApp={false}>
           {/* <div> */}
@@ -396,24 +406,9 @@ const ProjectModalForm = (props) => {
             }
           >
             {({ errors, touched, values }) => (
-              <Form className="edit-modal-form">
+              <Form onKeyDown={onKeyDown} 
+              className="edit-modal-form">
                 <div className="edit-modal-info flex-col" style={{ "flex-grow": "1" }}>
-                  <div id="tags-box" className="input-info ">
-                    <h3 className="input-header">Project Tags</h3>
-                    {projectTags.map((tag, index) => {
-                      return (
-                        <div className="tag-item" key={index}>
-                          <span className="text">#{tag}</span>
-                          <span className="close" onClick={() => handleRemoveTags(index)}>&times;</span>
-                        </div>
-                      )
-                    })
-                    }
-                    <input id="project-input-tags" type="text" placeholder="ex. react-app" onChange={handleTagChange} value={newTag} />
-                    <div className="tag-button-container">
-                      <button className="tag-button" type="button" onClick={handleAddTags}>Add Tag</button>
-                    </div>
-                  </div>
                   <div className="input-info">
                     <h3 className="input-header">Project Title</h3>
                     <Field name="title" id="project-input" component="textarea" rows="3" />
@@ -427,6 +422,22 @@ const ProjectModalForm = (props) => {
                     {errors.description && touched.description ? (
                       <div>{errors.description}</div>
                     ) : null}
+                  </div>
+                  <div id="tags-box" className="input-info ">
+                    <h3 className="input-header">Project Tags</h3>
+                    {projectTags.map((tag, index) => {
+                      return (
+                        <div className="tag-item" key={index}>
+                          <span className="text">#{tag}</span>
+                          <span className="close" onClick={() => handleRemoveTags(index)}>&times;</span>
+                        </div>
+                      )
+                    })
+                    }
+                    <input id="project-input-tags" type="text" placeholder="ex. react-app" onChange={handleTagChange} onKeyDown={handleInputKeypress} value={newTag} />
+                    <div className="tag-button-container">
+                      <button className="tag-button" type="button" onClick={handleAddTags}>Add Tag</button>
+                    </div>
                   </div>
                   <div className="cancel-button-container">
                       <button className="cancel-project" type="reset" onClick={handleModalToggle}>Cancel</button>
@@ -464,19 +475,10 @@ const ProjectModalForm = (props) => {
                       </TabPanel>
                     </Tabs>
                     <div className="submit-buttons-container">
-                      <button className="light-pink" type="button" onClick={() => save(values)}>Save For Later</button>
-                      <button className="pink" type="submit">{doesExist ? "Update" : "Post"}</button>
+                      <button className="light-pink" type="button" onClick={() => save(values)}>Save</button>
+                      <button className="pink" type="submit">{doesExist && props.status ? "Update" : "Publish"}</button>
                     </div>
                   </div>
-                  {/* <div className="project-buttons"> */}
-                    {/* <div className="left-pb">
-                      <button className="cancel-project" type="reset" onClick={handleModalToggle}>Cancel</button>
-                    </div> */}
-                    {/* <div className="right-pb">
-                      <button className="light-pink" type="button" onClick={() => save(values)}>Save For Later</button>
-                      <button className="pink" type="submit">{doesExist ? "Update" : "Post"}</button>
-                    </div> */}
-                  {/* </div> */}
                 </div>
               </Form>
             )}

@@ -18,6 +18,7 @@ import CommentCard from "./CommentCard"
 import { comment } from "../../state/actions/project.js"
 import { decorationDict } from "../../utils/decorationDict";
 import WebOutput from "../EditorWindow/WebOutput";
+import { Modal, Button } from "react-bootstrap";
 import './individualPost.css';
 
 const IndividualPost = (props) => {
@@ -34,11 +35,10 @@ const IndividualPost = (props) => {
   const [htmlDecorations, setHtmlDecorations] = useState([]);
   const [isMine, setIsMine] = useState(false);
   const [hasComments, setHasComments] = useState(false);
-
+  const [show, setShow] = useState(false);
 
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
 
   function setDisplayPost(codeType, bool) {
     if (codeType === "javascript") {
@@ -325,7 +325,12 @@ const IndividualPost = (props) => {
   }
 
   const deleteProject = () => {
-      props.deleteUserProject(props.project.id);
+    setShow(true)
+  }
+
+  const confirmedDelete = () => {
+    props.deleteUserProject(props.project.id)
+    navigate("/profile")
   }
 
   useEffect(() => {
@@ -337,8 +342,6 @@ const IndividualPost = (props) => {
     }
 
   }, [props.project]);
-
-  const [iframeSrc, setIframeSrc] = useState(null);
 
   const getGeneratedPageURL = ({ html, css, js }) => {
     const getBlobURL = (code, type) => {
@@ -362,6 +365,8 @@ const IndividualPost = (props) => {
 
     return getBlobURL(source, 'text/html');
   }
+
+  const [iframeSrc, setIframeSrc] = useState(null);
 
   useEffect(() => {
     const url = getGeneratedPageURL({
@@ -387,6 +392,28 @@ const IndividualPost = (props) => {
     <div className="project-page" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />
       <div className="individual-project">
+        <Modal
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          show={show}
+          onHide={() => setShow(false)}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Are you sure?
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>
+              {props.project.title} will be deleted permanently.
+            </p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="light" onClick={deleteProject}>Close</Button>
+            <Button variant="danger" onClick={confirmedDelete}>Confirm Delete</Button>
+          </Modal.Footer>
+        </Modal >
         <div className="post-modal-content">
           <div className="flex-col" style={{ "flex-grow": "1" }}>
             <div className="post-modal-info">
@@ -396,15 +423,13 @@ const IndividualPost = (props) => {
 
               </div>
               <div className="description-container">
-              <span style={{ "margin-top": "5px" }} >{props.project.description}</span>
-              {/* <div> */}
-              {
-                props.user.username == props.project.username ? (
-                    <NavLink to="/profile"><button className="cancel-project" id="right" onClick={deleteProject} style={{ "margin-right": "10px" }}>Delete</button></NavLink>
-                ) : <></>
-                    
-              }
-              {/* </div> */}
+                <span style={{ "margin-top": "5px" }} >{props.project.description}</span>
+                {
+                  props.user.username === props.project.username ? (
+                    <button className="cancel-project" id="right" onClick={deleteProject} style={{ "margin-right": "10px" }}>Delete</button>
+                  ) : <></>
+
+                }
               </div>
               {/* <div className="flex-row clickables" style={{ "width": "100%", "justify-content": "left", "alignItems": "center", "font-size": "1em" }}> */}
               <div className="flex-row clickables">
@@ -413,44 +438,44 @@ const IndividualPost = (props) => {
                   <p style={{ "padding-right": '3px' }}>{props.project.likes}</p>
                 </button>
                 <div className="ip-button-container">
-                <button className="pink-button" id="right" onClick={openClick} style={{ "margin-right": "10px" }}>{isMine ? 'Open in IDE' : 'Make a Copy'}</button>
-                <CopyToClipboard text={url}>
-                  <button className="sage-button" id="right" style={{ 'margin-right': '10px' }} onClick={() => alert("The project link has been copied to your clipboard.")}><img src={copy} alt="Copy Icon" /></button>
-                </CopyToClipboard>
-                <div className="share-button">
-                  <button className="sage-button" id="right" style={{ "margin-right": "10px", "text-size": "2vw" }} onClick={handleOpen}>Share<img src={down} alt="Down Arrow" /></button>
-                  {
-                    open ?
-                      <div className="dropdown">
-                        <span>
-                          <FacebookShareButton url={url} quote="Convocode. Pushing the boundaries of how we engage with AI." hashtags={["convocode"]}>
-                            <FacebookIcon size={32} round={true} /> Facebook
-                          </FacebookShareButton>
-                        </span>
-                        <span>
-                          <TwitterShareButton url={url} title={props.project.title} hashtags={["convocode"]}>
-                            <TwitterIcon size={32} round={true} /> Twitter
-                          </TwitterShareButton>
-                        </span>
-                        <span>
-                          <RedditShareButton url={url} title={props.project.title}>
-                            <RedditIcon size={32} round={true} /> Reddit
-                          </RedditShareButton>
-                        </span>
-                        <span>
-                          <LinkedinShareButton url={url} title={props.project.title}>
-                            <LinkedinIcon size={32} round={true} /> LinkedIn
-                          </LinkedinShareButton>
-                        </span>
-                        <span>
-                          <EmailShareButton url={url} title={props.project.title}>
-                            <EmailIcon size={32} round={true} /> Email
-                          </EmailShareButton>
-                        </span>
-                      </div>
-                      :
-                      <></>
-                  }
+                  <button className="pink-button" id="right" onClick={openClick} style={{ "margin-right": "10px" }}>{isMine ? 'Open in IDE' : 'Make a Copy'}</button>
+                  <CopyToClipboard text={url}>
+                    <button className="sage-button" id="right" style={{ 'margin-right': '10px' }} onClick={() => alert("The project link has been copied to your clipboard.")}><img src={copy} alt="Copy Icon" /></button>
+                  </CopyToClipboard>
+                  <div className="share-button">
+                    <button className="sage-button" id="right" style={{ "margin-right": "10px", "text-size": "2vw" }} onClick={handleOpen}>Share<img src={down} alt="Down Arrow" /></button>
+                    {
+                      open ?
+                        <div className="dropdown">
+                          <span>
+                            <FacebookShareButton url={url} quote="Convocode. Pushing the boundaries of how we engage with AI." hashtags={["convocode"]}>
+                              <FacebookIcon size={32} round={true} /> Facebook
+                            </FacebookShareButton>
+                          </span>
+                          <span>
+                            <TwitterShareButton url={url} title={props.project.title} hashtags={["convocode"]}>
+                              <TwitterIcon size={32} round={true} /> Twitter
+                            </TwitterShareButton>
+                          </span>
+                          <span>
+                            <RedditShareButton url={url} title={props.project.title}>
+                              <RedditIcon size={32} round={true} /> Reddit
+                            </RedditShareButton>
+                          </span>
+                          <span>
+                            <LinkedinShareButton url={url} title={props.project.title}>
+                              <LinkedinIcon size={32} round={true} /> LinkedIn
+                            </LinkedinShareButton>
+                          </span>
+                          <span>
+                            <EmailShareButton url={url} title={props.project.title}>
+                              <EmailIcon size={32} round={true} /> Email
+                            </EmailShareButton>
+                          </span>
+                        </div>
+                        :
+                        <></>
+                    }
                   </div>
                 </div>
 
