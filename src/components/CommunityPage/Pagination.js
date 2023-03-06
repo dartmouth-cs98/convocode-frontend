@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from 'react-redux';
 import { loadProjects, updateCurrentPage, updateTotalPages } from "../../state/actions";
 
@@ -12,15 +12,15 @@ const Pagination = (props) => {
   }, []);
 
   const handlePreviousClick = () => {
-    if(props.currentPage === 1) return;
+    if (props.currentPage === 1) return;
     props.updateCurrentPage(props.currentPage - 1)
-    props.loadProjects(props.searchString, props.currentPage -1 )
+    props.loadProjects(props.searchString, props.currentPage - 1)
   };
 
   const handleForwardClick = () => {
-    if(props.currentPage === props.totalPages) return;
+    if (props.currentPage === props.totalPages) return;
     props.updateCurrentPage(props.currentPage + 1)
-    props.loadProjects(props.searchString, props.currentPage+ 1)
+    props.loadProjects(props.searchString, props.currentPage + 1)
   };
 
   return (

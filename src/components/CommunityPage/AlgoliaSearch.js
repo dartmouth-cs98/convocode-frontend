@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from 'react-redux';
 import { loadProjects, updateSearchString, updateCurrentPage, updateTotalPages } from "../../state/actions";
-
-import { searchProjects } from '../../services/projects';
 
 import './search.css'
 
@@ -21,7 +19,7 @@ const AlgoliaSearch = (props) => {
   };
 
   const handleSearchClick = () => {
-    
+
     props.loadProjects(props.searchString, 1)
     props.updateCurrentPage(1);
     props.updateTotalPages(props.searchString);
