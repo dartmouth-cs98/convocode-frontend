@@ -319,8 +319,11 @@ const IndividualPost = (props) => {
       // create will load copy into redux
       props.createProject(projectInfo);
 
+      //await
+      alert("The project has been copied into your editor")
+
       // navigate to IDE with new copy loaded in redux
-      navigate('/profile');
+      navigate('/editor');
     }
   }
 
@@ -385,7 +388,7 @@ const IndividualPost = (props) => {
       props.comment(props.project.id, userComment, props.project.replyingTo);
     }
   }
-   
+
   let tag = "undefined"
 
   return (
