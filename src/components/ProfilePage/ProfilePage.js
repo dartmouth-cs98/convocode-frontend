@@ -22,6 +22,10 @@ const ProfilePage = (props) => {
     props.refreshUser();
   }, []);
 
+  useEffect(() => {
+    props.refreshUser();
+  }, [props.user.projectCount]);
+
   return (
     <div className="profile-page" data-theme={props.lightMode ? 'light' : 'dark'}>
       <HeaderBar />

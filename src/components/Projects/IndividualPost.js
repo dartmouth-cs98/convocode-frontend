@@ -246,8 +246,7 @@ const IndividualPost = (props) => {
 
   const like = () => {
     if (props.user.username === '') {
-      alert("Please sign in before opening a new project.")
-      navigate("/signin")
+      alert("Please sign in to like a project.")
     } else {
       props.likeProject(props.project.id)
     }
@@ -284,15 +283,13 @@ const IndividualPost = (props) => {
     } else {
       setHasLiked(false);
     }
-    console.log("has liked ", hasLiked)
-
   }, [props.user.likedProjects]);
 
   const handleInputKeypress = e => {
     //it triggers by pressing the enter key
     if (e.keyCode === 13) {
       e.preventDefault();
-      props.comment(props.project.id, userComment, props.project.replyingTo);
+      tryCommenting(userComment);
       setComment("");
       props.setReplyingTo("", "");
     }
@@ -300,12 +297,14 @@ const IndividualPost = (props) => {
 
   const openClick = () => {
     if (props.user.username === '') {
-      alert("Please sign in before opening a new project.")
-      navigate("/signin")
+      // user not signed in
+      alert("Please sign in to open this project in the IDE.")
     } else if (isMine) {
+      // project belongs to signed in user so just load, don't create new
       props.loadProject(props.project._id);
       navigate('/editor');
     } else {
+      // create copy of project
       const projectInfo = {
         title: `Copy of ${props.project.title}`,
         javaCode: props.project.javaCode,
@@ -317,10 +316,11 @@ const IndividualPost = (props) => {
         htmlCodeHistory: props.project.htmlCodeHistory,
         tags: props.project.tags,
       }
-
+      // create will load copy into redux
       props.createProject(projectInfo);
-      navigate('/profile');
 
+      // navigate to IDE with new copy loaded in redux
+      navigate('/profile');
     }
   }
 
@@ -378,6 +378,14 @@ const IndividualPost = (props) => {
 
   }, [props.htmlCode, props.cssCode, props.javascriptCode, props.cleanedCode]);
 
+  const tryCommenting = (userComment) => {
+    if (props.user.username === '') {
+      alert("Please sign in to comment on a project.")
+    } else {
+      props.comment(props.project.id, userComment, props.project.replyingTo);
+    }
+  }
+   
   let tag = "undefined"
 
   return (
@@ -498,9 +506,9 @@ const IndividualPost = (props) => {
                   }
                 </div>
                 <div className="discussionFooter">
-                  <input className="discussionInput" placeholder="Comment on this project" value={userComment} onChange={handleCommentChange} onKeyDown={handleInputKeypress}></input>
+                  <input className="discussionInput" placeholder="Comment on this project..." value={userComment} onChange={handleCommentChange} onKeyDown={handleInputKeypress}></input>
                   <button className="yellow-button" onClick={() => {
-                    props.comment(props.project.id, userComment, props.project.replyingTo);
+                    tryCommenting(userComment);
                     setComment("");
                     props.setReplyingTo("", "");
                   }} >Submit

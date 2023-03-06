@@ -22,7 +22,6 @@ const Landing = (props) => {
   }, []);
 
   function animateSun() {
-    console.log(sunLeft)
     let sun = document.getElementById("sun");
     if (sunLeft) {
       sun.style.left = "90%";
@@ -55,31 +54,19 @@ const Landing = (props) => {
         </div>
       </div>
 
-      {/* <div className="slideshow">
-                    <div className="slideshowSlider"
-                >
-                    { t.map((item) => {
-                        return (
-                        <PostCard item={item} key={item.id} />
-                        )
-                    })
-                        }
-                    </div>
-                </div> */}
-
       <div className="landing-info">
         <div className="landing-breakdown">
           <div className="action-info">
             <h1 className="thick" id="sage">Generate.</h1>
-            <p>Our platform generates code for html, css, and javascript projects with simple everyday language. </p>
+            <p>Our platform generates code with simple everyday language for HTML, CSS, and JavaScript. </p>
           </div>
           <div className="action-info">
-            <h1 className="thick" id="sky">Share.</h1>
-            <p>Once a project is complete, share to start the conversation about your AI generated code.</p>
+            <h1 className="thick" id="sky">Explore.</h1>
+            <p>Explore the creations of others, like your favorite projects, and start conversations.   </p>
           </div>
           <div className="action-info">
-            <h1 className="thick" id="grape">Discuss.</h1>
-            <p>Once a project is complete, share to start the conversation about your code. </p>
+            <h1 className="thick" id="grape">Share.</h1>
+            <p>Share ConvoCode creations to build community around coding with Artificial Intelligence. </p>
           </div>
 
         </div>
@@ -97,17 +84,17 @@ const Landing = (props) => {
 
               <TabPanel>
                 <div className="tab-landing">
-                  <p>Command: Draw the sun and the sky and animate the sun on click</p>
+                  <p>Command: Animate a sun on click</p>
                 </div>
               </TabPanel>
               <TabPanel>
                 <div className="tab-landing">
-                  <p>Command: Draw the sun and the sky and animate the sun on click</p>
+                  <p>Command: Draw a sun in the sky</p>
                 </div>
               </TabPanel>
               <TabPanel>
                 <div className="tab-landing">
-                  <p>Command: Draw the sun and the sky and animate the sun on click</p>
+                  <p>Command: Style a sun in the sky</p>
                 </div>
               </TabPanel>
             </Tabs>

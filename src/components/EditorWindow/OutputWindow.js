@@ -17,14 +17,12 @@ const Output = (props, { theme }) => {
 
   var newText;
   if (outputDetails != null) {
-    console.log(outputDetails);
     newText = outputDetails.split('\n').map(outputDetails => <p>{outputDetails}</p>);
   } else {
     newText = null;
   }
 
   useEffect(() => {
-    console.log("current state of ", error, modalShow)
     setModalShow(error !== null)
   }, [error]);
 
@@ -70,8 +68,6 @@ const Output = (props, { theme }) => {
       } else {
         if (response.data.status === 3) {
           setOutputDetails(response.data.stdout);
-          console.log(response.data.stdout);
-          console.log(outputDetails);
           setStdin("");
         } else {
           setOutputDetails(response.data.description + ":" + response.data.stderr);

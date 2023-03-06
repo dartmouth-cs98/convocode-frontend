@@ -208,11 +208,13 @@ export const deleteProject = async (projectId) => {
   const userToken = getAuthTokenFromStorage();
 
   try {
-    await axios.delete(url, {
+    const { data } = await axios.delete(url, {
       headers: {
         authorization: userToken
       },
     });
+
+    return data;
 
   } catch (error) {
     throw error;
