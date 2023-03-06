@@ -44,7 +44,8 @@ const Post = (props) => {
 
 
   useEffect(() => {
-    // declare the async data fetching function
+    setClassname(postClass);
+    /* // declare the async data fetching function
     const fetchData = async () => {
       // get the data from the api
       const data = await getProject(props.item._id);
@@ -57,7 +58,6 @@ const Post = (props) => {
         const url = getGeneratedPageURL({
           html: data.htmlCode,
           css: data.cssCode,
-          js: data.cleanedCode,
         });
         setSrc(url);
         setIsIframe(true);
@@ -65,7 +65,7 @@ const Post = (props) => {
 
       }
     }
-    fetchData().catch(console.error);;
+    fetchData().catch(console.error);; */
   }, []);
 
 
