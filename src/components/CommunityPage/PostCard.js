@@ -10,7 +10,7 @@ const Post = (props) => {
   const [src, setSrc] = useState(null);
   const [isIframe, setIsIframe] = useState(false);
   const [classname, setClassname] = useState("");
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
 
   const colors = ["postUnicorn", "postEasyA", "postGrape", "postSky", "postSage", "postBus", "postPumpkin"];
   const colorInt = Math.floor(Math.random() * 7);
@@ -19,6 +19,18 @@ const Post = (props) => {
   const backgroundcolors = ["var(--unicornLight)", "var(--easyALight)", "var(--grapeLight)", "var(--skyLight)", "var(--sageLight)", "var(--busLight)", "var(--pumpkinLight)"];
   const iFrameClass = backgroundcolors[colorInt];
 
+  const handleIframeLoad = () => {
+    const iframe = document.getElementById(props.item._id);
+    const iframeWindow = iframe.contentWindow;
+    iframeWindow.alert = (message) => {
+      doNothing(message);
+    };
+  };
+
+  function doNothing(message) {
+    return 
+  }
+  
   const getGeneratedPageURL = ({ html, css, js }) => {
     const getBlobURL = (code, type) => {
       const blob = new Blob([code], { type });
@@ -41,8 +53,7 @@ const Post = (props) => {
     return getBlobURL(source, 'text/html');
   }
 
-
-
+  
   useEffect(() => {
     setClassname(postClass);
     // declare the async data fetching function
@@ -56,9 +67,14 @@ const Post = (props) => {
   
       } else {
         // set state with the result
+        var code = data.javaCode;
+        if (data.cleanedCode !== "") {
+          code = data.cleanedCode;
+        }
         const url = getGeneratedPageURL({
           html: data.htmlCode,
           css: data.cssCode,
+          js: code
         });
           setSrc(url);
           setIsIframe(true);
@@ -88,7 +104,7 @@ const Post = (props) => {
         {isIframe ?
           <>
             <div className="pc-iframe-container" style={{ "background-color": iFrameClass }}>
-              <Iframe sandbox={"allow-scripts allow-popups"} src={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
+              <Iframe url={src} className="post-card-iframe" id={props.item._id} styles={{ borderWidth: 0, margin: 0, display: 'block' }} onLoad={handleIframeLoad} />
             </div>
             <div className="body">
               <div className="body-title">
