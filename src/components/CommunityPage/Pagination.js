@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { loadProjects, updateCurrentPage, updateTotalPages } from "../../state/actions";
 
+import './community.css'
+
 const Pagination = (props) => {
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const Pagination = (props) => {
       <div className="pagination-button">
         <button onClick={handlePreviousClick} >&lt;</button>
       </div>
-      <h1>{props.currentPage} of {props.totalPages}</h1>
+      <p>{props.currentPage} of {props.totalPages}</p>
       <div className="pagination-button">
         <button onClick={handleForwardClick} >&gt;</button>
       </div>

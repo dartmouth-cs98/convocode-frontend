@@ -423,3 +423,14 @@ section {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
+
+.pagination-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination-button{
+  margin: 5px;
+}
