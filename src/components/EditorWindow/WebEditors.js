@@ -464,18 +464,26 @@ const WebEditors = (props) => {
     setQuery("");
   }, [props.htmlCode]);
 
-  function addCSS(result) {
+  function addCSS(result, newestCode) {
     setRemoteAdd(true);
     setLoading(true);
     setButtonText("Styling...");
     console.log(result);
-    getOpenAICode("style the html", "css", props.cssCode, props.javaCode, result).then((res) => {
+    
+    getOpenAICode(`style the added html ${newestCode} in css`, "css", props.cssCode, props.javaCode, result).then((res) => {
       setLoading(false);
+      var css = res.code;
+      while (css.indexOf("<style>") !== -1) {
+        var css = css.replace('<style>', '');
+      }
+      while (css.indexOf('</style>') !== -1) {
+        var css = css.replace('</style>', '');
+      }
       console.log(res.code);
       if (props.cssCode.length === 0) {
-        props.addCSSCode(res.code);
+        props.addCSSCode(css);
       } else {
-        props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: res.code });
+        props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: css });
       }
 
     })
@@ -527,7 +535,7 @@ const WebEditors = (props) => {
         if (css !== "") {
           props.insertCSSCode({index: cssRef.current.getPosition().lineNumber, code: css })
         } else {
-          addCSS(html);
+          addCSS(html, html);
         }
         
         if (js !== "") {
@@ -535,10 +543,17 @@ const WebEditors = (props) => {
         }
 
       } else {
+        var css = res.code;
+        while (css.indexOf("<style>") !== -1) {
+          var css = css.replace('<style>', '');
+        }
+        while (css.indexOf('</style>') !== -1) {
+          var css = css.replace('</style>', '');
+        }
         if (props.cssCode.length === 0) {
-          props.addCSSCode(res.code);
+          props.addCSSCode(css);
         } else {
-          props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: res.code });
+          props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: css });
         }
       }
     }).catch((error) => {
