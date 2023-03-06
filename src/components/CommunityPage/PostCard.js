@@ -87,7 +87,7 @@ const Post = (props) => {
         {isIframe ?
           <>
             <div className="pc-iframe-container" style={{ "background-color": iFrameClass }}>
-              <Iframe url={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
+              <iframe sandbox="allow-scripts" src={src} className="post-card-iframe" styles={{ borderWidth: 0, margin: 0, display: 'block' }} />
             </div>
             <div className="body">
               <div className="body-title">

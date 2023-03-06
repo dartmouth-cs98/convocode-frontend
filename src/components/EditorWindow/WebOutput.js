@@ -45,7 +45,7 @@ const WebOutput = (props) => {
 
   return (
     <div className="output-window" >
-      <Iframe url={iframeSrc}
+      <iframe sandbox="" src={iframeSrc}
         // width="640px"
         // height="320px"
         width={props.width}
