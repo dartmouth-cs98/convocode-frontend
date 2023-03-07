@@ -1,14 +1,20 @@
 .landing{
   display: flex;
   flex-direction: column;
+  /* height: 93vh;
+  width: 100vw; */
 }
 .landing-title{
     font-weight: 600;
-    font-size: 13em;
+    /* font-size: 13em; */
+    font-size: 14.45vw;
     color:black;
     /* line-height: 10vh; */
     /* text-shadow: 0 0 8px rgb(158, 158, 158); */
     /* animation: text-shadow 3.5s ease-in-out infinite; */
+}
+#gradient-text{
+  font-size: 13.2vw;
 }
 .landing-title-container{
     display: flex;
@@ -21,26 +27,37 @@
     margin-left: 5vw;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    /* height: 100vh; */
 }
 .landing-file-buttons{
     margin-top: 20px;
     margin-left: 10px;
 }
-#landing-desc{
+.landing-desc{
     margin-left: 10px;
+}
+#landing-h2{
+  font-size: 2.22vw;
+}
+#landing-h4{
+  font-size: 1.67vw;
 }
 .thick{
     font-weight: 600;
-    font-size: 40px;
+    /* font-size: 40px; */
+    font-size: 2.78vw;
+}
+.breakdown-desc{
+  font-size: 1vw;
 }
 .landing-info{
     margin-left: 5vw;
     display: flex;
-    height: 100vh;
+    /* height: 100vh; */
     flex: row;
     justify-content: space-between;
     margin-right: 5vw;
+    margin-top: 20vh;
 }
 .code-gradient2{
     background: linear-gradient(to right, #000 20%, #bada55 30%, #bada44 70%, #000 80%);
@@ -147,16 +164,17 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100vh;
+    /* height: 100vh; */
     width: 100vw;
     text-align: center;
     color: var(--accent);
-    margin-top: 10vh;
+    margin-top: 20vh;
     margin-bottom: 20vh;
   }
   
   .team-content h1 {
     padding-bottom: 08vh;
+    font-size: 3.3vw;
   }
   
   .member-content {
@@ -165,6 +183,14 @@
     justify-content: center;
     flex-wrap: wrap;
   
+  }
+
+  .member-content h4{
+    font-size: 1.65vw;
+  }
+
+  .member-content p{
+    font-size: 1.1vw;
   }
   
   .team-member {
@@ -214,6 +240,7 @@
     -webkit-animation: bounce .7s infinite alternate;
     -moz-animation: bounce .7s infinite alternate;
     animation: bounce .7s infinite alternate;
+    margin-left: 10px;
 }
 @-webkit-keyframes bounce {
     to { -webkit-transform: scale(1.2); }
