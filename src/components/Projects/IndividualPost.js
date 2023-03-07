@@ -423,7 +423,6 @@ const IndividualPost = (props) => {
               <h2 style={{ "margin": "0" }}>{props.project.title}</h2>
               <div className="flex-col">
                 <span className="username" style={{ "font-weight": "600", "margin-top": "5px" }}>@{props.project.username}</span>
-
               </div>
               <div className="description-container">
                 <span style={{ "margin-top": "5px" }} >{props.project.description}</span>

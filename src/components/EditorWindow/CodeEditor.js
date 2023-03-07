@@ -5,10 +5,12 @@ import React, { useState } from "react";
 import Editor from "@monaco-editor/react";
 import { connect } from 'react-redux';
 import { addCode } from "../../state/actions";
+import { Tooltip } from 'react-tooltip'
 import { addJavascriptCode, addHTMLCode, addCSSCode } from "../../state/actions";
 import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from "../../state/actions";
 
 import './index.css'
+import 'react-tooltip/dist/react-tooltip.css'
 
 
 const CodeEditor = (props) => {
@@ -69,9 +71,10 @@ const CodeEditor = (props) => {
   return (
 
     <div className="overlay rounded-md w-full h-full shadow-4xl">
+      <Tooltip id="my-tooltip" />
       <div className="lang-header" id={props.language}>
         <div className="lang-header-name">{formatPropsLanguage()}</div>
-        <button className="stop5 command-history-button" id={props.language} type="button" onClick={setTags} onKeyDown={(e) => { e.which === 13 && e.preventDefault() }}>{tagState ? 'Hover Over Text' : 'Command History'}</button>      </div>
+        <button className="stop5 command-history-button" id={props.language} type="button" onClick={setTags} onKeyDown={(e) => { e.which === 13 && e.preventDefault() }} data-tooltip-content={tagState ? "Hover over code to view AI commands" : ''} data-tooltip-id="my-tooltip" >{tagState ? 'Back to Editing' : 'Command History'} </button>      </div>
       <Editor
         className="bottom-rounded"
         height={props.height}
