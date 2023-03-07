@@ -37,11 +37,9 @@ const WebOutput = (props) => {
       javaCode = props.javaCode;
     } 
     var htmlCode = props.cleanedHtml;
-    console.log(props.cleanedHtml);
     if (htmlCode === "") {
       htmlCode = props.htmlCode;
     }
-    console.log(htmlCode);
 
     const url = getGeneratedPageURL({
       html: htmlCode,

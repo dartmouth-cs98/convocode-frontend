@@ -369,7 +369,6 @@ const WebEditors = (props) => {
     try {
       // rewrite the user's JavaScript to protect loops
       var processed = transform(props.javaCode);
-      console.log(processed);
       props.addCleanedJavascript(processed.code);
 
     } catch {
@@ -458,8 +457,6 @@ const WebEditors = (props) => {
 
       
       for (var i = 0; i < openingIndices.length; i++) {
-        console.log(openingIndices[i]);
-        console.log(closingIndices[i]);
         var script = cleaned.substring(
           openingIndices[i] + 8, 
           closingIndices[i]
