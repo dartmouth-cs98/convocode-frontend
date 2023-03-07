@@ -48,7 +48,7 @@ const WebOutput = (props) => {
     });
     setIframeSrc(url);
 
-  }, [props.htmlCode, props.cssCode, props.javaCode, props.cleanedCode]);
+  }, [props.htmlCode, props.cssCode, props.javaCode, props.cleanedCode, props.cleanedHtml]);
 
 
 
