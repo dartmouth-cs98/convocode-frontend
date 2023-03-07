@@ -10,6 +10,7 @@ import { addHTMLCode, insertHTMLCode } from '../../state/actions';
 import { addCSSCode, insertCSSCode } from '../../state/actions';
 import { addProjectId, addProjectTitle } from '../../state/actions';
 import { addCleanedJavascript } from '../../state/actions';
+import { addCleanedHtml } from '../../state/actions';
 import { addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory } from '../../state/actions';
 import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from '../../state/actions';
 import { getOpenAICode } from '../../services/getCode';
@@ -433,6 +434,48 @@ const WebEditors = (props) => {
 
   useEffect(() => {
     try {
+      console.log("WHAT");
+      var cleaned = props.htmlCode;
+      var openingScript= "<script>";
+      var closingScript = "</script>";
+      let str = cleaned;
+      let openingRegex = new RegExp(openingScript, "g");
+      let closingRegex = new RegExp(closingScript, "g");
+      let openingIndices = [];
+      let closingIndices = [];
+      
+      let openMatch;
+      while (openMatch = openingRegex.exec(str)) {
+        openingIndices.push(openMatch.index);
+        openingRegex.lastIndex = openMatch.index + 1;
+      }
+
+      let closingMatch;
+      while (closingMatch = closingRegex.exec(str)) {
+        closingIndices.push(closingMatch.index);
+        closingRegex.lastIndex = closingMatch.index + 1;
+      }
+
+      
+      for (var i = 0; i < openingIndices.length; i++) {
+        console.log(openingIndices);
+        console.log(closingIndices);
+        var script = cleaned.substring(
+          openingIndices[i] + 8, 
+          closingIndices[i]
+        );
+        var newScript = transform(script).code;
+        cleaned = cleaned.replace(script, newScript);
+    }
+      
+      props.addCleanedHtml(cleaned);
+        
+      }
+
+    catch {
+      console.log("couldn't transform HTML.");
+    }
+    try {
       if (htmlUndo.current) {
         var res = findPreviousState(props.htmlCodeHistory, htmlStackLocation, props.htmlCode.split(/\r\n|\r|\n/));
 
@@ -682,4 +725,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setJavaDisplay, setCSSDisplay, setHTMLDisplay })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setJavaDisplay, setCSSDisplay, setHTMLDisplay, addCleanedHtml })(WebEditors);
