@@ -50,6 +50,7 @@ const ProjectReducer = (state = initialState, action) => {
         description: action.payload.description,
         tags: action.payload.tags,
         cleanedCode: action.payload.cleanedCode,
+        cleanedHtml: action.payload.cleanedHtml,
         commentObjects: action.payload.commentObjects,
         ...action.payload,
       };
@@ -65,6 +66,7 @@ const ProjectReducer = (state = initialState, action) => {
         title: action.payload.title,
         tags: action.payload.tags,
         cleanedCode: action.payload.cleanedCode,
+        cleanedHtml: action.payload.cleanedHtml,
       };
     case ActionTypes.UPDATE_PROJECT:
       return {
