@@ -32,15 +32,21 @@ const WebOutput = (props) => {
   }
 
   useEffect(() => {
-    var code = props.cleanedCode;
-    if (code === "") {
-      code = props.javaCode;
+    var javaCode = props.cleanedCode;
+    if (javaCode === "") {
+      javaCode = props.javaCode;
+    } 
+    var htmlCode = props.cleanedHtml;
+    console.log(props.cleanedHtml);
+    if (htmlCode === "") {
+      htmlCode = props.htmlCode;
     }
-    console.log(props.cleanedCode);
+    console.log(htmlCode);
+
     const url = getGeneratedPageURL({
-      html: props.htmlCode,
+      html: htmlCode,
       css: props.cssCode,
-      js: code,
+      js: javaCode,
     });
     setIframeSrc(url);
 
@@ -50,7 +56,7 @@ const WebOutput = (props) => {
 
   return (
     <div className="output-window" >
-      <iframe src={iframeSrc}
+      <Iframe url={iframeSrc}
         width={props.width}
         height={props.height}
         id=""
@@ -68,6 +74,7 @@ const mapStateToProps = (reduxstate) => {
     htmlCode: reduxstate.project.htmlCode,
     cssCode: reduxstate.project.cssCode,
     cleanedCode: reduxstate.project.cleanedCode,
+    cleanedHtml: reduxstate.project.cleanedHtml,
   };
 };
 

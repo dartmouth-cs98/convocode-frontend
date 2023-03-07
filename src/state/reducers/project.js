@@ -8,6 +8,7 @@ const initialState = {
   htmlCode: "",
   cssCode: "",
   cleanedCode: "",
+  cleanedHtml: "",
   status: Boolean,
   likes: Number,
   username: "",
@@ -105,6 +106,8 @@ const ProjectReducer = (state = initialState, action) => {
       return { ...state, tags: action.payload };
     case ActionTypes.ADD_CLEANED_CODE:
       return { ...state, cleanedCode: action.payload };
+    case ActionTypes.ADD_CLEANED_HTML:
+      return { ...state, cleanedHtml: action.payload };
     case ActionTypes.ADD_PROJECT_STATUS:
       return { ...state, status: action.payload };
     case ActionTypes.ADD_COMMENTS:

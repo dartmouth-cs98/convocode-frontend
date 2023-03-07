@@ -18,6 +18,7 @@ export const ActionTypes = {
   ADD_PROJECT_OBJECT: 'ADD_PROJECT_OBJECT',
   CLEAR_PROJECT_DATA: 'CLEAR_PROJECT_DATA',
   ADD_CLEANED_CODE: 'ADD_CLEANED_CODE',
+  ADD_CLEANED_HTML: 'ADD_CLEANED_HTML',
   ADD_JAVA_CODE_HISTORY: 'ADD_JAVA_CODE_HISTORY',
   ADD_CSS_CODE_HISTORY: 'ADD_CSS_CODE_HISTORY',
   ADD_HTML_CODE_HISTORY: 'ADD_HTML_CODE_HISTORY',
@@ -185,6 +186,12 @@ export const deleteProjectTag = (input) => {
 export const addCleanedJavascript = (input) => {
   return (dispatch) => {
     dispatch({ type: ActionTypes.ADD_CLEANED_CODE, payload: input });
+  };
+};
+
+export const addCleanedHtml = (input) => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.ADD_CLEANED_HTML, payload: input });
   };
 };
 
