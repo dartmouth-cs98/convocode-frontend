@@ -600,7 +600,7 @@ const WebEditors = (props) => {
                 <option value="javascript">JavaScript</option>
               </select>
             </form>
-            <textarea className="commandInput" rows="1" placeholder="Type a command" value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
+            <textarea className="commandInput" rows="1" placeholder="Type a command..." value={query} onChange={handleQueryChange} onKeyDown={handleInputKeypress}></textarea>
             <button className="stop3 pink" id="ask-cc-button" onClick={() => {
               if (props.user.username === '') {
                 alert("Your work will not be saved unless you sign in. Please navigate to Sign In before creating your project.")
@@ -647,8 +647,8 @@ const WebEditors = (props) => {
         <div className="web-editors-tabs">
           <Tabs id="output-console-tabs">
             <TabList>
-              <Tab id="ide-output">output</Tab>
-              <Tab id="ide-console">console</Tab>
+              <Tab id="ide-output">Output</Tab>
+              <Tab id="ide-console">Console</Tab>
             </TabList>
             <TabPanel>
               <WebOutput theme={theme} height="500vh" width="100%" />

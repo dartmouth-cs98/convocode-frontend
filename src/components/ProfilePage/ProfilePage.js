@@ -60,8 +60,8 @@ const ProfilePage = (props) => {
               onSelect={handleSelect}
               >
               <TabList>
-                <Tab>Published Projects</Tab>
-                <Tab>Saved Projects</Tab>
+                <Tab>Published</Tab>
+                <Tab>Saved</Tab>
                 <Tab>Liked</Tab>
               </TabList>
               <TabPanel>

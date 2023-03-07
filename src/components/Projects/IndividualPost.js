@@ -320,7 +320,7 @@ const IndividualPost = (props) => {
       props.createProject(projectInfo);
 
       //await
-      alert("The project has been copied into your editor")
+      alert("This project has been copied into your IDE.")
 
       // navigate to IDE with new copy loaded in redux
       navigate('/editor');
@@ -333,6 +333,7 @@ const IndividualPost = (props) => {
 
   const confirmedDelete = () => {
     props.deleteUserProject(props.project.id)
+    alert("Your project has been deleted.")
     navigate("/profile")
   }
 
@@ -413,7 +414,6 @@ const IndividualPost = (props) => {
             </p>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="light" onClick={deleteProject}>Close</Button>
             <Button variant="danger" onClick={confirmedDelete}>Confirm Delete</Button>
           </Modal.Footer>
         </Modal >
