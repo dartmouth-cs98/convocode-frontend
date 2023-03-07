@@ -12,6 +12,7 @@ import melissa from '../../resources/headshots/MelissaHeadshot.png';
 import abby from '../../resources/headshots/AbbyHeadshot.png';
 import annie from '../../resources/headshots/AnnieHeadshot.png';
 import down from '../../resources/down.svg';
+import walkthrough from '../../resources/walkthrough.gif';
 import './landing.css'
 
 const Landing = (props) => {
@@ -72,7 +73,10 @@ const Landing = (props) => {
         </div>
 
         <div className="landing-tutoial">
-          <div className="landing-tab">
+          {/* <h1 className="thick" id="pumpkin-spice">Code Generation Walkthrough:</h1> */}
+          <img id="gif" src={walkthrough} alt="walkthrough tutorial gif" width= "100%"/>
+          <h6 id="caption">Code Generation Walkthrough</h6>
+          {/* <div className="landing-tab">
             <div className="landing-input-header">Input</div>
             <Tabs id="landing-tabs">
               <TabList>
@@ -104,7 +108,7 @@ const Landing = (props) => {
             <div id="sky-render" style={{ cursor: 'pointer' }}>
               <div id="sun" onClick={() => animateSun()}></div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="team-content">
