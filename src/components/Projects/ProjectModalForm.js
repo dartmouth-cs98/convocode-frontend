@@ -410,15 +410,15 @@ const ProjectModalForm = (props) => {
               className="edit-modal-form">
                 <div className="edit-modal-info flex-col" style={{ "flex-grow": "1" }}>
                   <div className="input-info">
-                    <h3 className="input-header">Project Title</h3>
-                    <Field name="title" id="project-input" component="textarea" rows="3" />
+                    <h3 className="input-header">Project Title </h3>
+                    <Field name="title" id="project-input" placeholder="ex. Sun Animation" component="textarea" rows="3" />
                     {errors.title && touched.title ? (
                       <div>{errors.title}</div>
                     ) : null}
                   </div>
                   <div className="input-info">
                     <h3 className="input-header">Project Description</h3>
-                    <Field name="description" id="project-input" component="textarea" rows="6" />
+                    <Field name="description" id="project-input" placeholder="ex. This project contains code to draw a sun which moves across the sky on click. The animation mimics a setting sun." component="textarea" rows="6" />
                     {errors.description && touched.description ? (
                       <div>{errors.description}</div>
                     ) : null}
@@ -434,7 +434,7 @@ const ProjectModalForm = (props) => {
                       )
                     })
                     }
-                    <input id="project-input-tags" type="text" placeholder="ex. react-app" onChange={handleTagChange} onKeyDown={handleInputKeypress} value={newTag} />
+                    <input id="project-input-tags" type="text" placeholder="ex. drawing, animation" onChange={handleTagChange} onKeyDown={handleInputKeypress} value={newTag} />
                     <div className="tag-button-container">
                       <button className="tag-button" type="button" onClick={handleAddTags}>Add Tag</button>
                     </div>

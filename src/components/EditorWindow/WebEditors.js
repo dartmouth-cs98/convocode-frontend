@@ -647,8 +647,8 @@ const WebEditors = (props) => {
         <div className="web-editors-tabs">
           <Tabs id="output-console-tabs">
             <TabList>
-              <Tab id="ide-output">output</Tab>
-              <Tab id="ide-console">console</Tab>
+              <Tab id="ide-output">Output</Tab>
+              <Tab id="ide-console">Console</Tab>
             </TabList>
             <TabPanel>
               <WebOutput theme={theme} height="500vh" width="100%" />

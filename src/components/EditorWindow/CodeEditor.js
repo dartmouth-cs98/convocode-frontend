@@ -56,12 +56,21 @@ const CodeEditor = (props) => {
     props.toggleDisplay(props.language);
   }
 
+  const formatPropsLanguage = () => {
+    if (props.language == 'javascript') {
+      return "JavaScript"
+    } else if (props.language == 'html') {
+      return "HTML"
+    } else {
+      return "CSS"
+    }
+  }
 
   return (
 
     <div className="overlay rounded-md w-full h-full shadow-4xl">
       <div className="lang-header" id={props.language}>
-        <div className="lang-header-name">{props.language}</div>
+        <div className="lang-header-name">{formatPropsLanguage()}</div>
         <button className="stop5 command-history-button" id={props.language} type="button" onClick={setTags} onKeyDown={(e) => { e.which === 13 && e.preventDefault() }}>{tagState ? 'Hover Over Text' : 'Command History'}</button>      </div>
       <Editor
         className="bottom-rounded"
