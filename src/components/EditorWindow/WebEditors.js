@@ -13,6 +13,7 @@ import { addCleanedJavascript } from '../../state/actions';
 import { addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory } from '../../state/actions';
 import { setJavaDisplay, setCSSDisplay, setHTMLDisplay } from '../../state/actions';
 import { getOpenAICode } from '../../services/getCode';
+import { addCleanedHtml } from '../../state/actions';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import WebOutput from './WebOutput';
 import HeaderBar from '../HeaderBar/HeaderBar';
@@ -363,9 +364,9 @@ const WebEditors = (props) => {
     });
   }
 
+
   useEffect(() => {
     try {
-
       // rewrite the user's JavaScript to protect loops
       var processed = transform(props.javaCode);
       props.addCleanedJavascript(processed.code);
@@ -432,6 +433,46 @@ const WebEditors = (props) => {
   }, [props.cssCode]);
 
   useEffect(() => {
+    try {
+      var cleaned = props.htmlCode;
+      var openingScript= "<script>";
+      var closingScript = "</script>";
+      let str = cleaned;
+      let openingRegex = new RegExp(openingScript, "g");
+      let closingRegex = new RegExp(closingScript, "g");
+      let openingIndices = [];
+      let closingIndices = [];
+      
+      let openMatch;
+      while (openMatch = openingRegex.exec(str)) {
+        openingIndices.push(openMatch.index);
+        openingRegex.lastIndex = openMatch.index + 1;
+      }
+
+      let closingMatch;
+      while (closingMatch = closingRegex.exec(str)) {
+        closingIndices.push(closingMatch.index);
+        closingRegex.lastIndex = closingMatch.index + 1;
+      }
+
+      
+      for (var i = 0; i < openingIndices.length; i++) {
+        var script = cleaned.substring(
+          openingIndices[i] + 8, 
+          closingIndices[i]
+        );
+        var newScript = transform(script).code;
+        cleaned = cleaned.replace(script, newScript);
+    }
+      
+      props.addCleanedHtml(cleaned);
+        
+      }
+
+    catch {
+      console.log("couldn't transform HTML.");
+    }
+    
     try {
       if (htmlUndo.current) {
         var res = findPreviousState(props.htmlCodeHistory, htmlStackLocation, props.htmlCode.split(/\r\n|\r|\n/));
@@ -561,7 +602,7 @@ const WebEditors = (props) => {
   }
 
   const callback = line => {
-    alert(`Possible infinite loop near line ${line}`);
+    alert(`Possible infinite loop near line ${line}. Please fix to continue coding.`);
   }
 
   const timeout = 100;
@@ -682,4 +723,4 @@ const mapStateToProps = (reduxstate) => {
   };
 };
 
-export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setJavaDisplay, setCSSDisplay, setHTMLDisplay })(WebEditors);
+export default connect(mapStateToProps, { addCode, addJavascriptCode, insertJavascriptCode, addCSSCode, insertCSSCode, addHTMLCode, insertHTMLCode, addProjectId, addProjectTitle, addCleanedJavascript, addJavaCodeHistory, addCSSCodeHistory, addHTMLCodeHistory, setJavaDisplay, setCSSDisplay, setHTMLDisplay, addCleanedHtml })(WebEditors);

@@ -71,8 +71,13 @@ const Post = (props) => {
         if (data.cleanedCode !== "") {
           code = data.cleanedCode;
         }
+
+        var htmlCode = data.htmlCode;
+        if (data.cleanedHtml !== "") {
+          html = data.cleanedCode;
+        }
         const url = getGeneratedPageURL({
-          html: data.htmlCode,
+          html: htmlCode,
           css: data.cssCode,
           js: code
         });

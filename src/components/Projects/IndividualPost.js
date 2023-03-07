@@ -315,6 +315,8 @@ const IndividualPost = (props) => {
         cssCodeHistory: props.project.cssCodeHistory,
         htmlCodeHistory: props.project.htmlCodeHistory,
         tags: props.project.tags,
+        cleanedCode: props.project.cleanedCode,
+        cleanedHtml: props.project.cleanedHtml,
       }
       // create will load copy into redux
       props.createProject(projectInfo);
