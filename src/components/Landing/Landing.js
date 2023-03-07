@@ -42,16 +42,16 @@ const Landing = (props) => {
       <div className="landing-title-content">
         <div className="landing-title-container">
           <h1 className="landing-title">Convo</h1>
-          <h1 className="code-gradient">Code</h1>
+          <h1 className="code-gradient" id="gradient-text">Code</h1>
         </div>
-        <h2 id="landing-desc">Building Community Around Exploring AI.</h2>
+        <h2 className="landing-desc" id="landing-h2">Building Community Around Exploring AI.</h2>
         <div className="landing-file-buttons">
           <button className="yellow-btn" onClick={props.clearProject}><NavLink to="/editor">Start Coding</NavLink></button>
           <button className="yellow-btn"><NavLink to="/community">Get Inspired</NavLink></button>
         </div>
         <div className="landing-learn-more">
-          <h4 id="landing-desc">Learn More</h4>
-          <img id="landing-desc" className="downArrow" src={down} alt="arrow pointing down" />
+          <h4 className="landing-desc" id="landing-h4">Learn More</h4>
+          <img className="downArrow" src={down} alt="arrow pointing down" />
         </div>
       </div>
 
@@ -59,15 +59,15 @@ const Landing = (props) => {
         <div className="landing-breakdown">
           <div className="action-info">
             <h1 className="thick" id="sage">Generate.</h1>
-            <p>Our platform generates code with simple everyday language for HTML, CSS, and JavaScript. </p>
+            <p className="breakdown-desc">Our platform generates code with simple everyday language for HTML, CSS, and JavaScript. </p>
           </div>
           <div className="action-info">
             <h1 className="thick" id="sky">Explore.</h1>
-            <p>Explore the creations of others, like your favorite projects, and start conversations.   </p>
+            <p className="breakdown-desc">Explore the creations of others, like your favorite projects, and start conversations.   </p>
           </div>
           <div className="action-info">
             <h1 className="thick" id="grape">Share.</h1>
-            <p>Share ConvoCode creations to build community around coding with Artificial Intelligence. </p>
+            <p className="breakdown-desc">Share ConvoCode creations to build community around coding with Artificial Intelligence. </p>
           </div>
 
         </div>
