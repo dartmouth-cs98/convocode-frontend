@@ -74,7 +74,7 @@ const Post = (props) => {
 
         var htmlCode = data.htmlCode;
         if (data.cleanedHtml !== "") {
-          html = data.cleanedCode;
+          htmlCode = data.cleanedCode;
         }
         const url = getGeneratedPageURL({
           html: htmlCode,
