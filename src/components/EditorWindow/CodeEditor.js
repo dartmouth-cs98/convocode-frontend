@@ -71,10 +71,13 @@ const CodeEditor = (props) => {
   return (
 
     <div className="overlay rounded-md w-full h-full shadow-4xl">
-      <Tooltip id="my-tooltip" />
+      <Tooltip id="hover-code" />
       <div className="lang-header" id={props.language}>
         <div className="lang-header-name">{formatPropsLanguage()}</div>
-        <button className="stop5 command-history-button" id={props.language} type="button" onClick={setTags} onKeyDown={(e) => { e.which === 13 && e.preventDefault() }} data-tooltip-content="Hover over code to view AI prompts" data-tooltip-id="my-tooltip" >{tagState ? 'Back to Editing' : 'Command History'} </button>      </div>
+        <div data-tooltip-content="Hover over code to view AI prompts" data-tooltip-id="hover-code" >
+          <button className="stop5 command-history-button" id={props.language} type="button" onClick={setTags} onKeyDown={(e) => { e.which === 13 && e.preventDefault() }}>{tagState ? 'Back to Editing' : 'Command History'} </button>
+        </div>
+      </div>
       <Editor
         className="bottom-rounded"
         height={props.height}

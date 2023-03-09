@@ -32,14 +32,14 @@ const HeaderBar = (props) => {
                 <div className='header-buttons'>
                   <NavLink to="/community"><button id="community" onClick={props.clearProject}>Community</button></NavLink>
                   <NavLink to="/editor" state={{ name: "newfile.py" }}><button id="IDE" onClick={props.clearProject}>Open IDE</button></NavLink>
-                  <NavLink to="/profile"><button id="profile">@{props.user.username}</button></NavLink>
+                  <NavLink to="/profile"><button id="signin">@{props.user.username}</button></NavLink>
                 </div>
               </>
 
           )
           :
           <>
-              <NavLink to="/"><h1>Convo<span className="code-gradient-header">Code</span></h1></NavLink>
+            <NavLink to="/"><h1>Convo<span className="code-gradient-header">Code</span></h1></NavLink>
             <div className='header-buttons'>
               <NavLink to="/community"><button id="community">Community</button></NavLink>
               <NavLink to="/editor" state={{ name: "newfile.py" }} onClick={props.clearProject}><button id="IDE">Open IDE</button></NavLink>
