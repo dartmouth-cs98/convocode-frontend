@@ -19,7 +19,7 @@ You must have [Node](https://nodejs.org) and [yarn](https://yarnpkg.com/) instal
 
 ## Architecture
 
-This web site uses [React.js](https://reactjs.org/) bundled with [webpack](https://webpack.js.org/). We use [react-redux](https://react-redux.js.org/) for persistent state management, and [react-router](https://reactrouter.com/) for internal routing.
+This web site uses [React.js](https://reactjs.org/). We use [react-redux](https://react-redux.js.org/) for persistent state management, and [react-router](https://reactrouter.com/) for internal routing.
 
 ### Stack
 * React.js frontend
