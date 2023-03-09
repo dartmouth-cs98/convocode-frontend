@@ -28,7 +28,11 @@ This web site uses [React.js](https://reactjs.org/) bundled with [webpack](https
 ### Packages
 * `create-react-app` -> used to generate scaffolding for React.js frontend 
 * `redux` -> JavaScript library for managing and centralizing application state
+* `axios` -> Promise based HTTP client for the browser and node.js
 * `@monaco-editor/react` -> Monaco package for code editor component
+* `formik`-> a small group of React components and hooks for building forms in React
+* `yup`-> Object schema validation
+* `react-iframe`-> Simple React component for including an iframed page
 
 ### APIs
 * `Judge0 CE` -> compiler API for running code in the IDE 
@@ -40,14 +44,14 @@ This web site uses [React.js](https://reactjs.org/) bundled with [webpack](https
 
 ```
 src/
-	components/						[reusable components across several screens]
-   resources/                 [image files]
-	services/						[service files for sending server requests]
-	state/							[all redux interactions]
-	utils/							[utility functions]
-   App.js                     [main routing file]
-   index.js                   [initialize the redux store and app]
-package.json						[package]
+	components/		[reusable components across several screens]
+   	resources/              [image files]
+	services/		[service files for sending server requests]
+	state/			[all redux interactions]
+	utils/			[utility functions]
+   App.js                     	[main routing file]
+   index.js                   	[initialize the redux store and app]
+package.json			[package]
 ```
 
 ### Data Flow
