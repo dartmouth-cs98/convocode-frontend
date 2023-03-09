@@ -44,11 +44,11 @@ This web site uses [React.js](https://reactjs.org/) bundled with [webpack](https
 
 ```
 src/
-	components/		[reusable components across several screens]
-   	resources/              [image files]
-	services/		[service files for sending server requests]
-	state/			[all redux interactions]
-	utils/			[utility functions]
+   components/		    	[reusable components across several screens]
+   resources/             	[image files]
+   services/			[service files for sending server requests]
+   state/			[all redux interactions]
+   utils/			[utility functions]
    App.js                     	[main routing file]
    index.js                   	[initialize the redux store and app]
 package.json			[package]
