@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect } from 'react-redux';
-import { NavLink } from "react-router-dom";
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, RedditShareButton, RedditIcon, EmailShareButton, EmailIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
@@ -348,41 +347,6 @@ const IndividualPost = (props) => {
     }
 
   }, [props.project]);
-
-  const getGeneratedPageURL = ({ html, css, js }) => {
-    const getBlobURL = (code, type) => {
-      const blob = new Blob([code], { type });
-      return URL.createObjectURL(blob);
-    };
-
-    const cssURL = getBlobURL(css, 'text/css')
-    const jsURL = getBlobURL(js, 'text/javascript')
-    const source = `
-    <html>
-      <head>
-        ${css && `<link rel="stylesheet" type="text/css" href="${cssURL}" />`}
-      </head>
-      <body>
-        ${html || ''}
-        ${js && `<script src="${jsURL}"></script>`}
-      </body>
-    </html>`;
-
-
-    return getBlobURL(source, 'text/html');
-  }
-
-  const [iframeSrc, setIframeSrc] = useState(null);
-
-  useEffect(() => {
-    const url = getGeneratedPageURL({
-      html: props.htmlCode,
-      css: props.cssCode,
-      js: props.cleanedCode,
-    });
-    setIframeSrc(url);
-
-  }, [props.htmlCode, props.cssCode, props.javascriptCode, props.cleanedCode]);
 
   const tryCommenting = (userComment) => {
     if (props.user.username === '') {

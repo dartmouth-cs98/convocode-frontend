@@ -59,9 +59,9 @@ const CodeEditor = (props) => {
   }
 
   const formatPropsLanguage = () => {
-    if (props.language == 'javascript') {
+    if (props.language === 'javascript') {
       return "JavaScript"
-    } else if (props.language == 'html') {
+    } else if (props.language === 'html') {
       return "HTML"
     } else {
       return "CSS"
