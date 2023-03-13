@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import { loadProjects } from "../../state/actions";
-import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import { clearProject } from "../../state/actions/project";
 import HeaderBar from "../HeaderBar/HeaderBar";
 import lily from '../../resources/headshots/LilyHeadshot.png';
@@ -16,25 +15,10 @@ import walkthrough from '../../resources/walkthrough.gif';
 import './landing.css'
 
 const Landing = (props) => {
-  const [sunLeft, setSunLeft] = useState(true);
 
   useEffect(() => {
     props.loadProjects();
   }, []);
-
-  function animateSun() {
-    let sun = document.getElementById("sun");
-    if (sunLeft) {
-      sun.style.left = "90%";
-      setSunLeft(false)
-    } else {
-      sun.style.left = "";
-      setSunLeft(true)
-    }
-
-  }
-
-
 
   return (
     <div className="landing">
@@ -73,42 +57,8 @@ const Landing = (props) => {
         </div>
 
         <div className="landing-tutoial">
-          {/* <h1 className="thick" id="pumpkin-spice">Code Generation Walkthrough:</h1> */}
           <img id="gif" src={walkthrough} alt="walkthrough tutorial gif" width= "100%"/>
           <h6 id="caption">Code Generation Walkthrough</h6>
-          {/* <div className="landing-tab">
-            <div className="landing-input-header">Input</div>
-            <Tabs id="landing-tabs">
-              <TabList>
-                <Tab id="tab">JS</Tab>
-                <Tab id="tab">HTML</Tab>
-                <Tab id="tab">CSS</Tab>
-              </TabList>
-
-
-              <TabPanel>
-                <div className="tab-landing">
-                  <p>Command: Animate a sun on click</p>
-                </div>
-              </TabPanel>
-              <TabPanel>
-                <div className="tab-landing">
-                  <p>Command: Draw a sun in the sky</p>
-                </div>
-              </TabPanel>
-              <TabPanel>
-                <div className="tab-landing">
-                  <p>Command: Style a sun in the sky</p>
-                </div>
-              </TabPanel>
-            </Tabs>
-          </div>
-          <div className="landing-tab2">
-            <div className="landing-input-header2">Output</div>
-            <div id="sky-render" style={{ cursor: 'pointer' }}>
-              <div id="sun" onClick={() => animateSun()}></div>
-            </div>
-          </div> */}
         </div>
       </div>
       <div className="team-content">

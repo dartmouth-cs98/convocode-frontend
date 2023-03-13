@@ -434,7 +434,6 @@ const WebEditors = (props) => {
 
   useEffect(() => {
     try {
-      console.log("WHAT");
       var cleaned = props.htmlCode;
       var openingScript= "<script>";
       var closingScript = "</script>";

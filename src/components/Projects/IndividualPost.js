@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect } from 'react-redux';
-import { NavLink } from "react-router-dom";
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, RedditShareButton, RedditIcon, EmailShareButton, EmailIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
@@ -420,34 +419,33 @@ const IndividualPost = (props) => {
           </Modal.Footer>
         </Modal >
         <div className="post-modal-content">
-          <div className="flex-col" style={{ "flex-grow": "1" }}>
+          <div className="flex-col" style={{ "flexGrow": "1" }}>
             <div className="post-modal-info">
               <h2 style={{ "margin": "0" }}>{props.project.title}</h2>
               <div className="flex-col">
-                <span className="username" style={{ "font-weight": "600", "margin-top": "5px" }}>@{props.project.username}</span>
+                <span className="username" style={{ "fontWeight": "600", "marginTop": "5px" }}>@{props.project.username}</span>
               </div>
               <div className="description-container">
-                <span style={{ "margin-top": "5px" }} >{props.project.description}</span>
+                <span style={{ "marginTop": "5px" }} >{props.project.description}</span>
                 {
                   props.user.username === props.project.username ? (
-                    <button className="cancel-project" id="right" onClick={deleteProject} style={{ "margin-right": "10px" }}>Delete</button>
+                    <button className="cancel-project" id="right" onClick={deleteProject} style={{ "marginRight": "10px" }}>Delete</button>
                   ) : <></>
 
                 }
               </div>
-              {/* <div className="flex-row clickables" style={{ "width": "100%", "justify-content": "left", "alignItems": "center", "font-size": "1em" }}> */}
               <div className="flex-row clickables">
                 <button className="likes2" onClick={like}>
                   {hasLiked ? <img src={likeFilled} alt="Filled Like Button" /> : <img src={likeUnfilled} alt="Unfilled Like Button" />}
-                  <p style={{ "padding-right": '3px' }}>{props.project.likes}</p>
+                  <p style={{ "paddingRight": '3px' }}>{props.project.likes}</p>
                 </button>
                 <div className="ip-button-container">
-                  <button className="pink-button" id="right" onClick={openClick} style={{ "margin-right": "10px" }}>{isMine ? 'Open in IDE' : 'Make a Copy'}</button>
+                  <button className="pink-button" id="right" onClick={openClick} style={{ "marginRight": "10px" }}>{isMine ? 'Open in IDE' : 'Make a Copy'}</button>
                   <CopyToClipboard text={url}>
-                    <button className="sage-button" id="right" style={{ 'margin-right': '10px' }} onClick={() => alert("The project link has been copied to your clipboard.")}><img src={copy} alt="Copy Icon" /></button>
+                    <button className="sage-button" id="right" style={{ 'marginRight': '10px' }} onClick={() => alert("The project link has been copied to your clipboard.")}><img src={copy} alt="Copy Icon" /></button>
                   </CopyToClipboard>
                   <div className="share-button">
-                    <button className="sage-button" id="right" style={{ "margin-right": "10px", "text-size": "2vw" }} onClick={handleOpen}>Share<img src={down} alt="Down Arrow" /></button>
+                    <button className="sage-button" id="right" style={{ "marginRight": "10px", "textSize": "2vw" }} onClick={handleOpen}>Share<img src={down} alt="Down Arrow" /></button>
                     {
                       open ?
                         <div className="dropdown">
@@ -486,8 +484,8 @@ const IndividualPost = (props) => {
 
 
               </div>
-              <div className="flex-row" style={{ "justify-content": "space-between" }}>
-                <div className="" id={tag} style={{ "margin": "10px 5px", "font-size": "18px" }}>
+              <div className="flex-row" style={{ "justifyContent": "space-between" }}>
+                <div className="" id={tag} style={{ "margin": "10px 5px", "fontSize": "18px" }}>
                   {props.project.tags ? (
                     props.project.tags.map((e, idx) => {
                       return (<span className="tag">#{e.toLowerCase()}</span>)
@@ -522,7 +520,7 @@ const IndividualPost = (props) => {
 
             </div>
           </div>
-          <div className="post-modal-code" style={{ "flex-grow": "4" }}>
+          <div className="post-modal-code" style={{ "flexGrow": "4" }}>
             <div className="code-header">Code Preview</div>
             <Tabs>
               <TabList>

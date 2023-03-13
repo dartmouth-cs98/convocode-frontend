@@ -412,7 +412,7 @@ const ProjectModalForm = (props) => {
             {({ errors, touched, values }) => (
               <Form onKeyDown={onKeyDown} 
               className="edit-modal-form">
-                <div className="edit-modal-info flex-col" style={{ "flex-grow": "1" }}>
+                <div className="edit-modal-info flex-col" style={{ "flexGrow": "1" }}>
                   <div className="input-info">
                     <h3 className="input-header">Project Title </h3>
                     <Field name="title" id="project-input" placeholder="ex. Sun Animation" component="textarea" rows="3" />
@@ -447,7 +447,7 @@ const ProjectModalForm = (props) => {
                       <button className="cancel-project" type="reset" onClick={handleModalToggle}>Cancel</button>
                   </div>
                 </div>
-                <div className="edit-modal-code" style={{ "flex-grow": "4" }}>
+                <div className="edit-modal-code" style={{ "flexGrow": "4" }}>
                   <div className="edit-modal-editor">
                     <h3 className="input-header">Code Preview</h3>
                     <Tabs id="pmf-tabs">
