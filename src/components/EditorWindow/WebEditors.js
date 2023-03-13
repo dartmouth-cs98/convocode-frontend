@@ -581,17 +581,17 @@ const WebEditors = (props) => {
         }
 
       } else {
-        var css = res.code;
-        while (css.indexOf("<style>") !== -1) {
-          css = css.replace('<style>', '');
+        var css2 = res.code;
+        while (css2.indexOf("<style>") !== -1) {
+          css2 = css2.replace('<style>', '');
         }
         while (css.indexOf('</style>') !== -1) {
-          css = css.replace('</style>', '');
+          css2 = css2.replace('</style>', '');
         }
         if (props.cssCode.length === 0) {
-          props.addCSSCode(css);
+          props.addCSSCode(css2);
         } else {
-          props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: css });
+          props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: css2 });
         }
       }
     }).catch((error) => {
