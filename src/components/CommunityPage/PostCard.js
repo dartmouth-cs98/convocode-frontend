@@ -104,7 +104,7 @@ const Post = (props) => {
       <div id="post-card-container" key={props.key} className={classname} onClick={() => navigate(`/project/${props.item.id}`)}>
         {isIframe ?
           <>
-            <div className="pc-iframe-container" style={{ "background-color": iFrameClass }}>
+            <div className="pc-iframe-container" style={{ "backgroundColor": iFrameClass }}>
               <Iframe url={src} className="post-card-iframe" id={props.item._id} styles={{ borderWidth: 0, margin: 0, display: 'block' }} onLoad={handleIframeLoad} />
             </div>
             <div className="body">
