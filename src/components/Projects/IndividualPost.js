@@ -453,7 +453,7 @@ const IndividualPost = (props) => {
                 <div className="" id={tag} style={{ "margin": "10px 5px", "fontSize": "18px" }}>
                   {props.project.tags ? (
                     props.project.tags.map((e, idx) => {
-                      return (<span className="tag">#{e.toLowerCase()}</span>)
+                      return (<span className="tag" key={idx}>#{e.toLowerCase()}</span>)
                     })
                   ) : ""}
                 </div>
