@@ -141,7 +141,7 @@ const Landing = (props) => {
           <div className="team-member">
             <img className="headshot" alt="Melissa Headshot" src={melissa} />
             <h4 id=""><strong>Melissa Valencia</strong></h4>
-            <p>East Los Angeles, CA | she/her</p>
+            <p>Los Angeles, CA | she/her</p>
             <p>Computer Science Major | Human-Centered Design + Spanish Double Minor</p>
           </div>
           <div className="team-member">
