@@ -31,34 +31,34 @@ const ProfilePage = (props) => {
       <HeaderBar />
       <div className="page-content">
         {/* <div> */}
-          {/* <div className="user-header"> */}
-            {/* <div id="col" style={{ justifyContent: "space-between" }}> */}
-            <div className="user-header">
-            <div className="user-name-header">
-              <h1>Welcome, {props.user.username}!</h1>
-              {/* <ProfileSettings modalShow={modalShow} handleModalToggle={handleModalToggle}/>  */}
-            </div>
-            {/* <div id="col" className="spacingUnder"> */}
-            <div className="profile-total-projects">
-              {/* <div className="user-info" id="grape-border">
+        {/* <div className="user-header"> */}
+        {/* <div id="col" style={{ justifyContent: "space-between" }}> */}
+        <div className="user-header">
+          <div className="user-name-header">
+            <h1>Welcome, {props.user.username}!</h1>
+            {/* <ProfileSettings modalShow={modalShow} handleModalToggle={handleModalToggle}/>  */}
+          </div>
+          {/* <div id="col" className="spacingUnder"> */}
+          <div className="profile-total-projects">
+            {/* <div className="user-info" id="grape-border">
                 {props.user.projectCount} Projects
               </div>
               <div className="user-info" id="easy-a-border">
                 {props.user.likeCount} Liked Posts
               </div> */}
-              <button classname="user-info" id="bus-button">
-                {props.user.projectCount} Projects</button>
-              <button classname="user-info" id="bus-button">
-                {props.user.likeCount} Liked </button>
-            </div>
-            </div>
-          {/* </div> */}
-          <div className="projects">
-            <div>
+            <button className="user-info" id="bus-button">
+              {props.user.projectCount} Projects</button>
+            <button className="user-info" id="bus-button">
+              {props.user.likeCount} Liked </button>
+          </div>
+        </div>
+        {/* </div> */}
+        <div className="projects">
+          <div>
             <Tabs
               selectedIndex={selectedIndex}
               onSelect={handleSelect}
-              >
+            >
               <TabList>
                 <Tab>Published</Tab>
                 <Tab>Saved</Tab>
@@ -66,19 +66,19 @@ const ProfilePage = (props) => {
               </TabList>
               <TabPanel>
                 <div className="profile-post-container">
-                {
+                  {
                     props.user.authoredProjectsPublic === undefined || props.user.authoredProjectsPublic.length === 0 ? (
-                      <div className="empty-projects"> 
+                      <div className="empty-projects">
                         <h3>Start creating projects!</h3>
                         <NavLink to="/editor"><button id="IDE" onClick={props.clearProject}>Open IDE</button></NavLink>
-                       </div>
-                      
-                    ) : 
-                    props.user.authoredProjectsPublic.map((item) => {
-                      return (
-                        <PostCard item={item} key={item.id} />
-                      )
-                    })
+                      </div>
+
+                    ) :
+                      props.user.authoredProjectsPublic.map((item) => {
+                        return (
+                          <PostCard item={item} key={item.id} />
+                        )
+                      })
                   }
                 </div>
               </TabPanel>
@@ -86,17 +86,17 @@ const ProfilePage = (props) => {
                 <div className="profile-post-container">
                   {
                     props.user.authoredProjectsPrivate === undefined || props.user.authoredProjectsPrivate.length === 0 ? (
-                      <div className="empty-projects"> 
+                      <div className="empty-projects">
                         <h3>Start creating projects!</h3>
                         <NavLink to="/editor"><button id="IDE" onClick={props.clearProject}>Open IDE</button></NavLink>
-                       </div>
-                      
-                    ) : 
-                    props.user.authoredProjectsPrivate.map((item) => {
-                      return (
-                        <PostCard item={item} key={item.id} />
-                      )
-                    })
+                      </div>
+
+                    ) :
+                      props.user.authoredProjectsPrivate.map((item) => {
+                        return (
+                          <PostCard item={item} key={item.id} />
+                        )
+                      })
                   }
                 </div>
               </TabPanel>
@@ -104,25 +104,25 @@ const ProfilePage = (props) => {
                 <div className="profile-post-container">
                   {
                     props.user.likedProjects === undefined || props.user.likedProjects.length === 0 ? (
-                      <div className="empty-likes"> 
-                      <h3>Find projects you like in the ConvoDex Community!</h3>
-                      <NavLink to="/community"><button id="community" onClick={props.clearProject}>View Community</button></NavLink>
-                    </div>
-                      
+                      <div className="empty-likes">
+                        <h3>Find projects you like in the ConvoDex Community!</h3>
+                        <NavLink to="/community"><button id="community" onClick={props.clearProject}>View Community</button></NavLink>
+                      </div>
+
                     ) :
                       props.user.likedProjects.map((item) => {
                         return (
                           <PostCard item={item} key={item.id} />
                         )
                       })
-                  } 
-                  </div>
+                  }
+                </div>
               </TabPanel>
             </Tabs>
-            </div>
           </div>
         </div>
-        {/* <div className="profile-explore"> 
+      </div>
+      {/* <div className="profile-explore"> 
           <div className="profile-explore-header">
             <h3>Popular Now</h3>
           </div> 

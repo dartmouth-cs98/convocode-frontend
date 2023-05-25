@@ -60,6 +60,8 @@ const WebEditors = (props) => {
   const cssUndo = useRef(false);
   const htmlUndo = useRef(false);
 
+  const transformProtect = useRef(null);
+
   const handleInputKeypress = e => {
     //it triggers by pressing the enter key
     if (e.keyCode === 13) {
@@ -368,8 +370,11 @@ const WebEditors = (props) => {
     try {
 
       // rewrite the user's JavaScript to protect loops
-      var processed = transform(props.javaCode);
-      props.addCleanedJavascript(processed.code);
+      if (transformProtect.current) {
+        var processed = transformProtect.current(props.javaCode);
+        props.addCleanedJavascript(processed.code);
+      }
+      
 
     } catch {
       console.log("code incomplete, can't transform");
@@ -434,45 +439,43 @@ const WebEditors = (props) => {
 
   useEffect(() => {
     try {
-      console.log("WHAT");
-      var cleaned = props.htmlCode;
-      var openingScript= "<script>";
-      var closingScript = "</script>";
-      let str = cleaned;
-      let openingRegex = new RegExp(openingScript, "g");
-      let closingRegex = new RegExp(closingScript, "g");
-      let openingIndices = [];
-      let closingIndices = [];
-      
-      let openMatch;
-      while (openMatch = openingRegex.exec(str)) {
-        openingIndices.push(openMatch.index);
-        openingRegex.lastIndex = openMatch.index + 1;
-      }
-
-      let closingMatch;
-      while (closingMatch = closingRegex.exec(str)) {
-        closingIndices.push(closingMatch.index);
-        closingRegex.lastIndex = closingMatch.index + 1;
-      }
-
-      
-      for (var i = 0; i < openingIndices.length; i++) {
-        console.log(openingIndices);
-        console.log(closingIndices);
-        var script = cleaned.substring(
-          openingIndices[i] + 8, 
-          closingIndices[i]
-        );
-        var newScript = transform(script).code;
-        cleaned = cleaned.replace(script, newScript);
-    }
-      
-      props.addCleanedHtml(cleaned);
+      if (transformProtect.current) {
+        var cleaned = props.htmlCode;
+        var openingScript= "<script>";
+        var closingScript = "</script>";
+        let str = cleaned;
+        let openingRegex = new RegExp(openingScript, "g");
+        let closingRegex = new RegExp(closingScript, "g");
+        let openingIndices = [];
+        let closingIndices = [];
         
-      }
+        let openMatch;
+        while ((openMatch = openingRegex.exec(str))) {
+          openingIndices.push(openMatch.index);
+          openingRegex.lastIndex = openMatch.index + 1;
+        }
 
-    catch {
+        let closingMatch;
+        while ((closingMatch = closingRegex.exec(str))) {
+          closingIndices.push(closingMatch.index);
+          closingRegex.lastIndex = closingMatch.index + 1;
+        }
+
+        
+        for (var i = 0; i < openingIndices.length; i++) {
+          console.log(openingIndices);
+          console.log(closingIndices);
+          var script = cleaned.substring(
+            openingIndices[i] + 8, 
+            closingIndices[i]
+          );
+          var newScript = transformProtect.current(script).code;
+          cleaned = cleaned.replace(script, newScript);
+      }
+        
+        props.addCleanedHtml(cleaned);
+     }         
+    } catch {
       console.log("couldn't transform HTML.");
     }
     try {
@@ -510,10 +513,10 @@ const WebEditors = (props) => {
       setLoading(false);
       var css = res.code;
       while (css.indexOf("<style>") !== -1) {
-        var css = css.replace('<style>', '');
+        css = css.replace('<style>', '');
       }
       while (css.indexOf('</style>') !== -1) {
-        var css = css.replace('</style>', '');
+        css = css.replace('</style>', '');
       }
       if (props.cssCode.length === 0) {
         props.addCSSCode(css);
@@ -578,17 +581,17 @@ const WebEditors = (props) => {
         }
 
       } else {
-        var css = res.code;
-        while (css.indexOf("<style>") !== -1) {
-          var css = css.replace('<style>', '');
+        var css2 = res.code;
+        while (css2.indexOf("<style>") !== -1) {
+          css2 = css2.replace('<style>', '');
         }
         while (css.indexOf('</style>') !== -1) {
-          var css = css.replace('</style>', '');
+          css2 = css2.replace('</style>', '');
         }
         if (props.cssCode.length === 0) {
-          props.addCSSCode(css);
+          props.addCSSCode(css2);
         } else {
-          props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: css });
+          props.insertCSSCode({ index: cssRef.current.getPosition().lineNumber, code: css2 });
         }
       }
     }).catch((error) => {
@@ -607,11 +610,21 @@ const WebEditors = (props) => {
     alert(`Possible infinite loop near line ${line}`);
   }
 
-  const timeout = 100;
-  Babel.registerPlugin('loopProtection', protect(timeout, callback));
-  const transform = source => Babel.transform(source, {
-    plugins: ['loopProtection'],
-  });
+  // loop protection register plugin
+  useEffect(() => {
+    const timeout = 100;
+    Babel.registerPlugin('loopProtection', protect(timeout, callback));
+    const t = source => Babel.transform(source, {
+      plugins: ['loopProtection'],
+    });
+    transformProtect.current = t;
+  
+  }, [])
+  
+  
+    
+
+ 
 
 
   // handles input text changes

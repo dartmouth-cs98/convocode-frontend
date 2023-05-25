@@ -28,9 +28,9 @@ const Post = (props) => {
   };
 
   function doNothing(message) {
-    return 
+    return
   }
-  
+
   const getGeneratedPageURL = ({ html, css, js }) => {
     const getBlobURL = (code, type) => {
       const blob = new Blob([code], { type });
@@ -53,7 +53,7 @@ const Post = (props) => {
     return getBlobURL(source, 'text/html');
   }
 
-  
+
   useEffect(() => {
     setClassname(postClass);
     // declare the async data fetching function
@@ -64,7 +64,7 @@ const Post = (props) => {
       if (data.htmlCode === '') {
         setIsIframe(false);
         setClassname(postClass);
-  
+
       } else {
         // set state with the result
         var code = data.javaCode;
@@ -77,9 +77,9 @@ const Post = (props) => {
           css: data.cssCode,
           js: code
         });
-          setSrc(url);
-          setIsIframe(true);
-          setClassname("iFramePost");   
+        setSrc(url);
+        setIsIframe(true);
+        setClassname("iFramePost");
 
       }
     }
@@ -101,10 +101,10 @@ const Post = (props) => {
 
   if (show) {
     return (
-      <div id="post-card-container" key={props.key} className={classname} onClick={() => navigate(`/project/${props.item.id}`)}>
+      <div id="post-card-container" className={classname} onClick={() => navigate(`/project/${props.item.id}`)}>
         {isIframe ?
           <>
-            <div className="pc-iframe-container" style={{ "background-color": iFrameClass }}>
+            <div className="pc-iframe-container" style={{ "backgroundColor": iFrameClass }}>
               <Iframe url={src} className="post-card-iframe" id={props.item._id} styles={{ borderWidth: 0, margin: 0, display: 'block' }} onLoad={handleIframeLoad} />
             </div>
             <div className="body">
