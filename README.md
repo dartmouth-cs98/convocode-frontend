@@ -67,7 +67,7 @@ We use React functional components and hooks in all of our components. We levera
 * The application is deployed frontend and backend on `render`. To view our deployed site, visit [ConvoCode](www.convocode.org). Merging a PR to the `main` branch will trigger an update on the deployed site.
 
 ## Authors
-![team_bio](https://user-images.githubusercontent.com/62563421/223548865-b1db9d99-50f2-43cd-85d1-d025d7951a0b.jpg)
+![team bio]<img width="1337" alt="Screen Shot 2023-05-25 at 12 18 47 AM" src="https://github.com/dartmouth-cs98/convocode-frontend/assets/72226780/e9f1bb0c-a9a8-407d-afb2-2be88ff1421b">
 
 - Dylan Bienstock
 - Lily Maechling
