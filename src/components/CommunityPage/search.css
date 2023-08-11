@@ -1,0 +1,27 @@
+@import "../../index.css";
+
+.algolia-container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.agolia-search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: var(--boring);
+  border-radius: 5px;
+}
+
+.algolia-button{
+  padding: 10px;
+}
+
+.agolia-search input {
+  width: 60vw;
+  height: 6vh;    
+  font-size: 18px;
+  border: none;
+  background-color: var(--boring);
+}

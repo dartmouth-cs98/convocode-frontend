@@ -1,0 +1,74 @@
+@import "../../index.css";
+
+.header-bar {
+  height: 7vh;
+  width: 100vw;
+  background-color: var(--boring);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-bar h1 {
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 22px;
+  padding-left: 21px;
+}
+
+.header-buttons {
+  right: 0px;
+  gap: 40px;
+  padding-right: 21px;
+  display: flex;
+  align-items: stretch;
+}
+
+button#community {
+  background-color: var(--bus);
+  color: var(--text-primary)
+}
+
+button#IDE {
+  background-color: var(--grape);
+  color: var(--white);
+}
+
+button#signin {
+  background-color: var(--sage);
+  color: var(--white);
+}
+
+button#profile {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: none;
+  box-shadow: none;
+}
+
+.code-gradient-header
+{
+   /* text-transform: uppercase;
+   font-weight: 600;
+   font-size: 13em; */
+    background-image: linear-gradient(
+        -225deg,
+        #2FBE87 0%,
+        #62CCEE 25%,
+        #8733DA 50%,
+        #F79166 75%
+    );
+
+    background-size: auto auto;
+    background-clip: border-box;
+    background-size: 200% auto;
+    color: #fff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textclip 4s linear infinite;
+    display: inline-block;
+    /* font-size: 190px; */
+}

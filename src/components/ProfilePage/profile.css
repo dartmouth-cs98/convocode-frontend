@@ -1,0 +1,245 @@
+@import "../../index.css";
+
+.profile-page {
+  height: 100vh;
+  width: 100vw;
+}
+
+.page-content {
+  height: 93vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+/* .user-header {
+  display: flex;
+  height: 30vh;
+  width: 60vw;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 40px;
+} */
+
+.user-header{
+  padding-left: 5vw;
+  padding-top: 3vh;
+}
+
+button#settings {
+  background: var(--darkGrey);
+  color: var(--white);
+  padding: 10px;
+  height: 45px;
+}
+
+/* #col {
+  width: 60vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+} */
+
+.profile-total-projects{
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  padding-top: 1vh;
+}
+
+.user-info {
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#bus-border {
+  border: 5px solid var(--bus);
+}
+
+#bus-button {
+  padding: 5px 10px;
+  box-shadow: none;
+  background-color: var(--bus);
+}
+
+#easy-a-border {
+  border: 2px solid var(--easyA);
+  border-radius: 5px;
+  padding: 5px 10px;
+  box-shadow: none;
+  background-color: var(--easyA);
+}
+
+.projects {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.pop-header {
+  background-color: var(--black);
+  color: var(--white);
+  border-radius: 10px 10px 0px 0px;
+  padding: 15px;
+}
+
+.react-tabs__tab-list {
+  margin: 0px;
+  border: none;
+}
+
+.react-tabs__tab-panel {
+  /* background-color: var(--grey); */
+  width: 100%;
+  height: 100%;
+  border-radius: 0px 10px 10px 10px;
+  overflow: auto;
+}
+
+.react-tabs__tab {
+  background-color: var(--boring);
+  border: none;
+  bottom: 0px;
+  border-radius: 5px 5px 0 0;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.react-tabs__tab--selected {
+  background-color: var(--easyA);
+  color: white;
+  border: none;
+}
+
+.react-tabs__tab:focus:after {
+  background: none;
+}
+
+/* .profile-explore{
+  display: flex;
+  flex-direction: column;
+  margin-top: 35px;
+  align-items: center;
+  width: 30vw;
+} */
+/* .profile-explore-header{
+  background-color: var(--black);
+  border-radius: 15px 15px 0px 0px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.1px;
+  color: var(--white);
+  padding-left: 2vw; 
+  padding-top: 1.5vh;
+  padding-bottom:1vh;
+
+}
+.trending{
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  overflow: auto;
+  background-color: var(--boring);
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.profile-explore-card-container{
+  margin-top: 10px;
+  width: 100%;
+  display: flex; 
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.profile-explore-card-container{
+  margin-top: 10px;
+  width: 100%;
+  display: flex; 
+  justify-content: center;
+}
+.profile-explore-card-container .post{
+  width: 75%
+}
+.profile-explore-card-container .post .titles{
+  width: 70%
+} */
+.profile-post-container{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: center;
+  align-items: left; */
+  height: 60vh;
+  width: 90vw;
+  background-color: var(--grey);
+  overflow: auto;
+  padding-bottom: 25px;
+  border-radius: 0px 0px 5px 5px;
+}
+.profile-post-container .post{
+  width: 22vw;
+  margin-top: 25px;
+}
+.profile-post-container .post .titles{
+  width: 70%
+}
+
+.profile-post-container .postPumpkin{
+  width: 22vw;
+  margin-top: 25px;
+}
+
+.profile-post-container .postSage{
+  width: 22vw;
+  margin-top: 25px;
+}
+
+.profile-post-container .postBus{
+  width: 22vw;
+  margin-top: 25px;
+}
+
+.profile-post-container .postGrape{
+  width: 22vw;
+  margin-top: 25px;
+}
+
+.profile-post-container .postUnicorn{
+  width: 22vw;
+  margin-top: 25px;
+}
+
+.profile-post-container .postSky{
+  width: 22vw;
+  margin-top: 25px;
+}
+
+.profile-post-container .postEasyA{
+  width: 22vw;
+  margin-top: 25px;
+}
+.spacingUnder{
+  padding-left: 3.5vw;
+}
+
+.empty-projects{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.empty-likes{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+}

@@ -1,0 +1,248 @@
+@import '../../index.css';
+
+.ide-page{
+    height: 100vh;
+    width: 100vw;
+}
+
+.command-text-container{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-evenly; */
+    align-items: center;
+    background-color: var(--boring);
+    border-radius: 5px;
+}
+
+.commandInput{
+    width: 63vw;
+    padding: 10px;
+    border-radius: 5px;
+    border-style: none;
+    background-color: var(--boring);
+    font-size: 18px;
+    outline: none;
+    resize: vertical;
+}
+
+select{
+    cursor: pointer;
+    background-color: var(--unicorn);
+    color: var(--white);
+    border-radius: 5px;
+    border-style: none;
+    outline: none;
+    padding: 7px 9px;
+    font-weight: 500;
+    font-size: 18px;
+    margin: 5px;
+    /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+}
+
+.commandBar{
+    padding-left: 25px;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    /* gap: 5px; */
+    margin-top: 15px;
+    /* gap: 10px; */
+    width: 100%;
+}
+
+.languageSelect{
+    margin: 0px;
+    height: auto;
+    width: auto;
+    justify-content: space-around;
+    background-color: var(--boring);
+    border-radius: 4px;
+}
+
+/* .ide-buttons-1 {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+} */
+
+/* .ide-buttons-2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+} */
+
+#ask-cc-button {
+    width: 12vw;
+    box-shadow: none;
+    margin: 5px;
+    overflow: hidden;
+}
+
+.web-editor-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 10px 20px;
+    padding-left: 15px;
+    padding-right: 20px;
+    margin-top: 15px;
+}
+
+.editor {
+   display: flex;
+   flex-direction: column;
+   /* width: 100%;
+   height: 100%; */
+   padding: 0px 10px; 
+   border-bottom-left-radius: 25px;
+   border-bottom-right-radius: 25px;
+   filter: drop-shadow(16px 16px 10px rgba(0, 0, 0, 0.197));
+}
+
+.WebEditorApp{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white);
+}
+
+.lang-header{
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lang-header-name{
+    font-family: Inter, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.lang-header#html{
+    background-color: var(--sky) ;
+}
+
+.lang-header#css{
+    background-color: var(--pumpkinSpice) ;
+}
+
+.lang-header#javascript{
+    background-color: var(--bus) ;
+}
+
+.command-history-button{
+    font-size: 14px;
+    font-weight: 400;
+    padding: 7px 10px;
+}
+
+.command-history-button#html{
+    background-color: var(--sky);
+}
+
+.command-history-button#css{
+    background-color: var(--pumpkinSpice);
+}
+
+.command-history-button#javascript{
+    background-color: var(--bus);
+}
+
+.web-editors-tabs{
+    filter: drop-shadow(16px 16px 10px rgba(0, 0, 0, 0.197));
+}
+
+#output-console-tabs{
+    padding: 20px;
+}
+
+.console-window-button{
+    align-self: center;
+}
+
+.console-window-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px 15px;
+}
+
+.console-run-button{
+    width: 14.5vw;
+    background-color: var(--bus);
+    overflow: hidden;
+    margin-left: 10px;
+}
+
+input {
+    padding-left: 10px;
+}
+
+.pink{
+    background-color: var(--unicorn);
+    color: var(--white);
+}
+
+.green{
+    background-color: var(--sage);
+    color: var(--white);
+}
+
+.heather-grey{
+    background-color: #737B7D;
+}
+
+.unicornDecorator {
+    background: var(--unicorn);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.grapeDecorator {
+    background: var(--grape);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.pumpkinSpiceDecorator {
+    background: var(--pumpkinSpice);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.busDecorator {
+    background: var(--bus);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.skyDecorator {
+    background: var(--sky);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.sageDecorator {
+    background: var(--sage);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.easyADecorator {
+    background: var(--easyA);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.ide-project-title{
+    padding-left: 25px;
+    margin-top: 15px;
+}

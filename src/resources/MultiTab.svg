@@ -1,0 +1,17 @@
+<svg width="35" height="18" viewBox="0 0 35 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="path-1-inside-1_706_2578" fill="white">
+<rect y="2" width="11" height="16" rx="1"/>
+</mask>
+<rect y="2" width="11" height="16" rx="1" fill="#737B7D" stroke="#FCFFFF" stroke-width="3" mask="url(#path-1-inside-1_706_2578)"/>
+<path d="M0 1C0 0.447715 0.447715 0 1 0H4C4.55228 0 5 0.447715 5 1V3H0V1Z" fill="#FCFFFF"/>
+<mask id="path-3-inside-2_706_2578" fill="white">
+<rect x="12" y="2" width="11" height="16" rx="1"/>
+</mask>
+<rect x="12" y="2" width="11" height="16" rx="1" fill="#737B7D" stroke="#FCFFFF" stroke-width="3" mask="url(#path-3-inside-2_706_2578)"/>
+<path d="M12 1C12 0.447715 12.4477 0 13 0H16C16.5523 0 17 0.447715 17 1V3H12V1Z" fill="#FCFFFF"/>
+<mask id="path-5-inside-3_706_2578" fill="white">
+<rect x="24" y="2" width="11" height="16" rx="1"/>
+</mask>
+<rect x="24" y="2" width="11" height="16" rx="1" fill="#737B7D" stroke="#FCFFFF" stroke-width="3" mask="url(#path-5-inside-3_706_2578)"/>
+<path d="M24 1C24 0.447715 24.4477 0 25 0H28C28.5523 0 29 0.447715 29 1V3H24V1Z" fill="#FCFFFF"/>
+</svg>

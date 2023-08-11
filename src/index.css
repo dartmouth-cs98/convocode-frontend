@@ -1,0 +1,136 @@
+@import "./style.scss";
+
+
+* {
+  margin: 0;
+  padding: 0;
+
+  --black: #242727;
+  --white: #FCFFFF;
+  --easyA: #F76666;
+  --grape: #8733DA;
+  --sky: #62CCEE;
+  --sage: #2FBE87;
+  --bus: #F7CE66;
+  --pumpkinSpice: #F79166;
+  --unicorn: #EF6ED3;
+  --boring: #EFF2F2;
+  --grey: #d9d9d9;
+  --darkGrey: #737B7D;
+  --pumpkinSpiceLight: #F89C75;
+  --unicornLight: #F28BDC;
+  --easyALight: #F98585;
+  --sageLight: #59CB9F;
+  --skyLight: #81D6F1;
+  --busLight: #F9D885;
+  --grapeLight: #9F5CE1;  
+}
+
+html,
+body {
+  font-family: 'Inter';
+  font-weight: normal;
+  color: #212122;
+}
+
+*[data-theme='light'] {
+  --background: var(--boring);
+  --text-primary: var(--black);
+  --button-background: var(--bus);
+  --button-text: var(--black);
+  --background:
+}
+
+*[data-theme='dark'] {
+  --background: var(--black);
+  --text-primary: var(--white);
+  --button-background: var(--sage);
+  --button-text: var(--black);
+}
+
+#sage {
+  color: var(--sage);
+}
+
+#sky {
+  color: var(--sky);
+}
+
+#grape {
+  color: var(--grape);
+}
+
+#pumpkin-spice {
+  color: var(--pumpkinSpice);
+}
+
+#easy-a {
+  color: var(--easyA);
+}
+
+button {
+  background-color: var(--button-background);
+  color: var(--button-text);
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  padding: 8px 12px;
+  border-style: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+button.transparent {
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+  padding-left: 10px;
+  margin: 0;
+  color: var(--white);
+}
+
+h1 {
+  font-family: Inter, sans-serif;
+  font-weight: medium;
+  font-size: 48px;
+}
+
+h2 {
+  font-family: Inter, sans-serif;
+  font-weight: medium;
+  font-size: 32px;
+}
+
+h3 {
+  font-family: Inter, sans-serif;
+  font-weight: semi-bold;
+  font-size: 32px;
+}
+
+h4 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 22px;
+}
+
+p {
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 20px;
+}
+
+caption {
+  font-family: Source Sans Pro, sans-serif;
+  font-size: 16px;
+}
+
+.mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}

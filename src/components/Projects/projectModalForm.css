@@ -1,0 +1,175 @@
+.project-modal {
+    position: relative;
+    top: 5vh;
+    left: 5vw;
+    right: 5vw;
+    bottom: 5vh;
+}
+.edit-modal-form {
+    display: flex;
+    flex-direction: row;
+    /* height: 85vh; */
+    height: 100%;
+    width: 90%;
+    /* padding: 4%; */
+    padding: 5vh 5vh 5vh 5vh;
+    justify-content: space-evenly;
+    gap: 30px;
+    background-color: var(--boring);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+}
+.edit-modal-info{
+    display: flex;
+    flex-direction: column;
+    width: 22vw;
+    /* height: 47vh; */
+}
+.edit-modal-code{
+    display: flex;
+    flex-direction: column;
+    height: 15vw;;
+    width: 50vw;
+    background-color: var(--grey);
+}
+.edit-modal-editor{
+    display: flex;
+    flex-direction: column;
+}
+#pmf-tabs{
+    margin-bottom: 3vh;
+}
+.input-info{
+    margin-bottom: 3vh;
+}
+.input-header{
+    margin-bottom: 0;
+    background-color: var(--black);
+    color: var(--boring);
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+#project-input-tags{
+    width: 100%;
+    /* height: 40px; */
+    border: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+#project-input{
+    width: 100%;
+    /* height: 40px; */
+    border: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    resize: vertical;
+    padding: 8px;
+}
+.submit-buttons-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.tag-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+.tag-button {
+    background-color: var(--bus);
+}
+.modal-container{
+    display: flex;
+    flex-direction: row;
+}
+.right-container{
+    width: 100%;
+    height: 100%;
+}
+.left-container{
+    height:100%;
+    display: flex;
+    flex-direction: column;
+}
+.project-details{
+    margin: 30px;
+}
+.project-detail{
+    margin-bottom: 20px;
+}
+.light-pink{
+    background-color: #F499E0;
+    color: var(--white);
+}
+.label-header{
+    background-color: var(--black);
+    color: var(--boring);
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.tags {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 5px;
+    background: var(--white);
+    padding-bottom: 10px;
+}
+input[type="radio"] {
+    display: none;
+    position: absolute;
+    width: 100%;
+    appearance: none;
+}
+.tag-btn label{
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+.tag-item{
+    background-color: rgb(218, 216, 216);
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-top: 8px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    /* margin: 8px 5px 8px 0px */
+}
+.tag-item .close{
+    height: 20px;
+    width: 20px;
+    background-color: var(--darkGrey);
+    color: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 8px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.tags-input{
+    flex-grow: 1;
+    padding: 8px 8px;
+    border: none;
+    outline: none;
+}
+.tags-input-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    background: var(--white);
+}
+
+.cancel-project{
+    background-color: var(--easyA);
+    color: white;
+}
+
